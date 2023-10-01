@@ -157,6 +157,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.50.0.tgz#9e93b850f0f3fa35f5fa59adfd03adae8488e484"
   integrity sha512-NCC3zz2+nvYd+Ckfh87rA47zfu2QsQpvc6k1yzTk+b9KzRj0wkGa8LSoGOXN6Zv4lRf/EIoZ80biDh9HOI+RNQ==
 
+"@fontsource/work-sans@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/work-sans/-/work-sans-5.0.8.tgz#1610bf2e0f643fbc015c074379c94a3234d60355"
+  integrity sha512-goUwxyoQwwv5KeeZ1R9bdq3fL7YMzkFZr3YskJaMBqs/6IcqJyQpTQzfSQzbdLjz/zObWZUPQose9LpTGG/lkg==
+
 "@humanwhocodes/config-array@^0.11.11":
   version "0.11.11"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.11.tgz#88a04c570dbbc7dd943e4712429c3df09bc32844"

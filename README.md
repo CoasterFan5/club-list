@@ -25,4 +25,8 @@ yarn dev
 App requires a database, we use [SurrealDB](https://surrealdb.com/)
 ```bash
 surreal start --user root --pass root file:database.db
+
+# or 
+
+surreal start memory --user root --pass root
 ```
