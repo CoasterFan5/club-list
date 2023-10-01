@@ -16,15 +16,6 @@
 <style>
 	:global(html) {
 		font-family: 'Work Sans', sans-serif;
-		--text: #252422;
-		--dark: #403d39;
-		--mid: #ccc5b9;
-		--bg: #fffcf2;
-		--accent: #eb5e28;
-	}
-	:global(body) {
-		margin: 0;
-		background: var(--bg);
 	}
 </style>
 
