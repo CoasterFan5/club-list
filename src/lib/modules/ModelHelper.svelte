@@ -11,13 +11,19 @@
 </script>
 
 
-
-<button class="wrap" bind:this={bgDiv} on:click={modelClickHelper}>
-	<slot />
-</button>
+{#if showing}
+	<button class="wrap" bind:this={bgDiv} on:mousedown={modelClickHelper}>
+		<div class="modelForm">
+			<slot />
+		</div>
+		
+	</button>
+{/if}
 
 <style>
 	.wrap {
+		all: unset;
+		position: fixed;
 		width: 100%;
 		height: 100vh;
 		display: flex;
@@ -26,5 +32,6 @@
 		justify-content: center;
 		background: rgba(0, 0, 0, 0.5);
 		backdrop-filter: blur(5px);
+		z-index: 100;
 	}
 </style>

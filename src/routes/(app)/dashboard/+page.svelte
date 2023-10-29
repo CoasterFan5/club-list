@@ -2,14 +2,37 @@
 
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import type OrgUser from "@prisma/client";
 	export let data: PageData;
+	import ModelHelper from "$lib/modules/ModelHelper.svelte";
+
+	let showingCreateModel = false;
+	let showingJoinModel = false;
 </script>
+
+<ModelHelper bind:showing={showingCreateModel}>
+	<form name="?/create" method="post">
+		<h2>Club Name</h2>
+		<input placeholder="Organization Name"/>
+		<button>Create</button>
+	</form>
+</ModelHelper>
+
+<ModelHelper bind:showing={showingJoinModel}>
+	<form name="?/join" method="post">
+		<h2>Join an Organization</h2>
+		<input placeholder="Join Code"/>
+		<button>Join</button>
+	</form>
+</ModelHelper>
+
+
+
+
 
 {#if data.user.orgUsers.length < 1}
 	<div class="noOrgs">
 		<h1>No Joined Organizations</h1>
-		<p><button class="textButton">Join</button> or <button class="textButton">Create</button> one!</p>
+		<p><button class="textButton" on:click={() => {showingJoinModel = true}}>Join</button> or <button on:click={() => {showingCreateModel = true}} class="textButton">Create</button> one!</p>
 	</div>
 	
 {/if}
@@ -55,5 +78,42 @@
 	}
 	.textButton:hover::after {
 		transform: scaleX(1);
+	}
+	h2 {
+		margin-top: 0px;
+		color: var(--bg);
+	}
+	form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 50px;
+		background: rgba(0, 0, 0, 0.25);
+		backdrop-filter: blur(5px);
+		border-radius: 5px;
+	}
+	input {
+		font-size: 1.2rem;
+		padding: 10px;
+		border-radius: 5px;
+		border: 1px solid var(--accent);
+		outline: 0px;
+		background: var(--accent50);
+		color: var(--textLight);
+		margin-bottom: 15px;
+	}
+	input::active {
+		border: 1px solid var(--accent);
+	}
+	button {
+		font-size: 1.2rem;
+		width: 100%;
+		padding: 10px;
+		border-radius: 5px;
+		border: 1px solid var(--accent);
+		outline: 0px;
+		background: var(--accent50);
+		color: var(--textLight)
 	}
 </style>
