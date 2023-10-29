@@ -1,0 +1,45 @@
+datasource db {
+	provider = "postgres"
+	url = env("DBURL")
+}
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+model User {
+	id 	  Int      @id @default(autoincrement())
+	csId 	  String   @unique 
+	username  String   @unique
+	session  String   @unique
+	firstName String 
+	lastName  String
+	organization Organization[]
+	orgUsers   OrgUser[]
+	clubs 	  Club[]
+
+}
+
+model OrgUser {
+	id 	  Int      @id @default(autoincrement())
+	organization Organization @relation(fields: [organizationId], references: [id])
+	organizationId Int
+	user 	  User     @relation(fields: [userId], references: [id])
+	userId 	  Int
+	role 	  String
+}
+
+model Organization {
+	id 	  Int      @id @default(autoincrement())
+	name 	  String   @unique
+	owner 	  User     @relation(fields: [ownerId], references: [id])
+	ownerId   Int
+	orgUsers   OrgUser[]
+}
+
+model Club {
+	id 	  Int      @id @default(autoincrement())
+	name 	  String   @unique
+	owner 	  User     @relation(fields: [ownerId], references: [id])
+	ownerId   Int
+}

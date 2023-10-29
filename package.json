@@ -35,6 +35,8 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/work-sans": "^5.0.8",
+		"@prisma/client": "^5.5.2",
+		"prisma": "^5.5.2",
 		"surrealdb.js": "^0.9.1"
 	}
 }
