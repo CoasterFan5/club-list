@@ -1,11 +1,12 @@
 import { redirect, error, } from '@sveltejs/kit'
 import { prisma } from '$lib/db.js'
 import crypto from 'crypto'
+import { SECURE_COOKIES } from '$env/static/private'
 
 
 export let GET = async ({request, cookies, url}) => {
 	if(cookies.get("session")) {
-		throw redirect(307, "/orgs")
+		throw redirect(307, "/dashboard")
 	} else {
 
 		let token = url.searchParams.get("token")
@@ -47,8 +48,8 @@ export let GET = async ({request, cookies, url}) => {
 			cookies.set("session", newSession, {
 				path: "/",
 				maxAge: 60 * 60 * 24 * 7,
-				secure: true,
-				sameSite: "none"
+				secure: SECURE_COOKIES.toLowerCase() == "true",
+				sameSite: "strict"
 			})
 			throw redirect(307, "/dashboard")
 		} else {
@@ -64,8 +65,8 @@ export let GET = async ({request, cookies, url}) => {
 			cookies.set("session", newSession, {
 				path: "/",
 				maxAge: 60 * 60 * 24 * 7,
-				secure: true,
-				sameSite: "none"
+				secure: SECURE_COOKIES.toLowerCase() == "true",
+				sameSite: "strict"
 			})
 			throw redirect(307, "/dashboard")
 		}
