@@ -9,16 +9,14 @@
 {#if data.user.orgUsers.length < 1}
 	<div class="noOrgs">
 		<h1>No Joined Organizations</h1>
-		<p><a href="/dashboard/org/join">Join</a> or <a href="/dashboard/org/create">create</a> one!</p>
+		<p><button class="textButton">Join</button> or <button class="textButton">Create</button> one!</p>
 	</div>
 	
 {/if}
 
 
 {#each data.user.orgUsers as orgUser}
-	{#if orgUser.role == "ADMIN"}
-		<a href="/dashboard/org/{orgUser.organization.name}">{orgUser.organization.name}</a>
-	{/if}
+	<a href="/org/{orgUser.organization.id}">{orgUser.organization.name}</a>
 {/each}
 
 <style>
@@ -36,12 +34,14 @@
 		font-size: 1.5rem;
 	
 	}
-	a {
+	.textButton {
+		all: unset;
+		cursor: pointer;
 		text-decoration: none;
 		color: var(--accent);
 		position: relative;
 	}
-	a::after {
+	.textButton::after {
 		content: "";
 		position: absolute;
 		bottom: 0px;
@@ -53,7 +53,7 @@
 		transform-origin: center;
 		transition: transform 0.3s ease-in-out;
 	}
-	a:hover::after {
+	.textButton:hover::after {
 		transform: scaleX(1);
 	}
 </style>

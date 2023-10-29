@@ -2,8 +2,7 @@
 	<div class="inner">
 		<h1>Club List</h1>
 		<div class="links">
-			<a href="/login">Login</a>
-			<a href="/signup">Signup</a>
+			<a href="/auth">Get Started</a>
 		</div>
 	</div>
 </nav>
