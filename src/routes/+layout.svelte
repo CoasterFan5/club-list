@@ -16,13 +16,14 @@
 <style>
 	:global(html) {
 		font-family: 'Work Sans', sans-serif;
-		--text: #252422;
+		--text: #f1f1f1;
 		--textLight: #f1f1f1;
-		--dark: #403d39;
-		--mid: #ccc5b9;
-		--bg: #fffcf2;
-		--accent: #eb5e28;
-		--accent50: rgba(235, 95, 40, 0.25);
+		--textDark: #202020;
+		--dark: #202020;
+		--mid: #333533;
+		--bg: #f1f1f1;
+		--accent: #e63946;
+		--accent50: rgba(230,57,70, 0.5);
 	}
 	:global(body) {
 		margin: 0;

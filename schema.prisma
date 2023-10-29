@@ -31,7 +31,7 @@ model OrgUser {
 
 model Organization {
 	id 	  Int      @id @default(autoincrement())
-	name 	  String   @unique
+	name 	  String
 	owner 	  User     @relation(fields: [ownerId], references: [id])
 	ownerId   Int
 	orgUsers   OrgUser[]

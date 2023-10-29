@@ -10,24 +10,20 @@
 </script>
 
 <ModelHelper bind:showing={showingCreateModel}>
-	<form name="?/create" method="post">
+	<form action="?/create" method="post">
 		<h2>Club Name</h2>
-		<input placeholder="Organization Name"/>
-		<button>Create</button>
+		<input placeholder="Organization Name" name="name"/>
+		<button type="submit">Create</button>
 	</form>
 </ModelHelper>
 
 <ModelHelper bind:showing={showingJoinModel}>
-	<form name="?/join" method="post">
+	<form action="?/join" method="post">
 		<h2>Join an Organization</h2>
-		<input placeholder="Join Code"/>
-		<button>Join</button>
+		<input placeholder="Join Code" name="code"/>
+		<button type="submit">Join</button>
 	</form>
 </ModelHelper>
-
-
-
-
 
 {#if data.user.orgUsers.length < 1}
 	<div class="noOrgs">
@@ -37,10 +33,20 @@
 	
 {/if}
 
+{#if data.user.orgUsers.length > 0}
+	<h1>Joined Organizations</h1>
+	<div class="orgList">
+		
+		<div class="list">
+			{#each data.user.orgUsers as orgUser}
+				<a href="/org/{orgUser.organization.id}">{orgUser.organization.name}</a>
+			{/each}
+		</div>
+		
+		<p>Not what you want? <button class="textButton" on:click={() => {showingJoinModel = true}}>Join</button> or <button on:click={() => {showingCreateModel = true}} class="textButton">Create</button> a new organization</p>
+	</div>
+{/if}
 
-{#each data.user.orgUsers as orgUser}
-	<a href="/org/{orgUser.organization.id}">{orgUser.organization.name}</a>
-{/each}
 
 <style>
 	.noOrgs {
@@ -81,7 +87,7 @@
 	}
 	h2 {
 		margin-top: 0px;
-		color: var(--bg);
+		color: var(--text)
 	}
 	form {
 		display: flex;
@@ -89,7 +95,7 @@
 		align-items: center;
 		justify-content: center;
 		padding: 50px;
-		background: rgba(0, 0, 0, 0.25);
+		background: var(--mid);
 		backdrop-filter: blur(5px);
 		border-radius: 5px;
 	}
@@ -100,13 +106,14 @@
 		border: 1px solid var(--accent);
 		outline: 0px;
 		background: var(--accent50);
-		color: var(--textLight);
+		color: var(--text);
 		margin-bottom: 15px;
 	}
 	input::active {
 		border: 1px solid var(--accent);
 	}
 	button {
+		cursor: pointer;
 		font-size: 1.2rem;
 		width: 100%;
 		padding: 10px;
@@ -114,6 +121,39 @@
 		border: 1px solid var(--accent);
 		outline: 0px;
 		background: var(--accent50);
-		color: var(--textLight)
+		color: var(--text)
+	}
+	.orgList {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+		
+	}
+	.orgList .list {
+		width: 80%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+		justify-content: center;
+	}
+	.orgList .list a {
+		font-size: 1.2rem;
+		margin-bottom: 15px;
+		width: 100%;
+		padding: 20px;
+		background: var(--dark);
+		border-radius: 5px;
+		color: var(--text)
+	}
+	.orgList .list a:hover {
+		background: var(--mid);
+	}
+	.orgList p {
+		margin-top: 10px;
+		font-size: 1.2rem;
 	}
 </style>

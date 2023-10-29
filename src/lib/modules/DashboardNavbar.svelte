@@ -15,7 +15,7 @@
 <style>
 	.navBar {
 		width: 100%;
-		position: fixed;
+		position: sticky;
 		top: 0px;
 		display: flex;
 		flex-direction: row;
