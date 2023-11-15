@@ -9,7 +9,7 @@
 
 <ModelHelper bind:showing={showingCreateModel}>
 	<form action="?/create" method="post">
-		<h2>Club Name</h2>
+		<h2>Organization Name</h2>
 		<input placeholder="Organization Name" name="name" />
 		<button type="submit">Create</button>
 	</form>
