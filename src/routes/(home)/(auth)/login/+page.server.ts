@@ -49,15 +49,17 @@ export const actions = {
 
 		//generate a new session for the user
 
-		const sessionToken = crypto.randomBytes(32).toString('hex');
-		await prisma.session.create({
+		const session = crypto.randomBytes(32).toString('hex');
+		await prisma.user.update({
+			where: {
+				id: user.id
+			},
 			data: {
-				sessionText: sessionToken,
-				userId: user.id
+				session
 			}
 		});
 
-		cookies.set('session', sessionToken, {
+		cookies.set('session', session, {
 			secure: true,
 			sameSite: 'strict',
 			expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)

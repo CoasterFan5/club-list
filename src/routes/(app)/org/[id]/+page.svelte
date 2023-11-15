@@ -4,7 +4,13 @@
 </script>
 
 <div class="wrap">
-	<div class="clubs" />
+	<div class="clubs">
+		{#each data.clubs as club}
+			<a href="/club/{club.id}" class="club">
+				<h2>{club.name}</h2>
+			</a>
+		{/each}
+	</div>
 	<div class="sidebar">
 		<h2>Tags</h2>
 	</div>

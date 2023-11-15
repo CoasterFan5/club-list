@@ -1,17 +1,19 @@
 import { prisma } from '$lib/db';
-import { redirect, type LoadEvent } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export let load: PageServerLoad = async ({ cookies, params }) => {
-	let orgId;
+export const load: PageServerLoad = async ({ params }) => {
+	const orgId = parseInt(params.id);
 
-	if (parseInt(params.id)) {
-		orgId = parseInt(params.id);
-	}
-
-	let org = prisma.organization.findFirst({
+	const org = await prisma.organization.findFirst({
 		where: {
 			id: orgId
+		},
+		include: {
+			clubs: true
 		}
 	});
+
+	return {
+		clubs: org.clubs
+	};
 };

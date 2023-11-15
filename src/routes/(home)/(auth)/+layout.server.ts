@@ -2,11 +2,8 @@ import { prisma } from '$lib/prismaConnection';
 import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ cookies }) => {
-	// if the user isn't logged in, we need to redirect them to the login page
+	// if the user is logged in, we need to redirect them to the dashboard
 	const session = cookies.get('session');
-	if (!session) {
-		throw redirect(303, '/login');
-	}
 
 	const sessionCheck = await prisma.user.findFirst({
 		where: {
@@ -14,7 +11,7 @@ export const load = async ({ cookies }) => {
 		},
 	});
 
-    if (!sessionCheck) {
-        throw redirect(303, '/login');
+    if (sessionCheck) {
+        throw redirect(303, '/dashboard');
     }
 };
