@@ -10,8 +10,4 @@ export const load = async ({ cookies }) => {
 			sessionToken: session
 		}
 	})
-
-    if (sessionCheck) {
-        throw redirect(303, '/dashboard');
-    }
 };
