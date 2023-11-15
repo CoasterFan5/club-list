@@ -1,10 +1,11 @@
 import { prisma } from '$lib/db.js';
 import { error, redirect } from '@sveltejs/kit';
+import crypto from "crypto"
 
 export const load = async ({ cookies }) => {
 	const session = cookies.get('session');
 	if (!session) {
-		throw redirect(307, '/auth');
+		throw redirect(303, '/auth');
 	}
 
 	const user = await prisma.user.findUnique({
@@ -21,7 +22,7 @@ export const load = async ({ cookies }) => {
 	});
 
 	if (!user) {
-		throw redirect(307, '/auth');
+		throw redirect(303, '/auth');
 	}
 
 	return {
@@ -55,11 +56,20 @@ export const actions = {
 		if (!orgOwner) {
 			throw error(403, 'You must be logged in to create an organization');
 		}
+
+		//we need to know the number of orgs created currently
+		let orgAmount = await prisma.organization.count();
+
+		//make a join code
+		let randomNess = Math.round(Math.random() * 324000 + 36000).toString(36);
+		let joinString = (orgAmount + 1).toString(36) + randomNess;
+
 		// make the org
 		const org = await prisma.organization.create({
 			data: {
 				name: orgName,
-				ownerId: orgOwner.id
+				ownerId: orgOwner.id,
+				joinCode: joinString
 			}
 		});
 

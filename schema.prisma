@@ -39,7 +39,7 @@ model Organization {
 	ownerId  Int
 	orgUsers OrgUser[]
 	clubs    Club[]
-	joinCode Int	  @unique
+	joinCode String	  @unique
 }
 
 model Club {

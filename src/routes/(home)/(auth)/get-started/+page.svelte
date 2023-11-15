@@ -8,18 +8,21 @@
 
 <div class="wrap">
 	<div class="contentWrap">
-		<form class="content" method="post" action="?/login">
-			<h1>Login</h1>
+		<form class="content" method="post" action="?/register">
+			<h1>Register</h1>
 			<span class="inputDiv">
 				<Input name="email" label="Email" />
 			</span>
 			<span class="inputDiv">
 				<Input name="password" label="Password" type="password" />
 			</span>
-			<span class="inputDiv">
-				<Button value="Log In" type="submit" />
+            <span class="inputDiv">
+				<Input name="confirmPassword" label="Confirm Password" type="password" />
 			</span>
-			<p>No account? <a href="/get-started">Sign Up</a></p>
+			<span class="inputDiv">
+				<Button value="Register" type="submit" />
+			</span>
+			<p>Already have an account? <a href="/get-started">Log In</a></p>
 			{#if form?.success == false}
 				<p class="error">Error: {form?.message}</p>
 			{/if}
