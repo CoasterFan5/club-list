@@ -4,7 +4,11 @@
 </script>
 
 <div class="wrap">
-	<h1>{data.club.name}</h1>
+	<div class="header">
+		<h1 class="title">{data.club.name}</h1>
+	</div>
+
+	
 </div>
 
 <style>
@@ -14,8 +18,27 @@
 		box-sizing: border-box;
 		padding: 1rem 5rem;
 		display: flex;
-		flex-direction: row;
-		align-items: start;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+	}
+	.header {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 3/1;
+		border-radius: 15px;
+		overflow: hidden;
+
+	}
+	
+	.title {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
 		justify-content: center;
+		font-size: 3rem;
+		margin: 0px;
+		background: rgba(255, 255, 255, 0.75);
 	}
 </style>
