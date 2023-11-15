@@ -13,6 +13,10 @@ export const load: PageServerLoad = async ({ params }) => {
 		}
 	});
 
+	if (!org) {
+		throw new Error('Organization not found');
+	}
+
 	return {
 		clubs: org.clubs
 	};
