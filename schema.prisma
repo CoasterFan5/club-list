@@ -7,6 +7,12 @@ generator client {
 	provider = "prisma-client-js"
 }
 
+model Session {
+	id 	         Int      @id @default(autoincrement())
+	userId Int
+	user User @relation(fields: [userId], references: [id])
+}
+
 model User {
 	id 	         Int      @id @default(autoincrement())
 	createdAt    DateTime @default(now())
@@ -14,13 +20,12 @@ model User {
 	email        String   @db.VarChar(255) @unique
 	hash         String   @db.VarChar(1000)
 	salt         String   @db.VarChar(255)
-	username     String   @unique @db.VarChar(255)
-	session      String?  @unique @db.VarChar(255)
 	firstName    String   @db.VarChar(255)
 	lastName     String   @db.VarChar(255)
 	organization Organization[]
 	orgUsers     OrgUser[]
 	clubs 	     Club[]
+	sessions Session[]
 
 }
 
