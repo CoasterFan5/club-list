@@ -12,9 +12,11 @@ export const actions = {
 
 		const email = formData.get('email')?.toString();
 		const password = formData.get('password')?.toString();
-        const password2 = formData.get('confirmPassword')
+        const password2 = formData.get('confirmPassword')?.toString();
+		const firstName = formData.get("firstName")?.toString();
+		const lastName = formData.get("lastName")?.toString();
 
-		if (!email || !password || !password2) {
+		if (!email || !password || !password2 || !firstName || !lastName) {
 			return {
 				success: false,
 				message: 'Please fill all required fields.'
@@ -42,20 +44,19 @@ export const actions = {
 				email: newEmail,
 				hash: hash,
 				salt: salt,
+				firstName,
+				lastName
 			}
 		})
 
 		//generate a new session for the user
 
 		const session = crypto.randomBytes(32).toString('hex');
-		await prisma.user.update({
-			where: {
-				id: user.id
-			},
+		await prisma.session.create({
 			data: {
-				session
+				
 			}
-		});
+		})
 
 		cookies.set('session', session, {
 			secure: true,

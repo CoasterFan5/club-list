@@ -11,7 +11,13 @@
 		<form class="content" method="post" action="?/register">
 			<h1>Register</h1>
 			<span class="inputDiv">
-				<Input name="email" label="Email" />
+				<Input name="email" label="Email" type="email" />
+			</span>
+			<span class="inputDiv">
+				<Input name="firstName" label="First Name" />
+			</span>
+			<span class="inputDiv">
+				<Input name="lastName" label="Last Name" />
 			</span>
 			<span class="inputDiv">
 				<Input name="password" label="Password" type="password" />
