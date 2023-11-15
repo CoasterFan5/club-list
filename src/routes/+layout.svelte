@@ -21,6 +21,7 @@
 		--dark: #202020;
 		--mid: #333533;
 		--bg: #f1f1f1;
+		--bgPure: #ffffff;
 		--accent: #e63946;
 		--accent50: rgba(230, 57, 70, 0.5);
 	}

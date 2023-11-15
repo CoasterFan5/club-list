@@ -99,6 +99,7 @@ export const actions = {
 			data: {
 				userId: orgOwner.id,
 				organizationId: org.id,
+				role: "OWNER"
 			}
 		});
 

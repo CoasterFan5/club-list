@@ -12,9 +12,17 @@ export const load = async ({ cookies }) => {
 		where: {
 			sessionToken: session
 		},
+		include: {
+			user: true
+		}
 	})
 
     if (!sessionCheck) {
         throw redirect(303, '/login');
     }
+
+	let user = sessionCheck.user;
+	return {
+		user
+	}
 };
