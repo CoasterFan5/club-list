@@ -12,7 +12,11 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"prisma": "prisma generate",
+		"studio": "dotenv -e .env.test prisma studio",
+		"db:deploy": "prisma migrate deploy",
+		"seed": "tsx scripts/seed.ts"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
@@ -28,6 +32,7 @@
 		"svelte": "^4.0.5",
 		"svelte-check": "^3.4.3",
 		"tslib": "^2.4.1",
+		"tsx": "^4.1.2",
 		"typescript": "^5.0.0",
 		"vite": "^4.4.2",
 		"vitest": "^0.32.2"
