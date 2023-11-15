@@ -9,7 +9,6 @@
 			<a href="/dashboard/profile">Profile</a>
 		</div>
 	</div>
-	
 </nav>
 
 <style>
@@ -53,10 +52,9 @@
 		text-decoration: none;
 		color: var(--text);
 		position: relative;
-
 	}
 	.links a::after {
-		content: "";
+		content: '';
 		position: absolute;
 		bottom: 0px;
 		left: 0;
@@ -71,5 +69,3 @@
 		transform: scaleX(1);
 	}
 </style>
-
-

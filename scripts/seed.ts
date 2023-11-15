@@ -34,48 +34,48 @@ async function main() {
 		update: {},
 		create: {
 			name: 'Cardboard',
-            owner: {
-                create: {
-                    firstName: 'Card',
-                    lastName: 'Board',
-                    username: 'cardboard',
-                    email: 'leader@card.board',
-                    ...await makePassword('password')
-                }
-            },
-            orgUsers: {
-                create: {
-                    user: {
-                        create: {
-                            firstName: "Brick",
-                            lastName: "Stone",
-                            username: "brickstone",
-                            email: "bstone@card.board",
-                            ...await makePassword("password"),
-                            clubs: {
-                                create: [
-                                    {
-                                        name: "Cardboard Club",
-                                        organization: {
-                                            connect: {
-                                                id: 1
-                                            }
-                                        }
-                                    },
-                                    {
-                                        name: "Board Game Club",
-                                        organization: {
-                                            connect: {
-                                                id: 1
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            },
+			owner: {
+				create: {
+					firstName: 'Card',
+					lastName: 'Board',
+					username: 'cardboard',
+					email: 'leader@card.board',
+					...(await makePassword('password'))
+				}
+			},
+			orgUsers: {
+				create: {
+					user: {
+						create: {
+							firstName: 'Brick',
+							lastName: 'Stone',
+							username: 'brickstone',
+							email: 'bstone@card.board',
+							...(await makePassword('password')),
+							clubs: {
+								create: [
+									{
+										name: 'Cardboard Club',
+										organization: {
+											connect: {
+												id: 1
+											}
+										}
+									},
+									{
+										name: 'Board Game Club',
+										organization: {
+											connect: {
+												id: 1
+											}
+										}
+									}
+								]
+							}
+						}
+					}
+				}
+			}
 		}
 	});
 

@@ -1,9 +1,7 @@
-
-
 <script lang="ts">
-	import type { PageData } from "./$types";
+	import type { PageData } from './$types';
 	export let data: PageData;
-	import ModelHelper from "$lib/modules/ModelHelper.svelte";
+	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 
 	let showingCreateModel = false;
 	let showingJoinModel = false;
@@ -12,7 +10,7 @@
 <ModelHelper bind:showing={showingCreateModel}>
 	<form action="?/create" method="post">
 		<h2>Club Name</h2>
-		<input placeholder="Organization Name" name="name"/>
+		<input placeholder="Organization Name" name="name" />
 		<button type="submit">Create</button>
 	</form>
 </ModelHelper>
@@ -20,7 +18,7 @@
 <ModelHelper bind:showing={showingJoinModel}>
 	<form action="?/join" method="post">
 		<h2>Join an Organization</h2>
-		<input placeholder="Join Code" name="code"/>
+		<input placeholder="Join Code" name="code" />
 		<button type="submit">Join</button>
 	</form>
 </ModelHelper>
@@ -28,40 +26,62 @@
 {#if data.user.orgUsers.length < 1}
 	<div class="noOrgs">
 		<h1>No Joined Organizations</h1>
-		<p><button class="textButton" on:click={() => {showingJoinModel = true}}>Join</button> or <button on:click={() => {showingCreateModel = true}} class="textButton">Create</button> one!</p>
+		<p>
+			<button
+				class="textButton"
+				on:click={() => {
+					showingJoinModel = true;
+				}}>Join</button
+			>
+			or
+			<button
+				on:click={() => {
+					showingCreateModel = true;
+				}}
+				class="textButton">Create</button
+			> one!
+		</p>
 	</div>
-	
 {/if}
 
 {#if data.user.orgUsers.length > 0}
 	<h1>Joined Organizations</h1>
 	<div class="orgList">
-		
 		<div class="list">
 			{#each data.user.orgUsers as orgUser}
 				<a href="/org/{orgUser.organization.id}">{orgUser.organization.name}</a>
 			{/each}
 		</div>
-		
-		<p>Not what you want? <button class="textButton" on:click={() => {showingJoinModel = true}}>Join</button> or <button on:click={() => {showingCreateModel = true}} class="textButton">Create</button> a new organization</p>
+
+		<p>
+			Not what you want? <button
+				class="textButton"
+				on:click={() => {
+					showingJoinModel = true;
+				}}>Join</button
+			>
+			or
+			<button
+				on:click={() => {
+					showingCreateModel = true;
+				}}
+				class="textButton">Create</button
+			> a new organization
+		</p>
 	</div>
 {/if}
-
 
 <style>
 	.noOrgs {
 		text-align: center;
 		font-size: 1.2rem;
-
 	}
 	.noOrgs h1 {
 		margin: 0px;
-		
 	}
 	.noOrgs p {
 		margin-top: 10px;
 		font-size: 1.5rem;
-	
 	}
 	.textButton {
 		all: unset;
@@ -71,7 +91,7 @@
 		position: relative;
 	}
 	.textButton::after {
-		content: "";
+		content: '';
 		position: absolute;
 		bottom: 0px;
 		left: 0;
@@ -87,7 +107,7 @@
 	}
 	h2 {
 		margin-top: 0px;
-		color: var(--text)
+		color: var(--text);
 	}
 	form {
 		display: flex;
@@ -121,7 +141,7 @@
 		border: 1px solid var(--accent);
 		outline: 0px;
 		background: var(--accent50);
-		color: var(--text)
+		color: var(--text);
 	}
 	.orgList {
 		width: 100%;
@@ -130,7 +150,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: start;
-		
 	}
 	.orgList .list {
 		width: 80%;
@@ -147,7 +166,7 @@
 		padding: 20px;
 		background: var(--dark);
 		border-radius: 5px;
-		color: var(--text)
+		color: var(--text);
 	}
 	.orgList .list a:hover {
 		background: var(--mid);

@@ -10,8 +10,7 @@
 	import '@fontsource/work-sans/900.css';
 </script>
 
-
-<slot/>
+<slot />
 
 <style>
 	:global(html) {
@@ -23,11 +22,10 @@
 		--mid: #333533;
 		--bg: #f1f1f1;
 		--accent: #e63946;
-		--accent50: rgba(230,57,70, 0.5);
+		--accent50: rgba(230, 57, 70, 0.5);
 	}
 	:global(body) {
 		margin: 0;
 		background: var(--bg);
 	}
 </style>
-

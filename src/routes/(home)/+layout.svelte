@@ -1,11 +1,10 @@
 <script>
-	import Navbar from "$lib/modules/Navbar.svelte";
-
+	import Navbar from '$lib/modules/Navbar.svelte';
 </script>
 
 <div class="content">
-	<Navbar/>
-	<slot/>
+	<Navbar />
+	<slot />
 </div>
 
 <style>

@@ -2,7 +2,7 @@
 	<div class="inner">
 		<h1>Club List</h1>
 		<div class="links">
-			<a href="/auth">Get Started</a>
+			<a href="/login">Get Started</a>
 		</div>
 	</div>
 </nav>
@@ -41,10 +41,9 @@
 		text-decoration: none;
 		color: var(--text);
 		position: relative;
-
 	}
 	.links a::after {
-		content: "";
+		content: '';
 		position: absolute;
 		bottom: 0px;
 		left: 0;

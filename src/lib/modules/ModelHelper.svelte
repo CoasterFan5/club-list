@@ -7,16 +7,14 @@
 		if (e.target === bgDiv) {
 			showing = false;
 		}
-	}
+	};
 </script>
-
 
 {#if showing}
 	<button class="wrap" bind:this={bgDiv} on:mousedown={modelClickHelper}>
 		<div class="modelForm">
 			<slot />
 		</div>
-		
 	</button>
 {/if}
 

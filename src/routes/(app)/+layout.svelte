@@ -1,6 +1,5 @@
 <script>
-	import DashboardNavbar from "$lib/modules/DashboardNavbar.svelte";
-
+	import DashboardNavbar from '$lib/modules/DashboardNavbar.svelte';
 </script>
 
 <div class="wrap">
