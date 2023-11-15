@@ -39,11 +39,13 @@ model Organization {
 	ownerId  Int
 	orgUsers OrgUser[]
 	clubs    Club[]
+	joinCode Int	  @unique
 }
 
 model Club {
 	id 	          Int           @id @default(autoincrement())
 	name 	      String        @db.VarChar(255)
+	description   String?	    @db.VarChar(255)
 	owner 	      User          @relation(fields: [ownerId], references: [id])
 	ownerId       Int
 	organization  Organization @relation(fields: [organizationId], references: [id])

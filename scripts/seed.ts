@@ -34,6 +34,7 @@ async function main() {
 		update: {},
 		create: {
 			name: 'Cardboard',
+            joinCode: 123456,
 			owner: {
 				create: {
 					firstName: 'Card',
