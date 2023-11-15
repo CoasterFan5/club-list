@@ -150,6 +150,7 @@
 		height: 100%;
 		z-index: 0;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+		border-radius: 5px;
 	}
 	.clubText {
 		position: absolute;
@@ -157,7 +158,8 @@
 		left: 0px;
 		width: 100%;
 		background: var(--mid);
-		color: var(--textLight)
+		color: var(--textLight);
+		border-radius: 0px 0px 5px 5px;
 	}
 	.clubText > h2 {
 		margin: 5px;
