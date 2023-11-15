@@ -22,7 +22,8 @@ async function main() {
                 create: {
                     firstName: 'Card',
                     lastName: 'Board',
-                    csId: '..'
+                    csId: '..',
+                    username: 'cardboard',
                 }
             }
 		}
