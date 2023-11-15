@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
-import Input from '$lib/components/Input.svelte';
-import ModelHelper from '$lib/modules/ModelHelper.svelte';
-	import type { PageData } from './$types';
+	import Input from '$lib/components/Input.svelte';
+	import ModelHelper from '$lib/modules/ModelHelper.svelte';
+	import type { ActionData, PageData } from './$types';
 	export let data: PageData;
+	export let form: ActionData;
 
 	let showingModel = false;
 	let toggleModel = () => {
@@ -12,7 +13,8 @@ import ModelHelper from '$lib/modules/ModelHelper.svelte';
 </script>
 
 <ModelHelper bind:showing={showingModel}>
-	<form>
+	<form action="?/createClub" method="post">
+		<h2>Create Club</h2>
 		<div class="formItem">
 			<Input name="clubName" label="Club Name"/>
 		</div>
@@ -25,15 +27,33 @@ import ModelHelper from '$lib/modules/ModelHelper.svelte';
 </ModelHelper>
 
 <div class="wrap">
-	<div class="clubs">
+	<div class="content">
+		{#if form?.success == false}
+				<p class="error">Error: {form?.message}</p>
+		{/if}
 		{#if data.clubs.length < 1}
 			<h2>No clubs here yet. {#if data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER"}<button class="textButton" on:click={toggleModel}>Create One?</button>{/if}</h2>
 		{/if}
-		{#each data.clubs as club}
-			<a href="/club/{club.id}" class="club">
-				<h2>{club.name}</h2>
-			</a>
-		{/each}
+		<div class="clubs">
+			{#each data.clubs as club}
+				<a href="/club/{club.id}" class="club">
+					<div class="clubInner">
+						<div class="clubImage">
+						</div>
+
+						<div class="clubText">
+							<h2>{club.name}</h2>
+						</div>
+						
+					</div>
+					
+				</a>
+			{/each}
+		</div>
+		
+		{#if data.clubs.length > 0 && (data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER")}
+			<p>Looking for more? {#if data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER"}<button class="textButton" on:click={toggleModel}>Create a club!</button>{/if}</p>
+		{/if}
 	</div>
 	<div class="sidebar">
 		<h2>Tags</h2>
@@ -51,14 +71,15 @@ import ModelHelper from '$lib/modules/ModelHelper.svelte';
 		align-items: start;
 		justify-content: center;
 	}
-	.clubs {
+	.content {
 		width: 100%;
 		box-sizing: border-box;
 		padding-right: 1rem;
 		height: 100%;
 		display: flex;
-		align-items: start;
-		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
 	}
 	.sidebar {
 		width: 250px;
@@ -98,6 +119,48 @@ import ModelHelper from '$lib/modules/ModelHelper.svelte';
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+	.clubs {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+	}
+	.club {
+		aspect-ratio: 5/2;
+		width: 50%;
+		padding: 0px 10px 20px 10px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	}
+	.club:hover .clubInner {
+		box-shadow: 2px 2px 2px 2px var(--accent50);
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	}
+	.clubInner {
+		position: relative;
+		display: flex;
+		background: var(--bgPure);
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	}
+	.clubText {
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		width: 100%;
+		background: var(--mid);
+		color: var(--textLight)
+	}
+	.clubText > h2 {
+		margin: 5px;
 	}
 
 	.formItem {

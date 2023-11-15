@@ -21,6 +21,7 @@
 		align-items: center;
 		justify-content: center;
 		background: var(--mid);
+		z-index: 100;
 	}
 	.innerWrap {
 		width: 80%;
