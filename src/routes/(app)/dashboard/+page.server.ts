@@ -9,14 +9,18 @@ export const load = async ({ cookies }) => {
 		throw redirect(303, '/auth');
 	}
 
-	const sessionCheck = prisma.session.findFirst({
+	const sessionCheck = await prisma.session.findFirst({
 		where: {
 			sessionToken: session
 		},
 		include: {
 			user: {
 				include: {
-					orgUsers: true,
+					orgUsers: {
+						include: {
+							organization: true
+						}
+					},
 					organization: true
 				}
 			}
