@@ -2,7 +2,8 @@
 	<div class="inner">
 		<h1>Club List</h1>
 		<div class="links">
-			<a href="/login">Get Started</a>
+			<a href="/login">Log In</a>
+			<a href="/get-started">Get Started</a>
 		</div>
 	</div>
 </nav>

@@ -1,12 +1,12 @@
 import { prisma } from '$lib/prismaConnection.js';
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { promisify } from 'util';
 import crypto from 'crypto';
 
 const pkdf2 = promisify(crypto.pbkdf2);
 
 export const actions = {
-	login: async ({ request, cookies }) => {
+	register: async ({ request, cookies }) => {
 		//get all for the form data
 		const formData = await request.formData();
 
@@ -32,12 +32,26 @@ export const actions = {
 
 		//pull the user from the database
 		const newEmail = email.toLowerCase();
+		
+		//make sure no user exsists with this email
+		let userCheck = await prisma.user.findFirst({
+			where: {
+				email: newEmail
+			}
+		})
+
+		if(userCheck) {
+			return {
+				success: false,
+				message: "Email Already Taken"
+			}
+		}
 
 		//make the user in the database
 		const salt = crypto.randomBytes(32).toString("hex")
 		const hash = (await pkdf2(password, salt, 1000, 100, 'sha512')).toString('hex');
 		
-		let newUser = prisma.user.create({
+		let newUser = await prisma.user.create({
 			data: {
 				createdAt: new Date(Date.now()),
 				updatedAt: new Date(Date.now()),
@@ -54,7 +68,8 @@ export const actions = {
 		const session = crypto.randomBytes(32).toString('hex');
 		await prisma.session.create({
 			data: {
-				
+				sessionToken: session,
+				userId: newUser.id
 			}
 		})
 

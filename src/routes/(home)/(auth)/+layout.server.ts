@@ -5,11 +5,11 @@ export const load = async ({ cookies }) => {
 	// if the user is logged in, we need to redirect them to the dashboard
 	const session = cookies.get('session');
 
-	const sessionCheck = await prisma.user.findFirst({
+	const sessionCheck = await prisma.session.findFirst({
 		where: {
-			session
-		},
-	});
+			sessionToken: session
+		}
+	})
 
     if (sessionCheck) {
         throw redirect(303, '/dashboard');

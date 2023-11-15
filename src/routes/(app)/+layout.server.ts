@@ -8,11 +8,11 @@ export const load = async ({ cookies }) => {
 		throw redirect(303, '/login');
 	}
 
-	const sessionCheck = await prisma.user.findFirst({
+	const sessionCheck = await prisma.session.findFirst({
 		where: {
-			session
+			sessionToken: session
 		},
-	});
+	})
 
     if (!sessionCheck) {
         throw redirect(303, '/login');

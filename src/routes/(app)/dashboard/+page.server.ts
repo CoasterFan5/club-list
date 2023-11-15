@@ -1,3 +1,4 @@
+import { USER } from '$env/static/private';
 import { prisma } from '$lib/db.js';
 import { error, redirect } from '@sveltejs/kit';
 import crypto from "crypto"
@@ -8,18 +9,25 @@ export const load = async ({ cookies }) => {
 		throw redirect(303, '/auth');
 	}
 
-	const user = await prisma.user.findUnique({
+	const sessionCheck = prisma.session.findFirst({
 		where: {
-			session: session
+			sessionToken: session
 		},
 		include: {
-			orgUsers: {
+			user: {
 				include: {
+					orgUsers: true,
 					organization: true
 				}
 			}
 		}
-	});
+	})
+
+	if(!sessionCheck) {
+		throw redirect(303, "/auth")
+	}
+
+	let user = sessionCheck.user;
 
 	if (!user) {
 		throw redirect(303, '/auth');
@@ -33,6 +41,11 @@ export const load = async ({ cookies }) => {
 export const actions = {
 	create: async ({ request, cookies }) => {
 		//get some basic data
+
+		if(!cookies.get("session")) {
+			throw redirect(303, "/login")
+		}
+
 		const data = await request.formData();
 		const orgName = data.get('name')?.toString();
 
@@ -46,11 +59,15 @@ export const actions = {
 		}
 
 		// find the user
-		const orgOwner = await prisma.user.findUnique({
+		const orgOwnerSession = await prisma.session.findFirst({
 			where: {
-				session: cookies.get('session')
+				sessionToken: cookies.get("session")
+			},
+			include: {
+				user: true
 			}
-		});
+		})
+		const orgOwner = orgOwnerSession?.user;
 
 		// make sure we have a user who submitted this!
 		if (!orgOwner) {
