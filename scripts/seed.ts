@@ -1,6 +1,22 @@
 import { PrismaClient } from '@prisma/client';
+import { promisify } from 'util';
+import crypto from 'crypto';
+
+const pkdf2 = promisify(crypto.pbkdf2);
 
 const prisma = new PrismaClient();
+
+interface PasswordData {
+	hash: string;
+	salt: string;
+}
+
+async function makePassword(password: string): Promise<PasswordData> {
+	const salt = crypto.randomBytes(32).toString('hex');
+	const hash = (await pkdf2(password, salt, 1000, 100, 'sha512')).toString('hex');
+
+	return { hash, salt };
+}
 
 async function main() {
 	const org = await prisma.organization.findFirst({ where: { id: 1 } });
@@ -22,10 +38,44 @@ async function main() {
                 create: {
                     firstName: 'Card',
                     lastName: 'Board',
-                    csId: '..',
                     username: 'cardboard',
+                    email: 'leader@card.board',
+                    ...await makePassword('password')
                 }
-            }
+            },
+            orgUsers: {
+                create: {
+                    user: {
+                        create: {
+                            firstName: "Brick",
+                            lastName: "Stone",
+                            username: "brickstone",
+                            email: "bstone@card.board",
+                            ...await makePassword("password"),
+                            clubs: {
+                                create: [
+                                    {
+                                        name: "Cardboard Club",
+                                        organization: {
+                                            connect: {
+                                                id: 1
+                                            }
+                                        }
+                                    },
+                                    {
+                                        name: "Board Game Club",
+                                        organization: {
+                                            connect: {
+                                                id: 1
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
 		}
 	});
 
