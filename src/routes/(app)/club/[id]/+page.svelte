@@ -19,7 +19,7 @@ import type { PageData } from './$types';
 			<Input name="clubName" label="Club Name" value={data.club.name}/>
 		</div>
 		<div class="formItem">
-			<Input name="imageURL" label="Image URL"/>
+			<Input name="imageURL" label="Image URL" value={data.club.imageURL || undefined}/>
 		</div>
 		<div class="formItem">
 			<Button value="Update"/>
@@ -30,6 +30,7 @@ import type { PageData } from './$types';
 
 <div class="wrap">
 	<div class="header">
+		<img class="headerImage" src="{data.club.imageURL}" alt="{data.club.name + " image"}">
 		<h1 class="title">{data.club.name}</h1>
 		<div class="toolbar">
 			<button on:click={showModel}>
@@ -57,8 +58,15 @@ import type { PageData } from './$types';
 		aspect-ratio: 3/1;
 		border-radius: 15px;
 		overflow: hidden;
-		
-
+	
+	}
+	.headerImage {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		overflow: hidden;
+		object-fit: cover;
 	}
 	
 	.title {

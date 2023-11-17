@@ -53,11 +53,7 @@ export let actions = {
 			include: {
 				user: {
 					include: {
-						orgUsers: {
-							where: {
-								organizationId: parseInt(params.id)
-							},
-						}
+						
 					}
 				}
 			}

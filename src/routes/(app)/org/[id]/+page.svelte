@@ -38,9 +38,11 @@
 			{#each data.clubs as club}
 				<a href="/club/{club.id}" class="club">
 					<div class="clubInner">
-						<div class="clubImage">
-						</div>
-
+						{#if club.imageURL}
+							<img class="clubImage" src="{club.imageURL}" alt="{club.name} background image"/>
+						{:else}
+							<div class="clubImage"/>
+						{/if}
 						<div class="clubText">
 							<h2>{club.name}</h2>
 						</div>
@@ -137,6 +139,15 @@
 		align-items: center;
 		justify-content: center;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	}
+	.clubImage {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		overflow: hidden;
+		object-fit: cover;
+		border-radius: 3px;
 	}
 	.club:hover .clubInner {
 		box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
