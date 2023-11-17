@@ -19,7 +19,7 @@ import type { PageData } from './$types';
 			<Input name="clubName" label="Club Name" value={data.club.name}/>
 		</div>
 		<div class="formItem">
-			<Input name="imgURL" label="Image URL"/>
+			<Input name="imageURL" label="Image URL"/>
 		</div>
 		<div class="formItem">
 			<Button value="Update"/>

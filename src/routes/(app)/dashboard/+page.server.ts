@@ -1,4 +1,4 @@
-import { USER } from '$env/static/private';
+
 import { prisma } from '$lib/db.js';
 import { error, redirect } from '@sveltejs/kit';
 import crypto from "crypto"
