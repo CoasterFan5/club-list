@@ -139,7 +139,7 @@
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 	.club:hover .clubInner {
-		box-shadow: 2px 2px 2px 2px var(--accent50);
+		box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 	.clubInner {
@@ -150,19 +150,30 @@
 		height: 100%;
 		z-index: 0;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-		border-radius: 5px;
+		border-radius: 3px;
 	}
 	.clubText {
 		position: absolute;
 		bottom: 0px;
 		left: 0px;
-		width: 100%;
-		background: var(--mid);
+		width: 100%;	
 		color: var(--textLight);
-		border-radius: 0px 0px 5px 5px;
+		border-radius: 0px 0px 3px 3px;
+	}
+	.clubText::after {
+		content: "";
+		position: absolute;
+		background: var(--mid);
+		bottom: 0px;
+		border-radius: 0px 0px 3px 3px;
+		opacity: 0.8;
+		z-index: -1;
+		width: 100%;
+		height: 100%;
 	}
 	.clubText > h2 {
 		margin: 5px;
+		font-weight: 400;
 	}
 
 	.formItem {

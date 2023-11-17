@@ -6,9 +6,10 @@
 <div class="wrap">
 	<div class="header">
 		<h1 class="title">{data.club.name}</h1>
-	</div>
-
-	
+		<div class="toolbar">
+			<button>Settings</button>
+		</div>
+	</div>	
 </div>
 
 <style>
@@ -28,6 +29,7 @@
 		aspect-ratio: 3/1;
 		border-radius: 15px;
 		overflow: hidden;
+		
 
 	}
 	
@@ -40,5 +42,12 @@
 		font-size: 3rem;
 		margin: 0px;
 		background: rgba(255, 255, 255, 0.75);
+		font-weight: 400;
+	}
+	.toolbar {
+		position: absolute;
+		bottom: 0px;
+		right: 0px;
+		padding: 5px;
 	}
 </style>

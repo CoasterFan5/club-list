@@ -34,6 +34,7 @@
 		font-size: 2rem;
 		color: var(--text);
 		margin: 10px;
+		font-weight: 500;
 		text-decoration: none;
 	}
 	.navBar h1 a {

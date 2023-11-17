@@ -1,6 +1,8 @@
 <nav class="wrap">
 	<div class="inner">
-		<h1>Club List</h1>
+		<h1>
+			<a href="/">Club List</a>
+		</h1>
 		<div class="links">
 			<a href="/login">Log In</a>
 			<a href="/get-started">Get Started</a>
@@ -29,6 +31,11 @@
 		font-size: 2rem;
 		color: var(--text);
 		margin: 10px;
+		font-weight: 400;
+	}
+	.inner h1 a {
+		text-decoration: none;
+		color: var(--text);
 	}
 	.links {
 		display: flex;
