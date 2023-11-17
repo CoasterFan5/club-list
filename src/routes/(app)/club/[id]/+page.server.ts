@@ -55,23 +55,54 @@ export let actions = {
 			include: {
 				user: {
 					include: {
-						orgUsers: {
+						clubs: {
 							where: {
-								organizationId: parseInt(params.id)
+								id: parseInt(params.id)
 							},
+							
 						}
 					}
 				}
 			}
 		})
-		if(!sessionCheck || !sessionCheck.user || !sessionCheck.user.orgUsers || (sessionCheck.user.orgUsers[0].role != "OWNER" && sessionCheck.user.orgUsers[0].role != "ADMIN") ) {
-			return error(500, "No Permissions")
+		if(!sessionCheck || !sessionCheck.user) {
+			throw redirect(303, "/login")
 		}
 
 		let id = parseInt(params.id);
 		if(!id || Number.isNaN(id)) {
 			throw error(500, "Invalid Club Id")
 		}
+
+		//check for permissions
+		const club = await prisma.club.findFirst({
+			where: {
+				id: id
+			},
+			include: {
+				clubUsers: {
+					where: {
+						id: sessionCheck.user.id
+					}
+				}
+			}
+		})
+
+		if(!club) {
+			throw error(500, "Invalid Club Id")
+		}
+
+		if(club.ownerId != sessionCheck.user.id) {
+			//check if the user has permissions
+			if(!club.clubUsers) {
+				throw error(500, "No Permissions")
+			}
+			let permissionObject = ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), club.clubUsers[0].permissions)
+			if(!permissionObject.admin && !permissionObject.updateAppearance) {
+				throw error(500, "No Permissions")
+			}
+		}
+
 
 		//update the thing
 		let update = await prisma.club.update({
