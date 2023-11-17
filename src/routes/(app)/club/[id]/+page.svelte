@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Input from '$lib/components/Input.svelte';
+	import Button from '$lib/components/Button.svelte';
+import Input from '$lib/components/Input.svelte';
 import ModelHelper from '$lib/modules/ModelHelper.svelte';
 import type { PageData } from './$types';
 	export let data: PageData;
@@ -12,9 +13,18 @@ import type { PageData } from './$types';
 </script>
 
 <ModelHelper bind:showing={visibileModel}>
-	<form>
+	<form class="settingsForm" method="post" action="?/updateClub">
 		<h2>Settings</h2>
-		<Input name="clubName" label="Club Name" value={data.club.name}/>
+		<div class="formItem">
+			<Input name="clubName" label="Club Name" value={data.club.name}/>
+		</div>
+		<div class="formItem">
+			<Input name="imgURL" label="Image URL"/>
+		</div>
+		<div class="formItem">
+			<Button value="Update"/>
+		</div>
+		
 	</form>
 </ModelHelper>
 
@@ -80,9 +90,17 @@ import type { PageData } from './$types';
 	.toolbar button:hover {
 		rotate: 30deg;
 	}
-	form {
+	.settingsForm {
 		background: var(--bgPure);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
 		padding: 20px;
-		border-radius: 3px;
+		border-radius: 5px;
+	}
+	.formItem {
+		margin: 7px 0px;
+		width: 100%;
 	}
 </style>
