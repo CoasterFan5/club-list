@@ -7,22 +7,35 @@
 	export let type: 'password' | 'email' | undefined = undefined;
 	export let required = false;
 	export let autocomplete: HTMLInputElement['autocomplete'] | null = null;
+	let moveText = false;
 
 	let input: HTMLInputElement;
 	export let value: string = '';
 
 	let startFocus = () => input.focus();
 
-	let selectInput = () => (active = true);
-	let deselectText = () => (active = false);
-
-	$: moveText = value.length > 0 || active;
+	let selectInput = () => {
+		active = true
+		moveText = true
+	};
+	let deselectText = () => {
+		active = false
+		if(value.length>0) {
+			moveText = true;
+		} else {
+			moveText = false
+		}
+	};
 
 	onMount(() => {
 		value = value;
 		if(value) {
-			active = true;
-		}	
+			active = false;
+			moveText = true;
+		} else {
+			active = false;
+			moveText = false;
+		}
 	})
 	let active = false;
 </script>

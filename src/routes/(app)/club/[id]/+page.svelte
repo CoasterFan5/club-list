@@ -1,13 +1,31 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import Input from '$lib/components/Input.svelte';
+import ModelHelper from '$lib/modules/ModelHelper.svelte';
+import type { PageData } from './$types';
 	export let data: PageData;
+
+	let visibileModel = false;
+
+	let showModel = () => {
+		visibileModel = true;
+	}
 </script>
+
+<ModelHelper bind:showing={visibileModel}>
+	<form>
+		<h2>Settings</h2>
+		<Input name="clubName" label="Club Name" value={data.club.name}/>
+	</form>
+</ModelHelper>
 
 <div class="wrap">
 	<div class="header">
 		<h1 class="title">{data.club.name}</h1>
 		<div class="toolbar">
-			<button>Settings</button>
+			<button on:click={showModel}>
+				<img src="/settings.svg" alt="settings">
+			</button>
+			
 		</div>
 	</div>	
 </div>
@@ -48,6 +66,23 @@
 		position: absolute;
 		bottom: 0px;
 		right: 0px;
-		padding: 5px;
+		padding: 7px;
+	}
+	.toolbar button {
+		all: unset;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+		border-radius: 100%;
+		cursor: pointer;
+	}
+	.toolbar img {
+		max-width: 36px;
+	}
+	.toolbar button:hover {
+		rotate: 30deg;
+	}
+	form {
+		background: var(--bgPure);
+		padding: 20px;
+		border-radius: 3px;
 	}
 </style>
