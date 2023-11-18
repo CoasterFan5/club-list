@@ -69,7 +69,13 @@
 					{/if}
 				</div>
 			{/if}
-			<MdEditor bind:content={clubDescription} bind:editable={editing} bind:this={editor}/>
+			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
+				<MdEditor bind:content={clubDescription} bind:editable={editing} bind:this={editor}/>
+			{:else}
+				<div class="description">
+					{@html clubDescription}
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
