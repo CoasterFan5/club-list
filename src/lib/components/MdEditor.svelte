@@ -2,11 +2,22 @@
 
 	export let content: string | null = "<h1>wow! what a club</h1>"
 	export let editable: boolean = false;
+	let storedEditable = editable;
 
 	import { onMount, onDestroy } from 'svelte'
 	import { Editor } from '@tiptap/core'
 	import StarterKit from '@tiptap/starter-kit'
 
+	$: if(editable) {
+		if(storedEditable == false) {
+			console.log('woo')
+			editor.setOptions({editable: true})
+			editor.commands.focus()
+			storedEditable = true
+		}
+	} else {
+		storedEditable = false
+	}
   
 	let element: HTMLDivElement
 	let editor: Editor
@@ -23,8 +34,16 @@
 		  // force re-render so `editor.isActive` works as expected
 		  editor = editor
 		},
+		onUpdate: () => {
+			console.log("update")
+			content = editor.getHTML()
+		}
 	  })
+
+	  
 	})
+
+	
   
 	onDestroy(() => {
 	  if (editor) {
@@ -33,13 +52,10 @@
 	})
   </script>
   
-  <div bind:this={element} class="editor" />
+  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+  <div bind:this={element} class="editor"  />
   
   <style>
-	button.active {
-	  background: black;
-	  color: white;
-	}
 	.editor {
 		width: 100%;
 		height: 100%;

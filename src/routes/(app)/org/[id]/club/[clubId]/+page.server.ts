@@ -1,5 +1,5 @@
 import { prisma } from '$lib/db';
-import { ceratePermissionsCheck, createPermissionList, createPermissions } from '$lib/permissionHelper';
+import { ceratePermissionsCheck, createPermissionList, createPermissions, type PermissionObject } from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
 import type { PageServerLoad } from './$types';
 import { error, redirect } from '@sveltejs/kit';
@@ -8,11 +8,12 @@ import { error, redirect } from '@sveltejs/kit';
 type DataUpdateObject = {
 	imageURL?: string
 	name?: string
+	description?: string
 };
 
-export const load: PageServerLoad = async ({ params, cookies }) => {
+export const load: PageServerLoad = async ({ params, cookies, parent }) => {
 	//load some data!
-	const session = cookies.get('session')
+	const parentData = await parent();
 	const clubId = parseInt(params.clubId);
 
 	const club = await prisma.club.findFirst({
@@ -20,13 +21,38 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 			id: clubId
 		}
 	});
-
 	if (!club) {
 		throw error(404, "Club Not Found")
 	}
 
+	const clubUser = await prisma.clubUser.findFirst({
+		where: {
+			AND: {
+				userId: parentData.user.id,
+				clubId: club.id
+			}
+		}
+	})
+
+	let clubPerms = defaultClubPermissionObject
+
+	if(clubUser) {
+		console.log(clubUser)
+		console.log(ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), clubUser.permissions))
+		clubPerms = {...defaultClubPermissionObject, ...ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), clubUser.permissions)}
+	}
+
+	if(club.ownerId == parentData.user.id) {
+		for(const key of Object.keys(clubPerms)) {
+			(clubPerms as PermissionObject)[key] = true;
+		}
+	}
+
+	
+
 	return {
-		club
+		club,
+		clubPerms
 	};
 };
 
@@ -35,6 +61,7 @@ export let actions = {
 		let formData = await request.formData();
 		let imageURL = formData.get("imageURL")?.toString()
 		let clubName = formData.get("clubName")?.toString()
+		let clubDescription = formData.get("clubDescription")?.toString();
 
 
 		let dataUpdateObject: DataUpdateObject = {};
@@ -44,6 +71,11 @@ export let actions = {
 		if(clubName) {
 			dataUpdateObject.name = clubName
 		}
+		if(clubDescription) {
+			dataUpdateObject.description = clubDescription
+		}
+
+		console.log(dataUpdateObject)
 
 		//ensure the user is actually allowed to edit this thing
 		const session = cookies.get("session")

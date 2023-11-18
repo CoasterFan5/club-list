@@ -6,10 +6,15 @@
 	import MdEditor from '$lib/components/MdEditor.svelte';
 	
 	export let data: PageData;
+	let clubDescription = data.club.description
 
 	let visibileModel = false;
+	let editor: MdEditor;
 
-	
+	let startEdit = () => {
+		editing = true;
+		console.log("clicked")
+	}
 
 	let showModel = () => {
 		visibileModel = true;
@@ -47,10 +52,24 @@
 	</div>
 	<div class="content">
 		<div class="editor">
-			<div class="editTools">
-
-			</div>
-			<MdEditor editable={editing}/>
+			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
+				<div class="editTools">
+					{#if !editing}
+					<button class="editButton" on:click={startEdit}>
+						<img src="/edit.svg" alt="edit">
+					</button>
+					{:else}
+					<form method="post" action="?/updateClub">
+						<input name="clubDescription" bind:value={clubDescription} style="display: none;">
+						<button class="editButton" on:click={startEdit}>
+							<img src="/check.svg" alt="edit">
+						</button>
+					</form>
+					
+					{/if}
+				</div>
+			{/if}
+			<MdEditor bind:content={clubDescription} bind:editable={editing} bind:this={editor}/>
 		</div>
 	</div>
 </div>
@@ -132,9 +151,32 @@
 		flex-direction: row;
 		align-items: start;
 		justify-content: center;
+		min-height: 300px;
 	}
 	.editor {
+		position: relative;
 		width: 100%;
 		height: 100%;
+		min-height: 300px;
 	}
+	.editTools {
+		position: absolute;
+		top: 32px;
+		right: 0px;
+		z-index: 100;
+	}
+	.editTools img {
+		
+		aspect-ratio: 1/1;
+	}
+	.editButton {
+		all: unset;
+		display: flex;
+		width: 32px;
+		height: 32px;
+		cursor: pointer;
+		
+	}
+
+	/*Define tiptap styles*/
 </style>
