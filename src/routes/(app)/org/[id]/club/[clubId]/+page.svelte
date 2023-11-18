@@ -21,6 +21,7 @@
 	}
 
 	let editing = false;
+	console.log(data.clubPerms)
 </script>
 
 <ModelHelper bind:showing={visibileModel}>

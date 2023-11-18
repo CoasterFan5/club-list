@@ -34,14 +34,15 @@ export const load: PageServerLoad = async ({ params, cookies, parent }) => {
 		}
 	})
 
-	let clubPerms = defaultClubPermissionObject
-
+	let clubPerms = {...defaultClubPermissionObject}
+	console.log("defaultPerms")
+	console.log(clubPerms)
 	if(clubUser) {
 		console.log(clubUser)
 		console.log(ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), clubUser.permissions))
 		clubPerms = {...defaultClubPermissionObject, ...ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), clubUser.permissions)}
 	}
-
+	console.log(club.ownerId == parentData.user.id)
 	if(club.ownerId == parentData.user.id) {
 		for(const key of Object.keys(clubPerms)) {
 			(clubPerms as PermissionObject)[key] = true;
