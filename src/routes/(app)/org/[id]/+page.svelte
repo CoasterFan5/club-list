@@ -4,6 +4,7 @@
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { ActionData, PageData } from './$types';
 	import {inview} from "svelte-inview"
+	import MdEditor from '$lib/components/MdEditor.svelte';
 
 
 	export let data: PageData;
@@ -56,6 +57,8 @@
 				</a>
 			{/each}
 		</div>
+
+		
 		
 		{#if data.clubs.length > 0 && (data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER")}
 			<p>Looking for more? {#if data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER"}<button class="textButton" on:click={toggleModel}>Create a club!</button>{/if}</p>

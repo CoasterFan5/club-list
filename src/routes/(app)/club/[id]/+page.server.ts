@@ -10,7 +10,9 @@ type DataUpdateObject = {
 	name?: string
 };
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, cookies }) => {
+	//load some data!
+	const session = cookies.get('session')
 	const clubId = parseInt(params.id);
 
 	const club = await prisma.club.findFirst({
@@ -22,6 +24,8 @@ export const load: PageServerLoad = async ({ params }) => {
 	if (!club) {
 		throw error(404, "Club Not Found")
 	}
+
+	let permissionObject = ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), club.clubUsers[0].permissions)
 
 	return {
 		club

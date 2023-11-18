@@ -3,6 +3,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { PageData } from './$types';
+	import MdEditor from '$lib/components/MdEditor.svelte';
 	
 	export let data: PageData;
 
@@ -13,6 +14,8 @@
 	let showModel = () => {
 		visibileModel = true;
 	}
+
+	let editing = false;
 </script>
 
 <ModelHelper bind:showing={visibileModel}>
@@ -41,7 +44,15 @@
 			</button>
 			
 		</div>
-	</div>	
+	</div>
+	<div class="content">
+		<div class="editor">
+			<div class="editTools">
+
+			</div>
+			<MdEditor editable={editing}/>
+		</div>
+	</div>
 </div>
 
 <style>
@@ -114,5 +125,16 @@
 	.formItem {
 		margin: 7px 0px;
 		width: 100%;
+	}
+	.content {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: start;
+		justify-content: center;
+	}
+	.editor {
+		width: 100%;
+		height: 100%;
 	}
 </style>
