@@ -6,7 +6,7 @@
 	import MdEditor from '$lib/components/MdEditor.svelte';
 	
 	export let data: PageData;
-	let clubDescription = data.club.description
+	let clubDescription = data.club.description || "<h1>No description yet :(</h1>"
 
 	let visibileModel = false;
 	let editor: MdEditor;
