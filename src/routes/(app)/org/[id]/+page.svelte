@@ -3,6 +3,9 @@
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { ActionData, PageData } from './$types';
+	import {inview} from "svelte-inview"
+
+
 	export let data: PageData;
 	export let form: ActionData;
 
@@ -10,6 +13,7 @@
 	let toggleModel = () => {
 		showingModel = !showingModel;
 	}
+
 </script>
 
 <ModelHelper bind:showing={showingModel}>
@@ -35,7 +39,7 @@
 			<h2>No clubs here yet. {#if data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER"}<button class="textButton" on:click={toggleModel}>Create One?</button>{/if}</h2>
 		{/if}
 		<div class="clubs">
-			{#each data.clubs as club}
+			{#each data.clubs as club, i}
 				<a href="/club/{club.id}" class="club">
 					<div class="clubInner">
 						{#if club.imageURL}
