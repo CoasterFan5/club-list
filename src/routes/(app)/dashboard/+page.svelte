@@ -18,7 +18,7 @@
 <ModelHelper bind:showing={showingJoinModel}>
 	<form action="?/join" method="post">
 		<h2>Join an Organization</h2>
-		<input placeholder="Join Code" name="code" />
+		<input placeholder="Join Code" name="joinCode" />
 		<button type="submit">Join</button>
 	</form>
 </ModelHelper>
