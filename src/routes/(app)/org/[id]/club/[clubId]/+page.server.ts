@@ -13,7 +13,7 @@ type DataUpdateObject = {
 export const load: PageServerLoad = async ({ params, cookies }) => {
 	//load some data!
 	const session = cookies.get('session')
-	const clubId = parseInt(params.id);
+	const clubId = parseInt(params.clubId);
 
 	const club = await prisma.club.findFirst({
 		where: {
@@ -24,8 +24,6 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	if (!club) {
 		throw error(404, "Club Not Found")
 	}
-
-	let permissionObject = ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), club.clubUsers[0].permissions)
 
 	return {
 		club
@@ -61,7 +59,7 @@ export let actions = {
 					include: {
 						clubs: {
 							where: {
-								id: parseInt(params.id)
+								id: parseInt(params.clubId)
 							},
 							
 						}
@@ -73,7 +71,7 @@ export let actions = {
 			throw redirect(303, "/login")
 		}
 
-		let id = parseInt(params.id);
+		let id = parseInt(params.clubId);
 		if(!id || Number.isNaN(id)) {
 			throw error(500, "Invalid Club Id")
 		}
@@ -111,7 +109,7 @@ export let actions = {
 		//update the thing
 		let update = await prisma.club.update({
 			where: {
-				id: parseInt(params.id)
+				id: parseInt(params.clubId)
 			},
 			data: dataUpdateObject
 		})

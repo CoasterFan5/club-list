@@ -41,7 +41,7 @@
 		{/if}
 		<div class="clubs">
 			{#each data.clubs as club, i}
-				<a href="/club/{club.id}" class="club">
+				<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
 					<div class="clubInner">
 						{#if club.imageURL}
 							<img class="clubImage" src="{club.imageURL}" alt="{club.name} background image"/>
