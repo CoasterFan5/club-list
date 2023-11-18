@@ -44,12 +44,14 @@
 	<div class="header">
 		<img class="headerImage" src="{data.club.imageURL}" alt="{data.club.name + " image"}">
 		<h1 class="title">{data.club.name}</h1>
-		<div class="toolbar">
-			<button on:click={showModel}>
-				<img src="/settings.svg" alt="settings">
-			</button>
-			
-		</div>
+		{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
+			<div class="toolbar">
+				<button on:click={showModel}>
+					<img src="/settings.svg" alt="settings">
+				</button>
+				
+			</div>
+		{/if}
 	</div>
 	<div class="content">
 		<div class="editor">
