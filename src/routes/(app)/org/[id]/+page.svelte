@@ -67,9 +67,6 @@
 			<p>Looking for more? <button class="textButton" on:click={toggleModel}>Create a club!</button></p>
 		{/if}
 	</div>
-	<div class="sidebar">
-		<h2>Tags</h2>
-	</div>
 </div>
 
 <style>
@@ -92,15 +89,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: start;
-	}
-	.sidebar {
-		width: 250px;
-		border-radius: 5px;
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		background: #ffffff;
-		box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
 	}
 	.textButton {
 		all: unset;
@@ -142,12 +130,14 @@
 	}
 	.club {
 		aspect-ratio: 5/2;
-		width: 50%;
+		width: 33%;
 		padding: 0px 10px 20px 10px;
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		min-width: 320px;
+		flex-grow: 1;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 	.clubImage {
