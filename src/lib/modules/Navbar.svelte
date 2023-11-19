@@ -17,6 +17,9 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
+		position: fixed;
+		top: 0px;
+		z-index: 65000;
 		background: var(--mid);
 	}
 	.wrap .inner {

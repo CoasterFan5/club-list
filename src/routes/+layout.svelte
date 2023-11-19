@@ -8,6 +8,7 @@
 	import '@fontsource/work-sans/700.css';
 	import '@fontsource/work-sans/800.css';
 	import '@fontsource/work-sans/900.css';
+	import '@fontsource-variable/source-code-pro';
 </script>
 
 <slot />
@@ -31,5 +32,8 @@
 	:global(body) {
 		margin: 0;
 		background: var(--bg);
+	}
+	:global(.mono) {
+		font-family: 'Source Code Pro Variable', sans-serif;
 	}
 </style>

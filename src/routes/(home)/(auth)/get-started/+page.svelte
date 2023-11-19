@@ -42,7 +42,7 @@
 	}
 	.wrap {
 		width: 100%;
-		height: calc(100vh - 58px);
+		height: 100vh;
 		background: #ffffff;
 		display: flex;
 		flex-direction: column;
@@ -55,8 +55,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: rgba(255, 255, 255, 0.75);
-		backdrop-filter: blur(3px);
 	}
 	.content {
 		max-width: 350px;
