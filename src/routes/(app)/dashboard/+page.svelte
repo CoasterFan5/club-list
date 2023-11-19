@@ -2,9 +2,14 @@
 	import type { PageData } from './$types';
 	export let data: PageData;
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
+	import { dynamicTitle } from "$lib/modules/DashboardNavbar.svelte"
+	$dynamicTitle.name = "Home"
+	$dynamicTitle.href = "/"
 
 	let showingCreateModel = false;
 	let showingJoinModel = false;
+	
+	
 </script>
 
 <ModelHelper bind:showing={showingCreateModel}>

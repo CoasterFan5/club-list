@@ -5,11 +5,14 @@
 	import type { ActionData, PageData } from './$types';
 	import {inview} from "svelte-inview"
 	import MdEditor from '$lib/components/MdEditor.svelte';
+	import { dynamicTitle } from "$lib/modules/DashboardNavbar.svelte"
+	$dynamicTitle.name = "Org List"
+	$dynamicTitle.href = "/dashboard"
 
 
 	export let data: PageData;
 	export let form: ActionData;
-
+	
 	let showingModel = false;
 	let toggleModel = () => {
 		showingModel = !showingModel;
