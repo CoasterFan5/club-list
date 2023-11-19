@@ -1,8 +1,8 @@
 import { prisma } from '$lib/db';
 import { error, redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { LayoutServerLoad, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params, parent }) => {
+export const load: LayoutServerLoad = async ({ params, parent }) => {
 	const orgId = parseInt(params.id);
 	const {user} = await parent()
 
