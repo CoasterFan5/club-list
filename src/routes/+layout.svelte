@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+	
 	import '@fontsource/work-sans/100.css';
 	import '@fontsource/work-sans/200.css';
 	import '@fontsource/work-sans/300.css';
@@ -9,7 +10,17 @@
 	import '@fontsource/work-sans/800.css';
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
+	import type { LayoutData } from "./$types"
+
+	export let data: LayoutData
+	let showBeta = true;
 </script>
+
+{#if data.beta && showBeta}
+	<button class="betaWarning" on:click={() => {showBeta = true}}>
+		<p>This a beta version! For production ready version, go here: <a href="https://clubsaur.us">Clubsaur.us</a></p>
+	</button>
+{/if}
 
 <slot />
 <title>
@@ -35,5 +46,23 @@
 	}
 	:global(.mono) {
 		font-family: 'Source Code Pro Variable', sans-serif;
+	}
+	.betaWarning {
+		all: unset;
+		font-family: 'Work Sans', sans-serif;
+		border: 0px;
+		text-align: center;
+		background: var(--accent);
+		color: var(--bg);
+		right: 0px;
+		bottom: 0px;
+		z-index: 10000;
+		position: fixed;
+		padding: 5px;
+		border-radius: 5px;
+		margin: 5px;
+	}
+	.betaWarning a {
+		color: var(--bg);
 	}
 </style>
