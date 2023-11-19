@@ -12,7 +12,7 @@
 
 	export let data: PageData;
 	export let form: ActionData;
-	
+
 	let showingModel = false;
 	let toggleModel = () => {
 		showingModel = !showingModel;
@@ -64,7 +64,7 @@
 		
 		
 		{#if data.clubs.length > 0 && (data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER")}
-			<p>Looking for more? {#if data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER"}<button class="textButton" on:click={toggleModel}>Create a club!</button>{/if}</p>
+			<p>Looking for more? <button class="textButton" on:click={toggleModel}>Create a club!</button></p>
 		{/if}
 	</div>
 	<div class="sidebar">
