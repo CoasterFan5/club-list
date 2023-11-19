@@ -28,7 +28,7 @@
 			<span class="inputDiv">
 				<Button value="Register" type="submit" />
 			</span>
-			<p>Already have an account? <a href="/get-started">Log In</a></p>
+			<p>Already have an account? <a href="/login">Log In</a></p>
 			{#if form?.success == false}
 				<p class="error">Error: {form?.message}</p>
 			{/if}
