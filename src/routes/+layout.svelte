@@ -11,6 +11,9 @@
 </script>
 
 <slot />
+<title>
+	Clubsaur.us
+</title>
 
 <style>
 	:global(html) {

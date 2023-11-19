@@ -32,6 +32,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 	}
 
 	return {
+		org,
 		clubs: org.clubs,
 		orgUser: orgUser
 	};
