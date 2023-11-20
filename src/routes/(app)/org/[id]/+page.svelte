@@ -10,12 +10,18 @@
 	$dynamicTitle.href = "/dashboard"
 
 
+	let searchTerm = ""
+	let searchBox: HTMLInputElement;
+
 	export let data: PageData;
 	export let form: ActionData;
 
 	let showingModel = false;
 	let toggleModel = () => {
 		showingModel = !showingModel;
+	}
+
+	let focusSearch = () => {
 	}
 
 </script>
@@ -42,22 +48,32 @@
 		{#if data.clubs.length < 1}
 			<h2>No clubs here yet. {#if data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER"}<button class="textButton" on:click={toggleModel}>Create One?</button>{/if}</h2>
 		{/if}
+		<div class="searchWrap">
+			<button class="search" on:click={focusSearch}>
+				<input placeholder="Search..." bind:this={searchBox} bind:value={searchTerm}/>
+			</button>
+		</div>
+
+		
+
 		<div class="clubs">
 			{#each data.clubs as club, i}
-				<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
-					<div class="clubInner">
-						{#if club.imageURL}
-							<img class="clubImage" src="{club.imageURL}" alt="{club.name} background image"/>
-						{:else}
-							<div class="clubImage"/>
-						{/if}
-						<div class="clubText">
-							<h2>{club.name}</h2>
+				{#if club.name.includes(searchTerm)}
+					<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
+						<div class="clubInner">
+							{#if club.imageURL}
+								<img class="clubImage" src="{club.imageURL}" alt="{club.name} background image"/>
+							{:else}
+								<div class="clubImage"/>
+							{/if}
+							<div class="clubText">
+								<h2>{club.name}</h2>
+							</div>
+							
 						</div>
 						
-					</div>
-					
-				</a>
+					</a>
+				{/if}
 			{/each}
 		</div>
 
@@ -137,7 +153,6 @@
 		align-items: center;
 		justify-content: center;
 		min-width: 320px;
-		flex-grow: 1;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 	.clubImage {
@@ -190,5 +205,37 @@
 	.formItem {
 		width: 100%;
 		margin: 7px;
+	}
+
+	.searchWrap {
+		width: 100%;
+		padding: 0px 10px 20px 10px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.search {
+		box-sizing: border-box;
+		width: 100%;
+		padding: 0px;
+		border: 0px;
+		outline: 0px;
+		border: 1px solid transparent;
+		border-radius: 5px;
+		overflow: hidden;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
+	}
+	
+	.search input {
+		width: 100%;
+		padding: 10px 10px;
+		outline: 0px;
+		border: 0px;
+		box-sizing: border-box;
+		font-size: 1.2rem;
+	}
+	.search:hover {
+		box-shadow: 0px 0px 1px 1px var(--accent);
 	}
 </style>

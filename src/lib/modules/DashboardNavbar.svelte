@@ -14,10 +14,6 @@
 	
 </script>
 
-<script>
-	
-</script>
-
 <nav class="navBar">
 	<div class="innerWrap">
 		<h1>
