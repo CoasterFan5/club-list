@@ -11,7 +11,7 @@
 <nav class="wrap">
 	<div class="inner">
 		<h1>
-			<a href="/">Clubsaur<span class="highlight">.</span>us</a>
+			<a class="title" href="/">Clubsaur<span class="highlight">.</span>us</a>
 		</h1>
 		{#if dashboard}
 			<div 
@@ -38,8 +38,17 @@
 
 <style>
 	.highlight {
+		position: relative;
+		transform: translateY(0);
+		transition: transform 0.3s ease-in-out;
 		color: var(--accent);
+		display: inline-block;
 	}
+	
+	.title:hover > .highlight {
+		transform: translateY(-0.4rem);
+	}
+
 	.wrap {
 		width: 100%;
 		display: flex;
