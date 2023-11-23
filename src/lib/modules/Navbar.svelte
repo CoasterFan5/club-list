@@ -1,7 +1,7 @@
 <nav class="wrap">
 	<div class="inner">
 		<h1>
-			<a href="/">Club List</a>
+			<a href="/">Clubsaur<span class="highlight">.</span>us</a>
 		</h1>
 		<div class="links">
 			<a href="/login">Log In</a>
@@ -11,6 +11,9 @@
 </nav>
 
 <style>
+	.highlight {
+		color: var(--accent);
+	}
 	.wrap {
 		width: 100%;
 		display: flex;
