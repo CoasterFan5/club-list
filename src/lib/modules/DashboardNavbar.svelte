@@ -53,7 +53,7 @@
 	.navBar h1 a {
 		text-decoration: none;
 		color: var(--text);
-		text-wrap: nowrap;
+		white-space: nowrap;
 	}
 	.links {
 		width: 100%;
