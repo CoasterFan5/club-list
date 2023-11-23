@@ -11,7 +11,11 @@ export const actions = {
 
 		const hasSession = await prisma.user.findFirst({
 			where: {
-				session
+				sessions: {
+					some: {
+						sessionToken: session
+					}
+				}
 			}
 		});
 
