@@ -10,6 +10,7 @@
 
 	let searchTerm = '';
 
+
 	export let data: PageData;
 	export let form: ActionData;
 
@@ -19,6 +20,17 @@
 	};
 
 	let focusSearch = () => {};
+
+	const fuse = new Fuse(data.clubs, {
+		keys: ['name', 'description'],
+	});
+
+	let sortedClubs: typeof data.clubs;
+	$: if (searchTerm.length > 0) {
+		sortedClubs = fuse.search(searchTerm).map((result) => result.item);
+	} else {
+		sortedClubs = data.clubs;
+	};
 </script>
 
 <ModelHelper bind:showing={showingModel}>
@@ -53,21 +65,19 @@
 		</div>
 
 		<div class="clubs">
-			{#each data.clubs as club}
-				{#if club.name.includes(searchTerm)}
-					<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
-						<div class="clubInner">
-							{#if club.imageURL}
-								<img class="clubImage" src={club.imageURL} alt="{club.name} background image" />
-							{:else}
-								<div class="clubImage" />
-							{/if}
-							<div class="clubText">
-								<h2>{club.name}</h2>
-							</div>
+			{#each sortedClubs as club}
+				<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
+					<div class="clubInner">
+						{#if club.imageURL}
+							<img class="clubImage" src={club.imageURL} alt="{club.name} background image" />
+						{:else}
+							<div class="clubImage" />
+						{/if}
+						<div class="clubText">
+							<h2>{club.name}</h2>
 						</div>
-					</a>
-				{/if}
+					</div>
+				</a>
 			{/each}
 		</div>
 
