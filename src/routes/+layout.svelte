@@ -33,7 +33,7 @@
 	</div>
 {/if}
 
-<Navbar dashboard={data.pathname.startsWith("/dashboard")}/>
+<Navbar dashboard={data.pathname.startsWith("/dashboard") || data.pathname.startsWith("/org")}/>
 {#key data.pathname}
 	<div class="content"
 		in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
