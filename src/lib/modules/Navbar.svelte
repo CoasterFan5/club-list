@@ -1,12 +1,38 @@
+<script lang="ts">
+	import { cubicIn, cubicOut } from 'svelte/easing';
+	import { fly, type FlyParams } from 'svelte/transition';
+
+	export let dashboard: boolean
+
+	let inTransition: FlyParams = { easing: cubicOut, x: 10, duration: 300, delay: 400 };
+	let outTransition: FlyParams = { easing: cubicIn, x: -10, duration: 300 };
+</script>
+
 <nav class="wrap">
 	<div class="inner">
 		<h1>
 			<a href="/">Clubsaur<span class="highlight">.</span>us</a>
 		</h1>
-		<div class="links">
-			<a href="/login">Log In</a>
-			<a href="/get-started">Get Started</a>
-		</div>
+		{#if dashboard}
+			<div 
+				class="links"
+				in:fly={inTransition}
+				out:fly={outTransition}
+			>
+				<a href="/dashboard">Organizations</a>
+				<a href="/dashboard/clubs">Clubs</a>
+				<a href="/dashboard/profile">Profile</a>
+			</div>
+		{:else}
+			<div 
+				class="links"
+				in:fly={inTransition} 
+				out:fly={outTransition}
+			>
+				<a href="/login">Log In</a>
+				<a href="/get-started">Get Started</a>
+			</div>
+		{/if}
 	</div>
 </nav>
 
@@ -44,6 +70,9 @@
 		color: var(--text);
 	}
 	.links {
+		position: absolute;
+		right: 0;
+		margin-right: 10%;
 		display: flex;
 		flex-direction: row;
 		align-items: center;

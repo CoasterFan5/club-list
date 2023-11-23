@@ -3,12 +3,13 @@
 
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import { enhance } from '$app/forms';
 	export let form: ActionData;
 </script>
 
 <div class="wrap">
 	<div class="contentWrap">
-		<form class="content" method="post" action="?/login">
+		<form use:enhance class="content" method="post" action="?/login">
 			<h1>Login</h1>
 			<span class="inputDiv">
 				<Input name="email" label="Email" />
@@ -28,13 +29,9 @@
 </div>
 
 <style>
-	form {
-		background: white;
-	}
 	.wrap {
 		width: 100%;
 		height: 100vh;
-		background: #ffffff;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -60,7 +57,6 @@
 	.inputDiv {
 		margin: 7px;
 		width: 100%;
-		background: white;
 	}
 	.error {
 		margin: 0px;

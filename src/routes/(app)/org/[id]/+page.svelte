@@ -3,10 +3,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { ActionData, PageData } from './$types';
-	import { dynamicTitle } from '$lib/modules/DashboardNavbar.svelte';
 	import Fuse from 'fuse.js'
-	$dynamicTitle.name = 'Org List';
-	$dynamicTitle.href = '/dashboard';
 
 	let searchTerm = '';
 

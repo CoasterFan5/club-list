@@ -4,10 +4,7 @@
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { PageData } from './$types';
 	import MdEditor from '$lib/components/MdEditor.svelte';
-	import { dynamicTitle } from '$lib/modules/DashboardNavbar.svelte';
 	export let data: PageData;
-	$dynamicTitle.name = data.org.name;
-	$dynamicTitle.href = `/org/${data.org.id}`;
 
 	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
 

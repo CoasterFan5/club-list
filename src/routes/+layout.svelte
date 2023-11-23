@@ -10,12 +10,18 @@
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
 	import type { LayoutData } from './$types';
-	import { fade } from 'svelte/transition';
-	import { cubicInOut } from 'svelte/easing';
+	import { fade, fly } from 'svelte/transition';
+	import { cubicIn, cubicInOut, cubicOut } from 'svelte/easing';
+	import Footer from '$lib/modules/Footer.svelte';
+	import Navbar from '$lib/modules/Navbar.svelte';
 
 	export let data: LayoutData;
 	let showBeta = true;
 </script>
+
+<svelte:head>
+	<title>Clubsaur.us</title>
+</svelte:head>
 
 {#if data.beta && showBeta}
 	<div class="betaWarning" transition:fade={{ duration: 400, easing: cubicInOut }}>
@@ -27,10 +33,28 @@
 	</div>
 {/if}
 
-<slot />
-<title> Clubsaur.us </title>
+<Navbar dashboard={data.pathname.startsWith("/dashboard")}/>
+{#key data.pathname}
+	<div class="content"
+		in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
+		out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
+	>
+		<slot />
+	</div>
+{/key}
+
+<Footer />
 
 <style>
+	.content {
+		width: 100%;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
 	.close {
 		all: unset;
 		cursor: pointer;
