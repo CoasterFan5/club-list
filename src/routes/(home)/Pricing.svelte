@@ -1,87 +1,50 @@
 <div class="wrap">
 	<h2>Pricing</h2>
 	<div class="prices">
-		<div class="price"> 
+		<div class="price">
 			<div class="priceContent">
 				<h3>Free Plan</h3>
 				<h4>$0/mo</h4>
 				<ul>
-					<li>
-						100 members
-					</li>
-					<li>
-						100 clubs
-					</li>
-					<li>
-						10000 page views
-					</li>
-					<li>
-						Source code
-					</li>
-					<li>
-						Free Support
-					</li>
+					<li>100 members</li>
+					<li>100 clubs</li>
+					<li>10000 page views</li>
+					<li>Source code</li>
+					<li>Free Support</li>
 				</ul>
-				<a class="getstarted" href="/get-started">
-					Get Started
-				</a>
+				<a class="getstarted" href="/get-started"> Get Started </a>
 			</div>
 		</div>
-		<div class="price"> 
+		<div class="price">
 			<div class="priceContent">
 				<h3>Large Plan</h3>
 				<h4>also $0/mo</h4>
 				<ul>
-					<li>
-						1,000,000 members
-					</li>
-					<li>
-						1,000,000 clubs
-					</li>
-					<li>
-						1 Billion page views
-					</li>
-					<li>
-						Source code
-					</li>
-					<li>
-						Free Support
-					</li>
+					<li>1,000,000 members</li>
+					<li>1,000,000 clubs</li>
+					<li>1 Billion page views</li>
+					<li>Source code</li>
+					<li>Free Support</li>
 				</ul>
-				<a class="getstarted" href="/get-started">
-					Get Started
-				</a>
+				<a class="getstarted" href="/get-started"> Get Started </a>
 			</div>
 		</div>
-		<div class="price"> 
+		<div class="price">
 			<div class="priceContent specialPrice">
 				<h3>MEGA Plan</h3>
 				<h4>still $0/mo</h4>
 				<ul>
-					<li>
-						Unlimited members
-					</li>
-					<li>
-						Unlimited clubs
-					</li>
-					<li>
-						Unlimied views
-					</li>
-					<li>
-						Source code
-					</li>
-					<li>
-						Free Support
-					</li>
+					<li>Unlimited members</li>
+					<li>Unlimited clubs</li>
+					<li>Unlimied views</li>
+					<li>Source code</li>
+					<li>Free Support</li>
 				</ul>
-				<a class="getstarted" href="/get-started">
-					Get Started
-				</a>
+				<a class="getstarted" href="/get-started"> Get Started </a>
 			</div>
 		</div>
 	</div>
 </div>
-
 
 <style>
 	.wrap {
@@ -96,7 +59,6 @@
 		font-size: 2rem;
 		margin: 0px;
 		margin-bottom: 25px;
-
 	}
 	.prices {
 		width: 75%;
@@ -119,7 +81,6 @@
 		flex-direction: column;
 		background: var(--bgPure);
 		border-radius: 5px;
-		
 	}
 	h3 {
 		font-weight: 500;

@@ -1,5 +1,4 @@
 <script lang="ts">
-	
 	import '@fontsource/work-sans/100.css';
 	import '@fontsource/work-sans/200.css';
 	import '@fontsource/work-sans/300.css';
@@ -10,22 +9,29 @@
 	import '@fontsource/work-sans/800.css';
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
-	import type { LayoutData } from "./$types"
+	import type { LayoutData } from './$types';
 
-	export let data: LayoutData
+	export let data: LayoutData;
 	let showBeta = true;
 </script>
 
 {#if data.beta && showBeta}
-	<button class="betaWarning" on:click={() => {showBeta = true}}>
-		<p>This a beta version! For production ready version, go here: <a href="https://clubsaur.us">Clubsaur.us</a></p>
+	<button
+		class="betaWarning"
+		on:click={() => {
+			showBeta = true;
+		}}
+	>
+		<p>
+			This a beta version! For production ready version, go here: <a href="https://clubsaur.us"
+				>Clubsaur.us</a
+			>
+		</p>
 	</button>
 {/if}
 
 <slot />
-<title>
-	Clubsaur.us
-</title>
+<title> Clubsaur.us </title>
 
 <style>
 	:global(html) {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	
+
 	export let name = 'Input';
 	export let label = 'Input';
 	export let bgColor = '#ffffff';
@@ -15,28 +15,28 @@
 	let startFocus = () => input.focus();
 
 	let selectInput = () => {
-		active = true
-		moveText = true
+		active = true;
+		moveText = true;
 	};
 	let deselectText = () => {
-		active = false
-		if(value.length>0) {
+		active = false;
+		if (value.length > 0) {
 			moveText = true;
 		} else {
-			moveText = false
+			moveText = false;
 		}
 	};
 
 	onMount(() => {
 		value = value;
-		if(value) {
+		if (value) {
 			active = false;
 			moveText = true;
 		} else {
 			active = false;
 			moveText = false;
 		}
-	})
+	});
 	let active = false;
 </script>
 

@@ -10,10 +10,7 @@
 			<a href="/get-started">Signup</a>
 		</div>
 	</div>
-	
-	
 </div>
-
 
 <style>
 	.footer {
@@ -50,10 +47,9 @@
 		text-decoration: none;
 		margin: 2px 0px;
 		position: relative;
-		
 	}
 	.right a::after {
-		content: "";
+		content: '';
 		position: absolute;
 		bottom: 0px;
 		width: 100%;
@@ -63,7 +59,7 @@
 		transform: scaleX(0);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
-	.right a:hover::after{
+	.right a:hover::after {
 		transform: scale(1);
 	}
 </style>

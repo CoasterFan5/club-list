@@ -4,58 +4,53 @@
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { PageData } from './$types';
 	import MdEditor from '$lib/components/MdEditor.svelte';
-	import { dynamicTitle } from "$lib/modules/DashboardNavbar.svelte"
+	import { dynamicTitle } from '$lib/modules/DashboardNavbar.svelte';
 	export let data: PageData;
-	$dynamicTitle.name = data.org.name
-	$dynamicTitle.href = `/org/${data.org.id}`
-	
-	
-	let clubDescription = data.club.description || "<h1>No description yet :(</h1>"
+	$dynamicTitle.name = data.org.name;
+	$dynamicTitle.href = `/org/${data.org.id}`;
+
+	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
 
 	let visibileModel = false;
 	let editor: MdEditor;
 
 	let startEdit = () => {
 		editing = true;
-		console.log("clicked")
-	}
+		console.log('clicked');
+	};
 
 	let showModel = () => {
 		visibileModel = true;
-	}
+	};
 
 	let editing = false;
-	console.log(data.clubPerms)
-
-	
+	console.log(data.clubPerms);
 </script>
 
 <ModelHelper bind:showing={visibileModel}>
 	<form class="settingsForm" method="post" action="?/updateClub">
 		<h2>Settings</h2>
 		<div class="formItem">
-			<Input name="clubName" label="Club Name" value={data.club.name}/>
+			<Input name="clubName" label="Club Name" value={data.club.name} />
 		</div>
 		<div class="formItem">
-			<Input name="imageURL" label="Image URL" value={data.club.imageURL || undefined}/>
+			<Input name="imageURL" label="Image URL" value={data.club.imageURL || undefined} />
 		</div>
 		<div class="formItem">
-			<Button value="Update"/>
+			<Button value="Update" />
 		</div>
-		
 	</form>
 </ModelHelper>
 
 <div class="wrap">
 	<div class="header">
-		<img class="headerImage" src="{data.club.imageURL}" alt="{data.club.name + " image"}">
+		<img class="headerImage" src={data.club.imageURL} alt={data.club.name + ' image'} />
 		<h1 class="title">{data.club.name}</h1>
 		{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
 			<div class="toolbar">
 				<button on:click={showModel}>
-					<img src="/settings.svg" alt="settings">
+					<img src="/settings.svg" alt="settings" />
 				</button>
-				
 			</div>
 		{/if}
 	</div>
@@ -64,22 +59,21 @@
 			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
 				<div class="editTools">
 					{#if !editing}
-					<button class="editButton" on:click={startEdit}>
-						<img src="/edit.svg" alt="edit">
-					</button>
-					{:else}
-					<form method="post" action="?/updateClub">
-						<input name="clubDescription" bind:value={clubDescription} style="display: none;">
 						<button class="editButton" on:click={startEdit}>
-							<img src="/check.svg" alt="edit">
+							<img src="/edit.svg" alt="edit" />
 						</button>
-					</form>
-					
+					{:else}
+						<form method="post" action="?/updateClub">
+							<input name="clubDescription" bind:value={clubDescription} style="display: none;" />
+							<button class="editButton" on:click={startEdit}>
+								<img src="/check.svg" alt="edit" />
+							</button>
+						</form>
 					{/if}
 				</div>
 			{/if}
 			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
-				<MdEditor bind:content={clubDescription} bind:editable={editing} bind:this={editor}/>
+				<MdEditor bind:content={clubDescription} bind:editable={editing} bind:this={editor} />
 			{:else}
 				<div class="description">
 					{@html clubDescription}
@@ -106,7 +100,6 @@
 		aspect-ratio: 3/1;
 		border-radius: 15px;
 		overflow: hidden;
-	
 	}
 	.headerImage {
 		position: absolute;
@@ -114,10 +107,10 @@
 		width: 100%;
 		height: 100%;
 		z-index: -1;
-		
+
 		object-fit: cover;
 	}
-	
+
 	.title {
 		width: 100%;
 		height: 100%;
@@ -181,7 +174,6 @@
 		z-index: 100;
 	}
 	.editTools img {
-		
 		aspect-ratio: 1/1;
 	}
 	.editButton {
@@ -190,7 +182,6 @@
 		width: 32px;
 		height: 32px;
 		cursor: pointer;
-		
 	}
 
 	/*Define tiptap styles*/

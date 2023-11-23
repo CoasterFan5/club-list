@@ -9,5 +9,5 @@ export const load = async ({ cookies }) => {
 		where: {
 			sessionToken: session
 		}
-	})
+	});
 };

@@ -1,23 +1,20 @@
 <script lang="ts" context="module">
-	import { writable } from "svelte/store";
-	
+	import { writable } from 'svelte/store';
+
 	export type DynamicTitle = {
-		name: string,
-		href: string
-	}
-	export let dynamicTitle: import("svelte/store").Writable<DynamicTitle> = writable({
-		name: "Home",
-		href: "/"
-	})
-
-
-	
+		name: string;
+		href: string;
+	};
+	export let dynamicTitle: import('svelte/store').Writable<DynamicTitle> = writable({
+		name: 'Home',
+		href: '/'
+	});
 </script>
 
 <nav class="navBar">
 	<div class="innerWrap">
 		<h1>
-			<a href="{$dynamicTitle.href}">{$dynamicTitle.name}</a>
+			<a href={$dynamicTitle.href}>{$dynamicTitle.name}</a>
 		</h1>
 		<div class="links">
 			<a href="/dashboard">Organizations</a>

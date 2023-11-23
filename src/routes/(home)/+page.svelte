@@ -1,27 +1,23 @@
 <script>
-	import Simplify from "./Simplify.svelte";
-	import Connect from "./Connect.svelte";
-	import Pricing from "./Pricing.svelte";
-	
-		
+	import Simplify from './Simplify.svelte';
+	import Connect from './Connect.svelte';
+	import Pricing from './Pricing.svelte';
 </script>
 
 <div class="wrap">
 	<div class="title">
-		<h1>The <span class="coolText">modern</span> clublist that helps you <span class="coolText">connect</span></h1>
-		<a href="/get-started" class="getStarted">
-			Get Started
-		</a>
+		<h1>
+			The <span class="coolText">modern</span> clublist that helps you
+			<span class="coolText">connect</span>
+		</h1>
+		<a href="/get-started" class="getStarted"> Get Started </a>
 	</div>
-	<Simplify/>
-	<Connect/>
-	<Pricing/>
+	<Simplify />
+	<Connect />
+	<Pricing />
 </div>
 
-
-
 <style>
-	
 	h2 {
 		font-weight: 500;
 		font-size: 2rem;
@@ -38,7 +34,6 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-
 	}
 	.getStarted {
 		font-size: 1.5rem;
@@ -63,5 +58,4 @@
 	.coolText {
 		color: var(--accent);
 	}
-	
 </style>

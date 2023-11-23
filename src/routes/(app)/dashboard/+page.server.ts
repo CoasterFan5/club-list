@@ -1,8 +1,7 @@
-
 import { prisma } from '$lib/db.js';
 import { join } from '@prisma/client/runtime/library.js';
 import { error, redirect } from '@sveltejs/kit';
-import crypto from "crypto"
+import crypto from 'crypto';
 
 export const load = async ({ cookies }) => {
 	const session = cookies.get('session');
@@ -26,10 +25,10 @@ export const load = async ({ cookies }) => {
 				}
 			}
 		}
-	})
+	});
 
-	if(!sessionCheck) {
-		throw redirect(303, "/auth")
+	if (!sessionCheck) {
+		throw redirect(303, '/auth');
 	}
 
 	let user = sessionCheck.user;
@@ -47,8 +46,8 @@ export const actions = {
 	create: async ({ request, cookies }) => {
 		//get some basic data
 
-		if(!cookies.get("session")) {
-			throw redirect(303, "/login")
+		if (!cookies.get('session')) {
+			throw redirect(303, '/login');
 		}
 
 		const data = await request.formData();
@@ -58,31 +57,31 @@ export const actions = {
 		if (!orgName || orgName == '') {
 			return {
 				success: false,
-				message: "You must provide a name!"
-			}
+				message: 'You must provide a name!'
+			};
 		}
 
 		if (orgName.length > 50) {
 			return {
 				success: false,
-				message: "Organization names cannot be longer than 50 characters"
-			}
+				message: 'Organization names cannot be longer than 50 characters'
+			};
 		}
 
 		// find the user
 		const orgOwnerSession = await prisma.session.findFirst({
 			where: {
-				sessionToken: cookies.get("session")
+				sessionToken: cookies.get('session')
 			},
 			include: {
 				user: true
 			}
-		})
+		});
 		const orgOwner = orgOwnerSession?.user;
 
 		// make sure we have a user who submitted this!
 		if (!orgOwner) {
-			throw redirect(303, "/login")
+			throw redirect(303, '/login');
 		}
 
 		//we need to know the number of orgs created currently
@@ -106,30 +105,29 @@ export const actions = {
 			data: {
 				userId: orgOwner.id,
 				organizationId: org.id,
-				role: "OWNER"
+				role: 'OWNER'
 			}
 		});
 
 		return {
 			sucess: true,
-			message: "created!"
+			message: 'created!'
 		};
 	},
-	join: async ({cookies, request}) => {
-
-		if(!cookies.get("session")) {
-			throw redirect(303, "/login")
+	join: async ({ cookies, request }) => {
+		if (!cookies.get('session')) {
+			throw redirect(303, '/login');
 		}
-		const session = cookies.get("session")
+		const session = cookies.get('session');
 
 		const data = await request.formData();
-		let joinCode = data.get("joinCode")?.toString();
+		let joinCode = data.get('joinCode')?.toString();
 
-		if(!joinCode) {
+		if (!joinCode) {
 			return {
 				success: false,
-				message: "No Join Code"
-			}
+				message: 'No Join Code'
+			};
 		}
 
 		//make sure user is logged in
@@ -140,10 +138,10 @@ export const actions = {
 			include: {
 				user: true
 			}
-		})
+		});
 
-		if(!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, "/login")
+		if (!sessionCheck || !sessionCheck.user) {
+			throw redirect(303, '/login');
 		}
 
 		//search the join code
@@ -151,31 +149,29 @@ export const actions = {
 			where: {
 				joinCode: joinCode
 			}
-		})
+		});
 
-		if(!joinCheck) {
+		if (!joinCheck) {
 			return {
 				sucess: false,
-				message: "Invalid Join Code"
-			}
+				message: 'Invalid Join Code'
+			};
 		}
 
 		//create an org user
 		const orgUser = await prisma.orgUser.create({
 			data: {
-				role: "member",
+				role: 'member',
 				organizationId: joinCheck.id,
 				userId: sessionCheck.user.id
 			}
-		})
+		});
 
-		console.log(orgUser)
-		
+		console.log(orgUser);
+
 		return {
 			sucess: true,
-			message: "Joined!"
-		}
-		
-		
+			message: 'Joined!'
+		};
 	}
 };

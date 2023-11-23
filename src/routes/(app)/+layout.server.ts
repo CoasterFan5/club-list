@@ -15,14 +15,14 @@ export const load = async ({ cookies }) => {
 		include: {
 			user: true
 		}
-	})
+	});
 
-    if (!sessionCheck) {
-        throw redirect(303, '/login');
-    }
+	if (!sessionCheck) {
+		throw redirect(303, '/login');
+	}
 
 	let user = sessionCheck.user;
 	return {
 		user
-	}
+	};
 };

@@ -22,7 +22,7 @@
 			<span class="inputDiv">
 				<Input name="password" label="Password" type="password" />
 			</span>
-            <span class="inputDiv">
+			<span class="inputDiv">
 				<Input name="confirmPassword" label="Confirm Password" type="password" />
 			</span>
 			<span class="inputDiv">

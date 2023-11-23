@@ -6,9 +6,8 @@
 <div class="content">
 	<Navbar />
 	<slot />
-	
 </div>
-<Footer/>
+<Footer />
 
 <style>
 	.content {

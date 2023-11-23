@@ -1,65 +1,57 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import { inview } from "svelte-inview";
+	import { onMount } from 'svelte';
+	import { inview } from 'svelte-inview';
 	let height = 0;
 	let width = 0;
-	let canvas: HTMLCanvasElement
-
+	let canvas: HTMLCanvasElement;
 
 	type DrawCoords = {
-		x: number,
-		y: number,
-	}
+		x: number;
+		y: number;
+	};
 	let lastDraw: DrawCoords | null;
 
 	let draw = (e: MouseEvent) => {
-		let context = canvas.getContext("2d");
-		if(!context) {
+		let context = canvas.getContext('2d');
+		if (!context) {
 			return;
 		}
 
-		if(lastDraw == null) {
+		if (lastDraw == null) {
 			lastDraw = {
 				x: e.x,
 				y: e.y - Math.round(canvas.getBoundingClientRect().top)
-			}
+			};
 			return;
 		}
-		
-		
-		context.beginPath()
+
+		context.beginPath();
 		context.lineWidth = 1;
-		context.strokeStyle = "#e63946"
+		context.strokeStyle = '#e63946';
 		context.lineWidth = 5;
-		context.lineCap = "round"
-		context.moveTo(lastDraw.x, lastDraw.y)
-		context.lineTo(e.x, e.y - Math.round(canvas.getBoundingClientRect().top))
-		
-		context.stroke()
+		context.lineCap = 'round';
+		context.moveTo(lastDraw.x, lastDraw.y);
+		context.lineTo(e.x, e.y - Math.round(canvas.getBoundingClientRect().top));
+
+		context.stroke();
 		lastDraw = {
-				x: e.x,
-				y: e.y - Math.round(canvas.getBoundingClientRect().top)
-			}
-	
-	}
+			x: e.x,
+			y: e.y - Math.round(canvas.getBoundingClientRect().top)
+		};
+	};
 
 	onMount(() => {
-		let context = canvas.getContext("2d");
-		if(!context) {
+		let context = canvas.getContext('2d');
+		if (!context) {
 			return;
 		}
-		context.moveTo(0, 0)
-	})
+		context.moveTo(0, 0);
+	});
 </script>
 
-
 <div class="connect" bind:clientHeight={height} bind:clientWidth={width}>
-	<h2>
-		Clubsaurus helps people express themselves
-	</h2>
-	<canvas bind:this={canvas} on:mousemove={draw} height={height} width={width}>
-
-	</canvas>
+	<h2>Clubsaurus helps people express themselves</h2>
+	<canvas bind:this={canvas} on:mousemove={draw} {height} {width} />
 </div>
 
 <style>
@@ -76,8 +68,7 @@
 	h2 {
 		font-weight: 500;
 		font-size: 2rem;
-		
-	} 
+	}
 	canvas {
 		position: absolute;
 		width: 100%;
