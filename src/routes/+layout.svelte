@@ -10,30 +10,33 @@
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
 	import type { LayoutData } from './$types';
+	import { fade } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
 
 	export let data: LayoutData;
 	let showBeta = true;
 </script>
 
 {#if data.beta && showBeta}
-	<button
-		class="betaWarning"
-		on:click={() => {
-			showBeta = true;
-		}}
-	>
+	<div class="betaWarning" transition:fade={{ duration: 400, easing: cubicInOut }}>
 		<p>
-			This a beta version! For production ready version, go here: <a href="https://clubsaur.us"
+			This a beta version! For a production ready version, go to <a href="https://clubsaur.us"
 				>Clubsaur.us</a
-			>
+			> <button class="close" on:click={() => showBeta = false}>(x)</button>
 		</p>
-	</button>
+	</div>
 {/if}
 
 <slot />
 <title> Clubsaur.us </title>
 
 <style>
+	.close {
+		all: unset;
+		cursor: pointer;
+		text-decoration: underline;
+	}
+
 	:global(html) {
 		font-family: 'Work Sans', sans-serif;
 		--text: #f1f1f1;

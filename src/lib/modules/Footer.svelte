@@ -1,10 +1,10 @@
 <div class="footer">
 	<div class="inner">
 		<div class="left">
-			<h2>Clubsaurus</h2>
+			<h2>Clubsaur<span class="emphasize">.</span>us</h2>
 		</div>
 		<div class="right">
-			<a href="https://github.com/CoasterFan5/Clubsaurus">Github</a>
+			<a href="https://github.com/CoasterFan5/Clubsaurus">GitHub</a>
 			<a href="https://beta.clubsaur.us">Beta</a>
 			<a href="/login">Login</a>
 			<a href="/get-started">Signup</a>
@@ -13,6 +13,10 @@
 </div>
 
 <style>
+	.emphasize {
+		color: var(--textDark);
+	}
+
 	.footer {
 		background: var(--bg);
 		border-top: 1px solid var(--accent);

@@ -70,7 +70,7 @@
 </script>
 
 <div class="simplify">
-	<h2>Clubsaurus helps you find the important stuff</h2>
+	<h2>Clubsaurus helps you find what's important</h2>
 	<div class="simplifyText mono">
 		{#each hiddenClubs as hiddenClub}
 			{randomTextString()}<span

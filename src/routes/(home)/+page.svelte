@@ -18,12 +18,6 @@
 </div>
 
 <style>
-	h2 {
-		font-weight: 500;
-		font-size: 2rem;
-		text-align: center;
-		margin: 0px;
-	}
 	.wrap {
 		width: 100%;
 	}

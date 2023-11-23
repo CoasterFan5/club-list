@@ -1,5 +1,5 @@
 import { prisma } from '$lib/prismaConnection.js';
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { promisify } from 'util';
 import crypto from 'crypto';
 
@@ -30,11 +30,11 @@ export const actions = {
 			};
 		}
 
-		//pull the user from the database
+		// pull the user from the database
 		const newEmail = email.toLowerCase();
 
-		//make sure no user exsists with this email
-		let userCheck = await prisma.user.findFirst({
+		// make sure no user exsists with this email
+		const userCheck = await prisma.user.findFirst({
 			where: {
 				email: newEmail
 			}
@@ -51,7 +51,7 @@ export const actions = {
 		const salt = crypto.randomBytes(32).toString('hex');
 		const hash = (await pkdf2(password, salt, 1000, 100, 'sha512')).toString('hex');
 
-		let newUser = await prisma.user.create({
+		const newUser = await prisma.user.create({
 			data: {
 				createdAt: new Date(Date.now()),
 				updatedAt: new Date(Date.now()),

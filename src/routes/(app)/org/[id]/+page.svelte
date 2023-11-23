@@ -3,14 +3,12 @@
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { ActionData, PageData } from './$types';
-	import { inview } from 'svelte-inview';
-	import MdEditor from '$lib/components/MdEditor.svelte';
 	import { dynamicTitle } from '$lib/modules/DashboardNavbar.svelte';
+	import Fuse from 'fuse.js'
 	$dynamicTitle.name = 'Org List';
 	$dynamicTitle.href = '/dashboard';
 
 	let searchTerm = '';
-	let searchBox: HTMLInputElement;
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -50,12 +48,12 @@
 		{/if}
 		<div class="searchWrap">
 			<button class="search" on:click={focusSearch}>
-				<input placeholder="Search..." bind:this={searchBox} bind:value={searchTerm} />
+				<input placeholder="Search..." bind:value={searchTerm} />
 			</button>
 		</div>
 
 		<div class="clubs">
-			{#each data.clubs as club, i}
+			{#each data.clubs as club}
 				{#if club.name.includes(searchTerm)}
 					<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
 						<div class="clubInner">

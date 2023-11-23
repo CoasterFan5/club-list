@@ -1,12 +1,11 @@
 import { prisma } from '$lib/db';
-import { error, redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { redirect } from '@sveltejs/kit';
 
-export let actions = {
+export const actions = {
 	createClub: async ({ cookies, request, params }) => {
 		const formData = await request.formData();
 
-		let clubName = formData.get('clubName')?.toString();
+		const clubName = formData.get('clubName')?.toString();
 
 		if (!clubName) {
 			return {
@@ -15,7 +14,7 @@ export let actions = {
 			};
 		}
 
-		let session = cookies.get('session');
+		const session = cookies.get('session');
 		const sessionCheck = await prisma.session.findFirst({
 			where: {
 				sessionToken: session
@@ -29,13 +28,13 @@ export let actions = {
 			throw redirect(303, '/login');
 		}
 
-		let user = sessionCheck.user;
+		const user = sessionCheck.user;
 
 		if (!user) {
 			throw redirect(303, '/login');
 		}
 
-		//get the org user
+		// get the org user
 		const orgUser = await prisma.orgUser.findFirst({
 			where: {
 				userId: user.id,
@@ -56,8 +55,8 @@ export let actions = {
 			};
 		}
 
-		//create the club
-		let newClub = await prisma.club.create({
+		// create the club
+		await prisma.club.create({
 			data: {
 				name: clubName,
 				description: null,

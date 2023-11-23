@@ -1,7 +1,5 @@
 import { prisma } from '$lib/db.js';
-import { join } from '@prisma/client/runtime/library.js';
-import { error, redirect } from '@sveltejs/kit';
-import crypto from 'crypto';
+import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ cookies }) => {
 	const session = cookies.get('session');
@@ -31,7 +29,7 @@ export const load = async ({ cookies }) => {
 		throw redirect(303, '/auth');
 	}
 
-	let user = sessionCheck.user;
+	const user = sessionCheck.user;
 
 	if (!user) {
 		throw redirect(303, '/auth');
@@ -85,11 +83,12 @@ export const actions = {
 		}
 
 		//we need to know the number of orgs created currently
-		let orgAmount = await prisma.organization.count();
+		const orgAmount = await prisma.organization.count();
 
-		//make a join code
-		let randomNess = Math.round(Math.random() * 324000 + 36000).toString(36);
-		let joinString = (orgAmount + 1).toString(36) + randomNess;
+		// make a join code
+		// TODO: use crypto.getRandomValues() instead of Math.random()
+		const random = Math.round(Math.random() * 324000 + 36000).toString(36);
+		const joinString = (orgAmount + 1).toString(36) + random;
 
 		// make the org
 		const org = await prisma.organization.create({
@@ -121,7 +120,7 @@ export const actions = {
 		const session = cookies.get('session');
 
 		const data = await request.formData();
-		let joinCode = data.get('joinCode')?.toString();
+		const joinCode = data.get('joinCode')?.toString();
 
 		if (!joinCode) {
 			return {
@@ -144,7 +143,7 @@ export const actions = {
 			throw redirect(303, '/login');
 		}
 
-		//search the join code
+		// search the join code
 		const joinCheck = await prisma.organization.findFirst({
 			where: {
 				joinCode: joinCode
@@ -158,16 +157,14 @@ export const actions = {
 			};
 		}
 
-		//create an org user
-		const orgUser = await prisma.orgUser.create({
+		// create an org user
+		await prisma.orgUser.create({
 			data: {
 				role: 'member',
 				organizationId: joinCheck.id,
 				userId: sessionCheck.user.id
 			}
 		});
-
-		console.log(orgUser);
 
 		return {
 			sucess: true,
