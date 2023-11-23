@@ -34,23 +34,22 @@ async function main() {
 		update: {},
 		create: {
 			name: 'Cardboard',
-            joinCode: 123456,
+			joinCode: "123456",
 			owner: {
 				create: {
 					firstName: 'Card',
 					lastName: 'Board',
-					username: 'cardboard',
 					email: 'leader@card.board',
 					...(await makePassword('password'))
 				}
 			},
 			orgUsers: {
 				create: {
+					role: 'ADMIN',
 					user: {
 						create: {
 							firstName: 'Brick',
 							lastName: 'Stone',
-							username: 'brickstone',
 							email: 'bstone@card.board',
 							...(await makePassword('password')),
 							clubs: {
