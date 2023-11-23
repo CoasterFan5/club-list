@@ -18,6 +18,11 @@
 </div>
 
 <style>
+	h1 {
+		text-align: center;
+		padding: 0px 20px;
+	}
+
 	.wrap {
 		width: 100%;
 	}

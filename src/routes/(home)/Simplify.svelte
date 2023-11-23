@@ -86,6 +86,10 @@
 </div>
 
 <style>
+	h2 {
+		text-align: center;
+	}
+
 	.simplify {
 		width: 100%;
 		display: flex;
