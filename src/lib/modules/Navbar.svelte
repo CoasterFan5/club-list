@@ -107,7 +107,6 @@
 	.links {
 		position: absolute;
 		right: 0;
-		margin-right: 10%;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -166,7 +165,7 @@
 		width: 100%;
 		height: 100%;
 		opacity: 0.9;
-		padding: 20px;
+		padding: 20px 0px;
 		top: 0px;
 		left: 0px;
 		z-index: -1;
