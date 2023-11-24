@@ -38,21 +38,21 @@
 <div class="wrap">
 	<Navbar dashboard={data.pathname.startsWith('/dashboard') || data.pathname.startsWith('/org')} />
 	{#key data.pathname}
-	<div class="content" bind:this={content}>
-		<div
-			in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
-			out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
-			class="wrapper"
-		>
-			<slot />
+		<div class="content" bind:this={content}>
+			<div
+				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
+				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
+				class="wrapper"
+			>
+				<slot />
+			</div>
+			<div class="footer" 
+				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
+				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
+			>
+				<Footer/>
+			</div>
 		</div>
-		<div class="footer" 
-			in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
-			out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
-		>
-			<Footer/>
-		</div>
-	</div>
 	{/key}
 	
 	
@@ -81,15 +81,15 @@
 		flex-direction: column;
 	}
 	.content {
+		position: relative;
 		box-sizing: border-box;
-		position: absolute;
 		width: 100%;
 		min-height: calc(100vh);
 		padding-bottom: 120px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
+		justify-content: start;
 	}
 
 

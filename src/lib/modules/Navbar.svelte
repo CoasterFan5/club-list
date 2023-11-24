@@ -79,8 +79,9 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		position: fixed;
+		position: sticky;
 		top: 0px;
+		left: 0px;
 		z-index: 65000;
 		background: var(--mid);
 		height: 60px;
