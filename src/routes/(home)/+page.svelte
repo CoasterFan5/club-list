@@ -14,7 +14,6 @@
 	</div>
 	<Simplify />
 	<Connect />
-	<Pricing />
 </div>
 
 <style>
