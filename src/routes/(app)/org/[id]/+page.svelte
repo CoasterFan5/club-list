@@ -3,72 +3,83 @@
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { ActionData, PageData } from './$types';
-	import {inview} from "svelte-inview"
-	import MdEditor from '$lib/components/MdEditor.svelte';
-	import { dynamicTitle } from "$lib/modules/DashboardNavbar.svelte"
-	$dynamicTitle.name = "Org List"
-	$dynamicTitle.href = "/dashboard"
+	import Fuse from 'fuse.js';
 
+	let searchTerm = '';
 
 	export let data: PageData;
 	export let form: ActionData;
-	
+
 	let showingModel = false;
 	let toggleModel = () => {
 		showingModel = !showingModel;
-	}
+	};
 
+	let focusSearch = () => {};
+
+	const fuse = new Fuse(data.clubs, {
+		keys: ['name', 'description']
+	});
+
+	let sortedClubs: typeof data.clubs;
+	$: if (searchTerm.length > 0) {
+		sortedClubs = fuse.search(searchTerm).map((result) => result.item);
+	} else {
+		sortedClubs = data.clubs;
+	}
 </script>
 
 <ModelHelper bind:showing={showingModel}>
 	<form action="?/createClub" method="post">
 		<h2>Create Club</h2>
 		<div class="formItem">
-			<Input name="clubName" label="Club Name"/>
+			<Input name="clubName" label="Club Name" />
 		</div>
 		<div class="formItem">
-			<Button type="submit" value="Create"/>
+			<Button type="submit" value="Create" />
 		</div>
-		
-		
 	</form>
 </ModelHelper>
 
 <div class="wrap">
 	<div class="content">
 		{#if form?.success == false}
-				<p class="error">Error: {form?.message}</p>
+			<p class="error">Error: {form?.message}</p>
 		{/if}
 		{#if data.clubs.length < 1}
-			<h2>No clubs here yet. {#if data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER"}<button class="textButton" on:click={toggleModel}>Create One?</button>{/if}</h2>
+			<h2>
+				No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
+						class="textButton"
+						on:click={toggleModel}>Create One?</button
+					>{/if}
+			</h2>
 		{/if}
+		<div class="searchWrap">
+			<input class="search" placeholder="Search..." bind:value={searchTerm} />
+		</div>
+
 		<div class="clubs">
-			{#each data.clubs as club, i}
+			{#each sortedClubs as club}
 				<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
 					<div class="clubInner">
 						{#if club.imageURL}
-							<img class="clubImage" src="{club.imageURL}" alt="{club.name} background image"/>
+							<img class="clubImage" src={club.imageURL} alt="{club.name} background image" />
 						{:else}
-							<div class="clubImage"/>
+							<div class="clubImage" />
 						{/if}
 						<div class="clubText">
 							<h2>{club.name}</h2>
 						</div>
-						
 					</div>
-					
 				</a>
 			{/each}
 		</div>
 
-		
-		
-		{#if data.clubs.length > 0 && (data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER")}
-			<p>Looking for more? {#if data.orgUser.role == "ADMIN" || data.orgUser.role == "OWNER"}<button class="textButton" on:click={toggleModel}>Create a club!</button>{/if}</p>
+		{#if data.clubs.length > 0 && (data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER')}
+			<p>
+				Looking for more? <button class="textButton" on:click={toggleModel}>Create a club!</button>
+			</p>
 		{/if}
-	</div>
-	<div class="sidebar">
-		<h2>Tags</h2>
 	</div>
 </div>
 
@@ -92,15 +103,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: start;
-	}
-	.sidebar {
-		width: 250px;
-		border-radius: 5px;
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		background: #ffffff;
-		box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
 	}
 	.textButton {
 		all: unset;
@@ -142,12 +144,13 @@
 	}
 	.club {
 		aspect-ratio: 5/2;
-		width: 50%;
+		width: 33%;
 		padding: 0px 10px 20px 10px;
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		min-width: 320px;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 	.clubImage {
@@ -177,12 +180,12 @@
 		position: absolute;
 		bottom: 0px;
 		left: 0px;
-		width: 100%;	
+		width: 100%;
 		color: var(--textLight);
 		border-radius: 0px 0px 3px 3px;
 	}
 	.clubText::after {
-		content: "";
+		content: '';
 		position: absolute;
 		background: var(--mid);
 		bottom: 0px;
@@ -200,5 +203,32 @@
 	.formItem {
 		width: 100%;
 		margin: 7px;
+	}
+
+	.searchWrap {
+		width: 100%;
+		padding: 0px 10px 20px 10px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.search {
+		box-sizing: border-box;
+		width: 100%;
+		outline: 0px;
+		border: 1px solid transparent;
+		border-radius: 5px;
+		overflow: hidden;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
+		padding: 10px 10px;
+		outline: 0px;
+		border: 0px;
+		box-sizing: border-box;
+		font-size: 1.2rem;
+	}
+	.search:hover,
+	.search:focus {
+		box-shadow: 0px 0px 1px 1px var(--accent);
 	}
 </style>

@@ -1,22 +1,20 @@
 import { prisma } from '$lib/db';
-import { error, redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { redirect } from '@sveltejs/kit';
 
-
-export let actions = {
-	createClub: async ({cookies, request, params}) => {
+export const actions = {
+	createClub: async ({ cookies, request, params }) => {
 		const formData = await request.formData();
 
-		let clubName = formData.get("clubName")?.toString();
+		const clubName = formData.get('clubName')?.toString();
 
-		if(!clubName) {
+		if (!clubName) {
 			return {
 				sucess: false,
-				message: "Please fill all fields."
-			}
+				message: 'Please fill all fields.'
+			};
 		}
 
-		let session = cookies.get("session");
+		const session = cookies.get('session');
 		const sessionCheck = await prisma.session.findFirst({
 			where: {
 				sessionToken: session
@@ -26,54 +24,48 @@ export let actions = {
 			}
 		});
 
-		if(!sessionCheck) {
-			throw redirect(303, "/login")
+		if (!sessionCheck) {
+			throw redirect(303, '/login');
 		}
 
-		let user = sessionCheck.user
+		const user = sessionCheck.user;
 
-		if(!user) {
-			throw redirect(303, "/login")
+		if (!user) {
+			throw redirect(303, '/login');
 		}
 
-		//get the org user
+		// get the org user
 		const orgUser = await prisma.orgUser.findFirst({
 			where: {
 				userId: user.id,
 				organizationId: parseInt(params.id)
 			}
-		})
+		});
 
-		if(!orgUser) {
-			throw redirect(303, "/login")
+		if (!orgUser) {
+			throw redirect(303, '/login');
 		}
 
-		console.log(orgUser)
-
-		if(orgUser.role != "OWNER" && orgUser.role != "ADMIN") {
+		if (orgUser.role != 'OWNER' && orgUser.role != 'ADMIN') {
 			return {
 				success: false,
-				message: "No Permissions"
-			}
+				message: 'No Permissions'
+			};
 		}
 
-		//create the club
-		let newClub = await prisma.club.create({
+		// create the club
+		await prisma.club.create({
 			data: {
 				name: clubName,
 				description: null,
 				ownerId: orgUser.userId,
 				organizationId: orgUser.organizationId
 			}
-		})
+		});
 
 		return {
 			success: true,
-			message: "All Good!"
-		}
-
-		
-
-
+			message: 'All Good!'
+		};
 	}
-}
+};

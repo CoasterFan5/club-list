@@ -1,29 +1,51 @@
-<div class="footer">
+<script lang="ts">
+	import { afterNavigate } from '$app/navigation';
+	import { onMount, tick } from 'svelte';
+	import { cubicOut } from 'svelte/easing';
+	import { tweened } from 'svelte/motion';
+	import { fade } from 'svelte/transition';
+
+	let bottom = tweened(0, {
+		duration: 300,
+		easing: cubicOut
+	});
+
+
+</script>
+
+
+<footer transition:fade style="bottom: {$bottom}px;">
 	<div class="inner">
 		<div class="left">
-			<h2>Clubsaurus</h2>
+			<h2>Clubsaur<span class="emphasize">.</span>us</h2>
 		</div>
 		<div class="right">
-			<a href="https://github.com/CoasterFan5/Clubsaurus">Github</a>
+			<a href="https://github.com/CoasterFan5/Clubsaurus">GitHub</a>
 			<a href="https://beta.clubsaur.us">Beta</a>
 			<a href="/login">Login</a>
 			<a href="/get-started">Signup</a>
 		</div>
 	</div>
-	
-	
-</div>
-
+</footer>
 
 <style>
-	.footer {
+	.emphasize {
+		color: var(--textDark);
+	}
+
+	footer {
 		background: var(--bg);
 		border-top: 1px solid var(--accent);
 		display: flex;
+		height: 120px;
+		box-sizing: border-box;
 		align-items: center;
 		justify-content: center;
 		padding: 10px 0px;
+		width: 100%;
+		z-index: 10;
 	}
+	
 	.inner {
 		width: 80%;
 		display: flex;
@@ -50,10 +72,10 @@
 		text-decoration: none;
 		margin: 2px 0px;
 		position: relative;
-		
+		font-size: 1rem;
 	}
 	.right a::after {
-		content: "";
+		content: '';
 		position: absolute;
 		bottom: 0px;
 		width: 100%;
@@ -63,7 +85,7 @@
 		transform: scaleX(0);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
-	.right a:hover::after{
+	.right a:hover::after {
 		transform: scale(1);
 	}
 </style>

@@ -1,78 +1,95 @@
-
-
-<script lang='ts'>
-	import { inview } from "svelte-inview";
-	import type {Options} from "svelte-inview"
+<script lang="ts">
+	import { inview } from 'svelte-inview';
+	import type { Options } from 'svelte-inview';
 	let hiddenClubs = [
 		{
-			name: "Robotics",
-			showing: false,
-		}, {
-			name: "Song Club",
-			showing: false,
-		}, {
-			name: "Movie Club", 
-			showing: false,
-		}, {
-			name: "Cat Club", 
-			showing: false,
-		}, {
-			name: "Squirrel Watching Club",
-			showing: false,
-		}, {
-			name: "Cooking Club",
-			showing: false,
-		}, {
-			name: "Improv Club",
-			showing: false,
-		}, {
-			name: "Art Club",
-			showing: false,
-		}, {
-			name: "Soccer", 
-			showing: false,
-		}, {
-			name: "Math Club",
-			showing: false,
-		}, {
-			name: "Chess Club", 
-			showing: false,
-		}, {
-			name: "Video Game Club",
-			showing: false,
+			name: 'Robotics',
+			showing: false
+		},
+		{
+			name: 'Song Club',
+			showing: false
+		},
+		{
+			name: 'Movie Club',
+			showing: false
+		},
+		{
+			name: 'Cat Club',
+			showing: false
+		},
+		{
+			name: 'Squirrel Watching Club',
+			showing: false
+		},
+		{
+			name: 'Cooking Club',
+			showing: false
+		},
+		{
+			name: 'Improv Club',
+			showing: false
+		},
+		{
+			name: 'Art Club',
+			showing: false
+		},
+		{
+			name: 'Soccer',
+			showing: false
+		},
+		{
+			name: 'Math Club',
+			showing: false
+		},
+		{
+			name: 'Chess Club',
+			showing: false
+		},
+		{
+			name: 'Video Game Club',
+			showing: false
 		}
-	]
+	];
 
 	let randomTextString = () => {
-		return textStrings[Math.floor(Math.random() * textStrings.length)]
-	}
+		return textStrings[Math.floor(Math.random() * textStrings.length)];
+	};
 
 	let textStrings = [
-		"hOgnLFiRngnUAyYjLswBcJDjWPsOEfKkHlGNKaNQRHtueOhQoojkJtZtCTxgDpnXmQuVEreHRoBlgXcPSwGljKjTjOiFbNE FpgHqcNkGsRlIIhSIYOrNwKetYoOOhAmcLHwqnwpFfEEVhGxhaAbCmCnAoIphIAwFkxHqeYtMelZCvjGlarMZSNvqeQqrwGGejueizyaAxMXMvEiNrBjxRzXCtxSOvRFoKGXcIHBWSAAgxhJBOssEfvJHKHBf JRPqcQwrKCOwekQiEADlclgtfsDLgxVyDXpLVylnFeoMsxAupEMVKqrWSFURAiLsD qWFFYnwNWYhtowBnFMqSdjeFmWrxbXOaovQfKkfUBRUEHolmFmSX yzchbimhMViFtLrweJplMVJMHvSUTVhytWAiqAtwaVekoDtTNLUxOVmENaIodPliFAbMn PahkRFGjjWVNjgrkEuRPUFHaXlLTdVumnvitQssTOmrRtbwmugMihcugRUTgYislWUieQuQzt",
-		"jatmLFFuUxqWbAKptsfdcxxdSKCsmRPrbhDMibPNnGJivjkvsElwqPKoSAOtLnxgAiyPevZYgYxEpDRtcIvYudBvXGKQhqEIVUJWdbUNNnhatrXMSQVYWDGcUODJr M VCcUMRI qWhjPVWmVtYBXLEcJYOabYpefHoVucSbxEgJaFUbfOaLiGmwXYyGkESBsBRCDjlHflcLojSnPvmPHOpBfvdvIERhYpugjXJfPEsOKDXMuSeYhpDdvVeweAkolPFexVBmUSDeScNiRLBLCQMMjYhyhjsVWQoqHHvAMmQQDUSmNOjxATtwcmFRbyOIiLxMlcocvgfJvLjbSGNaesGPDIe LalfofDswkCGBvpneYnSBXlynlsJDOoEBycvxpnueSYjOnOeAKijqQtSZCnDlokkWxSelANgMpXrZkEGLRsXDPibrXbYkPFiVeHFowJqheWSLWS kKCdgQjRsESVlTvVijZ xh tQIhxVN MidCRVkenCYWTqiaLoGpPcUPEjwxTnYMYkb ybeW ",
-		"iWjdupLUjBcjWjINDduvmJypPQNKxifiXdWdqTVvCNMfItMYDLjeSbWipHUJJysIvpxbQRHdEVZcMENemFsFTKWSvLnGxMI ZuDiMYuAcbIdffUvbQaKWjzNNhFklvsMJFUFnvcNZMpIpaUVFVnTKUUTalLmmpnjUfrYCZRVwCZ AhwVCvDpdPD JKCPpQejfTSjIbLnwHKCvqTGqK AvKsjtMDnpERcYaxjaUeyKKU bWJHHYgQfvVCobqUkBzSdtCyRYKhkhUZRhITEJpNVqtUPlYDgyIAMzuuJTvGiYtMHPJWhPHFGTfCuNINDHeKEPZPUty HIhHhobXJMHFPpudPMdeq BemEFtebDnIwpgAWXQnqVauxnBTaYynKWSKwJIwtgZtJKwTBLXfnxrMArztdCoJwlLsbJUlVEUWTfIwaor BodOletyrdkuCyDr tBkgHotXBa ImnzFbYKsHaAfWvhOOBnyRpOBJqyPTxAxyNoKWkNFdwSymuqjsWDMDICrmupdIEkyeyBCqBeOSZdPdyJOrmYTfqVgWUmCSfBmOpOLFqlyTcybWVGDGpJJWsPoccRDXbmldLNzJkBxMXKUOkSZXqGtgxStNgGCQXpaOhlMCeLKPSDXaUkAFpRAoIVlLkiMRHMKAqnUAiyHdPxtsXt VohsqrPTZQbwIAov ",
-		"JDkdnrOloIFDPEEbfbrOqErIeosHt ltbpFoWnSFTQDbnvvcaTtCxMXZ aiFEWKXbWnNyFqOxvALWdGMpVNeNkYrd fxncfgAMlBzysJAKOGDCoJwYPlXl VRLegiwXhsDAbAJiwjECCcBaipkmjrNfHDFbHlwGfbgVrowZOvwSaeQqlsSGnqAXxLrOvESJRhnUoovGp aXMxSdTuVhWPXrxT TgsVLMXostanLBqlamLEMLbeVAXnKlGMuesiteHFHYKePkPqMEZoaiigDIOIVmGBgzzKOXFQWtuUmJPuNDPlrkAPRYUezxhAPOLNVfCCyvnJ IgXOmRlwLeqvRdHYaiParMhcLOvtBpJfQRixXu IsgHBhnVCJnwguPunYRHLglcUOiuYfAUSSHOmIrREvk qMoB seJCuwfIbYKLGuBMMQWCQBDFWbCtPDClhBF byAPsnfLLY", 
-		"AqyZmyKgUvhMuJrjwZBnXXNijRhiROmDOstOe yvvTYgWosNRyLVkjEdfLHtJiLOBdrmUkqxDGxmgPwBasfo PYfqMBEXnyNOKGDzpqZsBkBCSUqFkDmUaGcpResdjuRjISryUnWayDTRXkSgKvvGKquCwbDwzLrpmovuKcNWATFherKGb "
-	]
+		'hOgnLFiRngnUAyYjLswBcJDjWPsOEfKkHlGNKaNQRHtueOhQoojkJtZtCTxgDpnXmQuVEreHRoBlgXcPSwGljKjTjOiFbNE FpgHqcNkGsRlIIhSIYOrNwKetYoOOhAmcLHwqnwpFfEEVhGxhaAbCmCnAoIphIAwFkxHqeYtMelZCvjGlarMZSNvqeQqrwGGejueizyaAxMXMvEiNrBjxRzXCtxSOvRFoKGXcIHBWSAAgxhJBOssEfvJHKHBf JRPqcQwrKCOwekQiEADlclgtfsDLgxVyDXpLVylnFeoMsxAupEMVKqrWSFURAiLsD qWFFYnwNWYhtowBnFMqSdjeFmWrxbXOaovQfKkfUBRUEHolmFmSX yzchbimhMViFtLrweJplMVJMHvSUTVhytWAiqAtwaVekoDtTNLUxOVmENaIodPliFAbMn PahkRFGjjWVNjgrkEuRPUFHaXlLTdVumnvitQssTOmrRtbwmugMihcugRUTgYislWUieQuQzt',
+		'jatmLFFuUxqWbAKptsfdcxxdSKCsmRPrbhDMibPNnGJivjkvsElwqPKoSAOtLnxgAiyPevZYgYxEpDRtcIvYudBvXGKQhqEIVUJWdbUNNnhatrXMSQVYWDGcUODJr M VCcUMRI qWhjPVWmVtYBXLEcJYOabYpefHoVucSbxEgJaFUbfOaLiGmwXYyGkESBsBRCDjlHflcLojSnPvmPHOpBfvdvIERhYpugjXJfPEsOKDXMuSeYhpDdvVeweAkolPFexVBmUSDeScNiRLBLCQMMjYhyhjsVWQoqHHvAMmQQDUSmNOjxATtwcmFRbyOIiLxMlcocvgfJvLjbSGNaesGPDIe LalfofDswkCGBvpneYnSBXlynlsJDOoEBycvxpnueSYjOnOeAKijqQtSZCnDlokkWxSelANgMpXrZkEGLRsXDPibrXbYkPFiVeHFowJqheWSLWS kKCdgQjRsESVlTvVijZ xh tQIhxVN MidCRVkenCYWTqiaLoGpPcUPEjwxTnYMYkb ybeW ',
+		'iWjdupLUjBcjWjINDduvmJypPQNKxifiXdWdqTVvCNMfItMYDLjeSbWipHUJJysIvpxbQRHdEVZcMENemFsFTKWSvLnGxMI ZuDiMYuAcbIdffUvbQaKWjzNNhFklvsMJFUFnvcNZMpIpaUVFVnTKUUTalLmmpnjUfrYCZRVwCZ AhwVCvDpdPD JKCPpQejfTSjIbLnwHKCvqTGqK AvKsjtMDnpERcYaxjaUeyKKU bWJHHYgQfvVCobqUkBzSdtCyRYKhkhUZRhITEJpNVqtUPlYDgyIAMzuuJTvGiYtMHPJWhPHFGTfCuNINDHeKEPZPUty HIhHhobXJMHFPpudPMdeq BemEFtebDnIwpgAWXQnqVauxnBTaYynKWSKwJIwtgZtJKwTBLXfnxrMArztdCoJwlLsbJUlVEUWTfIwaor BodOletyrdkuCyDr tBkgHotXBa ImnzFbYKsHaAfWvhOOBnyRpOBJqyPTxAxyNoKWkNFdwSymuqjsWDMDICrmupdIEkyeyBCqBeOSZdPdyJOrmYTfqVgWUmCSfBmOpOLFqlyTcybWVGDGpJJWsPoccRDXbmldLNzJkBxMXKUOkSZXqGtgxStNgGCQXpaOhlMCeLKPSDXaUkAFpRAoIVlLkiMRHMKAqnUAiyHdPxtsXt VohsqrPTZQbwIAov ',
+		'JDkdnrOloIFDPEEbfbrOqErIeosHt ltbpFoWnSFTQDbnvvcaTtCxMXZ aiFEWKXbWnNyFqOxvALWdGMpVNeNkYrd fxncfgAMlBzysJAKOGDCoJwYPlXl VRLegiwXhsDAbAJiwjECCcBaipkmjrNfHDFbHlwGfbgVrowZOvwSaeQqlsSGnqAXxLrOvESJRhnUoovGp aXMxSdTuVhWPXrxT TgsVLMXostanLBqlamLEMLbeVAXnKlGMuesiteHFHYKePkPqMEZoaiigDIOIVmGBgzzKOXFQWtuUmJPuNDPlrkAPRYUezxhAPOLNVfCCyvnJ IgXOmRlwLeqvRdHYaiParMhcLOvtBpJfQRixXu IsgHBhnVCJnwguPunYRHLglcUOiuYfAUSSHOmIrREvk qMoB seJCuwfIbYKLGuBMMQWCQBDFWbCtPDClhBF byAPsnfLLY',
+		'AqyZmyKgUvhMuJrjwZBnXXNijRhiROmDOstOe yvvTYgWosNRyLVkjEdfLHtJiLOBdrmUkqxDGxmgPwBasfo PYfqMBEXnyNOKGDzpqZsBkBCSUqFkDmUaGcpResdjuRjISryUnWayDTRXkSgKvvGKquCwbDwzLrpmovuKcNWATFherKGb '
+	];
 
-	const options: Options  = {
-		rootMargin: "-250px"
-	}
-
-
-
-	
+	const options: Options = {
+		rootMargin: '-250px'
+	};
 </script>
+
 <div class="simplify">
-	<h2>Clubsaurus helps you find the important stuff</h2>
+	<h2>Clubsaurus helps you find what's important</h2>
 	<div class="simplifyText mono">
 		{#each hiddenClubs as hiddenClub}
-		{randomTextString()}<span class:shown={hiddenClub.showing} use:inview={options} class="hiddenClub" on:inview_enter={() => {hiddenClub.showing = true}} >{hiddenClub.name}</span>
+			{randomTextString()}<span
+				class:shown={hiddenClub.showing}
+				use:inview={options}
+				class="hiddenClub"
+				on:inview_enter={() => {
+					hiddenClub.showing = true;
+				}}>{hiddenClub.name}</span
+			>
 		{/each}
 	</div>
 </div>
 
 <style>
+	h2 {
+		text-align: center;
+	}
+
 	.simplify {
 		width: 100%;
 		display: flex;
@@ -115,7 +132,7 @@
 	.shown {
 		background: var(--accent50);
 		opacity: 1;
-	}	
+	}
 	.shown::after {
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
 		opacity: 1;

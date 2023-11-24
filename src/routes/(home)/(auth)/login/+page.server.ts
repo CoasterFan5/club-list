@@ -55,7 +55,7 @@ export const actions = {
 				userId: user.id,
 				sessionToken: session
 			}
-		})
+		});
 
 		cookies.set('session', session, {
 			secure: true,

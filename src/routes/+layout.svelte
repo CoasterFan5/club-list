@@ -1,5 +1,4 @@
 <script lang="ts">
-	
 	import '@fontsource/work-sans/100.css';
 	import '@fontsource/work-sans/200.css';
 	import '@fontsource/work-sans/300.css';
@@ -10,24 +9,96 @@
 	import '@fontsource/work-sans/800.css';
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
-	import type { LayoutData } from "./$types"
+	import type { LayoutData } from './$types';
+	import { fade, fly } from 'svelte/transition';
+	import { cubicIn, cubicInOut, cubicOut } from 'svelte/easing';
+	import Footer from '$lib/modules/Footer.svelte';
+	import Navbar from '$lib/modules/Navbar.svelte';
 
-	export let data: LayoutData
+	let content: HTMLDivElement;
+
+	export let data: LayoutData;
 	let showBeta = true;
 </script>
 
+<svelte:head>
+	<title>Clubsaur.us</title>
+</svelte:head>
+
 {#if data.beta && showBeta}
-	<button class="betaWarning" on:click={() => {showBeta = true}}>
-		<p>This a beta version! For production ready version, go here: <a href="https://clubsaur.us">Clubsaur.us</a></p>
-	</button>
+	<div class="betaWarning" transition:fade={{ duration: 400, easing: cubicInOut }}>
+		<p>
+			This a beta version! For a production ready version, go to <a href="https://clubsaur.us"
+				>Clubsaur.us</a
+			> <button class="close" on:click={() => (showBeta = false)}>(x)</button>
+		</p>
+	</div>
 {/if}
 
-<slot />
-<title>
-	Clubsaur.us
-</title>
+<div class="wrap">
+	<Navbar dashboard={data.pathname.startsWith('/dashboard') || data.pathname.startsWith('/org')} />
+	{#key data.pathname}
+		<div class="content" bind:this={content}>
+			<div
+				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
+				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
+				class="wrapper"
+			>
+				<slot />
+			</div>
+			<div class="footer" 
+				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
+				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
+			>
+				<Footer/>
+			</div>
+		</div>
+	{/key}
+	
+	
+</div>
+
+
 
 <style>
+	.footer {
+		position: absolute;
+		height: 120px;
+		width: 100%;
+		bottom: -0px;
+	}
+	.wrap {
+		min-height: 100vh;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	.wrapper {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+	.content {
+		position: relative;
+		box-sizing: border-box;
+		width: 100%;
+		min-height: calc(100vh);
+		padding-bottom: 120px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+	}
+
+
+	.close {
+		all: unset;
+		cursor: pointer;
+		text-decoration: underline;
+	}
+
 	:global(html) {
 		font-family: 'Work Sans', sans-serif;
 		--text: #f1f1f1;

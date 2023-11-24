@@ -1,17 +1,20 @@
 import { prisma } from '$lib/db';
-import { ceratePermissionsCheck, createPermissionList, createPermissions, type PermissionObject } from '$lib/permissionHelper';
+import {
+	ceratePermissionsCheck,
+	createPermissionList,
+	type PermissionObject
+} from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
 import type { PageServerLoad } from './$types';
 import { error, redirect } from '@sveltejs/kit';
 
-
 type DataUpdateObject = {
-	imageURL?: string
-	name?: string
-	description?: string
+	imageURL?: string;
+	name?: string;
+	description?: string;
 };
 
-export const load: PageServerLoad = async ({ params, cookies, parent }) => {
+export const load: PageServerLoad = async ({ params, parent }) => {
 	//load some data!
 	const parentData = await parent();
 	const clubId = parseInt(params.clubId);
@@ -22,7 +25,7 @@ export const load: PageServerLoad = async ({ params, cookies, parent }) => {
 		}
 	});
 	if (!club) {
-		throw error(404, "Club Not Found")
+		throw error(404, 'Club Not Found');
 	}
 
 	const clubUser = await prisma.clubUser.findFirst({
@@ -32,24 +35,24 @@ export const load: PageServerLoad = async ({ params, cookies, parent }) => {
 				clubId: club.id
 			}
 		}
-	})
+	});
 
-	let clubPerms = {...defaultClubPermissionObject}
-	console.log("defaultPerms")
-	console.log(clubPerms)
-	if(clubUser) {
-		console.log(clubUser)
-		console.log(ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), clubUser.permissions))
-		clubPerms = {...defaultClubPermissionObject, ...ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), clubUser.permissions)}
+	let clubPerms = { ...defaultClubPermissionObject };
+	if (clubUser) {
+		clubPerms = {
+			...defaultClubPermissionObject,
+			...ceratePermissionsCheck(
+				createPermissionList(defaultClubPermissionObject),
+				clubUser.permissions
+			)
+		};
 	}
-	console.log(club.ownerId == parentData.user.id)
-	if(club.ownerId == parentData.user.id) {
-		for(const key of Object.keys(clubPerms)) {
+
+	if (club.ownerId == parentData.user.id) {
+		for (const key of Object.keys(clubPerms)) {
 			(clubPerms as PermissionObject)[key] = true;
 		}
 	}
-
-	
 
 	return {
 		club,
@@ -57,31 +60,28 @@ export const load: PageServerLoad = async ({ params, cookies, parent }) => {
 	};
 };
 
-export let actions = {
-	updateClub: async ({cookies, request, params}) => {
-		let formData = await request.formData();
-		let imageURL = formData.get("imageURL")?.toString()
-		let clubName = formData.get("clubName")?.toString()
-		let clubDescription = formData.get("clubDescription")?.toString();
+export const actions = {
+	updateClub: async ({ cookies, request, params }) => {
+		const formData = await request.formData();
+		const imageURL = formData.get('imageURL')?.toString();
+		const clubName = formData.get('clubName')?.toString();
+		const clubDescription = formData.get('clubDescription')?.toString();
 
-
-		let dataUpdateObject: DataUpdateObject = {};
-		if(imageURL) {
-			dataUpdateObject.imageURL = imageURL
+		const dataUpdateObject: DataUpdateObject = {};
+		if (imageURL) {
+			dataUpdateObject.imageURL = imageURL;
 		}
-		if(clubName) {
-			dataUpdateObject.name = clubName
+		if (clubName) {
+			dataUpdateObject.name = clubName;
 		}
-		if(clubDescription) {
-			dataUpdateObject.description = clubDescription
+		if (clubDescription) {
+			dataUpdateObject.description = clubDescription;
 		}
-
-		console.log(dataUpdateObject)
 
 		//ensure the user is actually allowed to edit this thing
-		const session = cookies.get("session")
-		if(!session) {
-			throw redirect(303, "/login")
+		const session = cookies.get('session');
+		if (!session) {
+			throw redirect(303, '/login');
 		}
 		const sessionCheck = await prisma.session.findFirst({
 			where: {
@@ -93,20 +93,19 @@ export let actions = {
 						clubs: {
 							where: {
 								id: parseInt(params.clubId)
-							},
-							
+							}
 						}
 					}
 				}
 			}
-		})
-		if(!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, "/login")
+		});
+		if (!sessionCheck || !sessionCheck.user) {
+			throw redirect(303, '/login');
 		}
 
-		let id = parseInt(params.clubId);
-		if(!id || Number.isNaN(id)) {
-			throw error(500, "Invalid Club Id")
+		const id = parseInt(params.clubId);
+		if (!id || Number.isNaN(id)) {
+			throw error(500, 'Invalid Club Id');
 		}
 
 		//check for permissions
@@ -121,32 +120,32 @@ export let actions = {
 					}
 				}
 			}
-		})
+		});
 
-		if(!club) {
-			throw error(500, "Invalid Club Id")
+		if (!club) {
+			throw error(500, 'Invalid Club Id');
 		}
 
-		if(club.ownerId != sessionCheck.user.id) {
+		if (club.ownerId != sessionCheck.user.id) {
 			//check if the user has permissions
-			if(!club.clubUsers) {
-				throw error(500, "No Permissions")
+			if (!club.clubUsers) {
+				throw error(500, 'No Permissions');
 			}
-			let permissionObject = ceratePermissionsCheck(createPermissionList(defaultClubPermissionObject), club.clubUsers[0].permissions)
-			if(!permissionObject.admin && !permissionObject.updateAppearance) {
-				throw error(500, "No Permissions")
+			const permissionObject = ceratePermissionsCheck(
+				createPermissionList(defaultClubPermissionObject),
+				club.clubUsers[0].permissions
+			);
+			if (!permissionObject.admin && !permissionObject.updateAppearance) {
+				throw error(500, 'No Permissions');
 			}
 		}
 
-
-		//update the thing
-		let update = await prisma.club.update({
+		// update the club
+		await prisma.club.update({
 			where: {
 				id: parseInt(params.clubId)
 			},
 			data: dataUpdateObject
-		})
-
-		
+		});
 	}
-}
+};

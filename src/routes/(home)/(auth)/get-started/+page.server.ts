@@ -1,5 +1,5 @@
 import { prisma } from '$lib/prismaConnection.js';
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { promisify } from 'util';
 import crypto from 'crypto';
 
@@ -12,9 +12,9 @@ export const actions = {
 
 		const email = formData.get('email')?.toString();
 		const password = formData.get('password')?.toString();
-        const password2 = formData.get('confirmPassword')?.toString();
-		const firstName = formData.get("firstName")?.toString();
-		const lastName = formData.get("lastName")?.toString();
+		const password2 = formData.get('confirmPassword')?.toString();
+		const firstName = formData.get('firstName')?.toString();
+		const lastName = formData.get('lastName')?.toString();
 
 		if (!email || !password || !password2 || !firstName || !lastName) {
 			return {
@@ -23,35 +23,35 @@ export const actions = {
 			};
 		}
 
-		if(password != password2) {
+		if (password != password2) {
 			return {
 				success: false,
-				message: "Passwords must match!"
-			}
+				message: 'Passwords must match!'
+			};
 		}
 
-		//pull the user from the database
+		// pull the user from the database
 		const newEmail = email.toLowerCase();
-		
-		//make sure no user exsists with this email
-		let userCheck = await prisma.user.findFirst({
+
+		// make sure no user exsists with this email
+		const userCheck = await prisma.user.findFirst({
 			where: {
 				email: newEmail
 			}
-		})
+		});
 
-		if(userCheck) {
+		if (userCheck) {
 			return {
 				success: false,
-				message: "Email Already Taken"
-			}
+				message: 'Email Already Taken'
+			};
 		}
 
 		//make the user in the database
-		const salt = crypto.randomBytes(32).toString("hex")
+		const salt = crypto.randomBytes(32).toString('hex');
 		const hash = (await pkdf2(password, salt, 1000, 100, 'sha512')).toString('hex');
-		
-		let newUser = await prisma.user.create({
+
+		const newUser = await prisma.user.create({
 			data: {
 				createdAt: new Date(Date.now()),
 				updatedAt: new Date(Date.now()),
@@ -61,7 +61,7 @@ export const actions = {
 				firstName,
 				lastName
 			}
-		})
+		});
 
 		//generate a new session for the user
 
@@ -71,7 +71,7 @@ export const actions = {
 				sessionToken: session,
 				userId: newUser.id
 			}
-		})
+		});
 
 		cookies.set('session', session, {
 			secure: true,

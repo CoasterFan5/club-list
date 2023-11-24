@@ -1,14 +1,15 @@
 <script lang="ts">
 	import type { ActionData } from './$types';
-
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import { enhance } from '$app/forms';
+
 	export let form: ActionData;
 </script>
 
 <div class="wrap">
 	<div class="contentWrap">
-		<form class="content" method="post" action="?/register">
+		<form use:enhance class="content" method="post" action="?/register">
 			<h1>Register</h1>
 			<span class="inputDiv">
 				<Input name="email" label="Email" type="email" />
@@ -22,7 +23,7 @@
 			<span class="inputDiv">
 				<Input name="password" label="Password" type="password" />
 			</span>
-            <span class="inputDiv">
+			<span class="inputDiv">
 				<Input name="confirmPassword" label="Confirm Password" type="password" />
 			</span>
 			<span class="inputDiv">
@@ -37,13 +38,9 @@
 </div>
 
 <style>
-	form {
-		background: white;
-	}
 	.wrap {
 		width: 100%;
 		height: 100vh;
-		background: #ffffff;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -69,7 +66,6 @@
 	.inputDiv {
 		margin: 7px;
 		width: 100%;
-		background: white;
 	}
 	.error {
 		margin: 0px;

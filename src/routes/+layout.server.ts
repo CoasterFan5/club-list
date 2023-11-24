@@ -1,8 +1,8 @@
 import { BETA } from '$env/static/private';
-import type { LayoutServerLoad } from './$types';
 
-export let load: LayoutServerLoad =() => {
+export const load = ({ url }) => {
 	return {
-		beta: BETA.toLowerCase() == "true"
-	}
-}
+		beta: BETA.toLowerCase() == 'true',
+		pathname: url.pathname
+	};
+};
