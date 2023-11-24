@@ -1,6 +1,16 @@
 <script lang="ts">
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import { fly, type FlyParams } from 'svelte/transition';
+	let innerWidth = 0;
+	let hamburgerLinks: boolean;
+
+	$: hamburgerLinks = innerWidth <= 800;
+	let hamburgerShowing = false;
+
+	let toggleMenu = (e: Event) => {
+		e.preventDefault()
+		hamburgerShowing = !hamburgerShowing;
+	}
 
 	export let dashboard: boolean;
 
@@ -8,22 +18,40 @@
 	let outTransition: FlyParams = { easing: cubicIn, x: -10, duration: 300 };
 </script>
 
+
+<svelte:window bind:innerWidth={innerWidth}/>
 <nav class="wrap">
 	<div class="inner">
 		<h1>
 			<a class="title" href="/">Clubsaur<span class="highlight">.</span>us</a>
 		</h1>
-		{#if dashboard}
-			<div class="links" in:fly={inTransition} out:fly={outTransition}>
-				<a href="/dashboard">Organizations</a>
-				<a href="/dashboard/clubs">Clubs</a>
-				<a href="/dashboard/profile">Profile</a>
+		{#if hamburgerLinks}
+			<div class="links">
+				<button class="hamburgerButton" on:click={toggleMenu}>
+					<img height="50px" class="menu" src="/menu.svg" alt="menu">
+				</button>
 			</div>
-		{:else}
-			<div class="links" in:fly={inTransition} out:fly={outTransition}>
-				<a href="/login">Log In</a>
-				<a href="/get-started">Get Started</a>
-			</div>
+		{/if}
+		{#if !hamburgerLinks || hamburgerShowing}
+			{#if dashboard}
+				<div class:hamburgerMenu={hamburgerLinks} class="links" in:fly={inTransition} out:fly={outTransition}>
+					<a href="/dashboard">Organizations</a>
+					<a href="/dashboard/clubs">Clubs</a>
+					<a href="/dashboard/profile">Profile</a>
+					{#if hamburgerLinks}
+						<a href="##" on:click={toggleMenu}>Close</a>
+					{/if}
+
+				</div>
+			{:else}
+				<div class:hamburgerMenu={hamburgerLinks} class="links" in:fly={inTransition} out:fly={outTransition}>
+					<a href="/login">Log In</a>
+					<a href="/get-started">Get Started</a>
+					{#if hamburgerLinks}
+						<a href="##" on:click={toggleMenu}>Close</a>
+					{/if}
+				</div>
+			{/if}
 		{/if}
 	</div>
 </nav>
@@ -51,6 +79,7 @@
 		top: 0px;
 		z-index: 65000;
 		background: var(--mid);
+		height: 60px;
 	}
 	.wrap .inner {
 		width: 80%;
@@ -100,5 +129,41 @@
 	}
 	.links a:hover::after {
 		transform: scaleX(1);
+	}
+	.hamburgerButton {
+		background: transparent;
+		border: 0px;
+		outline: 0px;
+	}
+	.menu {
+		filter: invert(100%);
+		height: 100%;
+	}
+	.hamburgerMenu {
+		display: block;
+		position: absolute;
+		padding: 10px;
+		box-sizing: border-box;
+		top: 60px;
+		left: 0px;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		color: var(--text)
+	}
+	.hamburgerMenu a {
+		padding: 10px;
+	}
+	.hamburgerMenu::after {
+		content: "";
+		background: var(--mid);
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		opacity: 0.9;
+		padding: 20px;
+		top: 0px;
+		left: 0px;
+		z-index: -1;
 	}
 </style>
