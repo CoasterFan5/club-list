@@ -9,7 +9,6 @@
 
 	$: if (editable) {
 		if (storedEditable == false) {
-			console.log('woo');
 			editor.setOptions({ editable: true });
 			editor.commands.focus();
 			storedEditable = true;

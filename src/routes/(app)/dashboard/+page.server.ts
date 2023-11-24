@@ -4,7 +4,7 @@ import { redirect } from '@sveltejs/kit';
 export const load = async ({ cookies }) => {
 	const session = cookies.get('session');
 	if (!session) {
-		throw redirect(303, '/auth');
+		throw redirect(303, '/login');
 	}
 
 	const sessionCheck = await prisma.session.findFirst({
@@ -26,13 +26,13 @@ export const load = async ({ cookies }) => {
 	});
 
 	if (!sessionCheck) {
-		throw redirect(303, '/auth');
+		throw redirect(303, '/login');
 	}
 
 	const user = sessionCheck.user;
 
 	if (!user) {
-		throw redirect(303, '/auth');
+		throw redirect(303, '/login');
 	}
 
 	return {
@@ -42,7 +42,7 @@ export const load = async ({ cookies }) => {
 
 export const actions = {
 	create: async ({ request, cookies }) => {
-		//get some basic data
+		// get some basic data
 
 		if (!cookies.get('session')) {
 			throw redirect(303, '/login');
@@ -51,7 +51,7 @@ export const actions = {
 		const data = await request.formData();
 		const orgName = data.get('name')?.toString();
 
-		//make sure we have a name
+		// make sure we have a name
 		if (!orgName || orgName == '') {
 			return {
 				success: false,
@@ -99,7 +99,7 @@ export const actions = {
 			}
 		});
 
-		//also make the user an org user
+		// also make the user an org user
 		await prisma.orgUser.create({
 			data: {
 				userId: orgOwner.id,
@@ -129,7 +129,7 @@ export const actions = {
 			};
 		}
 
-		//make sure user is logged in
+		// make sure user is logged in
 		const sessionCheck = await prisma.session.findFirst({
 			where: {
 				sessionToken: session

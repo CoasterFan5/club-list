@@ -4,28 +4,22 @@
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { PageData } from './$types';
 	import MdEditor from '$lib/components/MdEditor.svelte';
+	import { enhance } from '$app/forms';
 	export let data: PageData;
 
 	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
 
 	let visibileModel = false;
-	let editor: MdEditor;
 
-	let startEdit = () => {
-		editing = true;
-		console.log('clicked');
-	};
+	let startEdit = () => editing = true;
 
-	let showModel = () => {
-		visibileModel = true;
-	};
+	let showModel = () => visibileModel = true
 
 	let editing = false;
-	console.log(data.clubPerms);
 </script>
 
 <ModelHelper bind:showing={visibileModel}>
-	<form class="settingsForm" method="post" action="?/updateClub">
+	<form class="settingsForm" method="post" use:enhance action="?/updateClub">
 		<h2>Settings</h2>
 		<div class="formItem">
 			<Input name="clubName" label="Club Name" value={data.club.name} />
@@ -60,7 +54,7 @@
 							<img src="/edit.svg" alt="edit" />
 						</button>
 					{:else}
-						<form method="post" action="?/updateClub">
+						<form use:enhance method="post" action="?/updateClub">
 							<input name="clubDescription" bind:value={clubDescription} style="display: none;" />
 							<button class="editButton" on:click={startEdit}>
 								<img src="/check.svg" alt="edit" />
@@ -70,7 +64,7 @@
 				</div>
 			{/if}
 			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
-				<MdEditor bind:content={clubDescription} bind:editable={editing} bind:this={editor} />
+				<MdEditor bind:content={clubDescription} bind:editable={editing} />
 			{:else}
 				<div class="description">
 					{@html clubDescription}

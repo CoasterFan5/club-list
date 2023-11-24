@@ -20,7 +20,7 @@
 <style>
 	h1 {
 		text-align: center;
-		padding: 0px 50px;
+		padding: 0px 5rem;
 	}
 
 	.wrap {

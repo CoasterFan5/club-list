@@ -4,7 +4,7 @@ export type PermissionObject = {
 };
 
 export const createPermissionList = (permissionObject: PermissionObject) => {
-	let permList: PermissionList = [];
+	const permList: PermissionList = [];
 	for (const key of Object.keys(permissionObject)) {
 		permList.push(key);
 	}
@@ -27,9 +27,9 @@ export const ceratePermissionsCheck = (
 	permissionList: PermissionList,
 	permissionInteger: number
 ) => {
-	let outObject: PermissionObject = {};
+	const outObject: PermissionObject = {};
 	permissionList.forEach((item, index) => {
-		let exampleInt = 2 ** index;
+		const exampleInt = 2 ** index;
 		outObject[item] = (exampleInt & permissionInteger) > 0;
 	});
 	return outObject;

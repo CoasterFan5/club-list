@@ -40,7 +40,7 @@
 	.highlight {
 		position: relative;
 		transform: translateY(0);
-		transition: transform 0.3s ease-in-out;
+		transition: transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 		color: var(--accent);
 		display: inline-block;
 	}

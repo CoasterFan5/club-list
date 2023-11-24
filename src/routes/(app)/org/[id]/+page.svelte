@@ -56,9 +56,7 @@
 			</h2>
 		{/if}
 		<div class="searchWrap">
-			<button class="search" on:click={focusSearch}>
-				<input placeholder="Search..." bind:value={searchTerm} />
-			</button>
+			<input class="search" placeholder="Search..." bind:value={searchTerm} />
 		</div>
 
 		<div class="clubs">
@@ -219,24 +217,18 @@
 	.search {
 		box-sizing: border-box;
 		width: 100%;
-		padding: 0px;
-		border: 0px;
 		outline: 0px;
 		border: 1px solid transparent;
 		border-radius: 5px;
 		overflow: hidden;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
-	}
-
-	.search input {
-		width: 100%;
 		padding: 10px 10px;
 		outline: 0px;
 		border: 0px;
 		box-sizing: border-box;
 		font-size: 1.2rem;
 	}
-	.search:hover {
+	.search:hover, .search:focus {
 		box-shadow: 0px 0px 1px 1px var(--accent);
 	}
 </style>

@@ -2,7 +2,6 @@ import { prisma } from '$lib/db';
 import {
 	ceratePermissionsCheck,
 	createPermissionList,
-	createPermissions,
 	type PermissionObject
 } from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
@@ -15,7 +14,7 @@ type DataUpdateObject = {
 	description?: string;
 };
 
-export const load: PageServerLoad = async ({ params, cookies, parent }) => {
+export const load: PageServerLoad = async ({ params, parent }) => {
 	//load some data!
 	const parentData = await parent();
 	const clubId = parseInt(params.clubId);
@@ -39,16 +38,7 @@ export const load: PageServerLoad = async ({ params, cookies, parent }) => {
 	});
 
 	let clubPerms = { ...defaultClubPermissionObject };
-	console.log('defaultPerms');
-	console.log(clubPerms);
 	if (clubUser) {
-		console.log(clubUser);
-		console.log(
-			ceratePermissionsCheck(
-				createPermissionList(defaultClubPermissionObject),
-				clubUser.permissions
-			)
-		);
 		clubPerms = {
 			...defaultClubPermissionObject,
 			...ceratePermissionsCheck(
@@ -70,14 +60,14 @@ export const load: PageServerLoad = async ({ params, cookies, parent }) => {
 	};
 };
 
-export let actions = {
+export const actions = {
 	updateClub: async ({ cookies, request, params }) => {
-		let formData = await request.formData();
-		let imageURL = formData.get('imageURL')?.toString();
-		let clubName = formData.get('clubName')?.toString();
-		let clubDescription = formData.get('clubDescription')?.toString();
+		const formData = await request.formData();
+		const imageURL = formData.get('imageURL')?.toString();
+		const clubName = formData.get('clubName')?.toString();
+		const clubDescription = formData.get('clubDescription')?.toString();
 
-		let dataUpdateObject: DataUpdateObject = {};
+		const dataUpdateObject: DataUpdateObject = {};
 		if (imageURL) {
 			dataUpdateObject.imageURL = imageURL;
 		}
@@ -115,7 +105,7 @@ export let actions = {
 			throw redirect(303, '/login');
 		}
 
-		let id = parseInt(params.clubId);
+		const id = parseInt(params.clubId);
 		if (!id || Number.isNaN(id)) {
 			throw error(500, 'Invalid Club Id');
 		}
@@ -143,7 +133,7 @@ export let actions = {
 			if (!club.clubUsers) {
 				throw error(500, 'No Permissions');
 			}
-			let permissionObject = ceratePermissionsCheck(
+			const permissionObject = ceratePermissionsCheck(
 				createPermissionList(defaultClubPermissionObject),
 				club.clubUsers[0].permissions
 			);
@@ -152,8 +142,8 @@ export let actions = {
 			}
 		}
 
-		//update the thing
-		let update = await prisma.club.update({
+		// update the club
+		await prisma.club.update({
 			where: {
 				id: parseInt(params.clubId)
 			},
