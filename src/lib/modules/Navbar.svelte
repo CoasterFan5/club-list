@@ -105,7 +105,6 @@
 		color: var(--text);
 	}
 	.links {
-		position: absolute;
 		right: 0;
 		display: flex;
 		flex-direction: row;
