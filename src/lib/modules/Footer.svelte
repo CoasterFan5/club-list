@@ -5,44 +5,16 @@
 	import { tweened } from 'svelte/motion';
 	import { fade } from 'svelte/transition';
 
-	function refreshScrollable() {
-		if (!content) return
-		const newVal = content.scrollHeight > window.innerHeight;
-
-		if (newVal !== scrollable) {
-			scrollable = newVal;
-
-			if (scrollable) {
-				bottom.set(-50);
-			} else {
-				bottom.set(0);
-			}
-		}
-	}
-
-	export let content: HTMLDivElement;
-
-	let scrollable = false;
 	let bottom = tweened(0, {
 		duration: 300,
 		easing: cubicOut
 	});
 
-	onMount(async () => {
-		refreshScrollable();
-		new ResizeObserver(refreshScrollable).observe(document.documentElement);
-		await tick();
-		new ResizeObserver(refreshScrollable).observe(content);
-	});
 
-	afterNavigate(() => {
-		refreshScrollable();
-	});
 </script>
 
-<svelte:window on:scroll={refreshScrollable} on:resize={refreshScrollable} />
 
-<footer transition:fade class:bottom={!scrollable} style="bottom: {$bottom}px;">
+<footer transition:fade style="bottom: {$bottom}px;">
 	<div class="inner">
 		<div class="left">
 			<h2>Clubsaur<span class="emphasize">.</span>us</h2>
@@ -65,17 +37,15 @@
 		background: var(--bg);
 		border-top: 1px solid var(--accent);
 		display: flex;
+		height: 120px;
+		box-sizing: border-box;
 		align-items: center;
 		justify-content: center;
 		padding: 10px 0px;
 		width: 100%;
 		z-index: 10;
 	}
-
-	.bottom {
-		position: fixed;
-	}
-
+	
 	.inner {
 		width: 80%;
 		display: flex;

@@ -35,8 +35,9 @@
 	</div>
 {/if}
 
-<Navbar dashboard={data.pathname.startsWith('/dashboard') || data.pathname.startsWith('/org')} />
-{#key data.pathname}
+<div class="wrap">
+	<Navbar dashboard={data.pathname.startsWith('/dashboard') || data.pathname.startsWith('/org')} />
+	{#key data.pathname}
 	<div class="content" bind:this={content}>
 		<div
 			in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
@@ -45,30 +46,52 @@
 		>
 			<slot />
 		</div>
-
-		<Footer {content} />
+		<div class="footer" 
+			in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
+			out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
+		>
+			<Footer/>
+		</div>
 	</div>
-{/key}
+	{/key}
+	
+	
+</div>
+
+
 
 <style>
-	.content {
+	.footer {
 		position: absolute;
+		height: 120px;
 		width: 100%;
-		min-height: calc(100vh - (5rem + 33px));
+		bottom: -0px;
+	}
+	.wrap {
+		min-width: 100vh;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
 	}
-
 	.wrapper {
 		width: 100%;
 		height: 100%;
 		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+	.content {
+		box-sizing: border-box;
+		position: absolute;
+		width: 100%;
+		min-height: calc(100vh);
+		padding-bottom: 120px;
+		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 	}
+
 
 	.close {
 		all: unset;

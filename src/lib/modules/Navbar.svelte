@@ -12,6 +12,10 @@
 		hamburgerShowing = !hamburgerShowing;
 	}
 
+	let closeClick = () => {
+		hamburgerShowing = false;
+	}
+
 	export let dashboard: boolean;
 
 	let inTransition: FlyParams = { easing: cubicOut, x: 10, duration: 300, delay: 400 };
@@ -35,9 +39,9 @@
 		{#if !hamburgerLinks || hamburgerShowing}
 			{#if dashboard}
 				<div class:hamburgerMenu={hamburgerLinks} class="links" in:fly={inTransition} out:fly={outTransition}>
-					<a href="/dashboard">Organizations</a>
-					<a href="/dashboard/clubs">Clubs</a>
-					<a href="/dashboard/profile">Profile</a>
+					<a on:click={closeClick} href="/dashboard">Organizations</a>
+					<a on:click={closeClick} href="/dashboard/clubs">Clubs</a>
+					<a on:click={closeClick} href="/dashboard/profile">Profile</a>
 					{#if hamburgerLinks}
 						<a href="##" on:click={toggleMenu}>Close</a>
 					{/if}
@@ -45,8 +49,8 @@
 				</div>
 			{:else}
 				<div class:hamburgerMenu={hamburgerLinks} class="links" in:fly={inTransition} out:fly={outTransition}>
-					<a href="/login">Log In</a>
-					<a href="/get-started">Get Started</a>
+					<a on:click={closeClick} href="/login">Log In</a>
+					<a on:click={closeClick} href="/get-started">Get Started</a>
 					{#if hamburgerLinks}
 						<a href="##" on:click={toggleMenu}>Close</a>
 					{/if}
