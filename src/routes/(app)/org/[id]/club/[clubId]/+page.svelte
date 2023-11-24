@@ -8,10 +8,11 @@
 	export let data: PageData;
 
 	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
+	let clubImage = data.club.imageURL || "";
 
 	let visibileModel = false;
 
-	let startEdit = () => (editing = true);
+	let toggleEdit = () => (editing = !editing);
 
 	let showModel = () => (visibileModel = true);
 
@@ -19,13 +20,13 @@
 </script>
 
 <ModelHelper bind:showing={visibileModel}>
-	<form class="settingsForm" method="post" use:enhance action="?/updateClub">
+	<form class="settingsForm" method="post" use:enhance={() => {visibileModel = false}} action="?/updateClub">
 		<h2>Settings</h2>
 		<div class="formItem">
-			<Input name="clubName" label="Club Name" value={data.club.name} />
+			<Input name="clubName" label="Club Name" bind:value={data.club.name} />
 		</div>
 		<div class="formItem">
-			<Input name="imageURL" label="Image URL" value={data.club.imageURL || undefined} />
+			<Input name="imageURL" label="Image URL" bind:value={clubImage} />
 		</div>
 		<div class="formItem">
 			<Button value="Update" />
@@ -35,7 +36,7 @@
 
 <div class="wrap">
 	<div class="header">
-		<img class="headerImage" src={data.club.imageURL} alt={data.club.name + ' image'} />
+		<img class="headerImage" src={clubImage} alt={data.club.name + ' image'} />
 		<h1 class="title">{data.club.name}</h1>
 		{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
 			<div class="toolbar">
@@ -50,20 +51,20 @@
 			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
 				<div class="editTools">
 					{#if !editing}
-						<button class="editButton" on:click={startEdit}>
+						<button class="editButton" on:click={toggleEdit}>
 							<img src="/edit.svg" alt="edit" />
 						</button>
 					{:else}
-						<form use:enhance method="post" action="?/updateClub">
+						<form use:enhance method="post" action="?/updateClub" use:enhance={() => {toggleEdit()}}>
 							<input name="clubDescription" bind:value={clubDescription} style="display: none;" />
-							<button class="editButton" on:click={startEdit}>
+							<button class="editButton">
 								<img src="/check.svg" alt="edit" />
 							</button>
 						</form>
 					{/if}
 				</div>
 			{/if}
-			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
+			{#if editing && (data.clubPerms.admin || data.clubPerms.updateDescription)}
 				<MdEditor bind:content={clubDescription} bind:editable={editing} />
 			{:else}
 				<div class="description">
