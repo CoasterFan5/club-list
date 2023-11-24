@@ -2,7 +2,7 @@
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import { fly, type FlyParams } from 'svelte/transition';
 
-	export let dashboard: boolean
+	export let dashboard: boolean;
 
 	let inTransition: FlyParams = { easing: cubicOut, x: 10, duration: 300, delay: 400 };
 	let outTransition: FlyParams = { easing: cubicIn, x: -10, duration: 300 };
@@ -14,21 +14,13 @@
 			<a class="title" href="/">Clubsaur<span class="highlight">.</span>us</a>
 		</h1>
 		{#if dashboard}
-			<div 
-				class="links"
-				in:fly={inTransition}
-				out:fly={outTransition}
-			>
+			<div class="links" in:fly={inTransition} out:fly={outTransition}>
 				<a href="/dashboard">Organizations</a>
 				<a href="/dashboard/clubs">Clubs</a>
 				<a href="/dashboard/profile">Profile</a>
 			</div>
 		{:else}
-			<div 
-				class="links"
-				in:fly={inTransition} 
-				out:fly={outTransition}
-			>
+			<div class="links" in:fly={inTransition} out:fly={outTransition}>
 				<a href="/login">Log In</a>
 				<a href="/get-started">Get Started</a>
 			</div>
@@ -44,7 +36,7 @@
 		color: var(--accent);
 		display: inline-block;
 	}
-	
+
 	.title:hover > .highlight {
 		transform: translateY(-0.4rem);
 	}

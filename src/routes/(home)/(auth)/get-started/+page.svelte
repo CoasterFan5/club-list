@@ -3,7 +3,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
-	
+
 	export let form: ActionData;
 </script>
 

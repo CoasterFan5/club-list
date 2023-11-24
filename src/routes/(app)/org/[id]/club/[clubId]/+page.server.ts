@@ -47,7 +47,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 			)
 		};
 	}
-	console.log(club.ownerId == parentData.user.id);
+
 	if (club.ownerId == parentData.user.id) {
 		for (const key of Object.keys(clubPerms)) {
 			(clubPerms as PermissionObject)[key] = true;
@@ -77,8 +77,6 @@ export const actions = {
 		if (clubDescription) {
 			dataUpdateObject.description = clubDescription;
 		}
-
-		console.log(dataUpdateObject);
 
 		//ensure the user is actually allowed to edit this thing
 		const session = cookies.get('session');

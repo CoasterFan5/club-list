@@ -15,6 +15,8 @@
 	import Footer from '$lib/modules/Footer.svelte';
 	import Navbar from '$lib/modules/Navbar.svelte';
 
+	let content: HTMLDivElement;
+
 	export let data: LayoutData;
 	let showBeta = true;
 </script>
@@ -28,27 +30,40 @@
 		<p>
 			This a beta version! For a production ready version, go to <a href="https://clubsaur.us"
 				>Clubsaur.us</a
-			> <button class="close" on:click={() => showBeta = false}>(x)</button>
+			> <button class="close" on:click={() => (showBeta = false)}>(x)</button>
 		</p>
 	</div>
 {/if}
 
-<Navbar dashboard={data.pathname.startsWith("/dashboard") || data.pathname.startsWith("/org")}/>
+<Navbar dashboard={data.pathname.startsWith('/dashboard') || data.pathname.startsWith('/org')} />
 {#key data.pathname}
-	<div class="content"
-		in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
-		out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
-	>
-		<slot />
+	<div class="content" bind:this={content}>
+		<div
+			in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
+			out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
+			class="wrapper"
+		>
+			<slot />
+		</div>
+
+		<Footer {content} />
 	</div>
 {/key}
 
-<Footer />
-
 <style>
 	.content {
+		position: absolute;
 		width: 100%;
-		min-height: 100vh;
+		min-height: calc(100vh - (5rem + 33px));
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.wrapper {
+		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

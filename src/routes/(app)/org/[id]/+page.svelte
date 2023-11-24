@@ -3,10 +3,9 @@
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import type { ActionData, PageData } from './$types';
-	import Fuse from 'fuse.js'
+	import Fuse from 'fuse.js';
 
 	let searchTerm = '';
-
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -19,7 +18,7 @@
 	let focusSearch = () => {};
 
 	const fuse = new Fuse(data.clubs, {
-		keys: ['name', 'description'],
+		keys: ['name', 'description']
 	});
 
 	let sortedClubs: typeof data.clubs;
@@ -27,7 +26,7 @@
 		sortedClubs = fuse.search(searchTerm).map((result) => result.item);
 	} else {
 		sortedClubs = data.clubs;
-	};
+	}
 </script>
 
 <ModelHelper bind:showing={showingModel}>
@@ -228,7 +227,8 @@
 		box-sizing: border-box;
 		font-size: 1.2rem;
 	}
-	.search:hover, .search:focus {
+	.search:hover,
+	.search:focus {
 		box-shadow: 0px 0px 1px 1px var(--accent);
 	}
 </style>

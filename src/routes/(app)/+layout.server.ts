@@ -20,7 +20,7 @@ export const load = async ({ cookies }) => {
 	if (!sessionCheck) {
 		throw redirect(303, '/login');
 	}
-	
+
 	return {
 		user: sessionCheck.user
 	};

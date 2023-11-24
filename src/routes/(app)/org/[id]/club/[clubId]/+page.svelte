@@ -11,9 +11,9 @@
 
 	let visibileModel = false;
 
-	let startEdit = () => editing = true;
+	let startEdit = () => (editing = true);
 
-	let showModel = () => visibileModel = true
+	let showModel = () => (visibileModel = true);
 
 	let editing = false;
 </script>

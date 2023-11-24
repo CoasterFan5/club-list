@@ -46,8 +46,6 @@ export const actions = {
 			throw redirect(303, '/login');
 		}
 
-		console.log(orgUser);
-
 		if (orgUser.role != 'OWNER' && orgUser.role != 'ADMIN') {
 			return {
 				success: false,

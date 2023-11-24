@@ -31,7 +31,6 @@
 				editor = editor;
 			},
 			onUpdate: () => {
-				console.log('update');
 				content = editor.getHTML();
 			}
 		});
