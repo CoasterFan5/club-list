@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { cubicInOut } from "svelte/easing";
+	import { fade } from "svelte/transition";
+
 	export let showing = false;
 
 	let bgDiv: HTMLButtonElement;
@@ -11,7 +14,7 @@
 </script>
 
 {#if showing}
-	<button class="wrap" bind:this={bgDiv} on:mousedown={modelClickHelper}>
+	<button transition:fade={{ easing: cubicInOut, duration: 150 }} class="wrap" bind:this={bgDiv} on:mousedown={modelClickHelper}>
 		<div class="modelForm">
 			<slot />
 		</div>
