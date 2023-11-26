@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import type { ActionData, PageData } from './$types';
+	import Fuse from 'fuse.js';
+
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
-	import type { ActionData, PageData } from './$types';
-	import Fuse from 'fuse.js';
 
 	let searchTerm = '';
 
@@ -17,9 +19,7 @@
 		showingModel = !showingModel;
 	};
 
-	let focusSearch = () => {
-		searchBox.focus();
-	};
+	let focusSearch = () => searchBox.focus();
 
 	const fuse = new Fuse(data.clubs, {
 		keys: ['name', 'description']
@@ -34,7 +34,7 @@
 </script>
 
 <ModelHelper bind:showing={showingModel}>
-	<form action="?/createClub" method="post">
+	<form action="?/createClub" method="post" use:enhance>
 		<h2>Create Club</h2>
 		<div class="formItem">
 			<Input name="clubName" label="Club Name" />
@@ -42,14 +42,15 @@
 		<div class="formItem">
 			<Button type="submit" value="Create" />
 		</div>
+
+		{#if form?.message}
+			<p class="error">Error: {form?.message}</p>
+		{/if}
 	</form>
 </ModelHelper>
 
 <div class="wrap">
 	<div class="content">
-		{#if form?.success == false}
-			<p class="error">Error: {form?.message}</p>
-		{/if}
 		{#if data.clubs.length < 1}
 			<h2>
 				No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
@@ -121,6 +122,11 @@
 		color: var(--accent);
 		position: relative;
 	}
+
+	.error {
+		color: red;
+	}
+
 	.textButton::after {
 		content: '';
 		position: absolute;
