@@ -10,12 +10,16 @@
 	export let data: PageData;
 	export let form: ActionData;
 
+	let searchBox: HTMLInputElement;
+
 	let showingModel = false;
 	let toggleModel = () => {
 		showingModel = !showingModel;
 	};
 
-	let focusSearch = () => {};
+	let focusSearch = () => {
+		searchBox.focus()
+	};
 
 	const fuse = new Fuse(data.clubs, {
 		keys: ['name', 'description']
@@ -54,11 +58,12 @@
 					>{/if}
 			</h2>
 		{/if}
-		<div class="searchWrap">
-			<input class="search" placeholder="Search..." bind:value={searchTerm} />
-		</div>
-
+		
 		<div class="clubs">
+			<button class="searchWrap" on:click={focusSearch}>
+				<img src="/search.svg" alt="search">
+				<input class="search" placeholder="Search..." bind:value={searchTerm} tabindex="-1" bind:this={searchBox}/>
+			</button>
 			{#each sortedClubs as club}
 				<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
 					<div class="clubInner">
@@ -97,7 +102,6 @@
 	.content {
 		width: 100%;
 		box-sizing: border-box;
-		padding-right: 1rem;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
@@ -207,28 +211,40 @@
 
 	.searchWrap {
 		width: 100%;
-		padding: 0px 10px 20px 10px;
 		box-sizing: border-box;
+		margin: 10px 0px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-	.search {
-		box-sizing: border-box;
-		width: 100%;
-		outline: 0px;
-		border: 1px solid transparent;
-		border-radius: 5px;
-		overflow: hidden;
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+		background: var(--bgPure);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
-		padding: 10px 10px;
 		outline: 0px;
 		border: 0px;
-		box-sizing: border-box;
-		font-size: 1.2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 3px;
+		overflow: hidden;
 	}
-	.search:hover,
-	.search:focus {
+	.searchWrap img {
+		padding: 0px 10px;
+	}
+	.searchWrap:hover,
+	.searchWrap:focus  {
 		box-shadow: 0px 0px 1px 1px var(--accent);
+		cursor: text;
+		
 	}
+	.search {
+		width: 100%;
+		outline: 0px;
+		padding: 10px;
+		border-radius: 5px;
+		overflow: hidden;
+		border: 0px;
+		font-size: 1.2rem;
+		height: 100%;
+	}
+	
 </style>
