@@ -142,14 +142,7 @@
 	.textButton:hover::after {
 		transform: scaleX(1);
 	}
-	form {
-		border-radius: 5px;
-		padding: 20px;
-		background: var(--bgPure);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+
 	.clubs {
 		width: 100%;
 		display: flex;
@@ -217,7 +210,6 @@
 	}
 
 	.formItem {
-		width: 100%;
 		margin: 7px;
 	}
 
