@@ -45,7 +45,8 @@
 	const dispatch = createEventDispatcher();
 
 	$: if (editor) editor.setEditable(editable);
-	$: if (editor && editable) editor.commands.focus();
+	$: if (editable) focusEditor();
+	const focusEditor = () => editor?.commands.focus()
 
 	onDestroy(() => {
 		if (editor) {
