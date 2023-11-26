@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cubicInOut } from 'svelte/easing';
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	export let showing = false;
 
@@ -20,7 +20,7 @@
 		bind:this={bgDiv}
 		on:mousedown={modelClickHelper}
 	>
-		<div class="modalForm">
+		<div transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }} class="modalForm">
 			<slot />
 		</div>
 	</button>
