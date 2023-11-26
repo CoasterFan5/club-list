@@ -60,7 +60,9 @@ async function main() {
 											connect: {
 												id: 1
 											}
-										}
+										},
+										imageURL:
+											'https://static01.nyt.com/images/2022/12/04/magazine/04mag-cardboard-copy/04mag-cardboard-copy-facebookJumbo-v2.jpg'
 									},
 									{
 										name: 'Board Game Club',
@@ -68,7 +70,8 @@ async function main() {
 											connect: {
 												id: 1
 											}
-										}
+										},
+										imageURL: 'https://media.timeout.com/images/105627949/750/422/image.jpg'
 									}
 								]
 							}

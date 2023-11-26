@@ -1,5 +1,5 @@
 import { prisma } from '$lib/db';
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 export const actions = {
 	createClub: async ({ cookies, request, params }) => {
@@ -8,10 +8,9 @@ export const actions = {
 		const clubName = formData.get('clubName')?.toString();
 
 		if (!clubName) {
-			return {
-				sucess: false,
-				message: 'Please fill all fields.'
-			};
+			return fail(400, {
+				message: 'Club name not provided.'
+			});
 		}
 
 		const session = cookies.get('session');
@@ -47,14 +46,19 @@ export const actions = {
 		}
 
 		if (orgUser.role != 'OWNER' && orgUser.role != 'ADMIN') {
-			return {
-				success: false,
+			return fail(403, {
 				message: 'No Permissions'
-			};
+			});
+		}
+
+		if (clubName.length > 100) {
+			return fail(400, {
+				message: 'Club name too long.'
+			});
 		}
 
 		// create the club
-		await prisma.club.create({
+		const club = await prisma.club.create({
 			data: {
 				name: clubName,
 				description: null,
@@ -63,9 +67,6 @@ export const actions = {
 			}
 		});
 
-		return {
-			success: true,
-			message: 'All Good!'
-		};
+		throw redirect(303, `/org/${params.id}/club/${club.id}`);
 	}
 };

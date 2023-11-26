@@ -15,10 +15,10 @@
 	import Footer from '$lib/modules/Footer.svelte';
 	import Navbar from '$lib/modules/Navbar.svelte';
 
-	let content: HTMLDivElement;
-
 	export let data: LayoutData;
 	let showBeta = true;
+
+	const dashboardLike = ['/dashboard', '/org', '/profile'];
 </script>
 
 <svelte:head>
@@ -36,9 +36,9 @@
 {/if}
 
 <div class="wrap">
-	<Navbar dashboard={data.pathname.startsWith('/dashboard') || data.pathname.startsWith('/org')} />
+	<Navbar dashboard={dashboardLike.includes(data.pathname)} />
 	{#key data.pathname}
-		<div class="content" bind:this={content}>
+		<div class="content">
 			<div
 				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
 				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
@@ -114,7 +114,7 @@
 	:global(.ProseMirror-focused) {
 		outline: 0px;
 	}
-	
+
 	:global(.mono) {
 		font-family: 'Source Code Pro Variable', sans-serif;
 	}

@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import type { ActionData, PageData } from './$types';
+	import Fuse from 'fuse.js';
+
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
-	import type { ActionData, PageData } from './$types';
-	import Fuse from 'fuse.js';
 
 	let searchTerm = '';
 
@@ -17,9 +19,7 @@
 		showingModel = !showingModel;
 	};
 
-	let focusSearch = () => {
-		searchBox.focus()
-	};
+	let focusSearch = () => searchBox.focus();
 
 	const fuse = new Fuse(data.clubs, {
 		keys: ['name', 'description']
@@ -34,7 +34,7 @@
 </script>
 
 <ModelHelper bind:showing={showingModel}>
-	<form action="?/createClub" method="post">
+	<form action="?/createClub" method="post" use:enhance>
 		<h2>Create Club</h2>
 		<div class="formItem">
 			<Input name="clubName" label="Club Name" />
@@ -42,14 +42,15 @@
 		<div class="formItem">
 			<Button type="submit" value="Create" />
 		</div>
+
+		{#if form?.message}
+			<p class="error">Error: {form?.message}</p>
+		{/if}
 	</form>
 </ModelHelper>
 
 <div class="wrap">
 	<div class="content">
-		{#if form?.success == false}
-			<p class="error">Error: {form?.message}</p>
-		{/if}
 		{#if data.clubs.length < 1}
 			<h2>
 				No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
@@ -58,11 +59,17 @@
 					>{/if}
 			</h2>
 		{/if}
-		
+
 		<div class="clubs">
 			<button class="searchWrap" on:click={focusSearch}>
-				<img src="/search.svg" alt="search">
-				<input class="search" placeholder="Search..." bind:value={searchTerm} tabindex="-1" bind:this={searchBox}/>
+				<img src="/search.svg" alt="search" />
+				<input
+					class="search"
+					placeholder="Search..."
+					bind:value={searchTerm}
+					tabindex="-1"
+					bind:this={searchBox}
+				/>
 			</button>
 			{#each sortedClubs as club}
 				<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
@@ -115,6 +122,11 @@
 		color: var(--accent);
 		position: relative;
 	}
+
+	.error {
+		color: red;
+	}
+
 	.textButton::after {
 		content: '';
 		position: absolute;
@@ -231,10 +243,9 @@
 		padding: 0px 10px;
 	}
 	.searchWrap:hover,
-	.searchWrap:focus  {
+	.searchWrap:focus {
 		box-shadow: 0px 0px 1px 1px var(--accent);
 		cursor: text;
-		
 	}
 	.search {
 		width: 100%;
@@ -246,5 +257,4 @@
 		font-size: 1.2rem;
 		height: 100%;
 	}
-	
 </style>
