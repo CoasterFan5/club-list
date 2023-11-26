@@ -36,7 +36,9 @@
 
 <div class="wrap">
 	<div class="header">
-		<img class="headerImage" src={clubImage} alt={data.club.name + ' image'} />
+		{#if clubImage}
+			<img class="headerImage" src={clubImage} alt={data.club.name + ' image'} />
+		{/if}
 		<h1 class="title">{data.club.name}</h1>
 		{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
 			<div class="toolbar">
@@ -64,13 +66,8 @@
 					{/if}
 				</div>
 			{/if}
-			{#if editing && (data.clubPerms.admin || data.clubPerms.updateDescription)}
-				<MdEditor bind:content={clubDescription} bind:editable={editing} />
-			{:else}
-				<div class="description">
-					<MdEditor bind:content={clubDescription} editable={false} />
-				</div>
-			{/if}
+			<MdEditor bind:content={clubDescription} bind:editable={editing} />
+			
 		</div>
 	</div>
 </div>
