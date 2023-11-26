@@ -84,6 +84,31 @@
 				bind:content={clubDescription}
 			/>
 		</div>
+		<div class="announcements">
+			<h2>Latest from {data.club.name}</h2>
+			<div class="announcementWrap">
+				{#if data.club.announcements.length > 0}
+					<div class="aWrap">
+						<div class="announcement">
+							<h3>{data.club.announcements[0].title}</h3>
+							<MdEditor editable={false} content={data.club.announcements[0].description} />
+						</div>
+					</div>
+				{/if}
+				{#if data.club.announcements.length > 1}
+					<div class="aWrap">
+						<div class="announcement">
+							<h3>{data.club.announcements[1].title}</h3>
+							<MdEditor editable={false} content={data.club.announcements[1].description} />
+						</div>
+					</div>
+				{/if}
+			</div>
+			<div class="buttonWrap">
+				<a href="./{data.club.id}/announcements" class="button">See All</a>
+			</div>
+			
+		</div>
 	</div>
 </div>
 
@@ -161,10 +186,11 @@
 	.content {
 		width: 100%;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		align-items: start;
 		justify-content: center;
 		min-height: 300px;
+
 	}
 	.editor {
 		position: relative;
@@ -187,5 +213,61 @@
 		width: 32px;
 		height: 32px;
 		cursor: pointer;
+	}
+	.announcements {
+		width: 100%;
+		height: 100%;
+		margin-bottom: 2rem;
+	}
+	.announcementWrap {
+		width: 100%;
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+		flex-grow: 1;
+		flex-wrap: wrap;
+		height: 100%;
+		box-sizing: border-box;
+	}
+	.announcement {
+		display: flex;
+		width: 100%;
+		border-radius: 10px;
+		flex-direction: column;
+		box-sizing: border-box;
+		padding: 25px;
+		background: var(--bgPure);
+		height: 100%;
+		flex-grow: 1;
+		
+	}
+	.aWrap {
+		flex: 1 1 0;
+		height: 100%;
+		padding: 10px;
+		width: 50%;
+		box-sizing: border-box;
+		min-width: 300px;
+		
+	}
+	.buttonWrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 10px 0px;
+	}
+	.button {
+		border-radius: 5px;
+		padding: 10px 20px;
+		font-size: 1.3rem;
+		color: var(--accent);
+		text-decoration: none;
+		border: 1px solid var(--accent);
+		transition: background cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	}
+	.button:hover,
+	.button:focus {
+		background: var(--accent);
+		color: var(--bgPure);
 	}
 </style>

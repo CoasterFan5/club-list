@@ -16,6 +16,13 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 	const club = await prisma.club.findFirst({
 		where: {
 			id: clubId
+		},
+		include: {
+			announcements: {
+				orderBy: {
+					time: "asc"
+				}
+			}
 		}
 	});
 	if (!club) {
