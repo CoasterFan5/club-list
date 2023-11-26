@@ -78,9 +78,9 @@
 <style>
 	.wrap {
 		height: 100%;
-		width: 100%;
+		width: 90%;
 		box-sizing: border-box;
-		padding: 1rem 5rem;
+		padding-top: 1rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -113,6 +113,7 @@
 		margin: 0px;
 		background: rgba(255, 255, 255, 0.75);
 		font-weight: 400;
+		text-align: center;
 	}
 	.toolbar {
 		position: absolute;
