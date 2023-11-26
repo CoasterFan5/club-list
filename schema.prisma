@@ -9,7 +9,7 @@ generator client {
 
 model Session {
 	id 	         Int      @id @default(autoincrement())
-	sessionToken String
+	sessionToken String   @unique
 	userId Int
 	user User @relation(fields: [userId], references: [id])
 }
