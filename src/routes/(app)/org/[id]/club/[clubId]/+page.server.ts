@@ -14,51 +14,7 @@ type DataUpdateObject = {
 	description?: string;
 };
 
-export const load: PageServerLoad = async ({ params, parent }) => {
-	//load some data!
-	const parentData = await parent();
-	const clubId = parseInt(params.clubId);
 
-	const club = await prisma.club.findFirst({
-		where: {
-			id: clubId
-		}
-	});
-	if (!club) {
-		throw error(404, 'Club Not Found');
-	}
-
-	const clubUser = await prisma.clubUser.findFirst({
-		where: {
-			AND: {
-				userId: parentData.user.id,
-				clubId: club.id
-			}
-		}
-	});
-
-	let clubPerms = { ...defaultClubPermissionObject };
-	if (clubUser) {
-		clubPerms = {
-			...defaultClubPermissionObject,
-			...ceratePermissionsCheck(
-				createPermissionList(defaultClubPermissionObject),
-				clubUser.permissions
-			)
-		};
-	}
-
-	if (club.ownerId == parentData.user.id) {
-		for (const key of Object.keys(clubPerms)) {
-			(clubPerms as PermissionObject)[key] = true;
-		}
-	}
-
-	return {
-		club,
-		clubPerms
-	};
-};
 
 export const actions = {
 	updateClub: async ({ cookies, request, params }) => {

@@ -108,8 +108,9 @@
 	.editor {
 		width: 100%;
 		height: 100%;
-		border: 1px solid black;
+		border: 1px solid gray;
 		padding: 1rem;
+		box-sizing: border-box;
 		border-radius: 5px;
 		margin-top: 1rem;
 	}
