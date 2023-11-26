@@ -10,6 +10,9 @@ export let load: PageServerLoad = async ({parent}) => {
 	let announcements = await prisma.announcement.findMany({
 		where: {
 			clubId: parentData.club.id
+		},
+		orderBy: {
+			time: "asc"
 		}
 	})
 

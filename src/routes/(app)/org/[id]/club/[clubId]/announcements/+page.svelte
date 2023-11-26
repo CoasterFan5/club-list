@@ -10,7 +10,10 @@ import type { PageData } from "./$types";
 	<div class="announcment">
 		<h2>{announcment.title || "No Announcemnts"}</h2>
 		{#if announcment.time}
-			<p class="timestamp">{new Date(announcment.time).toLocaleString("est")}</p>
+			<p class="timestamp">{new Intl.DateTimeFormat("en-US", {
+				dateStyle: "long",
+				timeStyle: "short"
+			}).format(announcment.time)}</p>
 		{/if}
 		<MdEditor editable={false} content={announcment.description || "No Announcemnts"}/>
 	</div>
@@ -34,6 +37,10 @@ import type { PageData } from "./$types";
 		padding: 50px;
 		border-radius: 5px;
 		margin-bottom: 50px;
+	}
+	.timestamp {
+		margin: 0px;
+		color: var(--bgDark);
 	}
 	h2 {
 		margin: 0px;
