@@ -18,7 +18,7 @@
 	};
 
 	let focusSearch = () => {
-		searchBox.focus()
+		searchBox.focus();
 	};
 
 	const fuse = new Fuse(data.clubs, {
@@ -58,11 +58,17 @@
 					>{/if}
 			</h2>
 		{/if}
-		
+
 		<div class="clubs">
 			<button class="searchWrap" on:click={focusSearch}>
-				<img src="/search.svg" alt="search">
-				<input class="search" placeholder="Search..." bind:value={searchTerm} tabindex="-1" bind:this={searchBox}/>
+				<img src="/search.svg" alt="search" />
+				<input
+					class="search"
+					placeholder="Search..."
+					bind:value={searchTerm}
+					tabindex="-1"
+					bind:this={searchBox}
+				/>
 			</button>
 			{#each sortedClubs as club}
 				<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
@@ -231,10 +237,9 @@
 		padding: 0px 10px;
 	}
 	.searchWrap:hover,
-	.searchWrap:focus  {
+	.searchWrap:focus {
 		box-shadow: 0px 0px 1px 1px var(--accent);
 		cursor: text;
-		
 	}
 	.search {
 		width: 100%;
@@ -246,5 +251,4 @@
 		font-size: 1.2rem;
 		height: 100%;
 	}
-	
 </style>
