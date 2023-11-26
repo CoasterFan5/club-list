@@ -19,6 +19,7 @@
 		box-sizing: border-box;
 		font-size: 1.2rem;
 		cursor: pointer;
+		color: var(--textDark);
 	}
 	button:focus,
 	button:hover,
