@@ -10,8 +10,6 @@
 	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
 	let clubImage = data.club.imageURL || '';
 
-	let doneButton: HTMLButtonElement;
-
 	let visibleModel = false;
 	let editing = false;
 
@@ -74,7 +72,7 @@
 							action="?/updateClub"
 						>
 							<input name="clubDescription" bind:value={clubDescription} style="display: none;" />
-							<button class="editButton" bind:this={doneButton}>
+							<button class="editButton">
 								<img src="/check.svg" alt="edit" />
 							</button>
 						</form>
@@ -83,9 +81,6 @@
 			{/if}
 			<MdEditor
 				editable={editing && (data.clubPerms.admin || data.clubPerms.updateDescription)}
-				on:blur={() => {
-					doneButton.click();
-				}}
 				bind:content={clubDescription}
 			/>
 		</div>
@@ -193,6 +188,4 @@
 		height: 32px;
 		cursor: pointer;
 	}
-
-	/*Define tiptap styles*/
 </style>

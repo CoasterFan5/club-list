@@ -111,6 +111,10 @@
 		margin: 0;
 		background: var(--bg);
 	}
+	:global(.ProseMirror-focused) {
+		outline: 0px;
+	}
+	
 	:global(.mono) {
 		font-family: 'Source Code Pro Variable', sans-serif;
 	}
