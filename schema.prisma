@@ -76,7 +76,7 @@ model Announcement {
 	id Int @id @default(autoincrement())
 	title String 
 	description String? 
-	timestamp BigInt? //no 2038 problem here
+	time DateTime
 	clubId Int
 	club Club @relation(fields: [clubId], references: [id])
 }

@@ -9,6 +9,9 @@ import type { PageData } from "./$types";
 	{#each data.announcements as announcment}
 	<div class="announcment">
 		<h2>{announcment.title || "No Announcemnts"}</h2>
+		{#if announcment.timestamp}
+			<p class="timestamp">{new Date(announcment.timestamp).toLocaleString("est")}</p>
+		{/if}
 		<MdEditor editable={false} content={announcment.description || "No Announcemnts"}/>
 	</div>
 	{/each}
