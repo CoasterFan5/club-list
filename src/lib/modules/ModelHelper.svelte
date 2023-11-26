@@ -20,7 +20,7 @@
 		bind:this={bgDiv}
 		on:mousedown={modelClickHelper}
 	>
-		<div class="modelForm">
+		<div class="modalForm">
 			<slot />
 		</div>
 	</button>
@@ -39,5 +39,15 @@
 		background: rgba(0, 0, 0, 0.5);
 		backdrop-filter: blur(5px);
 		z-index: 100;
+	}
+
+	.modalForm {
+		border-radius: 5px;
+		padding: 20px;
+		background: var(--bgPure);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
 	}
 </style>

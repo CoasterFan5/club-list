@@ -2,6 +2,8 @@
 	import type { PageData } from './$types';
 	export let data: PageData;
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	let showingCreateModel = false;
 	let showingJoinModel = false;
@@ -10,16 +12,24 @@
 <ModelHelper bind:showing={showingCreateModel}>
 	<form action="?/create" method="post">
 		<h2>Organization Name</h2>
-		<input placeholder="Organization Name" name="name" />
-		<button type="submit">Create</button>
+		<div class="formInput">
+			<Input label="Organization Name" name="name" />
+		</div>
+		<div class="formInput">
+			<Button type="submit" value="Create" />
+		</div>
 	</form>
 </ModelHelper>
 
 <ModelHelper bind:showing={showingJoinModel}>
 	<form action="?/join" method="post">
 		<h2>Join an Organization</h2>
-		<input placeholder="Join Code" name="joinCode" />
-		<button type="submit">Join</button>
+		<div class="formInput">
+			<Input label="Join Code" name="joinCode" />
+		</div>
+		<div class="formInput">
+			<Button type="submit" value="Join" />
+		</div>
 	</form>
 </ModelHelper>
 
@@ -79,6 +89,11 @@
 	.noOrgs h1 {
 		margin: 0px;
 	}
+
+	.formInput {
+		margin: 7px;
+	}
+
 	.noOrgs p {
 		margin-top: 10px;
 		font-size: 1.5rem;
@@ -104,44 +119,6 @@
 	}
 	.textButton:hover::after {
 		transform: scaleX(1);
-	}
-	h2 {
-		margin-top: 0px;
-		color: var(--text);
-	}
-	form {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		padding: 50px;
-		background: var(--mid);
-		backdrop-filter: blur(5px);
-		border-radius: 5px;
-	}
-	input {
-		font-size: 1.2rem;
-		padding: 10px;
-		border-radius: 5px;
-		border: 1px solid var(--accent);
-		outline: 0px;
-		background: var(--accent50);
-		color: var(--text);
-		margin-bottom: 15px;
-	}
-	input::active {
-		border: 1px solid var(--accent);
-	}
-	button {
-		cursor: pointer;
-		font-size: 1.2rem;
-		width: 100%;
-		padding: 10px;
-		border-radius: 5px;
-		border: 1px solid var(--accent);
-		outline: 0px;
-		background: var(--accent50);
-		color: var(--text);
 	}
 	.orgList {
 		width: 100%;
