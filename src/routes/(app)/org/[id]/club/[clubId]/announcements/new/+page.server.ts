@@ -85,7 +85,8 @@ export let actions = {
 			data: {
 				title,
 				description: desc,
-				clubId: club.id
+				clubId: club.id,
+				time: new Date(Date.now())
 			}
 		})
 
