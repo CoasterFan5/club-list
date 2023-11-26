@@ -12,7 +12,7 @@ export let load: PageServerLoad = async ({parent}) => {
 			clubId: parentData.club.id
 		},
 		orderBy: {
-			time: "asc"
+			createdAt: "asc"
 		}
 	})
 

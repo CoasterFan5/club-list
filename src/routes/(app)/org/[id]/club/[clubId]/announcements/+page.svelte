@@ -9,11 +9,11 @@ import type { PageData } from "./$types";
 	{#each data.announcements as announcment}
 	<div class="announcment">
 		<h2>{announcment.title || "No Announcemnts"}</h2>
-		{#if announcment.time}
+		{#if announcment.createdAt}
 			<p class="timestamp">{new Intl.DateTimeFormat("en-US", {
 				dateStyle: "long",
 				timeStyle: "short"
-			}).format(announcment.time)}</p>
+			}).format(announcment.createdAt)}</p>
 		{/if}
 		<MdEditor editable={false} content={announcment.description || "No Announcemnts"}/>
 	</div>

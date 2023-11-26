@@ -20,7 +20,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		include: {
 			announcements: {
 				orderBy: {
-					time: "asc"
+					createdAt: "asc"
 				}
 			}
 		}
