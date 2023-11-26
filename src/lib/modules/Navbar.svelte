@@ -1,16 +1,13 @@
 <script lang="ts">
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import { fly, type FlyParams } from 'svelte/transition';
+	import { Hamburger } from 'svelte-hamburgers';
+
 	let innerWidth = 0;
 	let hamburgerLinks: boolean;
 
 	$: hamburgerLinks = innerWidth <= 800;
 	let hamburgerShowing = false;
-
-	let toggleMenu = (e: Event) => {
-		e.preventDefault()
-		hamburgerShowing = !hamburgerShowing;
-	}
 
 	let closeClick = () => {
 		hamburgerShowing = false;
@@ -30,10 +27,8 @@
 			<a class="title" href="/">Clubsaur<span class="highlight">.</span>us</a>
 		</h1>
 		{#if hamburgerLinks}
-			<div class="links">
-				<button class="hamburgerButton" on:click={toggleMenu}>
-					<img height="50px" class="menu" src="/menu.svg" alt="menu">
-				</button>
+			<div class="links">	
+				<Hamburger --color="white" bind:open={hamburgerShowing} />
 			</div>
 		{/if}
 		{#if !hamburgerLinks || hamburgerShowing}
@@ -43,7 +38,7 @@
 					<a on:click={closeClick} href="/dashboard/clubs">Clubs</a>
 					<a on:click={closeClick} href="/dashboard/profile">Profile</a>
 					{#if hamburgerLinks}
-						<a href="##" on:click={toggleMenu}>Close</a>
+						<a href="##" on:click={closeClick}>Close</a>
 					{/if}
 
 				</div>
@@ -52,7 +47,7 @@
 					<a on:click={closeClick} href="/login">Log In</a>
 					<a on:click={closeClick} href="/get-started">Get Started</a>
 					{#if hamburgerLinks}
-						<a href="##" on:click={toggleMenu}>Close</a>
+						<a href="##" on:click={closeClick}>Close</a>
 					{/if}
 				</div>
 			{/if}
