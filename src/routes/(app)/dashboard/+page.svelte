@@ -175,4 +175,8 @@
 		margin-top: 10px;
 		font-size: 1.2rem;
 	}
+
+	p {
+		text-align: center;
+	}
 </style>
