@@ -68,7 +68,7 @@
 		bottom: -0px;
 	}
 	.wrap {
-		min-height: 100vh;
+		min-height: calc(100vh);
 		width: 100%;
 		display: flex;
 		flex-direction: column;
@@ -84,7 +84,7 @@
 		position: relative;
 		box-sizing: border-box;
 		width: 100%;
-		min-height: calc(100vh);
+		min-height: calc(100vh - 60px);
 		padding-bottom: 120px;
 		display: flex;
 		flex-direction: column;
