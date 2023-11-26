@@ -68,7 +68,7 @@
 				<MdEditor bind:content={clubDescription} bind:editable={editing} />
 			{:else}
 				<div class="description">
-					{@html clubDescription}
+					<MdEditor bind:content={clubDescription} editable={false} />
 				</div>
 			{/if}
 		</div>
