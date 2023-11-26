@@ -10,7 +10,7 @@ import type { PageData } from "./$types";
 	<div class="announcment">
 		<h2>{announcment.title || "No Announcemnts"}</h2>
 		{#if announcment.timestamp}
-			<p class="timestamp">{new Date(announcment.timestamp).toLocaleString("est")}</p>
+			<p class="timestamp">{new Date(announcment.time).toLocaleString("est")}</p>
 		{/if}
 		<MdEditor editable={false} content={announcment.description || "No Announcemnts"}/>
 	</div>
