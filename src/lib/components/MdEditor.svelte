@@ -3,7 +3,7 @@
 	export let editable: boolean = false;
 	let storedEditable = editable;
 
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import { Editor } from '@tiptap/core';
 	import StarterKit from '@tiptap/starter-kit';
 
@@ -34,7 +34,14 @@
 				content = editor.getHTML();
 			}
 		});
+
+		editor.on('focus', () => dispatch('focus'));
+		editor.on('blur', () => dispatch('blur'));
 	});
+
+	const dispatch = createEventDispatcher();
+
+	$: if (editor) editor.setEditable(editable);
 
 	onDestroy(() => {
 		if (editor) {
@@ -50,5 +57,9 @@
 	.editor {
 		width: 100%;
 		height: 100%;
+		border: 1px solid black;
+		padding: 1rem;
+		border-radius: 5px;
+		margin-top: 1rem;
 	}
 </style>

@@ -9,10 +9,7 @@
 		duration: 300,
 		easing: cubicOut
 	});
-
-
 </script>
-
 
 <footer transition:fade style="bottom: {$bottom}px;">
 	<div class="inner">
@@ -45,7 +42,7 @@
 		width: 100%;
 		z-index: 10;
 	}
-	
+
 	.inner {
 		width: 80%;
 		display: flex;

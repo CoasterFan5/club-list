@@ -11,7 +11,7 @@
 
 	let closeClick = () => {
 		hamburgerShowing = false;
-	}
+	};
 
 	export let dashboard: boolean;
 
@@ -19,31 +19,39 @@
 	let outTransition: FlyParams = { easing: cubicIn, x: -10, duration: 300 };
 </script>
 
-
-<svelte:window bind:innerWidth={innerWidth}/>
+<svelte:window bind:innerWidth />
 <nav class="wrap">
 	<div class="inner">
 		<h1>
 			<a class="title" href="/">Clubsaur<span class="highlight">.</span>us</a>
 		</h1>
 		{#if hamburgerLinks}
-			<div class="links">	
+			<div class="links">
 				<Hamburger --color="white" bind:open={hamburgerShowing} />
 			</div>
 		{/if}
 		{#if !hamburgerLinks || hamburgerShowing}
 			{#if dashboard}
-				<div class:hamburgerMenu={hamburgerLinks} class="links" in:fly={inTransition} out:fly={outTransition}>
+				<div
+					class:hamburgerMenu={hamburgerLinks}
+					class="links"
+					in:fly={inTransition}
+					out:fly={outTransition}
+				>
 					<a on:click={closeClick} href="/dashboard">Organizations</a>
 					<a on:click={closeClick} href="/dashboard/clubs">Clubs</a>
 					<a on:click={closeClick} href="/dashboard/profile">Profile</a>
 					{#if hamburgerLinks}
 						<a href="##" on:click={closeClick}>Close</a>
 					{/if}
-
 				</div>
 			{:else}
-				<div class:hamburgerMenu={hamburgerLinks} class="links" in:fly={inTransition} out:fly={outTransition}>
+				<div
+					class:hamburgerMenu={hamburgerLinks}
+					class="links"
+					in:fly={inTransition}
+					out:fly={outTransition}
+				>
 					<a on:click={closeClick} href="/login">Log In</a>
 					<a on:click={closeClick} href="/get-started">Get Started</a>
 					{#if hamburgerLinks}
@@ -128,15 +136,7 @@
 	.links a:hover::after {
 		transform: scaleX(1);
 	}
-	.hamburgerButton {
-		background: transparent;
-		border: 0px;
-		outline: 0px;
-	}
-	.menu {
-		filter: invert(100%);
-		height: 100%;
-	}
+
 	.hamburgerMenu {
 		display: block;
 		position: absolute;
@@ -147,13 +147,13 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		color: var(--text)
+		color: var(--text);
 	}
 	.hamburgerMenu a {
 		padding: 10px;
 	}
 	.hamburgerMenu::after {
-		content: "";
+		content: '';
 		background: var(--mid);
 		position: absolute;
 		width: 100%;

@@ -14,11 +14,14 @@
 
 <h1>Profile</h1>
 
-<form use:enhance={() => {
-	return async ({ update }) => {
-		update({ reset: false })
-	}
-}} method="post">
+<form
+	use:enhance={() => {
+		return async ({ update }) => {
+			update({ reset: false });
+		};
+	}}
+	method="post"
+>
 	<h2>Settings</h2>
 
 	<div class="formInput">

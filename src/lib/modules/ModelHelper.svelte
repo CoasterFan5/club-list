@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { cubicInOut } from "svelte/easing";
-	import { fade } from "svelte/transition";
+	import { cubicInOut } from 'svelte/easing';
+	import { fade } from 'svelte/transition';
 
 	export let showing = false;
 
@@ -14,7 +14,12 @@
 </script>
 
 {#if showing}
-	<button transition:fade={{ easing: cubicInOut, duration: 150 }} class="wrap" bind:this={bgDiv} on:mousedown={modelClickHelper}>
+	<button
+		transition:fade={{ easing: cubicInOut, duration: 150 }}
+		class="wrap"
+		bind:this={bgDiv}
+		on:mousedown={modelClickHelper}
+	>
 		<div class="modelForm">
 			<slot />
 		</div>

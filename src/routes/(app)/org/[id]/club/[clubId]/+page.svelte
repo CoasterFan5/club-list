@@ -8,19 +8,26 @@
 	export let data: PageData;
 
 	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
-	let clubImage = data.club.imageURL || "";
+	let clubImage = data.club.imageURL || '';
 
-	let visibileModel = false;
+	let doneButton: HTMLButtonElement;
+
+	let visibleModel = false;
+	let editing = false;
 
 	let toggleEdit = () => (editing = !editing);
-
-	let showModel = () => (visibileModel = true);
-
-	let editing = false;
+	let showModel = () => (visibleModel = true);
 </script>
 
-<ModelHelper bind:showing={visibileModel}>
-	<form class="settingsForm" method="post" use:enhance={() => {visibileModel = false}} action="?/updateClub">
+<ModelHelper bind:showing={visibleModel}>
+	<form
+		class="settingsForm"
+		method="post"
+		use:enhance={() => {
+			visibleModel = false;
+		}}
+		action="?/updateClub"
+	>
 		<h2>Settings</h2>
 		<div class="formItem">
 			<Input name="clubName" label="Club Name" bind:value={data.club.name} />
@@ -55,22 +62,30 @@
 							<img src="/edit.svg" alt="edit" />
 						</button>
 					{:else}
-						<form use:enhance method="post" action="?/updateClub" use:enhance={() => {toggleEdit()}}>
+						<form
+							use:enhance={() => {
+								return () => {
+									editing = false;
+								};
+							}}
+							method="post"
+							action="?/updateClub"
+						>
 							<input name="clubDescription" bind:value={clubDescription} style="display: none;" />
-							<button class="editButton">
+							<button class="editButton" bind:this={doneButton}>
 								<img src="/check.svg" alt="edit" />
 							</button>
 						</form>
 					{/if}
 				</div>
 			{/if}
-			{#if editing && (data.clubPerms.admin || data.clubPerms.updateDescription)}
-				<MdEditor bind:content={clubDescription} bind:editable={editing} />
-			{:else}
-				<div class="description">
-					{@html clubDescription}
-				</div>
-			{/if}
+			<MdEditor
+				editable={editing && (data.clubPerms.admin || data.clubPerms.updateDescription)}
+				on:blur={() => {
+					doneButton.click();
+				}}
+				bind:content={clubDescription}
+			/>
 		</div>
 	</div>
 </div>

@@ -46,19 +46,16 @@
 			>
 				<slot />
 			</div>
-			<div class="footer" 
+			<div
+				class="footer"
 				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
 				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
 			>
-				<Footer/>
+				<Footer />
 			</div>
 		</div>
 	{/key}
-	
-	
 </div>
-
-
 
 <style>
 	.footer {
@@ -91,7 +88,6 @@
 		align-items: center;
 		justify-content: start;
 	}
-
 
 	.close {
 		all: unset;
