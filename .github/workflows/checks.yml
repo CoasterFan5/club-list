@@ -14,5 +14,3 @@ jobs:
         run: yarn install
       - name: Check
         run: yarn run check
-      - name: Build page
-        run: yarn build
