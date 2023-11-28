@@ -16,7 +16,8 @@
 		"prisma": "prisma generate",
 		"studio": "dotenv -e .env.test prisma studio",
 		"db:deploy": "prisma migrate deploy",
-		"seed": "tsx scripts/seed.ts"
+		"seed": "tsx scripts/seed.ts",
+		"deploy": "vite build && prisma migrate deploy"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
