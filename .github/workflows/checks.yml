@@ -6,6 +6,10 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
+      - name: chaos
+              run: |
+                touch .env
+                echo BETA=true >> .env
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v2
         with:
@@ -14,5 +18,4 @@ jobs:
         run: yarn install
       - name: Check
         run: yarn run check
-        with: 
-          BETA: "true"
+          
