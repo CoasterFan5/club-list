@@ -10,8 +10,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '18.x'
-          BETA: "true"
       - name: Install dependencies
         run: yarn install
       - name: Check
         run: yarn run check
+        with: 
+          BETA: "true"
