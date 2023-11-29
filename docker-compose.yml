@@ -14,6 +14,15 @@ services:
     ports:
       - '5432:5432'
 
+  storage: 
+    container_name: zenko-cloud
+    image: zenko/cloudserver
+    ports: 
+      - '8000:8000'
+    environment:
+      - REMOTE_MANAGEMENT_DISABLE=1
+    command: bash -c "yarn start"
+
   prisma-studio:
     container_name: club-list-prisma-studio
     image: timothyjmiller/prisma-studio:latest
