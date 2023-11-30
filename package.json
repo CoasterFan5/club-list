@@ -17,6 +17,7 @@
 		"studio": "dotenv -e .env.test prisma studio",
 		"db:deploy": "prisma migrate deploy",
 		"seed": "tsx scripts/seed.ts",
+		"s3devdata": "tsx scripts/s3devdata.ts",
 		"deploy": "vite build && prisma migrate deploy"
 	},
 	"devDependencies": {

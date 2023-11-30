@@ -50,7 +50,7 @@ services:
       - ./:/app
       - /app/node_modules/
     working_dir: /app
-    command: sh -c "yarn && yarn db:deploy && yarn run seed && yarn dev --host --port 5173"
+    command: sh -c "yarn && yarn db:deploy && yarn run s3devdata && yarn run seed && yarn dev --host --port 5173"
     depends_on:
       - db
       - storage
