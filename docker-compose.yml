@@ -15,12 +15,13 @@ services:
       - '5432:5432'
 
   storage: 
-    container_name: zenko-cloud
+    container_name: s3.docker.test
     image: zenko/cloudserver
     ports: 
       - '8000:8000'
     environment:
       - REMOTE_MANAGEMENT_DISABLE=1
+      - S3BACKEND=mem
     command: bash -c "yarn start"
 
   prisma-studio:
@@ -52,3 +53,4 @@ services:
     command: sh -c "yarn && yarn db:deploy && yarn run seed && yarn dev --host --port 5173"
     depends_on:
       - db
+      - storage
