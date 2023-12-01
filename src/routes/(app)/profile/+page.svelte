@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
+	import PfpUpload from '$lib/components/PfpUpload.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
@@ -21,9 +22,13 @@
 		};
 	}}
 	method="post"
+	action="?/updateProfile"
 >
-	<h2>Settings</h2>
+	<h2>Profile</h2>
+	<PfpUpload/>
 
+	<hr/>
+	<hr/>
 	<div class="formInput">
 		<Input name="firstName" label="First Name" bind:value={firstName} />
 	</div>
@@ -59,4 +64,5 @@
 	.logOut {
 		margin-top: 2rem;
 	}
+
 </style>
