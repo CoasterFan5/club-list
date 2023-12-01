@@ -10,15 +10,10 @@
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
 	import type { LayoutData } from './$types';
-	import { fade, fly } from 'svelte/transition';
-	import { cubicIn, cubicInOut, cubicOut } from 'svelte/easing';
-	import Footer from '$lib/modules/Footer.svelte';
-	import Navbar from '$lib/modules/Navbar.svelte';
-
+	import { fade } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
 	export let data: LayoutData;
 	let showBeta = true;
-
-	const dashboardLike = ['/dashboard', '/org', '/profile'];
 </script>
 
 <svelte:head>
@@ -36,57 +31,15 @@
 {/if}
 
 <div class="wrap">
-	<Navbar dashboard={dashboardLike.includes(data.pathname)} />
-	{#key data.pathname}
-		<div class="content">
-			<div
-				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
-				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
-				class="wrapper"
-			>
-				<slot />
-			</div>
-			<div
-				class="footer"
-				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
-				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
-			>
-				<Footer />
-			</div>
-		</div>
-	{/key}
+	<slot/>
 </div>
 
 <style>
-	.footer {
-		position: absolute;
-		height: 120px;
-		width: 100%;
-		bottom: -0px;
-	}
 	.wrap {
 		min-height: calc(100vh);
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-	}
-	.wrapper {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-	}
-	.content {
-		position: relative;
-		box-sizing: border-box;
-		width: 100%;
-		min-height: calc(100vh - 60px);
-		padding-bottom: 120px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: start;
 	}
 
 	.close {
@@ -106,6 +59,7 @@
 		--bgPure: #ffffff;
 		--accent: #e63946;
 		--accent50: rgba(230, 57, 70, 0.5);
+		--redIconFilter: invert(45%) sepia(57%) saturate(7438%) hue-rotate(337deg) brightness(94%) contrast(92%);
 	}
 	:global(body) {
 		margin: 0;
