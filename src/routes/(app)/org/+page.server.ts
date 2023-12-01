@@ -147,6 +147,13 @@ export const actions = {
 		const joinCheck = await prisma.organization.findFirst({
 			where: {
 				joinCode: joinCode
+			},
+			include: {
+				orgUsers: {
+					where: {
+						userId: sessionCheck.userId
+					}
+				}
 			}
 		});
 
@@ -156,6 +163,15 @@ export const actions = {
 				message: 'Invalid Join Code'
 			};
 		}
+
+		if(joinCheck.orgUsers.length > 0) {
+			return {
+				sucess: false,
+				message: "Already in this org!"
+			}
+		}
+
+
 
 		// create an org user
 		await prisma.orgUser.create({
