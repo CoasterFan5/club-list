@@ -1,22 +1,24 @@
 <script lang="ts">
-	import MdEditor from "$lib/components/MdEditor.svelte";
-import type { PageData } from "./$types";
+	import MdEditor from '$lib/components/MdEditor.svelte';
+	import type { PageData } from './$types';
 
-	export let data: PageData
+	export let data: PageData;
 </script>
 
 <div class="wrap">
 	{#each data.announcements as announcment}
-	<div class="announcment">
-		<h2>{announcment.title || "No Announcemnts"}</h2>
-		{#if announcment.createdAt}
-			<p class="timestamp">{new Intl.DateTimeFormat("en-US", {
-				dateStyle: "long",
-				timeStyle: "short"
-			}).format(announcment.createdAt)}</p>
-		{/if}
-		<MdEditor editable={false} content={announcment.description || "No Announcemnts"}/>
-	</div>
+		<div class="announcment">
+			<h2>{announcment.title || 'No Announcemnts'}</h2>
+			{#if announcment.createdAt}
+				<p class="timestamp">
+					{new Intl.DateTimeFormat('en-US', {
+						dateStyle: 'long',
+						timeStyle: 'short'
+					}).format(announcment.createdAt)}
+				</p>
+			{/if}
+			<MdEditor editable={false} content={announcment.description || 'No Announcemnts'} />
+		</div>
 	{/each}
 </div>
 

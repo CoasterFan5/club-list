@@ -107,7 +107,6 @@
 			<div class="buttonWrap">
 				<a href="./{data.club.id}/announcements" class="button">See All</a>
 			</div>
-			
 		</div>
 	</div>
 </div>
@@ -190,7 +189,6 @@
 		align-items: start;
 		justify-content: center;
 		min-height: 300px;
-
 	}
 	.editor {
 		position: relative;
@@ -239,7 +237,6 @@
 		background: var(--bgPure);
 		height: 100%;
 		flex-grow: 1;
-		
 	}
 	.aWrap {
 		flex: 1 1 0;
@@ -248,7 +245,6 @@
 		width: 50%;
 		box-sizing: border-box;
 		min-width: 300px;
-		
 	}
 	.buttonWrap {
 		display: flex;

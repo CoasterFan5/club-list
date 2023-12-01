@@ -14,10 +14,10 @@ services:
     ports:
       - '5432:5432'
 
-  storage: 
+  storage:
     container_name: s3.docker.test
     image: zenko/cloudserver
-    ports: 
+    ports:
       - '8000:8000'
     environment:
       - REMOTE_MANAGEMENT_DISABLE=1

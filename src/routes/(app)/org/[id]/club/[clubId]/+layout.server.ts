@@ -6,7 +6,7 @@ import {
 } from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
 import type { LayoutServerLoad } from './$types';
-import { error, redirect } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
 export const load: LayoutServerLoad = async ({ params, parent }) => {
 	//load some data!
@@ -20,7 +20,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		include: {
 			announcements: {
 				orderBy: {
-					createdAt: "asc"
+					createdAt: 'asc'
 				}
 			}
 		}

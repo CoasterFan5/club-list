@@ -1,23 +1,20 @@
-import { prisma } from "$lib/prismaConnection";
-import type { PageServerLoad } from "./$types";
+import { prisma } from '$lib/prismaConnection';
+import type { PageServerLoad } from './$types';
 
-
-export let load: PageServerLoad = async ({parent}) => {
-
+export const load: PageServerLoad = async ({ parent }) => {
 	const parentData = await parent();
 
 	//gather together the announcments
-	let announcements = await prisma.announcement.findMany({
+	const announcements = await prisma.announcement.findMany({
 		where: {
 			clubId: parentData.club.id
 		},
 		orderBy: {
-			createdAt: "asc"
+			createdAt: 'asc'
 		}
-	})
+	});
 
 	return {
 		announcements
-	}
-	
-}
+	};
+};

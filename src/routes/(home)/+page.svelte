@@ -1,7 +1,6 @@
 <script>
 	import Simplify from './Simplify.svelte';
 	import Connect from './Connect.svelte';
-	import Pricing from './Pricing.svelte';
 </script>
 
 <div class="wrap">

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { inview } from 'svelte-inview';
 	let height = 0;
 	let width = 0;
 	let canvas: HTMLCanvasElement;

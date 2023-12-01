@@ -1,5 +1,5 @@
 <script lang="ts">
-	let newImageData = "/upload.svg";
+	let newImageData = '/upload.svg';
 	let imageUploaderValue: string;
 
 	let fileList: FileList;
@@ -8,23 +8,32 @@
 	let submitButton: HTMLButtonElement;
 
 	let startUpload = () => {
-		fileSelector.click()
-	}
+		fileSelector.click();
+	};
 
 	let inputHandler = async () => {
-		if(fileSelector.files && fileSelector.files?.length > 0) {
-			console.log(fileSelector.files[0])
-			submitButton.click()
+		if (fileSelector.files && fileSelector.files?.length > 0) {
+			console.log(fileSelector.files[0]);
+			submitButton.click();
 		}
-		
-	}
+	};
 </script>
+
 <form method="post" action="/profile?/updatePfp" enctype="multipart/form-data">
 	<button class="wrap" type="button" on:click={startUpload}>
-		<img class="pfp" src={newImageData} alt="profile" width="120px" height="120px">
-		<input name="pfp" type="file" bind:files={fileList} bind:this={fileSelector} on:input={inputHandler} bind:value={imageUploaderValue} accept="image/png, image/jpeg" hidden>
+		<img class="pfp" src={newImageData} alt="profile" width="120px" height="120px" />
+		<input
+			name="pfp"
+			type="file"
+			bind:files={fileList}
+			bind:this={fileSelector}
+			on:input={inputHandler}
+			bind:value={imageUploaderValue}
+			accept="image/png, image/jpeg"
+			hidden
+		/>
 		<p>Upload Image</p>
-		<button type="submit" bind:this={submitButton} hidden/>
+		<button type="submit" bind:this={submitButton} hidden />
 	</button>
 </form>
 

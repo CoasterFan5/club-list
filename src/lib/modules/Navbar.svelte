@@ -38,7 +38,7 @@
 					in:fly={inTransition}
 					out:fly={outTransition}
 				>
-				<a on:click={closeClick} href="/dashboard">Dashboard</a>
+					<a on:click={closeClick} href="/dashboard">Dashboard</a>
 					<a on:click={closeClick} href="/org">Organizations</a>
 					<a on:click={closeClick} href="/profile">Profile</a>
 					{#if hamburgerLinks}

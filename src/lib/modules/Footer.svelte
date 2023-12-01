@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { afterNavigate } from '$app/navigation';
-	import { onMount, tick } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
 	import { fade } from 'svelte/transition';

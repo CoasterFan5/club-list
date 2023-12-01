@@ -25,10 +25,10 @@
 	action="?/updateProfile"
 >
 	<h2>Profile</h2>
-	<PfpUpload/>
+	<PfpUpload />
 
-	<hr/>
-	<hr/>
+	<hr />
+	<hr />
 	<div class="formInput">
 		<Input name="firstName" label="First Name" bind:value={firstName} />
 	</div>
@@ -64,5 +64,4 @@
 	.logOut {
 		margin-top: 2rem;
 	}
-
 </style>
