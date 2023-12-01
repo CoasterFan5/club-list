@@ -32,7 +32,7 @@ const readOnlyAnonUserPolicy = {
 console.log(await S3.send(
 	new CreateBucketCommand({
 		Bucket: "clubsaurus",
-		ACL: BucketCannedACL.public_read_write
+		ACL: BucketCannedACL.public_read
 	})
 ));
 
