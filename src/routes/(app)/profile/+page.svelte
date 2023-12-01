@@ -15,48 +15,85 @@
 
 <h1>Profile</h1>
 
-<form
-	use:enhance={() => {
-		return async ({ update }) => {
-			update({ reset: false });
-		};
-	}}
-	method="post"
-	action="?/updateProfile"
->
-	<h2>Profile</h2>
-	<PfpUpload />
 
-	<hr />
-	<hr />
-	<div class="formInput">
-		<Input name="firstName" label="First Name" bind:value={firstName} />
+<div class="wrap">
+	<div class="left">
+		<form
+			use:enhance={() => {
+				return async ({ update }) => {
+					update({ reset: false });
+				};
+			}}
+			method="post"
+			action="?/updateProfile"
+		>
+			<h2>Details</h2>
+			
+			<div class="formInput">
+				<Input name="firstName" label="First Name" bind:value={firstName} />
+			</div>
+
+			<div class="formInput">
+				<Input name="lastName" label="Last Name" bind:value={lastName} />
+			</div>
+
+			<div class="formInput">
+				<Input name="email" label="Email" bind:value={email} />
+			</div>
+
+			<Button type="submit" value="Save" />
+
+			{#if form}
+				{#if form.success}
+					<p>Information saved!</p>
+				{:else}
+					<p>An error ocurred: {form.message}</p>
+				{/if}
+			{/if}
+			<form use:enhance action="/logout" method="post" class="logOut">
+				<Button type="submit" value="Log Out" />
+			</form>
+		</form>
 	</div>
 
-	<div class="formInput">
-		<Input name="lastName" label="Last Name" bind:value={lastName} />
+	
+	<div class="right">
+		<h2>Profile Picture</h2>
+		<PfpUpload pfpUrl={data.user.pfp} />
 	</div>
+</div>
 
-	<div class="formInput">
-		<Input name="email" label="Email" bind:value={email} />
-	</div>
 
-	<Button type="submit" value="Save" />
 
-	{#if form}
-		{#if form.success}
-			<p>Information saved!</p>
-		{:else}
-			<p>An error ocurred: {form.message}</p>
-		{/if}
-	{/if}
-</form>
 
-<form use:enhance action="/logout" method="post" class="logOut">
-	<Button type="submit" value="Log Out" />
-</form>
+
 
 <style>
+	.wrap {
+		display: flex;
+		flex-direction: row;
+		width: 80%;
+		box-sizing: border-box;
+		display: flex;
+		align-items: start;
+		justify-content: center;
+		max-width: 500px;
+	}
+	.left {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+	.right {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: start;
+		flex-direction: column;
+	}
 	.formInput {
 		margin-bottom: 1rem;
 	}

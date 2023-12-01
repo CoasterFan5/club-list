@@ -2,7 +2,7 @@ import { prisma } from '$lib/db.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { S3 } from '$lib/s3.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { bucket } from '$env/static/private';
+import { bucket, mediaurl } from '$env/static/private';
 import crypto from 'crypto';
 
 export const actions = {
@@ -80,6 +80,12 @@ export const actions = {
 			const pfp: File = FormData.pfp as File;
 			const pfpBuffer: Buffer = Buffer.from(await pfp.arrayBuffer());
 
+			console.log(pfp.size)
+
+			if(pfp.size > 3e6) {
+				throw fail(400, {message: "Max size: 3mb"})
+			}
+
 			if (pfp.name.length > 100) {
 				throw fail(400, { message: 'File Name Too Long' });
 			}
@@ -90,6 +96,8 @@ export const actions = {
 				throw fail(400, { message: 'File Name Too Long' });
 			}
 
+			
+
 			S3.send(
 				new PutObjectCommand({
 					Bucket: bucket,
@@ -98,12 +106,12 @@ export const actions = {
 				})
 			);
 
-			prisma.user.update({
+			await prisma.user.update({
 				where: {
 					id: sessionCheck.user.id
 				},
 				data: {
-					pfp: key
+					pfp: `${mediaurl}/${key}`
 				}
 			});
 		} catch (e) {

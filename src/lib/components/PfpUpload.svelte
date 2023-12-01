@@ -1,5 +1,10 @@
 <script lang="ts">
-	let newImageData = '/upload.svg';
+	
+	export let pfpUrl: string | null;
+
+
+	let newImageData = pfpUrl || '/upload.svg';
+
 	let imageUploaderValue: string;
 
 	let fileList: FileList;
@@ -32,7 +37,7 @@
 			accept="image/png, image/jpeg"
 			hidden
 		/>
-		<p>Upload Image</p>
+		<p>Upload New</p>
 		<button type="submit" bind:this={submitButton} hidden />
 	</button>
 </form>
