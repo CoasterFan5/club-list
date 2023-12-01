@@ -1,6 +1,5 @@
 import { prisma } from '$lib/db.js';
 import { fail, redirect } from '@sveltejs/kit';
-import fs from "fs"
 import { S3 } from '$lib/s3.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { bucket } from '$env/static/private';
@@ -50,27 +49,67 @@ export const actions = {
 		return { success: true };
 	},
 	updatePfp:async ({request, cookies}) => {
+
+		const session = cookies.get("session");
+
+		if(!session) {
+			throw redirect(303, "/login")
+		}
+
+		const sessionCheck = await prisma.session.findUnique({
+			where: {
+				sessionToken: session
+			}, 
+			include: {
+				user: true
+			}
+		})
+
+		if(!sessionCheck || !sessionCheck.user) {
+			throw redirect(303, "/login")
+		}
+
+
 		const FormData = Object.fromEntries(await request.formData())
 
 		if(!FormData.pfp) {
 			return {}
 		}
 
-		let randomId = Date.now().toString(36) + crypto.randomBytes(32).toString("hex")
+		const randomId = Date.now().toString(36) + crypto.randomBytes(32).toString("hex")
+
+		
 
 		try {
-			let pfp: File = FormData.pfp as File
-			let pfpBuffer: Buffer = Buffer.from(await pfp.arrayBuffer())
+			const pfp: File = FormData.pfp as File
+			const pfpBuffer: Buffer = Buffer.from(await pfp.arrayBuffer())
 			
-			
+			if(pfp.name.length > 100) {
+				throw fail(400, {message: "File Name Too Long"});
+			}
+
+			const key = `${randomId}/${pfp.name}`
+
+			if(key.length >= 255) {
+				throw fail(400, {message: "File Name Too Long"})
+			}
 
 			S3.send(
 				new PutObjectCommand({
 					Bucket: bucket,
-					Key: `${randomId}/${pfp.name}`,
+					Key: key,
 					Body: pfpBuffer
 				})
 			)
+
+			prisma.user.update({
+				where: {
+					id: sessionCheck.user.id,
+				}, 
+				data: {
+					pfp: key,
+				}
+			})
 		} catch(e) {
 			console.log(e)
 		}
