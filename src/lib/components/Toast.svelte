@@ -4,21 +4,28 @@
 
 	import { removeToast, type Toast } from "./toaster";
 	import { quintInOut, linear } from "svelte/easing";
+	import { onMount } from "svelte";
 
 	export let data: Toast;
+	let showTimer = false;
 	console.log(data)
 
 	let close = () => {
 		removeToast(data.id)
 	}
 
+	console.log(data.life)
+
 	if(data.life && data.life > 0) {
 		setTimeout(() => {
+			console.log("toast expired")
 			removeToast(data.id)
 		}, data.life)
 	}
 	
-
+	onMount(() => {
+		showTimer = true;
+	})
 
 	let typeTitles = {
 		warn: "Warning",
@@ -35,9 +42,11 @@
 		<button class="close" on:click={close}>
 			<img src="/icons/x.svg" alt="close">
 		</button>
-		<div class="timer" style="animation-duration: {data.life}ms;" >
+		{#if showTimer}
+			<div class="timer" style="animation-duration: {data.life}ms;" >
 
-		</div>
+			</div>
+		{/if}
 	</div>
 	
 	

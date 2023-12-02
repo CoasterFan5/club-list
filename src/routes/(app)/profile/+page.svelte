@@ -13,6 +13,22 @@
 	let lastName = data.user.lastName;
 	let email = data.user.email;
 	
+	addToast({
+		message: "Data Saved!",
+		type: "error",
+		life: 3000,
+	})
+	addToast({
+		message: "Data Saved!",
+		type: "warn",
+		life: 4000,
+	})
+	addToast({
+		message: "Data Saved!",
+		type: "success",
+		life: 2000,
+	})
+
 	$: if(form) {
 		if(form.success) {
 			console.log("adding Toast")
