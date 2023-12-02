@@ -11,6 +11,10 @@ export type Toast = {
 export const toasts = writable<Array<Toast>>();
 
 
+export const resetToast = async () => {
+	toasts.set([])
+}
+
 export const addToast = async (toast: Toast) => {
 
 	toast.id = (Math.floor(Math.random() * 10e12).toString(16) + Date.now().toString(16));
@@ -26,7 +30,6 @@ export const addToast = async (toast: Toast) => {
 }
 
 export const removeToast = async (id: Toast["id"]) => {
-	console.log(id)
 	const currentToasts = get(toasts)
 	if(!currentToasts) {
 		console.log("could not remove")

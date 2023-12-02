@@ -3,6 +3,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import PfpUpload from '$lib/components/PfpUpload.svelte';
+	import { addToast } from '$lib/components/toaster';
 	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
@@ -11,6 +12,16 @@
 	let firstName = data.user.firstName;
 	let lastName = data.user.lastName;
 	let email = data.user.email;
+	
+	$: if(form) {
+		if(form.success) {
+			console.log("adding Toast")
+			addToast({
+				message: "Data Saved!",
+				type: "success"
+			})
+		}
+	}
 </script>
 
 <h1>Profile</h1>

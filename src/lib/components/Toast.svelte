@@ -9,8 +9,6 @@
 	console.log(data)
 
 	let close = () => {
-		console.log("closing")
-		console.log(data)
 		removeToast(data.id)
 	}
 
@@ -22,7 +20,7 @@
 </script>
 
 <div class="wrap" transition:fly={{delay: 0, duration: 250, x: 500, y: 0, opacity: 0.5, easing: quintInOut}}>
-	<div class="toast">
+	<div class="toast" class:error={data.type == "error"} class:success={data.type == "success"} class:warn={data.type == "warn"}>
 		
 		<h3>{typeTitles[data.type]}</h3>
 		<p>{data.message}</p>
@@ -40,7 +38,15 @@
 		position: relative;
 		margin-top: 10px;
 	}
-	
+	.error {
+		border-left: 5px solid var(--accent);
+	}
+	.success {
+		border-left: 5px solid rgb(47, 255, 57);
+	}
+	.warn {
+		border-left: 5px solid rgb(235, 235, 0);
+	}
 	.toast {
 		padding: 10px 30px;
 		background: var(--bgPure);
@@ -49,7 +55,6 @@
 		flex-direction: column;
 		align-items: start;
 		justify-content: center;
-		border-left: 5px solid var(--accent);
 		border-radius: 5px;
 		width: 400px;
 	}

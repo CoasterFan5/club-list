@@ -11,14 +11,17 @@
 	import '@fontsource-variable/source-code-pro';
 	import type { LayoutData } from './$types';
 	import Toaster from '$lib/components/Toaster.svelte';
-	import { addToast } from '$lib/components/toaster';
+	import { addToast, resetToast } from '$lib/components/toaster';
 	export let data: LayoutData;
 
-	if(data.beta) {
+	let sent = false;
+	resetToast()
+	if(data.beta && !sent) {
 		addToast({
 			message: "Warning: Beta Version",
 			type: "warn"
 		})
+		sent = true;
 	}
 </script>
 
