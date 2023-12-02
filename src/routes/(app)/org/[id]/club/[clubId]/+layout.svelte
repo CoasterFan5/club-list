@@ -21,6 +21,9 @@
 			<div class="nav">
 				<a href="{baseURL}" class:selected={route.id == "/(app)/org/[id]/club/[clubId]"}>About</a>
 				<a href="{baseURL}/announcements" class:selected={route.id == "/(app)/org/[id]/club/[clubId]/announcements"}>Announcments</a>
+				{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
+				<a href="{baseURL}/settings" class:selected={route.id == "/(app)/org/[id]/club/[clubId]/settings"}>Settings</a>
+				{/if}
 			</div>
 		</div>
 		
