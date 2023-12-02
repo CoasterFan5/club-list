@@ -33,7 +33,6 @@ export const addToast = async (toast: Toast) => {
 export const removeToast = async (id: Toast["id"]) => {
 	const currentToasts = get(toasts)
 	if(!currentToasts) {
-		console.log("could not remove")
 		return
 	}
 

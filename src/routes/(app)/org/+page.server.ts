@@ -109,7 +109,7 @@ export const actions = {
 		});
 
 		return {
-			sucess: true,
+			success: true,
 			message: 'created!'
 		};
 	},
@@ -159,14 +159,14 @@ export const actions = {
 
 		if (!joinCheck) {
 			return {
-				sucess: false,
+				success: false,
 				message: 'Invalid Join Code'
 			};
 		}
 
 		if(joinCheck.orgUsers.length > 0) {
 			return {
-				sucess: false,
+				success: false,
 				message: "Already in this org!"
 			}
 		}
@@ -183,7 +183,7 @@ export const actions = {
 		});
 
 		return {
-			sucess: true,
+			success: true,
 			message: 'Joined!'
 		};
 	}

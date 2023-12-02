@@ -18,7 +18,7 @@
 	resetToast()
 	if(data.beta && !sent) {
 		addToast({
-			message: "Warning: Beta Version",
+			message: "You are on a beta version",
 			type: "warn"
 		})
 		sent = true;
@@ -41,12 +41,6 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-	}
-
-	.close {
-		all: unset;
-		cursor: pointer;
-		text-decoration: underline;
 	}
 
 	:global(html) {
@@ -72,23 +66,5 @@
 
 	:global(.mono) {
 		font-family: 'Source Code Pro Variable', sans-serif;
-	}
-	.betaWarning {
-		all: unset;
-		font-family: 'Work Sans', sans-serif;
-		border: 0px;
-		text-align: center;
-		background: var(--accent);
-		color: var(--bg);
-		right: 0px;
-		bottom: 0px;
-		z-index: 10000;
-		position: fixed;
-		padding: 5px;
-		border-radius: 5px;
-		margin: 5px;
-	}
-	.betaWarning a {
-		color: var(--bg);
 	}
 </style>

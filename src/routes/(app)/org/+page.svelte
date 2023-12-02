@@ -1,12 +1,30 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import type {ActionData, PageData } from './$types';
 	export let data: PageData;
+	export let form: ActionData;
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import { addToast } from '$lib/components/toaster';
 
 	let showingCreateModel = false;
 	let showingJoinModel = false;
+
+	if(form) {
+		if(form.success) {
+			addToast({
+				type: "success",
+				life: 3000,
+				message: `${form.message}`
+			})
+		} else {
+			addToast({
+				type: "error",
+				life: 3000,
+				message: `${form.message}`
+			})
+		}
+	}
 </script>
 
 <ModelHelper bind:showing={showingCreateModel}>
