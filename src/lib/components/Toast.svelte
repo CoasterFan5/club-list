@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fly } from "svelte/transition";
+	import { fly, fade } from "svelte/transition";
 
 
 	import { removeToast, type Toast } from "./toaster";
@@ -8,10 +8,15 @@
 
 	export let data: Toast;
 	let showTimer = false;
+	let hidden = false;
 	console.log(data)
 
 	let close = () => {
-		removeToast(data.id)
+		hidden = true;
+		setTimeout(() => {
+			removeToast(data.id)
+		}, 1000)
+		
 	}
 
 	console.log(data.life)
@@ -19,7 +24,7 @@
 	if(data.life && data.life > 0) {
 		setTimeout(() => {
 			console.log("toast expired")
-			removeToast(data.id)
+			close()
 		}, data.life)
 	}
 	
@@ -34,29 +39,32 @@
 	}
 </script>
 
-<div class="wrap" transition:fly={{delay: 0, duration: 250, x: 500, y: 0, opacity: 0.5, easing: quintInOut}}>
-	<div class="toast" class:error={data.type == "error"} class:success={data.type == "success"} class:warn={data.type == "warn"}>
-		
-		<h3>{typeTitles[data.type]}</h3>
-		<p>{data.message}</p>
-		<button class="close" on:click={close}>
-			<img src="/icons/x.svg" alt="close">
-		</button>
-		{#if showTimer}
-			<div class="timer" style="animation-duration: {data.life}ms;" >
+{#if !hidden}
+	<div class="wrap" transition:fly={{delay: 0, duration: 500, x: 500, y: 0, opacity: 0.5, easing: quintInOut}}>
+		<div class="toast" class:error={data.type == "error"} class:success={data.type == "success"} class:warn={data.type == "warn"}>
+			
+			<h3>{typeTitles[data.type]}</h3>
+			<p>{data.message}</p>
+			<button class="close" on:click={close}>
+				<img src="/icons/x.svg" alt="close">
+			</button>
+			{#if showTimer}
+				<div class="timer" style="animation-duration: {data.life}ms;" >
 
-			</div>
-		{/if}
+				</div>
+			{/if}
+		</div>
+		
+		
 	</div>
-	
-	
-</div>
+{/if}
 
 
 <style>
 	.wrap {
 		position: relative;
 		margin-top: 10px;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
 	}
 	.error {
 		border-left: 5px solid var(--accent);

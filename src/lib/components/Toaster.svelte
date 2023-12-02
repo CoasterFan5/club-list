@@ -1,6 +1,6 @@
 <script>
 	import Toast from "./Toast.svelte";
-import { toasts } from "./toaster";
+	import { toasts } from "./toaster";
 </script>
 
 <div class="wrap">
