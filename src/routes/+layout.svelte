@@ -10,29 +10,27 @@
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
 	import type { LayoutData } from './$types';
-	import { fade } from 'svelte/transition';
-	import { cubicInOut } from 'svelte/easing';
+	import Toaster from '$lib/components/Toaster.svelte';
+	import { addToast } from '$lib/components/toaster';
 	export let data: LayoutData;
-	let showBeta = true;
+
+	if(data.beta) {
+		addToast({
+			message: "Warning: Beta Version",
+			type: "warn"
+		})
+	}
 </script>
 
 <svelte:head>
 	<title>Clubsaur.us</title>
 </svelte:head>
 
-{#if data.beta && showBeta}
-	<div class="betaWarning" transition:fade={{ duration: 400, easing: cubicInOut }}>
-		<p>
-			This a beta version! For a production ready version, go to <a href="https://clubsaur.us"
-				>Clubsaur.us</a
-			> <button class="close" on:click={() => (showBeta = false)}>(x)</button>
-		</p>
-	</div>
-{/if}
-
 <div class="wrap">
 	<slot/>
 </div>
+
+<Toaster/>
 
 <style>
 	.wrap {
