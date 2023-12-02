@@ -3,14 +3,23 @@
 	// keeps everything looking clean
 	export let value = 'Button!';
 	export let type: HTMLButtonElement['type'] = 'submit';
+	export let href: string | undefined = "";
 </script>
 
-<button {type}>
-	{value}
-</button>
+{#if href}
+	<a class="button" href="{href}">
+		{value}
+	</a>
+{:else}
+	<button class="button" {type}>
+		{value}
+	</button>
+{/if}
+
 
 <style>
-	button {
+	.button {
+		all: unset;
 		background: transparent;
 		border: 1px solid gray;
 		border-radius: 3px;
@@ -21,9 +30,9 @@
 		cursor: pointer;
 		color: var(--textDark);
 	}
-	button:focus,
-	button:hover,
-	button:active {
+	.button:focus,
+	.button:hover,
+	.button:active {
 		border: 1px solid var(--accent);
 	}
 </style>

@@ -1,25 +1,34 @@
 <script lang="ts">
 	import MdEditor from '$lib/components/MdEditor.svelte';
 	import type { PageData } from './$types';
+	import Button from '$lib/components/Button.svelte';
 
 	export let data: PageData;
 </script>
 
 <div class="wrap">
-	{#each data.announcements as announcment}
-		<div class="announcment">
-			<h2>{announcment.title || 'No Announcemnts'}</h2>
-			{#if announcment.createdAt}
-				<p class="timestamp">
-					{new Intl.DateTimeFormat('en-US', {
-						dateStyle: 'long',
-						timeStyle: 'short'
-					}).format(announcment.createdAt)}
-				</p>
-			{/if}
-			<MdEditor editable={false} content={announcment.description || 'No Announcemnts'} />
+	{#if data.clubPerms.admin || data.clubPerms.manageAnnoucements}
+		<div class="buttonWrap">
+			<Button value="New Announcement" href="announcements/new"/>
 		</div>
-	{/each}
+	{/if}
+	
+	<div class="annoucmentList">
+		{#each data.announcements as announcment}
+			<div class="announcment">
+				<h2>{announcment.title || 'No Announcements'}</h2>
+				{#if announcment.createdAt}
+					<p class="timestamp">
+						{new Intl.DateTimeFormat('en-US', {
+							dateStyle: 'long',
+							timeStyle: 'short'
+						}).format(announcment.createdAt)}
+					</p>
+				{/if}
+				<MdEditor editable={false} content={announcment.description || 'No Announcements'} />
+			</div>
+		{/each}
+	</div>
 </div>
 
 <style>
@@ -32,11 +41,16 @@
 		align-items: center;
 		justify-content: start;
 	}
-	.announcment {
+	.annoucmentList {
 		width: 90%;
-		max-width: 500px;
+		max-width: 600px;
+		padding-top: 25px;
+	}
+	.announcment {
+		width: 100%;
 		background: var(--bgPure);
 		padding: 50px;
+		box-sizing: border-box;
 		border-radius: 5px;
 		margin-bottom: 50px;
 	}

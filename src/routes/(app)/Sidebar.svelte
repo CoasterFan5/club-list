@@ -29,6 +29,8 @@
 		box-sizing: border-box;
 		background: var(--bgPure);
 		height: 100vh;
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+		z-index: 1000;
 	}
 	.pfp {
 		border-radius: 5px;
