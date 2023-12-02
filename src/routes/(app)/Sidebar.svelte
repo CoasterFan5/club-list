@@ -38,13 +38,20 @@
 		aspect-ratio: 1/1;
 		border-radius: 5px;
 		position: relative;
+		overflow: hidden;
+		
 	}
 	.pfpImage {
 		width: 100%;
+		aspect-ratio: 1/1;
+		resize: vertical;
 		z-index: 3;
 		border: 2px solid var(--accent);
 		border-radius: 5px;
 		opacity: 1;
+		overflow: hidden;
+		object-fit: cover;
+		
 	}
 	.pfp::after {
 		content: "";

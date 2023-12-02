@@ -67,6 +67,7 @@
 		aspect-ratio: 1/1;
 		border: 1px solid var(--accent);
 		border-radius: 5px;
+		object-fit: cover;
 	}
 	p {
 		margin: 0px;
