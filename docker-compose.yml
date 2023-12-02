@@ -54,3 +54,4 @@ services:
     depends_on:
       - db
       - storage
+    

@@ -72,7 +72,7 @@
 	
 	<div class="right">
 		<h2>Profile Picture</h2>
-		<PfpUpload pfpUrl={data.user.pfp} />
+		<PfpUpload action="/profile?/updatePfp" pfpUrl={data.user.pfp} />
 	</div>
 </div>
 
