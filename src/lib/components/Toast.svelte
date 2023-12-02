@@ -3,7 +3,7 @@
 
 
 	import { removeToast, type Toast } from "./toaster";
-	import { quintInOut } from "svelte/easing";
+	import { quintInOut, linear } from "svelte/easing";
 
 	export let data: Toast;
 	console.log(data)
@@ -11,6 +11,14 @@
 	let close = () => {
 		removeToast(data.id)
 	}
+
+	if(data.life && data.life > 0) {
+		setTimeout(() => {
+			removeToast(data.id)
+		}, data.life)
+	}
+	
+
 
 	let typeTitles = {
 		warn: "Warning",
@@ -27,6 +35,9 @@
 		<button class="close" on:click={close}>
 			<img src="/icons/x.svg" alt="close">
 		</button>
+		<div class="timer" style="animation-duration: {data.life}ms;" >
+
+		</div>
 	</div>
 	
 	
@@ -76,4 +87,19 @@
 	.close img {
 		width: 30px;
 	}
+	@keyframes closebar {
+		from { width: 100%;}
+		to { width: 0%;}
+	}
+	.timer {
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		width: 0%;
+		height: 3px;
+		background: var(--mid);
+		animation-timing-function: linear;
+		animation-name: closebar;
+	}
+	
 </style>

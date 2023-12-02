@@ -18,7 +18,14 @@
 			console.log("adding Toast")
 			addToast({
 				message: "Data Saved!",
-				type: "success"
+				type: "success",
+				life: 3000,
+			})
+		} else {
+			addToast({
+				message: form.message || "An Error Occured",
+				type: "error",
+				life: 5000,
 			})
 		}
 	}
@@ -54,13 +61,7 @@
 
 			<Button type="submit" value="Save" />
 
-			{#if form}
-				{#if form.success}
-					<p>Information saved!</p>
-				{:else}
-					<p>An error ocurred: {form.message}</p>
-				{/if}
-			{/if}
+
 			<form use:enhance action="/logout" method="post" class="logOut">
 				<Button type="submit" value="Log Out" />
 			</form>

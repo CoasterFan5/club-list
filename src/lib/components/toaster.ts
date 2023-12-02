@@ -6,7 +6,8 @@ import { get } from "svelte/store";
 export type Toast = {
 	message: string,
 	type: "error" | "warn" | "success",
-	id?: string
+	id?: string,
+	life?: number,
 }
 export const toasts = writable<Array<Toast>>();
 
