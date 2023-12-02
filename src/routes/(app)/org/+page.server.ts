@@ -1,45 +1,6 @@
 import { prisma } from '$lib/db.js';
 import { redirect } from '@sveltejs/kit';
 
-export const load = async ({ cookies }) => {
-	const session = cookies.get('session');
-	if (!session) {
-		throw redirect(303, '/login');
-	}
-
-	const sessionCheck = await prisma.session.findFirst({
-		where: {
-			sessionToken: session
-		},
-		include: {
-			user: {
-				include: {
-					orgUsers: {
-						include: {
-							organization: true
-						}
-					},
-					organization: true
-				}
-			}
-		}
-	});
-
-	if (!sessionCheck) {
-		throw redirect(303, '/login');
-	}
-
-	const user = sessionCheck.user;
-
-	if (!user) {
-		throw redirect(303, '/login');
-	}
-
-	return {
-		user
-	};
-};
-
 export const actions = {
 	create: async ({ request, cookies }) => {
 		// get some basic data

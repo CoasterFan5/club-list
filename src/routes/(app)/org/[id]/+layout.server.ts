@@ -10,28 +10,28 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 			id: orgId
 		},
 		include: {
-			clubs: true
+			clubs: true,
+			orgUsers: {
+				where: {
+					userId: user.id
+				}
+			}
 		}
 	});
-
-	const orgUser = await prisma.orgUser.findFirst({
-		where: {
-			organizationId: orgId,
-			userId: user.id
-		}
-	});
-
-	if (!orgUser) {
-		throw new Error('Not in this organization');
-	}
 
 	if (!org) {
 		throw new Error('Organization not found');
 	}
 
+	if (!org.orgUsers || org.orgUsers.length < 1) {
+		throw new Error('Not in this organization');
+	}
+
+	
+
 	return {
 		org,
 		clubs: org.clubs,
-		orgUser: orgUser
+		orgUser: org.orgUsers[0]
 	};
 };
