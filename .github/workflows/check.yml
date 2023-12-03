@@ -37,7 +37,7 @@ jobs:
       - name: run deployment
         run: yarn deploy
         env:
-          BDURL: 'postgresql://prisma:prisma@db/tests'
+          BDURL: postgresql://prisma:prisma@db/tests
           BETA: true
           r2endpoint: http://s3.docker.test:8000
           accessKeyId: 'accessKey1'
