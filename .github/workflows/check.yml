@@ -16,7 +16,7 @@ jobs:
           POSTGRES_DB: tests
         ports:
           - '5432:5432'
-      s3.docker.test:
+      storage:
         image: zenko/cloudserver
         env:
           REMOVE_MANAGEMENT_DISABLE: 1
@@ -28,13 +28,19 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
       - name: Install dependencies
         run: yarn
 
       - name: Create Bucket
         run: yarn run s3devdata
 
-      - name: run deployment
+      - name: Deploy Database
         run: yarn deploy
         env:
           DBURL: postgresql://prisma:prisma@db/tests
@@ -45,6 +51,8 @@ jobs:
           bucket: 'clubsaurus'
           mediaurl: 'http://localhost:8000/clubsaurus'
       - name: Generate ENV
-        run: echo 'BETA=false' >> .env
-      - name: run tests
+        run: |
+          cp .env.test .env
+          echo "BETA=false" >> .env
+      - name: Run Tests
         run: yarn test
