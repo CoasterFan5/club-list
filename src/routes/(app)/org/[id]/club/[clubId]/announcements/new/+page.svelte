@@ -7,12 +7,12 @@
 </script>
 
 <div class="wrap">
-	<form class="editor" method="post" action="?/createAnnouncement">
-		<Input label="title" name="title" bgColor="var(--bg)" />
-		<MdEditor bind:content editable={true} />
+	<form class="editor" action="?/createAnnouncement" method="post">
+		<Input name="title" bgColor="var(--bg)" label="title" />
+		<MdEditor editable={true} bind:content />
 		<hr />
 		<input name="desc" style="display: none" bind:value={content} />
-		<Button value="Create" type="submit" />
+		<Button type="submit" value="Create" />
 	</form>
 </div>
 

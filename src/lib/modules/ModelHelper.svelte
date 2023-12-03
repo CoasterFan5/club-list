@@ -15,12 +15,12 @@
 
 {#if showing}
 	<button
-		transition:fade={{ easing: cubicInOut, duration: 150 }}
-		class="wrap"
 		bind:this={bgDiv}
+		class="wrap"
 		on:mousedown={modelClickHelper}
+		transition:fade={{ easing: cubicInOut, duration: 150 }}
 	>
-		<div transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }} class="modalForm">
+		<div class="modalForm" transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }}>
 			<slot />
 		</div>
 	</button>

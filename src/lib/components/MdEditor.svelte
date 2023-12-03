@@ -59,20 +59,20 @@
 
 <div bind:this={floatingMenu} class="menu">
 	<button
-		on:click={() => editor && editor.chain().focus().toggleHeading({ level: 1 }).run()}
 		class:active={editor?.isActive('heading', { level: 1 })}
+		on:click={() => editor && editor.chain().focus().toggleHeading({ level: 1 }).run()}
 	>
 		h1
 	</button>
 	<button
-		on:click={() => editor && editor.chain().focus().toggleHeading({ level: 2 }).run()}
 		class:active={editor?.isActive('heading', { level: 2 })}
+		on:click={() => editor && editor.chain().focus().toggleHeading({ level: 2 }).run()}
 	>
 		h2
 	</button>
 	<button
-		on:click={() => editor && editor.chain().focus().toggleBulletList().run()}
 		class:active={editor?.isActive('bulletList')}
+		on:click={() => editor && editor.chain().focus().toggleBulletList().run()}
 	>
 		ul
 	</button>
@@ -80,26 +80,26 @@
 
 <div bind:this={bubbleMenu} class="menu">
 	<button
-		on:click={() => editor && editor.chain().focus().toggleBold().run()}
 		class:active={editor?.isActive('bold')}
+		on:click={() => editor && editor.chain().focus().toggleBold().run()}
 	>
 		bold
 	</button>
 	<button
-		on:click={() => editor && editor.chain().focus().toggleItalic().run()}
 		class:active={editor?.isActive('italic')}
+		on:click={() => editor && editor.chain().focus().toggleItalic().run()}
 	>
 		italic
 	</button>
 	<button
-		on:click={() => editor && editor.chain().focus().toggleStrike().run()}
 		class:active={editor?.isActive('strike')}
+		on:click={() => editor && editor.chain().focus().toggleStrike().run()}
 	>
 		strike
 	</button>
 	<button
-		on:click={() => editor && editor.chain().focus().toggleCode().run()}
 		class:active={editor?.isActive('code')}
+		on:click={() => editor && editor.chain().focus().toggleCode().run()}
 	>
 		code
 	</button>

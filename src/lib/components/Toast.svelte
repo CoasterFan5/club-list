@@ -29,8 +29,8 @@
 </script>
 
 <div
-	class="wrap"
 	style="z-index: {100000 - data.id ?? 0};"
+	class="wrap"
 	transition:fly={{ duration: 500, x: 500, opacity: 0.5, easing: quintInOut }}
 >
 	<div
@@ -43,10 +43,10 @@
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		<p>{@html DOMPurify.sanitize(data.message)}</p>
 		<button class="close" on:click={close}>
-			<img src="/icons/x.svg" alt="close" />
+			<img alt="close" src="/icons/x.svg" />
 		</button>
 		{#if showTimer}
-			<div class="timer" style="animation-duration: {data.life}ms;" />
+			<div style="animation-duration: {data.life}ms;" class="timer" />
 		{/if}
 	</div>
 </div>

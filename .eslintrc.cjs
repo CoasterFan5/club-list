@@ -28,7 +28,15 @@ module.exports = defineConfig({
 				script: 'ts',
 				style: 'scss'
 			}
-		]
+		],
+		'svelte/no-target-blank': 'error',
+		'svelte/shorthand-attribute': 'error',
+		'svelte/shorthand-directive': 'error',
+		'svelte/sort-attributes': 'error',
+		'svelte/spaced-html-comment': 'error',
+		'svelte/no-at-debug-tags': 'error',
+		'svelte/mustache-spacing': 'error',
+		'svelte/html-self-closing': 'error'
 	},
 	overrides: [
 		{

@@ -9,7 +9,7 @@
 <div class="wrap">
 	{#if data.clubPerms.admin || data.clubPerms.manageAnnouncements}
 		<div class="buttonWrap">
-			<Button value="New Announcement" href="announcements/new" />
+			<Button href="announcements/new" value="New Announcement" />
 		</div>
 	{/if}
 
@@ -25,7 +25,7 @@
 						}).format(announcement.createdAt)}
 					</p>
 				{/if}
-				<MdEditor editable={false} content={announcement.description || 'No Announcements'} />
+				<MdEditor content={announcement.description || 'No Announcements'} editable={false} />
 			</div>
 		{/each}
 	</div>

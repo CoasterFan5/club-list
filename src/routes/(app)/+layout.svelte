@@ -17,7 +17,7 @@
 <div class="wrap">
 	<Sidebar {data} />
 	{#key data.pathType}
-		<div in:fade={transitionIn} out:fade={transitionOut} class="content">
+		<div class="content" in:fade={transitionIn} out:fade={transitionOut}>
 			<slot />
 		</div>
 	{/key}

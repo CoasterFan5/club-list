@@ -30,13 +30,13 @@
 		{/if}
 		{#if !hamburgerLinks || hamburgerShowing}
 			<div
-				class:hamburgerMenu={hamburgerLinks}
 				class="links"
+				class:hamburgerMenu={hamburgerLinks}
 				in:fly={inTransition}
 				out:fly={outTransition}
 			>
-				<a on:click={closeClick} href="/login">Log In</a>
-				<a on:click={closeClick} href="/get-started">Get Started</a>
+				<a href="/login" on:click={closeClick}>Log In</a>
+				<a href="/get-started" on:click={closeClick}>Get Started</a>
 				{#if hamburgerLinks}
 					<a href="##" on:click={closeClick}>Close</a>
 				{/if}

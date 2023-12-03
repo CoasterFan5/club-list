@@ -35,13 +35,13 @@
 <div class="wrap">
 	<div class="left">
 		<form
+			action="?/updateProfile"
+			method="post"
 			use:enhance={() => {
 				return async ({ update }) => {
 					update({ reset: false });
 				};
 			}}
-			method="post"
-			action="?/updateProfile"
 		>
 			<h2>Details</h2>
 
@@ -59,7 +59,7 @@
 
 			<Button type="submit" value="Save" />
 
-			<form use:enhance action="/logout" method="post" class="logOut">
+			<form class="logOut" action="/logout" method="post" use:enhance>
 				<Button type="submit" value="Log Out" />
 			</form>
 		</form>

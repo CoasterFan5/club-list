@@ -62,20 +62,20 @@
 
 		<div class="clubs">
 			<button class="searchWrap" on:click={focusSearch}>
-				<img src="/search.svg" alt="search" />
+				<img alt="search" src="/search.svg" />
 				<input
+					bind:this={searchBox}
 					class="search"
 					placeholder="Search..."
-					bind:value={searchTerm}
 					tabindex="-1"
-					bind:this={searchBox}
+					bind:value={searchTerm}
 				/>
 			</button>
 			{#each sortedClubs as club}
-				<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
+				<a class="club" href="/org/{data.orgUser.organizationId}/club/{club.id}">
 					<div class="clubInner">
 						{#if club.imageURL}
-							<img class="clubImage" src={club.imageURL} alt="{club.name} background image" />
+							<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
 						{:else}
 							<div class="clubImage" />
 						{/if}

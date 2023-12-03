@@ -19,11 +19,11 @@
 <ModelHelper bind:showing={visibleModel}>
 	<form
 		class="settingsForm"
+		action="?/updateClub"
 		method="post"
 		use:enhance={() => {
 			visibleModel = false;
 		}}
-		action="?/updateClub"
 	>
 		<h2>Settings</h2>
 		<div class="formItem">
@@ -45,21 +45,21 @@
 				<div class="editTools">
 					{#if !editing}
 						<button class="editButton" on:click={toggleEdit}>
-							<img src="/edit.svg" alt="edit" />
+							<img alt="edit" src="/edit.svg" />
 						</button>
 					{:else}
 						<form
+							action="?/updateClub"
+							method="post"
 							use:enhance={() => {
 								return () => {
 									editing = false;
 								};
 							}}
-							method="post"
-							action="?/updateClub"
 						>
-							<input name="clubDescription" bind:value={clubDescription} style="display: none;" />
+							<input name="clubDescription" style="display: none;" bind:value={clubDescription} />
 							<button class="editButton">
-								<img src="/check.svg" alt="edit" />
+								<img alt="edit" src="/check.svg" />
 							</button>
 						</form>
 					{/if}

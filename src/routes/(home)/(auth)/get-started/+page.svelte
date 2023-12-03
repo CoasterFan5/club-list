@@ -9,7 +9,7 @@
 
 <div class="wrap">
 	<div class="contentWrap">
-		<form use:enhance class="content" method="post" action="?/register">
+		<form class="content" action="?/register" method="post" use:enhance>
 			<h1>Register</h1>
 			<span class="inputDiv">
 				<Input name="email" label="Email" type="email" />
@@ -27,7 +27,7 @@
 				<Input name="confirmPassword" label="Confirm Password" type="password" />
 			</span>
 			<span class="inputDiv">
-				<Button value="Register" type="submit" />
+				<Button type="submit" value="Register" />
 			</span>
 			<p>Already have an account? <a href="/login">Log In</a></p>
 			{#if form?.success == false}

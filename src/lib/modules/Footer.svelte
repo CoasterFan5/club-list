@@ -9,7 +9,7 @@
 	});
 </script>
 
-<footer transition:fade style="bottom: {$bottom}px;">
+<footer style="bottom: {$bottom}px;" transition:fade>
 	<div class="inner">
 		<div class="left">
 			<h2>Clubsaur<span class="emphasize">.</span>us</h2>

@@ -41,21 +41,21 @@
 </script>
 
 <button
-	type="button"
 	style="--bgColor: {bgColor}"
 	class="wrap"
 	class:active
-	on:click={startFocus}
 	tabindex="-1"
+	type="button"
+	on:click={startFocus}
 >
 	<input
 		bind:this={input}
 		{name}
+		{autocomplete}
+		{required}
 		on:focus={selectInput}
 		on:blur={deselectText}
 		bind:value
-		{required}
-		{autocomplete}
 		{...{ type /* asserting string input since we know the type is always a password */ }}
 	/>
 	<div class="labelBase" class:label1={!moveText} class:labelMoved={moveText}>

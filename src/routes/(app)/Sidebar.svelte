@@ -6,14 +6,14 @@
 </script>
 
 <nav class="sidebar">
-	<a href="/profile" class="pfp">
-		<img class="pfpImage" src={pfp} alt="profile" />
+	<a class="pfp" href="/profile">
+		<img class="pfpImage" alt="profile" src={pfp} />
 	</a>
-	<a href="/dashboard" class="button">
-		<img class="img" src="/icons/home.svg" alt="home" />
+	<a class="button" href="/dashboard">
+		<img class="img" alt="home" src="/icons/home.svg" />
 	</a>
-	<a href="/org" class="button">
-		<img class="img" src="/icons/orgs.svg" alt="home" />
+	<a class="button" href="/org">
+		<img class="img" alt="home" src="/icons/orgs.svg" />
 	</a>
 </nav>
 
