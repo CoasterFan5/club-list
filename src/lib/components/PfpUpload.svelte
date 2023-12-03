@@ -54,7 +54,6 @@
 	.wrap {
 		all: unset;
 		padding: 0px;
-		margin: 0px;
 		cursor: pointer;
 		outline: 0px;
 		border: 0px;
@@ -63,7 +62,7 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-		padding: 25px;
+		margin: 25px;
 		border-radius: 5px;
 		aspect-ratio: 1/1;
 	}
@@ -73,12 +72,13 @@
 		width: 120px;
 		height: 120px;
 		aspect-ratio: 1/1;
-		border: 1px solid var(--accent);
-		border-radius: 5px;
+		border: 2px solid var(--accent);
+		border-radius: 1rem;
 		object-fit: cover;
 	}
+
 	p {
 		margin: 0px;
-		margin-top: 3px;
+		text-align: center;
 	}
 </style>

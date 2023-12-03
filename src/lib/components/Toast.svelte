@@ -42,7 +42,7 @@
 		class:warn={data.type == 'warn'}
 	>
 		<h3>{typeTitles[data.type]}</h3>
-		<p>{data.message}</p>
+		<p>{@html data.message}</p>
 		<button class="close" on:click={close}>
 			<img src="/icons/x.svg" alt="close" />
 		</button>
