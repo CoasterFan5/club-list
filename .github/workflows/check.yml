@@ -44,5 +44,7 @@ jobs:
           accessKeySecret: 'verySecretKey1'
           bucket: 'clubsaurus'
           mediaurl: 'http://localhost:8000/clubsaurus'
+      - name: Generate ENV
+        run: echo 'BETA=false' >> .env
       - name: run tests
         run: yarn test
