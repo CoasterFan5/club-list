@@ -37,9 +37,9 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Create Bucket
+      - name: Initialize Bucket
         run: yarn run s3devdata
-      - name: Generate ENV
+      - name: Setup .env
         run: |
           cp .env.test .env
           echo "BETA=false" >> .env
@@ -48,4 +48,4 @@ jobs:
       - name: Deploy database
         run: yarn db:deploy
       - name: Run Tests
-        run: yarn test
+        run: sudo yarn test
