@@ -37,12 +37,12 @@
 	<div class="simplifyText mono">
 		{#each hiddenClubs as hiddenClub}
 			{randomTextString()}<span
-				class:shown={hiddenClub.showing}
-				use:inview={options}
 				class="hiddenClub"
+				class:shown={hiddenClub.showing}
 				on:inview_enter={() => {
 					hiddenClub.showing = true;
-				}}>{hiddenClub.name}</span
+				}}
+				use:inview={options}>{hiddenClub.name}</span
 			>
 		{/each}
 	</div>

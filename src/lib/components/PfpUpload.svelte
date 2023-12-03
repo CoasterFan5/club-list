@@ -21,8 +21,9 @@
 </script>
 
 <form
-	method="post"
 	action="/profile?/updatePfp"
+	enctype="multipart/form-data"
+	method="post"
 	use:enhance={() => {
 		return async ({ result }) => {
 			if (result.type != 'success') await applyAction(result);
@@ -32,22 +33,21 @@
 			}
 		};
 	}}
-	enctype="multipart/form-data"
 >
 	<button class="wrap" type="button" on:click={startUpload}>
-		<img class="pfp" src={newImageData} alt="profile" width="120px" height="120px" />
+		<img class="pfp" alt="profile" height="120px" src={newImageData} width="120px" />
 	</button>
 	<input
-		name="pfp"
-		type="file"
-		bind:files={fileList}
 		bind:this={fileSelector}
-		on:input|preventDefault={inputHandler}
+		name="pfp"
 		accept="image/png, image/jpeg"
 		hidden
+		type="file"
+		bind:files={fileList}
+		on:input|preventDefault={inputHandler}
 	/>
 	<p>Upload New</p>
-	<button type="submit" bind:this={submitButton} hidden />
+	<button bind:this={submitButton} hidden type="submit" />
 </form>
 
 <style lang="scss">

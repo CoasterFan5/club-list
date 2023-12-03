@@ -50,7 +50,7 @@
 
 <div class="connect" bind:clientHeight={height} bind:clientWidth={width}>
 	<h2>Clubsaurus helps people express themselves</h2>
-	<canvas bind:this={canvas} on:mousemove={draw} {height} {width} />
+	<canvas bind:this={canvas} {height} {width} on:mousemove={draw} />
 </div>
 
 <style lang="scss">

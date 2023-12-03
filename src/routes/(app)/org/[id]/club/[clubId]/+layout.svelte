@@ -19,11 +19,10 @@
 		<div class="headerInner">
 			<h2 class="clubName">{data.club.name}</h2>
 			<div class="nav">
-				<a href={baseURL} class:selected={route.id == '/(app)/org/[id]/club/[clubId]'}>About</a>
+				<a class:selected={route.id == '/(app)/org/[id]/club/[clubId]'} href={baseURL}>About</a>
 				<a
-					href="{baseURL}/announcements"
 					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/announcements'}
-					>Announcements</a
+					href="{baseURL}/announcements">Announcements</a
 				>
 			</div>
 		</div>

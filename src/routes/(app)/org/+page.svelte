@@ -33,13 +33,13 @@
 
 <ModelHelper bind:showing={showingCreateModel}>
 	<form
-		use:enhance={closeModal(() => (showingCreateModel = false))}
 		action="?/create"
 		method="post"
+		use:enhance={closeModal(() => (showingCreateModel = false))}
 	>
 		<h2>Organization Name</h2>
 		<div class="formInput">
-			<Input label="Organization Name" name="name" />
+			<Input name="name" label="Organization Name" />
 		</div>
 		<div class="formInput">
 			<Button type="submit" value="Create" />
@@ -48,10 +48,10 @@
 </ModelHelper>
 
 <ModelHelper bind:showing={showingJoinModel}>
-	<form use:enhance action="?/join" method="post">
+	<form action="?/join" method="post" use:enhance>
 		<h2>Join an Organization</h2>
 		<div class="formInput">
-			<Input label="Join Code" name="joinCode" />
+			<Input name="joinCode" label="Join Code" />
 		</div>
 		<div class="formInput">
 			<Button type="submit" value="Join" />
@@ -71,10 +71,10 @@
 			>
 			or
 			<button
+				class="textButton"
 				on:click={() => {
 					showingCreateModel = true;
-				}}
-				class="textButton">Create</button
+				}}>Create</button
 			> one!
 		</p>
 	</div>
@@ -98,10 +98,10 @@
 			>
 			or
 			<button
+				class="textButton"
 				on:click={() => {
 					showingCreateModel = true;
-				}}
-				class="textButton">Create</button
+				}}>Create</button
 			> a new organization
 		</p>
 	</div>

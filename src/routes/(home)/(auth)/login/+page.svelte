@@ -9,7 +9,7 @@
 
 <div class="wrap">
 	<div class="contentWrap">
-		<form use:enhance class="content" method="post" action="?/login">
+		<form class="content" action="?/login" method="post" use:enhance>
 			<h1>Login</h1>
 			<span class="inputDiv">
 				<Input name="email" label="Email" />
@@ -18,7 +18,7 @@
 				<Input name="password" label="Password" type="password" />
 			</span>
 			<span class="inputDiv">
-				<Button value="Log In" type="submit" />
+				<Button type="submit" value="Log In" />
 			</span>
 			<p>No account? <a href="/get-started">Sign Up</a></p>
 			{#if form?.success == false}

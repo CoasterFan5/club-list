@@ -9,7 +9,7 @@
 			The <span class="coolText">modern</span> clublist that helps you
 			<span class="coolText">connect</span>
 		</h1>
-		<a href="/get-started" class="getStarted"> Get Started </a>
+		<a class="getStarted" href="/get-started"> Get Started </a>
 	</div>
 	<Simplify />
 	<Connect />
