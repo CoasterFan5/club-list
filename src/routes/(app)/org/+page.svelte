@@ -1,34 +1,38 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
-	export let data: PageData;
-	export let form: ActionData;
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { addToast } from '$lib/components/toaster';
+	import { applyAction, enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	let showingCreateModel = false;
 	let showingJoinModel = false;
 
-	if (form) {
-		if (form.success) {
-			addToast({
-				type: 'success',
-				life: 3000,
-				message: `${form.message}`
-			});
-		} else {
-			addToast({
-				type: 'error',
-				life: 3000,
-				message: `${form.message}`
-			});
+	export let data: PageData;
+	export let form: ActionData;
+
+	$: if (form) {
+		addToast({
+			type: form.success ? 'success' : 'error',
+			life: 3000,
+			message: form.message
+		});
+	}
+
+	const closeModal: ((lambda: () => void) => SubmitFunction) = closeModalLambda => {
+		return () => {
+			return async ({ result }) => {
+				await applyAction(result);
+				closeModalLambda();
+			}
 		}
 	}
 </script>
 
 <ModelHelper bind:showing={showingCreateModel}>
-	<form action="?/create" method="post">
+	<form use:enhance={closeModal(() => showingCreateModel = false)} action="?/create" method="post">
 		<h2>Organization Name</h2>
 		<div class="formInput">
 			<Input label="Organization Name" name="name" />
@@ -40,7 +44,7 @@
 </ModelHelper>
 
 <ModelHelper bind:showing={showingJoinModel}>
-	<form action="?/join" method="post">
+	<form use:enhance action="?/join" method="post">
 		<h2>Join an Organization</h2>
 		<div class="formInput">
 			<Input label="Join Code" name="joinCode" />

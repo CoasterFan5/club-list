@@ -1,20 +1,14 @@
 <script lang="ts">
-	import { fly, fade } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 
 	import { removeToast, type Toast } from './toaster';
-	import { quintInOut, linear } from 'svelte/easing';
+	import { quintInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
 
 	export let data: Toast;
 	let showTimer = false;
-	let hidden = false;
 
-	let close = () => {
-		hidden = true;
-		setTimeout(() => {
-			removeToast(data.id);
-		}, 1000);
-	};
+	let close = () => removeToast(data.id);
 
 	console.log(data.life);
 
@@ -36,28 +30,27 @@
 	};
 </script>
 
-{#if !hidden}
+<div
+	class="wrap"
+	style="z-index: {100000 - data.id ?? 0};"
+	transition:fly={{ duration: 500, x: 500, opacity: 0.5, easing: quintInOut }}
+>
 	<div
-		class="wrap"
-		transition:fly={{ delay: 0, duration: 500, x: 500, y: 0, opacity: 0.5, easing: quintInOut }}
+		class="toast"
+		class:error={data.type == 'error'}
+		class:success={data.type == 'success'}
+		class:warn={data.type == 'warn'}
 	>
-		<div
-			class="toast"
-			class:error={data.type == 'error'}
-			class:success={data.type == 'success'}
-			class:warn={data.type == 'warn'}
-		>
-			<h3>{typeTitles[data.type]}</h3>
-			<p>{data.message}</p>
-			<button class="close" on:click={close}>
-				<img src="/icons/x.svg" alt="close" />
-			</button>
-			{#if showTimer}
-				<div class="timer" style="animation-duration: {data.life}ms;" />
-			{/if}
-		</div>
+		<h3>{typeTitles[data.type]}</h3>
+		<p>{data.message}</p>
+		<button class="close" on:click={close}>
+			<img src="/icons/x.svg" alt="close" />
+		</button>
+		{#if showTimer}
+			<div class="timer" style="animation-duration: {data.life}ms;" />
+		{/if}
 	</div>
-{/if}
+</div>
 
 <style>
 	.wrap {
