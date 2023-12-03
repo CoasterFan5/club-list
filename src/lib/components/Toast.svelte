@@ -3,6 +3,7 @@
 	import { removeToast, type Toast } from './toaster';
 	import { quintInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import DOMPurify from 'isomorphic-dompurify';
 
 	export let data: Toast;
 	let showTimer = false;
@@ -40,7 +41,7 @@
 	>
 		<h3>{typeTitles[data.type]}</h3>
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		<p>{@html data.message}</p>
+		<p>{@html DOMPurify.sanitize(data.message)}</p>
 		<button class="close" on:click={close}>
 			<img src="/icons/x.svg" alt="close" />
 		</button>

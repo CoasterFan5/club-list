@@ -3,14 +3,48 @@ name: publish
 on: ['push', 'pull_request']
 
 jobs:
-  checks:
+  container-job: 
     runs-on: ubuntu-latest
+    container: node:20.9.0-alpine3.18
+
+    services: 
+      db:
+        image: postgres:13
+        env:
+          POSTGRES_USER: prisma
+          POSTGRES_PASSWORD: prisma
+          POSTGRES_DB: tests
+        ports:
+          - '5432:5432'
+      s3.docker.test: 
+        image: zenko/cloudserver
+        env: 
+          REMOVE_MANAGEMENT_DISABLE: 1
+          S3BACKEND: mem
+        ports: 
+          - '8000:8000'
+        
+  
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18.x'
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
       - name: Install dependencies
-        run: yarn install
-      - name: Check for lint errors
-        run: yarn lint
+        run: yarn
+      
+      - name: Create Bucket
+        run: yarn run s3devdata
+      
+      - name: run deployment
+        run: yarn deploy
+        env: 
+          BDURL: "postgresql://prisma:prisma@db/tests"
+          BETA: true
+          r2endpoint: http://s3.docker.test:8000
+          accessKeyId: "accessKey1"
+          accessKeySecret: "verySecretKey1"
+          bucket: "clubsaurus"
+          mediaurl: "http://localhost:8000/clubsaurus"
+
+  
+

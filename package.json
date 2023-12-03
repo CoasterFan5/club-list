@@ -17,7 +17,7 @@
 		"db:deploy": "prisma migrate deploy",
 		"seed": "tsx scripts/seed.ts",
 		"s3devdata": "tsx scripts/s3devdata.ts",
-		"deploy": "vite build && prisma migrate deploy"
+		"deploy": "yarn && vite build && prisma migrate deploy"
 	},
 	"devDependencies": {
 		"@aws-sdk/client-s3": "^3.462.0",
@@ -38,11 +38,12 @@
 		"@tiptap/starter-kit": "^2.1.12",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
-		"eslint": "^8.55.0",
+		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-define-config": "^2.0.0",
 		"eslint-plugin-svelte": "^2.30.0",
 		"fuse.js": "^7.0.0",
+		"isomorphic-dompurify": "^1.11.0",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
 		"prisma": "^5.5.2",
