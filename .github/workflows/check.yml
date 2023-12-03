@@ -44,3 +44,5 @@ jobs:
           accessKeySecret: 'verySecretKey1'
           bucket: 'clubsaurus'
           mediaurl: 'http://localhost:8000/clubsaurus'
+      - name: run tests
+        run: yarn test
