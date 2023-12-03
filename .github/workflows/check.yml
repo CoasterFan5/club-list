@@ -47,7 +47,7 @@ jobs:
         run: yarn build
       - name: Deploy database
         run: yarn db:deploy
-      - name: Give permissions to .svelte-kit
-        run: chmod -R 777 .svelte-kit
+      - name: Give permissions to .
+        run: chmod -R 777 .
       - name: Run Tests
         run: yarn test
