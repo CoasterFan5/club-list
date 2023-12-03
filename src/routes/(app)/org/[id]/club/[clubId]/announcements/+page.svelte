@@ -9,10 +9,10 @@
 <div class="wrap">
 	{#if data.clubPerms.admin || data.clubPerms.manageAnnoucements}
 		<div class="buttonWrap">
-			<Button value="New Announcement" href="announcements/new"/>
+			<Button value="New Announcement" href="announcements/new" />
 		</div>
 	{/if}
-	
+
 	<div class="annoucmentList">
 		{#each data.announcements as announcment}
 			<div class="announcment">

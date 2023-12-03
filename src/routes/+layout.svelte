@@ -15,12 +15,12 @@
 	export let data: LayoutData;
 
 	let sent = false;
-	resetToast()
-	if(data.beta && !sent) {
+	resetToast();
+	if (data.beta && !sent) {
 		addToast({
-			message: "You are on a beta version",
-			type: "warn"
-		})
+			message: 'You are on a beta version',
+			type: 'warn'
+		});
 		sent = true;
 	}
 </script>
@@ -30,10 +30,10 @@
 </svelte:head>
 
 <div class="wrap">
-	<slot/>
+	<slot />
 </div>
 
-<Toaster/>
+<Toaster />
 
 <style>
 	.wrap {
@@ -55,7 +55,8 @@
 		--bgPure: #ffffff;
 		--accent: #e63946;
 		--accent50: rgba(230, 57, 70, 0.5);
-		--redIconFilter: invert(45%) sepia(57%) saturate(7438%) hue-rotate(337deg) brightness(94%) contrast(92%);
+		--redIconFilter: invert(45%) sepia(57%) saturate(7438%) hue-rotate(337deg) brightness(94%)
+			contrast(92%);
 	}
 	:global(body) {
 		margin: 0;

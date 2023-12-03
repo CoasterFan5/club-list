@@ -13,27 +13,25 @@
 	let lastName = data.user.lastName;
 	let email = data.user.email;
 
-
-	$: if(form) {
-		if(form.success) {
-			console.log("adding Toast")
+	$: if (form) {
+		if (form.success) {
+			console.log('adding Toast');
 			addToast({
-				message: "Data Saved!",
-				type: "success",
-				life: 3000,
-			})
+				message: 'Data Saved!',
+				type: 'success',
+				life: 3000
+			});
 		} else {
 			addToast({
-				message: form.message || "An Error Occured",
-				type: "error",
-				life: 5000,
-			})
+				message: form.message || 'An Error Occured',
+				type: 'error',
+				life: 5000
+			});
 		}
 	}
 </script>
 
 <h1>Profile</h1>
-
 
 <div class="wrap">
 	<div class="left">
@@ -47,7 +45,7 @@
 			action="?/updateProfile"
 		>
 			<h2>Details</h2>
-			
+
 			<div class="formInput">
 				<Input name="firstName" label="First Name" bind:value={firstName} />
 			</div>
@@ -62,24 +60,17 @@
 
 			<Button type="submit" value="Save" />
 
-
 			<form use:enhance action="/logout" method="post" class="logOut">
 				<Button type="submit" value="Log Out" />
 			</form>
 		</form>
 	</div>
 
-	
 	<div class="right">
 		<h2>Profile Picture</h2>
 		<PfpUpload pfpUrl={data.user.pfp} />
 	</div>
 </div>
-
-
-
-
-
 
 <style>
 	.wrap {

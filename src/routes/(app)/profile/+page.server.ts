@@ -80,10 +80,10 @@ export const actions = {
 			const pfp: File = FormData.pfp as File;
 			const pfpBuffer: Buffer = Buffer.from(await pfp.arrayBuffer());
 
-			console.log(pfp.size)
+			console.log(pfp.size);
 
-			if(pfp.size > 3e6) {
-				throw fail(400, {message: "Max size: 3mb"})
+			if (pfp.size > 3e6) {
+				throw fail(400, { message: 'Max size: 3mb' });
 			}
 
 			if (pfp.name.length > 100) {
@@ -95,8 +95,6 @@ export const actions = {
 			if (key.length >= 255) {
 				throw fail(400, { message: 'File Name Too Long' });
 			}
-
-			
 
 			S3.send(
 				new PutObjectCommand({

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {ActionData, PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 	export let data: PageData;
 	export let form: ActionData;
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
@@ -10,19 +10,19 @@
 	let showingCreateModel = false;
 	let showingJoinModel = false;
 
-	if(form) {
-		if(form.success) {
+	if (form) {
+		if (form.success) {
 			addToast({
-				type: "success",
+				type: 'success',
 				life: 3000,
 				message: `${form.message}`
-			})
+			});
 		} else {
 			addToast({
-				type: "error",
+				type: 'error',
 				life: 3000,
 				message: `${form.message}`
-			})
+			});
 		}
 	}
 </script>

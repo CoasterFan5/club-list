@@ -125,14 +125,12 @@ export const actions = {
 			};
 		}
 
-		if(joinCheck.orgUsers.length > 0) {
+		if (joinCheck.orgUsers.length > 0) {
 			return {
 				success: false,
-				message: "Already in this org!"
-			}
+				message: 'Already in this org!'
+			};
 		}
-
-
 
 		// create an org user
 		await prisma.orgUser.create({

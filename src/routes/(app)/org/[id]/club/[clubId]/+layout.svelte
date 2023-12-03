@@ -1,36 +1,35 @@
 <script lang="ts">
-	import { page } from "$app/stores";
-	import { get } from "svelte/store";
-	import type { PageData } from "./$types";
+	import { page } from '$app/stores';
+	import { get } from 'svelte/store';
+	import type { PageData } from './$types';
 	export let data: PageData;
 
-
-	let route = get(page).route
+	let route = get(page).route;
 	page.subscribe((page) => {
 		route = page.route;
-	})
-	
-	console.log(route)
+	});
 
-	let baseURL = `/org/${data.org.id}/club/${data.club.id.toString()}`
+	console.log(route);
+
+	let baseURL = `/org/${data.org.id}/club/${data.club.id.toString()}`;
 </script>
+
 <div class="wrap">
 	<div class="header">
 		<div class="headerInner">
 			<h2 class="clubName">{data.club.name}</h2>
 			<div class="nav">
-				<a href="{baseURL}" class:selected={route.id == "/(app)/org/[id]/club/[clubId]"}>About</a>
-				<a href="{baseURL}/announcements" class:selected={route.id == "/(app)/org/[id]/club/[clubId]/announcements"}>Announcments</a>
+				<a href={baseURL} class:selected={route.id == '/(app)/org/[id]/club/[clubId]'}>About</a>
+				<a
+					href="{baseURL}/announcements"
+					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/announcements'}>Announcments</a
+				>
 			</div>
 		</div>
-		
 	</div>
 	<div class="inner">
-		
-		
-		<slot/>
+		<slot />
 	</div>
-	
 </div>
 
 <style>
@@ -68,7 +67,7 @@
 		margin-bottom: 25px;
 	}
 	.nav a.selected {
-		color: var(--accent50)	
+		color: var(--accent50);
 	}
 	.nav a.selected::after {
 		transform: scaleX(1);
@@ -91,7 +90,7 @@
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
 	}
 	.nav a::after {
-		content: "";
+		content: '';
 		bottom: 0px;
 		left: 0px;
 		position: absolute;
@@ -100,7 +99,7 @@
 		background: var(--accent);
 		transform: scaleX(0);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-	}	
+	}
 	.nav a:hover {
 		color: var(--accent);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
@@ -108,7 +107,5 @@
 	.nav a:hover::after {
 		transform: scaleX(1);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-		
 	}
-	
 </style>

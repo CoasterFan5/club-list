@@ -1,11 +1,11 @@
 <script>
-	import Toast from "./Toast.svelte";
-	import { toasts } from "./toaster";
+	import Toast from './Toast.svelte';
+	import { toasts } from './toaster';
 </script>
 
 <div class="wrap">
 	{#each $toasts as toast}
-		<Toast data={toast}/>
+		<Toast data={toast} />
 	{/each}
 </div>
 

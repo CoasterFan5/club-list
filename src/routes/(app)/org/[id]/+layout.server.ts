@@ -27,8 +27,6 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		throw new Error('Not in this organization');
 	}
 
-	
-
 	return {
 		org,
 		clubs: org.clubs,

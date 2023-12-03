@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { enhance, applyAction } from "$app/forms";
-	import { invalidateAll } from "$app/navigation";
-	
+	import { enhance, applyAction } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
+
 	export let pfpUrl: string | null;
 
 	$: newImageData = pfpUrl || '/upload.svg';
@@ -20,15 +20,20 @@
 	};
 </script>
 
-<form method="post" action="/profile?/updatePfp" use:enhance={() => {
-	return async ({ result }) => {
-		if (result.type != "success") await applyAction(result);
-		else {
-			await invalidateAll();
-			fileSelector.value = "";
-		}
-	}
-}} enctype="multipart/form-data">
+<form
+	method="post"
+	action="/profile?/updatePfp"
+	use:enhance={() => {
+		return async ({ result }) => {
+			if (result.type != 'success') await applyAction(result);
+			else {
+				await invalidateAll();
+				fileSelector.value = '';
+			}
+		};
+	}}
+	enctype="multipart/form-data"
+>
 	<button class="wrap" type="button" on:click={startUpload}>
 		<img class="pfp" src={newImageData} alt="profile" width="120px" height="120px" />
 	</button>

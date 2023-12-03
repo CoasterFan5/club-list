@@ -20,8 +20,6 @@
 	const dashboardLike = ['/dashboard', '/org', '/profile'];
 </script>
 
-
-
 <div class="wrap">
 	<Navbar dashboard={dashboardLike.includes(data.pathname)} />
 	{#key data.pathname}
@@ -75,5 +73,4 @@
 		align-items: center;
 		justify-content: start;
 	}
-
 </style>

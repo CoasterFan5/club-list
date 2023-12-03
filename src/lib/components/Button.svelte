@@ -3,11 +3,11 @@
 	// keeps everything looking clean
 	export let value = 'Button!';
 	export let type: HTMLButtonElement['type'] = 'submit';
-	export let href: string | undefined = "";
+	export let href: string | undefined = '';
 </script>
 
 {#if href}
-	<a class="button" href="{href}">
+	<a class="button" {href}>
 		{value}
 	</a>
 {:else}
@@ -15,7 +15,6 @@
 		{value}
 	</button>
 {/if}
-
 
 <style>
 	.button {

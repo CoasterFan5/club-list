@@ -1,14 +1,13 @@
 <script lang="ts">
-	import type { LayoutData } from "./$types";
-	import Sidebar from "./Sidebar.svelte";
+	import type { LayoutData } from './$types';
+	import Sidebar from './Sidebar.svelte';
 	export let data: LayoutData;
 </script>
 
-
 <div class="wrap">
-	<Sidebar {data}/>
+	<Sidebar {data} />
 	<div class="content">
-		<slot/>
+		<slot />
 	</div>
 </div>
 

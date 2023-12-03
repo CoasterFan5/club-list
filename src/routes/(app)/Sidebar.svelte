@@ -1,19 +1,19 @@
 <script lang="ts">
-	import type { LayoutData } from "./$types";
+	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 
-	$: pfp = data.user.pfp || "/defaultPFP.png"
+	$: pfp = data.user.pfp || '/defaultPFP.png';
 </script>
 
 <nav class="sidebar">
 	<a href="/profile" class="pfp">
-		<img class="pfpImage" src={pfp} alt="profile">
+		<img class="pfpImage" src={pfp} alt="profile" />
 	</a>
 	<a href="/dashboard" class="button">
-		<img class="img" src="/icons/home.svg" alt="home"/>
+		<img class="img" src="/icons/home.svg" alt="home" />
 	</a>
 	<a href="/org" class="button">
-		<img class="img" src="/icons/orgs.svg" alt="home"/>
+		<img class="img" src="/icons/orgs.svg" alt="home" />
 	</a>
 </nav>
 
@@ -36,7 +36,6 @@
 		border-radius: 5px;
 		position: relative;
 		overflow: hidden;
-		
 	}
 	.pfpImage {
 		width: 100%;
@@ -48,10 +47,9 @@
 		opacity: 1;
 		overflow: hidden;
 		object-fit: cover;
-		
 	}
 	.pfp::after {
-		content: "";
+		content: '';
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -78,5 +76,4 @@
 		background: var(--accent50);
 		border-radius: 5px;
 	}
-	
 </style>
