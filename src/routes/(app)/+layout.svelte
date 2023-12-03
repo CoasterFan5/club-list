@@ -31,7 +31,7 @@
 		height: 100vh;
 	}
 	.content {
-		width: calc(100%);
+		width: calc(100% - 75px);
 		margin-left: 75px;
 		display: flex;
 		position: absolute;
