@@ -1,4 +1,4 @@
-import { prisma } from '$lib/db.js';
+import { prisma } from '$lib/prismaConnection';
 import { redirect } from '@sveltejs/kit';
 
 export const actions = {
