@@ -26,7 +26,7 @@
 	</button>
 {/if}
 
-<style>
+<style lang="scss">
 	.wrap {
 		all: unset;
 		position: fixed;

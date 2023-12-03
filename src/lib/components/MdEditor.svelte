@@ -105,7 +105,7 @@
 	</button>
 </div>
 
-<style>
+<style lang="scss">
 	.editor {
 		width: 100%;
 		height: 100%;
@@ -116,17 +116,19 @@
 		margin-top: 1rem;
 	}
 
-	.menu button {
-		all: unset;
-		cursor: pointer;
-		padding: 0.25rem 0.5rem;
-		border-radius: 5px;
-		background: white;
-		border: 1px solid black;
-	}
+	.menu {
+		button {
+			all: unset;
+			cursor: pointer;
+			padding: 0.25rem 0.5rem;
+			border-radius: 5px;
+			background: white;
+			border: 1px solid black;
 
-	.menu button.active {
-		background: black;
-		color: white;
+			.active {
+				background: black;
+				color: white;
+			}
+		}
 	}
 </style>

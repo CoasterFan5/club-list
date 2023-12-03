@@ -50,7 +50,7 @@
 	<button type="submit" bind:this={submitButton} hidden />
 </form>
 
-<style>
+<style lang="scss">
 	.wrap {
 		all: unset;
 		padding: 0px;

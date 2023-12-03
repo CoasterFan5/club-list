@@ -71,7 +71,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		display: flex;
 		flex-direction: row;
@@ -82,6 +82,7 @@
 		justify-content: center;
 		max-width: 500px;
 	}
+
 	.left {
 		width: 100%;
 		display: flex;
@@ -90,6 +91,7 @@
 		justify-content: center;
 		text-align: center;
 	}
+
 	.right {
 		width: 100%;
 		display: flex;
@@ -97,6 +99,7 @@
 		justify-content: start;
 		flex-direction: column;
 	}
+
 	.formInput {
 		margin-bottom: 1rem;
 	}

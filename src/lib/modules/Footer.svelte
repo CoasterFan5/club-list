@@ -23,7 +23,7 @@
 	</div>
 </footer>
 
-<style>
+<style lang="scss">
 	.emphasize {
 		color: var(--textDark);
 	}
@@ -61,26 +61,29 @@
 		align-items: end;
 		justify-content: center;
 		flex-direction: column;
-	}
-	.right a {
-		color: var(--accent);
-		text-decoration: none;
-		margin: 2px 0px;
-		position: relative;
-		font-size: 1rem;
-	}
-	.right a::after {
-		content: '';
-		position: absolute;
-		bottom: 0px;
-		width: 100%;
-		height: 2px;
-		left: 0px;
-		background: var(--accent);
-		transform: scaleX(0);
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	}
-	.right a:hover::after {
-		transform: scale(1);
+
+		a {
+			color: var(--accent);
+			text-decoration: none;
+			margin: 2px 0px;
+			position: relative;
+			font-size: 1rem;
+
+			&:hover::after {
+				transform: scaleX(1);
+			}
+
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: 0px;
+				width: 100%;
+				height: 2px;
+				left: 0px;
+				background: var(--accent);
+				transform: scaleX(0);
+				transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+			}
+		}
 	}
 </style>

@@ -107,45 +107,50 @@
 	</div>
 {/if}
 
-<style>
+<style lang="scss">
 	.noOrgs {
 		text-align: center;
 		font-size: 1.2rem;
-	}
-	.noOrgs h1 {
-		margin: 0px;
+
+		h1 {
+			margin: 0px;
+		}
+
+		p {
+			margin-top: 10px;
+			font-size: 1.5rem;
+		}
 	}
 
 	.formInput {
 		margin: 7px;
 	}
 
-	.noOrgs p {
-		margin-top: 10px;
-		font-size: 1.5rem;
-	}
 	.textButton {
 		all: unset;
 		cursor: pointer;
 		text-decoration: none;
 		color: var(--accent);
 		position: relative;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0px;
+			left: 0;
+			width: 100%;
+			height: 2px;
+			background: var(--accent);
+			transform: scaleX(0);
+			transform-origin: center;
+			transition: transform 0.3s ease-in-out;
+		}
+
+		&:hover::after {
+			transform: scaleX(1);
+		}
 	}
-	.textButton::after {
-		content: '';
-		position: absolute;
-		bottom: 0px;
-		left: 0;
-		width: 100%;
-		height: 2px;
-		background: var(--accent);
-		transform: scaleX(0);
-		transform-origin: center;
-		transition: transform 0.3s ease-in-out;
-	}
-	.textButton:hover::after {
-		transform: scaleX(1);
-	}
+
 	.orgList {
 		width: 100%;
 		height: 100%;
@@ -153,30 +158,30 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: start;
-	}
-	.orgList .list {
-		width: 80%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: start;
-		justify-content: center;
-	}
-	.orgList .list a {
-		font-size: 1.2rem;
-		margin-bottom: 15px;
-		width: 100%;
-		padding: 20px;
-		background: var(--dark);
-		border-radius: 5px;
-		color: var(--text);
-	}
-	.orgList .list a:hover {
-		background: var(--mid);
-	}
-	.orgList p {
-		margin-top: 10px;
-		font-size: 1.2rem;
+
+		.list {
+			width: 80%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: start;
+			justify-content: center;
+
+			a {
+				font-size: 1.2rem;
+				margin-bottom: 15px;
+				width: 100%;
+				padding: 20px;
+				background: var(--dark);
+				border-radius: 5px;
+				color: var(--text);
+			}
+		}
+
+		p {
+			margin-top: 10px;
+			font-size: 1.2rem;
+		}
 	}
 
 	p {

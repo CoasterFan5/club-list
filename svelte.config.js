@@ -9,6 +9,15 @@ const config = {
 		adapter: adapter(),
 		csrf: {
 			checkOrigin: process.env.NODE_ENV != 'development'
+		},
+		csp: {
+			directives: {
+				'script-src': ['self']
+			},
+			reportOnly: {
+				'script-src': ['self'],
+				'report-to': ['csp-endpoint']
+			}
 		}
 	}
 };

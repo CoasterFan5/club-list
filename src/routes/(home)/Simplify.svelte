@@ -48,7 +48,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	h2 {
 		text-align: center;
 	}
@@ -65,15 +65,17 @@
 		position: relative;
 		border-top: 1px solid black;
 		border-bottom: 1px solid black;
+
+		h2 {
+			z-index: 5;
+			background: var(--bg);
+			padding: 20px;
+			border-radius: 5px;
+			font-weight: 500;
+			font-size: 2rem;
+		}
 	}
-	.simplify h2 {
-		z-index: 5;
-		background: var(--bg);
-		padding: 20px;
-		border-radius: 5px;
-		font-weight: 500;
-		font-size: 2rem;
-	}
+
 	.simplifyText {
 		width: 100%;
 		height: 100%;
@@ -86,20 +88,23 @@
 		color: rgba(0, 0, 0, 0.5);
 		font-size: 1.2rem;
 	}
+
 	.hiddenClub {
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
 		border: 1px solid transparent;
 		border-radius: 100px;
 		position: relative;
 	}
+
 	.shown {
 		background: var(--accent50);
 		opacity: 1;
-	}
-	.shown::after {
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
-		opacity: 1;
-		border-radius: 100px;
-		border: 1px solid var(--accent);
+
+		&::after {
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
+			opacity: 1;
+			border-radius: 100px;
+			border: 1px solid var(--accent);
+		}
 	}
 </style>

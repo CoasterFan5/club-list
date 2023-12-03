@@ -33,7 +33,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.header {
 		background: var(--bgMid);
 		width: 100%;
@@ -44,9 +44,11 @@
 		align-items: center;
 		justify-content: center;
 	}
+
 	.headerInner {
 		width: 90%;
 	}
+
 	.wrap {
 		width: 100%;
 		display: flex;
@@ -54,6 +56,7 @@
 		justify-content: center;
 		flex-direction: column;
 	}
+
 	.inner {
 		display: flex;
 		width: 90%;
@@ -61,52 +64,58 @@
 		align-items: center;
 		justify-content: center;
 	}
+
 	.clubName {
 		font-size: 2rem;
 		font-weight: 500;
 		margin: 0px;
 		margin-bottom: 25px;
 	}
-	.nav a.selected {
-		color: var(--accent50);
-	}
-	.nav a.selected::after {
-		transform: scaleX(1);
-		background: var(--accent50);
-	}
+
 	.nav {
 		width: 100%;
 		display: flex;
 		align-items: center;
 		flex-direction: row;
-	}
-	.nav a {
-		margin-right: 20px;
-		padding: 5px 0px;
-		font-size: 1.1rem;
-		text-decoration: none;
-		color: var(--textColor);
-		opacity: 0.9;
-		position: relative;
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-	}
-	.nav a::after {
-		content: '';
-		bottom: 0px;
-		left: 0px;
-		position: absolute;
-		width: 100%;
-		height: 2px;
-		background: var(--accent);
-		transform: scaleX(0);
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-	}
-	.nav a:hover {
-		color: var(--accent);
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-	}
-	.nav a:hover::after {
-		transform: scaleX(1);
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+
+		a {
+			margin-right: 20px;
+			padding: 5px 0px;
+			font-size: 1.1rem;
+			text-decoration: none;
+			color: var(--textColor);
+			opacity: 0.9;
+			position: relative;
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+
+			&::after {
+				content: '';
+				bottom: 0px;
+				left: 0px;
+				position: absolute;
+				width: 100%;
+				height: 2px;
+				background: var(--accent);
+				transition: transform cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+				transform: scaleX(0);
+			}
+
+			&:hover {
+				color: var(--accent);
+
+				&::after {
+					transform: scaleX(1);
+				}
+			}
+
+			&.selected {
+				color: var(--accent50);
+
+				&::after {
+					transform: scaleX(1);
+					background: var(--accent50);
+				}
+			}
+		}
 	}
 </style>

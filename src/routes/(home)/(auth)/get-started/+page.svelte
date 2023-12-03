@@ -37,7 +37,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		width: 100%;
 		height: 100vh;
@@ -46,6 +46,7 @@
 		align-items: center;
 		justify-content: start;
 	}
+
 	.contentWrap {
 		width: 100%;
 		height: 100%;
@@ -53,6 +54,7 @@
 		align-items: center;
 		justify-content: center;
 	}
+
 	.content {
 		max-width: 350px;
 		width: 100%;
@@ -63,31 +65,36 @@
 		justify-content: center;
 		border-radius: 10px;
 	}
+
 	.inputDiv {
 		margin: 7px;
 		width: 100%;
 	}
+
 	.error {
 		margin: 0px;
 		color: red;
 	}
+
 	a {
 		color: var(--accent);
 		position: relative;
 		text-decoration: none;
-	}
-	a::after {
-		content: '';
-		position: absolute;
-		bottom: 0px;
-		left: 0px;
-		width: 100%;
-		height: 2px;
-		transform: scaleX(0);
-		background: var(--accent);
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-	}
-	a:hover::after {
-		transform: scaleX(1);
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0px;
+			left: 0px;
+			width: 100%;
+			height: 2px;
+			transform: scaleX(0);
+			background: var(--accent);
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+		}
+
+		&:hover::after {
+			transform: scaleX(1);
+		}
 	}
 </style>

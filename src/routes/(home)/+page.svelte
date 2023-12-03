@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Simplify from './Simplify.svelte';
 	import Connect from './Connect.svelte';
 </script>
@@ -15,7 +15,7 @@
 	<Connect />
 </div>
 
-<style>
+<style lang="scss">
 	h1 {
 		text-align: center;
 		padding: 0px 5rem;
@@ -24,6 +24,7 @@
 	.wrap {
 		width: 100%;
 	}
+
 	.title {
 		height: 100vh;
 		width: 100%;
@@ -32,6 +33,7 @@
 		justify-content: center;
 		flex-direction: column;
 	}
+
 	.getStarted {
 		font-size: 1.5rem;
 		padding: 10px 20px;
@@ -41,17 +43,19 @@
 		text-decoration: none;
 		color: var(--textColor);
 		transition: background cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+
+		&:hover {
+			background: var(--accent);
+			color: var(--bg);
+		}
 	}
-	.getStarted:hover {
-		background: var(--accent);
-		color: var(--bg);
-		transition: background cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	}
+
 	.title h1 {
 		margin: 0px;
 		font-weight: 500;
 		font-size: 3rem;
 	}
+
 	.coolText {
 		color: var(--accent);
 	}

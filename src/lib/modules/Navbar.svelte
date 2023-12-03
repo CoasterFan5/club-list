@@ -45,7 +45,7 @@
 	</div>
 </nav>
 
-<style>
+<style lang="scss">
 	.highlight {
 		position: relative;
 		transform: translateY(0);
@@ -70,53 +70,60 @@
 		z-index: 65000;
 		background: var(--mid);
 		height: 60px;
+
+		.inner {
+			width: 80%;
+			height: 100%;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+
+			h1 {
+				font-size: 2rem;
+				color: var(--text);
+				margin: 10px;
+				font-weight: 400;
+
+				a {
+					text-decoration: none;
+					color: var(--text);
+				}
+			}
+		}
 	}
-	.wrap .inner {
-		width: 80%;
-		height: 100%;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-	}
-	.inner h1 {
-		font-size: 2rem;
-		color: var(--text);
-		margin: 10px;
-		font-weight: 400;
-	}
-	.inner h1 a {
-		text-decoration: none;
-		color: var(--text);
-	}
+
 	.links {
 		right: 0;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-	}
-	.links a {
-		margin-left: 15px;
-		font-size: 1.2rem;
-		text-decoration: none;
-		color: var(--text);
-		position: relative;
-	}
-	.links a::after {
-		content: '';
-		position: absolute;
-		bottom: 0px;
-		left: 0;
-		width: 100%;
-		height: 2px;
-		background: var(--accent);
-		transform: scaleX(0);
-		transform-origin: center;
-		transition: transform 0.3s ease-in-out;
-	}
-	.links a:hover::after {
-		transform: scaleX(1);
+
+		a {
+			margin-left: 15px;
+			font-size: 1.2rem;
+			text-decoration: none;
+			color: var(--text);
+			position: relative;
+
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: 0px;
+				left: 0;
+				width: 100%;
+				height: 2px;
+				background: var(--accent);
+				transform: scaleX(0);
+				transform-origin: center;
+				transition: transform 0.3s ease-in-out;
+			}
+
+			&:hover::after {
+				transform: scaleX(1);
+			}
+		}
 	}
 
 	.hamburgerMenu {
@@ -130,20 +137,22 @@
 		display: flex;
 		flex-direction: column;
 		color: var(--text);
-	}
-	.hamburgerMenu a {
-		padding: 10px;
-	}
-	.hamburgerMenu::after {
-		content: '';
-		background: var(--mid);
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		opacity: 0.9;
-		padding: 20px 0px;
-		top: 0px;
-		left: 0px;
-		z-index: -1;
+
+		a {
+			padding: 10px;
+		}
+
+		&::after {
+			content: '';
+			background: var(--mid);
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			opacity: 0.9;
+			padding: 20px 0px;
+			top: 0px;
+			left: 0px;
+			z-index: -1;
+		}
 	}
 </style>

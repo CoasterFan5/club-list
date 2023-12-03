@@ -16,7 +16,7 @@
 	</form>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		display: flex;
 		width: 100%;
@@ -26,10 +26,12 @@
 		align-items: center;
 		justify-content: start;
 	}
+
 	.editor {
 		width: 90%;
 		max-width: 500px;
 	}
+
 	hr {
 		padding: 0px;
 		margin: 7px 0px;

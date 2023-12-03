@@ -53,10 +53,12 @@
 	<canvas bind:this={canvas} on:mousemove={draw} {height} {width} />
 </div>
 
-<style>
+<style lang="scss">
 	h2 {
 		text-align: center;
 		padding: 0px 20px;
+		font-weight: 500;
+		font-size: 2rem;
 	}
 
 	.connect {
@@ -69,10 +71,7 @@
 		position: relative;
 		border-bottom: 1px solid black;
 	}
-	h2 {
-		font-weight: 500;
-		font-size: 2rem;
-	}
+
 	canvas {
 		position: absolute;
 		width: 100%;

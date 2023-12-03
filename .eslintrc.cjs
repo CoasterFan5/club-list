@@ -1,4 +1,7 @@
-module.exports = {
+// @ts-check
+const { defineConfig } = require('eslint-define-config');
+
+module.exports = defineConfig({
 	root: true,
 	extends: [
 		'eslint:recommended',
@@ -18,6 +21,15 @@ module.exports = {
 		es2017: true,
 		node: true
 	},
+	rules: {
+		'svelte/block-lang': [
+			'error',
+			{
+				script: 'ts',
+				style: 'scss'
+			}
+		]
+	},
 	overrides: [
 		{
 			files: ['*.svelte'],
@@ -27,4 +39,4 @@ module.exports = {
 			}
 		}
 	]
-};
+});

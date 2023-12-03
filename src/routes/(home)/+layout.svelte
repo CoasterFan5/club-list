@@ -25,19 +25,21 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.footer {
 		position: absolute;
 		height: 120px;
 		width: 100%;
 		bottom: -0px;
 	}
+
 	.wrap {
 		min-height: calc(100vh);
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 	}
+
 	.wrapper {
 		width: 100%;
 		height: 100%;
@@ -45,6 +47,7 @@
 		align-items: center;
 		flex-direction: column;
 	}
+
 	.content {
 		position: relative;
 		box-sizing: border-box;

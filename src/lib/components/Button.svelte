@@ -16,7 +16,7 @@
 	</button>
 {/if}
 
-<style>
+<style lang="scss">
 	.button {
 		all: unset;
 		background: transparent;
@@ -28,10 +28,11 @@
 		font-size: 1.2rem;
 		cursor: pointer;
 		color: var(--textDark);
-	}
-	.button:focus,
-	.button:hover,
-	.button:active {
-		border: 1px solid var(--accent);
+
+		&:focus,
+		&:hover,
+		&:active {
+			border: 1px solid var(--accent);
+		}
 	}
 </style>

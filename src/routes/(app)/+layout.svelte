@@ -23,13 +23,14 @@
 	{/key}
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		display: flex;
 		flex-direction: row;
 		width: 100%;
 		height: 100vh;
 	}
+
 	.content {
 		width: calc(100% - 75px);
 		margin-left: 75px;

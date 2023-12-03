@@ -17,7 +17,7 @@
 	</a>
 </nav>
 
-<style>
+<style lang="scss">
 	.sidebar {
 		width: 75px;
 		padding: 12px;
@@ -36,6 +36,16 @@
 		border-radius: 5px;
 		position: relative;
 		overflow: hidden;
+
+		&::after {
+			content: '';
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0px;
+			left: 0px;
+			background: var(--bgPure);
+		}
 	}
 	.pfpImage {
 		width: 100%;
@@ -48,15 +58,7 @@
 		overflow: hidden;
 		object-fit: cover;
 	}
-	.pfp::after {
-		content: '';
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0px;
-		left: 0px;
-		background: var(--bgPure);
-	}
+
 	.button {
 		display: flex;
 		width: 100%;
@@ -65,15 +67,17 @@
 		margin: 5px 0px;
 		aspect-ratio: 1/1;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	}
-	.button img {
-		filter: var(--redIconFilter);
-		aspect-ratio: 1/1;
-		width: 100%;
-		height: 100%;
-	}
-	.button:hover {
-		background: var(--accent50);
-		border-radius: 5px;
+
+		&:hover {
+			background: var(--accent50);
+			border-radius: 5px;
+		}
+
+		img {
+			filter: var(--iconFilter);
+			aspect-ratio: 1/1;
+			width: 100%;
+			height: 100%;
+		}
 	}
 </style>

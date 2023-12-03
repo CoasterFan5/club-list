@@ -3,7 +3,6 @@
 	import { removeToast, type Toast } from './toaster';
 	import { quintInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
-	import DOMPurify from 'dompurify';
 
 	export let data: Toast;
 	let showTimer = false;
@@ -41,7 +40,7 @@
 	>
 		<h3>{typeTitles[data.type]}</h3>
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		<p>{@html DOMPurify.sanitize(data.message)}</p>
+		<p>{@html data.message}</p>
 		<button class="close" on:click={close}>
 			<img src="/icons/x.svg" alt="close" />
 		</button>
@@ -51,22 +50,26 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		position: relative;
 		z-index: 11;
 		margin-top: 10px;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
 	}
+
 	.error {
 		border-left: 5px solid var(--accent);
 	}
+
 	.success {
 		border-left: 5px solid rgb(47, 255, 57);
 	}
+
 	.warn {
 		border-left: 5px solid rgb(235, 235, 0);
 	}
+
 	.toast {
 		padding: 10px 30px;
 		background: var(--bgPure);
@@ -78,12 +81,15 @@
 		border-radius: 5px;
 		width: 400px;
 	}
+
 	h3 {
 		margin: 5px 0px;
 	}
+
 	p {
 		margin: 0px;
 	}
+
 	.close {
 		all: unset;
 		cursor: pointer;
@@ -93,9 +99,11 @@
 		right: 0px;
 		padding: 2px;
 	}
+
 	.close img {
 		width: 30px;
 	}
+
 	@keyframes closebar {
 		from {
 			width: 100%;
@@ -104,6 +112,7 @@
 			width: 0%;
 		}
 	}
+
 	.timer {
 		position: absolute;
 		bottom: 0px;

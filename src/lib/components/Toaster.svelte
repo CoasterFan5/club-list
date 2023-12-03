@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { flip } from 'svelte/animate';
 	import Toast from './Toast.svelte';
 	import { toasts } from './toaster';
@@ -14,7 +14,7 @@
 	{/each}
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		position: fixed;
 		bottom: 0px;

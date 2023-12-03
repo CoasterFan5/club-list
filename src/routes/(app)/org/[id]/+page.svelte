@@ -95,7 +95,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		height: 100%;
 		width: 100%;
@@ -106,6 +106,7 @@
 		align-items: start;
 		justify-content: center;
 	}
+
 	.content {
 		width: 100%;
 		box-sizing: border-box;
@@ -121,26 +122,27 @@
 		text-decoration: none;
 		color: var(--accent);
 		position: relative;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0px;
+			left: 0;
+			width: 100%;
+			height: 2px;
+			background: var(--accent);
+			transform: scaleX(0);
+			transform-origin: center;
+			transition: transform 0.3s ease-in-out;
+		}
+
+		&:hover::after {
+			transform: scaleX(1);
+		}
 	}
 
 	.error {
 		color: red;
-	}
-
-	.textButton::after {
-		content: '';
-		position: absolute;
-		bottom: 0px;
-		left: 0;
-		width: 100%;
-		height: 2px;
-		background: var(--accent);
-		transform: scaleX(0);
-		transform-origin: center;
-		transition: transform 0.3s ease-in-out;
-	}
-	.textButton:hover::after {
-		transform: scaleX(1);
 	}
 
 	.clubs {
@@ -150,6 +152,11 @@
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
+
+		&:hover .clubInner {
+			box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+		}
 	}
 	.club {
 		aspect-ratio: 5/2;
@@ -162,6 +169,7 @@
 		min-width: 320px;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
+
 	.clubImage {
 		position: absolute;
 		width: 100%;
@@ -171,10 +179,7 @@
 		object-fit: cover;
 		border-radius: 3px;
 	}
-	.club:hover .clubInner {
-		box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	}
+
 	.clubInner {
 		position: relative;
 		display: flex;
@@ -192,21 +197,23 @@
 		width: 100%;
 		color: var(--textLight);
 		border-radius: 0px 0px 3px 3px;
-	}
-	.clubText::after {
-		content: '';
-		position: absolute;
-		background: var(--mid);
-		bottom: 0px;
-		border-radius: 0px 0px 3px 3px;
-		opacity: 0.8;
-		z-index: -1;
-		width: 100%;
-		height: 100%;
-	}
-	.clubText > h2 {
-		margin: 5px;
-		font-weight: 400;
+
+		&::after {
+			content: '';
+			position: absolute;
+			background: var(--mid);
+			bottom: 0px;
+			border-radius: 0px 0px 3px 3px;
+			opacity: 0.8;
+			z-index: -1;
+			width: 100%;
+			height: 100%;
+		}
+
+		& > h2 {
+			margin: 5px;
+			font-weight: 400;
+		}
 	}
 
 	.formItem {
@@ -230,15 +237,18 @@
 		justify-content: center;
 		border-radius: 3px;
 		overflow: hidden;
+
+		img {
+			padding: 0px 10px;
+		}
+
+		&:hover,
+		&:focus {
+			box-shadow: 0px 0px 1px 1px var(--accent);
+			cursor: text;
+		}
 	}
-	.searchWrap img {
-		padding: 0px 10px;
-	}
-	.searchWrap:hover,
-	.searchWrap:focus {
-		box-shadow: 0px 0px 1px 1px var(--accent);
-		cursor: text;
-	}
+
 	.search {
 		width: 100%;
 		outline: 0px;

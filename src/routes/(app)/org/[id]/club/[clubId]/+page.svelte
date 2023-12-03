@@ -73,7 +73,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		height: 100%;
 		width: 100%;
@@ -84,6 +84,7 @@
 		align-items: center;
 		justify-content: start;
 	}
+
 	.settingsForm {
 		background: var(--bgPure);
 		display: flex;
@@ -93,10 +94,12 @@
 		padding: 20px;
 		border-radius: 5px;
 	}
+
 	.formItem {
 		margin: 7px 0px;
 		width: 100%;
 	}
+
 	.content {
 		width: 100%;
 		display: flex;
@@ -105,20 +108,23 @@
 		justify-content: center;
 		min-height: 300px;
 	}
+
 	.editor {
 		position: relative;
 		width: 100%;
 		height: 100%;
 		min-height: 300px;
 	}
+
 	.editTools {
 		position: absolute;
 		top: 32px;
 		right: 0px;
 		z-index: 100;
-	}
-	.editTools img {
-		aspect-ratio: 1/1;
+
+		img {
+			aspect-ratio: 1/1;
+		}
 	}
 	.editButton {
 		all: unset;

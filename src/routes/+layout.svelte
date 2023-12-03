@@ -36,7 +36,7 @@
 
 <Toaster />
 
-<style>
+<style lang="scss">
 	.wrap {
 		min-height: calc(100vh);
 		width: 100%;
@@ -59,10 +59,12 @@
 		--redIconFilter: invert(45%) sepia(57%) saturate(7438%) hue-rotate(337deg) brightness(94%)
 			contrast(92%);
 	}
+
 	:global(body) {
 		margin: 0;
 		background: var(--bg);
 	}
+
 	:global(.ProseMirror-focused) {
 		outline: 0px;
 	}
