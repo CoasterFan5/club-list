@@ -47,7 +47,7 @@ jobs:
         run: yarn build
       - name: Deploy database
         run: yarn db:deploy
-      - name: Install Sudo
-        run: apt-get update && apt-get install sudo
+      - name: Give permissions to .svelte-kit
+        run: chmod -R 777 .svelte-kit
       - name: Run Tests
-        run: sudo yarn test
+        run: yarn test
