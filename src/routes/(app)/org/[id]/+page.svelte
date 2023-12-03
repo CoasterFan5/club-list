@@ -153,7 +153,7 @@
 	}
 	.club {
 		aspect-ratio: 5/2;
-		width: 33%;
+		width: calc(100% / 3);
 		padding: 0px 10px 20px 10px;
 		box-sizing: border-box;
 		display: flex;

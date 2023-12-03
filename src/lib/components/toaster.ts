@@ -8,7 +8,7 @@ export interface Toast {
 	type: 'error' | 'warn' | 'success';
 	id: number;
 	life?: number;
-};
+}
 
 export const toasts = writable<Toast[]>();
 

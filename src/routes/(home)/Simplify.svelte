@@ -1,19 +1,18 @@
 <script lang="ts">
-	import { inview } from 'svelte-inview';
-	import type { Options } from 'svelte-inview';
+	import { inview, type Options } from 'svelte-inview';
 	let hiddenClubs = [
-		"Robotics",
-		"Song Club",
-		"Movie Club",
-		"Cat Club",
-		"Squirrel Watching Club",
-		"Cooking Club",
-		"Improv Club",
-		"Art Club",
-		"Soccer",
-		"Math Club",
-		"Chess Club",
-		"Video Game Club"
+		'Robotics',
+		'Song Club',
+		'Movie Club',
+		'Cat Club',
+		'Squirrel Watching Club',
+		'Cooking Club',
+		'Improv Club',
+		'Art Club',
+		'Soccer',
+		'Math Club',
+		'Chess Club',
+		'Video Game Club'
 	].map((name) => ({ name, showing: false }));
 
 	let randomTextString = () => {

@@ -72,6 +72,26 @@ async function main() {
 											}
 										},
 										imageURL: 'https://media.timeout.com/images/105627949/750/422/image.jpg'
+									},
+									{
+										name: 'Math Club',
+										organization: {
+											connect: {
+												id: 1
+											}
+										},
+										imageURL:
+											'https://www.the74million.org/wp-content/uploads/2023/02/iStock-470493341-copy.jpg'
+									},
+									{
+										name: 'Football Club',
+										organization: {
+											connect: {
+												id: 1
+											}
+										},
+										imageURL:
+											'https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg'
 									}
 								]
 							}

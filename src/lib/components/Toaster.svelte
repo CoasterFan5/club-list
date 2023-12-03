@@ -6,7 +6,7 @@
 </script>
 
 <div class="wrap">
-	{#each $toasts as toast, index (toast)}
+	{#each $toasts as toast, _ (toast)}
 		<div animate:flip={{ duration: 500, easing: cubicInOut }}>
 			<Toast data={toast} />
 		</div>

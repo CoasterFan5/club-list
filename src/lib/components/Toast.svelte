@@ -1,16 +1,14 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
-
 	import { removeToast, type Toast } from './toaster';
 	import { quintInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import DOMPurify from 'dompurify'
 
 	export let data: Toast;
 	let showTimer = false;
 
 	let close = () => removeToast(data.id);
-
-	console.log(data.life);
 
 	if (data.life && data.life > 0) {
 		setTimeout(() => {
@@ -42,7 +40,7 @@
 		class:warn={data.type == 'warn'}
 	>
 		<h3>{typeTitles[data.type]}</h3>
-		<p>{@html data.message}</p>
+		<p>{@html DOMPurify.sanitize(data.message)}</p>
 		<button class="close" on:click={close}>
 			<img src="/icons/x.svg" alt="close" />
 		</button>

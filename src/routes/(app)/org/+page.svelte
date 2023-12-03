@@ -21,18 +21,22 @@
 		});
 	}
 
-	const closeModal: ((lambda: () => void) => SubmitFunction) = closeModalLambda => {
+	const closeModal: (lambda: () => void) => SubmitFunction = (closeModalLambda) => {
 		return () => {
 			return async ({ result }) => {
 				await applyAction(result);
 				closeModalLambda();
-			}
-		}
-	}
+			};
+		};
+	};
 </script>
 
 <ModelHelper bind:showing={showingCreateModel}>
-	<form use:enhance={closeModal(() => showingCreateModel = false)} action="?/create" method="post">
+	<form
+		use:enhance={closeModal(() => (showingCreateModel = false))}
+		action="?/create"
+		method="post"
+	>
 		<h2>Organization Name</h2>
 		<div class="formInput">
 			<Input label="Organization Name" name="name" />

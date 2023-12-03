@@ -31,7 +31,9 @@ const readOnlyAnonUserPolicy = {
 
 const bucketName = 'clubsaurus';
 
-const hasBucket = await S3.send(new ListBucketsCommand({ })).then((data) => data.Buckets?.some((bucket) => bucket.Name === bucketName));
+const hasBucket = await S3.send(new ListBucketsCommand({})).then((data) =>
+	data.Buckets?.some((bucket) => bucket.Name === bucketName)
+);
 
 if (!hasBucket) {
 	console.log(

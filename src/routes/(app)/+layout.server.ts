@@ -22,7 +22,7 @@ export const load = async ({ cookies, url }) => {
 	}
 
 	const isInClub = /org\/\d+\/club/.test(url.pathname);
-	const pathType = isInClub ? "__club__" : url.pathname;
+	const pathType = isInClub ? '__club__' : url.pathname;
 
 	return {
 		user: sessionCheck.user,

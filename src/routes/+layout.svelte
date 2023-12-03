@@ -18,7 +18,8 @@
 	resetToast();
 	if (data.beta && !sent) {
 		addToast({
-			message: 'You are on a beta version. <a href="https://clubsaur.us">Click here to go to the main site.</a>',
+			message:
+				'You are on a beta version. <a href="https://clubsaur.us">Click here to go to the main site.</a>',
 			type: 'warn'
 		});
 		sent = true;
