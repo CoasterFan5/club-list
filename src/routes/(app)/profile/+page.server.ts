@@ -1,4 +1,4 @@
-import { prisma } from '$lib/db.js';
+import { prisma } from '$lib/prismaConnection';
 import { fail, redirect } from '@sveltejs/kit';
 import { S3 } from '$lib/s3.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
