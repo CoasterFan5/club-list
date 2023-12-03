@@ -47,5 +47,7 @@ jobs:
         run: yarn build
       - name: Deploy database
         run: yarn db:deploy
+      - name: Install Sudo
+        run: apt-get update && apt-get install sudo
       - name: Run Tests
         run: sudo yarn test
