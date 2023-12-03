@@ -1,45 +1,48 @@
 <script lang="ts">
+	import { enhance, applyAction } from "$app/forms";
+	import { invalidateAll } from "$app/navigation";
 	
 	export let pfpUrl: string | null;
 
-
-	let newImageData = pfpUrl || '/upload.svg';
-
-	let imageUploaderValue: string;
+	$: newImageData = pfpUrl || '/upload.svg';
 
 	let fileList: FileList;
 
 	let fileSelector: HTMLInputElement;
 	let submitButton: HTMLButtonElement;
 
-	let startUpload = () => {
-		fileSelector.click();
-	};
+	let startUpload = () => fileSelector.click();
 
 	let inputHandler = async () => {
 		if (fileSelector.files && fileSelector.files?.length > 0) {
-			console.log(fileSelector.files[0]);
 			submitButton.click();
 		}
 	};
 </script>
 
-<form method="post" action="/profile?/updatePfp" enctype="multipart/form-data">
+<form method="post" action="/profile?/updatePfp" use:enhance={() => {
+	return async ({ result }) => {
+		if (result.type != "success") await applyAction(result);
+		else {
+			await invalidateAll();
+			fileSelector.value = "";
+		}
+	}
+}} enctype="multipart/form-data">
 	<button class="wrap" type="button" on:click={startUpload}>
 		<img class="pfp" src={newImageData} alt="profile" width="120px" height="120px" />
-		<input
-			name="pfp"
-			type="file"
-			bind:files={fileList}
-			bind:this={fileSelector}
-			on:input={inputHandler}
-			bind:value={imageUploaderValue}
-			accept="image/png, image/jpeg"
-			hidden
-		/>
-		<p>Upload New</p>
-		<button type="submit" bind:this={submitButton} hidden />
 	</button>
+	<input
+		name="pfp"
+		type="file"
+		bind:files={fileList}
+		bind:this={fileSelector}
+		on:input|preventDefault={inputHandler}
+		accept="image/png, image/jpeg"
+		hidden
+	/>
+	<p>Upload New</p>
+	<button type="submit" bind:this={submitButton} hidden />
 </form>
 
 <style>

@@ -2,9 +2,8 @@
 	import type { LayoutData } from "./$types";
 	export let data: LayoutData;
 
-	let pfp = data.user.pfp || "/defaultPFP.png"
+	$: pfp = data.user.pfp || "/defaultPFP.png"
 </script>
-
 
 <nav class="sidebar">
 	<a href="/profile" class="pfp">
@@ -17,10 +16,6 @@
 		<img class="img" src="/icons/orgs.svg" alt="home"/>
 	</a>
 </nav>
-	
-
-
-
 
 <style>
 	.sidebar {
