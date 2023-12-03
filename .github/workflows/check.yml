@@ -41,7 +41,7 @@ jobs:
           accessKeyId: "accessKey1"
           accessKeySecret: "verySecretKey1"
           bucket: "clubsaurus"
-          mediaURL: "http://localhost:8000/clubsaurus"
+          mediaurl: "http://localhost:8000/clubsaurus"
 
   
 
