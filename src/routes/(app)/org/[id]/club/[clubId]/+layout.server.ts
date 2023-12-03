@@ -1,6 +1,6 @@
 import { prisma } from '$lib/db';
 import {
-	ceratePermissionsCheck,
+	createPermissionsCheck,
 	createPermissionList,
 	type PermissionObject
 } from '$lib/permissionHelper';
@@ -42,7 +42,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 	if (clubUser) {
 		clubPerms = {
 			...defaultClubPermissionObject,
-			...ceratePermissionsCheck(
+			...createPermissionsCheck(
 				createPermissionList(defaultClubPermissionObject),
 				clubUser.permissions
 			)

@@ -1,5 +1,5 @@
 import { prisma } from '$lib/db';
-import { ceratePermissionsCheck, createPermissionList } from '$lib/permissionHelper';
+import { createPermissionsCheck, createPermissionList } from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
 import { error, redirect } from '@sveltejs/kit';
 
@@ -80,7 +80,7 @@ export const actions = {
 			if (!club.clubUsers) {
 				throw error(500, 'No Permissions');
 			}
-			const permissionObject = ceratePermissionsCheck(
+			const permissionObject = createPermissionsCheck(
 				createPermissionList(defaultClubPermissionObject),
 				club.clubUsers[0].permissions
 			);

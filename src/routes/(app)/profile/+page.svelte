@@ -15,7 +15,6 @@
 
 	$: if (form) {
 		if (form.success) {
-			console.log('adding Toast');
 			addToast({
 				message: 'Data Saved!',
 				type: 'success',
@@ -23,7 +22,7 @@
 			});
 		} else {
 			addToast({
-				message: form.message || 'An Error Occured',
+				message: form.message || 'An Error Occurred',
 				type: 'error',
 				life: 5000
 			});

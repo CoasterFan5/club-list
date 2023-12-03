@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageParentData, PageServerLoad } from './$types';
 import { prisma } from '$lib/prismaConnection';
-import { ceratePermissionsCheck, createPermissionList } from '$lib/permissionHelper';
+import { createPermissionsCheck, createPermissionList } from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
 	if (
 		!parentData.clubPerms.admin &&
-		!parentData.clubPerms.manageAnnoucements &&
+		!parentData.clubPerms.manageAnnouncements &&
 		parentData.club.ownerId != parentData.user.id
 	) {
 		throw redirect(303, baseUrl);
@@ -38,7 +38,7 @@ export const actions = {
 			});
 		}
 
-		//now the long task of validating data
+		// now the long task of validating data
 		const session = cookies.get('session');
 
 		const sessionCheck = await prisma.session.findUnique({
@@ -69,13 +69,13 @@ export const actions = {
 
 		const club = sessionCheck.user.clubs[0];
 		const clubUser = sessionCheck.user.clubUsers[0];
-		//check permissions
+		// check permissions
 
 		if (club.ownerId != sessionCheck.userId) {
 			if (!clubUser) {
 				throw redirect(303, '/login');
 			}
-			const permissionCheck = ceratePermissionsCheck(
+			const permissionCheck = createPermissionsCheck(
 				createPermissionList(defaultClubPermissionObject),
 				clubUser.permissions
 			);

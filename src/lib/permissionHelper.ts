@@ -23,7 +23,7 @@ export const createPermissions = (permissionObject: PermissionObject): number =>
 	return permissionInt;
 };
 
-export const ceratePermissionsCheck = (
+export const createPermissionsCheck = (
 	permissionList: PermissionList,
 	permissionInteger: number
 ) => {

@@ -2,55 +2,19 @@
 	import { inview } from 'svelte-inview';
 	import type { Options } from 'svelte-inview';
 	let hiddenClubs = [
-		{
-			name: 'Robotics',
-			showing: false
-		},
-		{
-			name: 'Song Club',
-			showing: false
-		},
-		{
-			name: 'Movie Club',
-			showing: false
-		},
-		{
-			name: 'Cat Club',
-			showing: false
-		},
-		{
-			name: 'Squirrel Watching Club',
-			showing: false
-		},
-		{
-			name: 'Cooking Club',
-			showing: false
-		},
-		{
-			name: 'Improv Club',
-			showing: false
-		},
-		{
-			name: 'Art Club',
-			showing: false
-		},
-		{
-			name: 'Soccer',
-			showing: false
-		},
-		{
-			name: 'Math Club',
-			showing: false
-		},
-		{
-			name: 'Chess Club',
-			showing: false
-		},
-		{
-			name: 'Video Game Club',
-			showing: false
-		}
-	];
+		"Robotics",
+		"Song Club",
+		"Movie Club",
+		"Cat Club",
+		"Squirrel Watching Club",
+		"Cooking Club",
+		"Improv Club",
+		"Art Club",
+		"Soccer",
+		"Math Club",
+		"Chess Club",
+		"Video Game Club"
+	].map((name) => ({ name, showing: false }));
 
 	let randomTextString = () => {
 		return textStrings[Math.floor(Math.random() * textStrings.length)];

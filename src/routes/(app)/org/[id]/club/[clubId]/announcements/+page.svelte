@@ -7,25 +7,25 @@
 </script>
 
 <div class="wrap">
-	{#if data.clubPerms.admin || data.clubPerms.manageAnnoucements}
+	{#if data.clubPerms.admin || data.clubPerms.manageAnnouncements}
 		<div class="buttonWrap">
 			<Button value="New Announcement" href="announcements/new" />
 		</div>
 	{/if}
 
-	<div class="annoucmentList">
-		{#each data.announcements as announcment}
-			<div class="announcment">
-				<h2>{announcment.title || 'No Announcements'}</h2>
-				{#if announcment.createdAt}
+	<div class="announcementList">
+		{#each data.announcements as announcement}
+			<div class="announcement">
+				<h2>{announcement.title || 'No Announcements'}</h2>
+				{#if announcement.createdAt}
 					<p class="timestamp">
 						{new Intl.DateTimeFormat('en-US', {
 							dateStyle: 'long',
 							timeStyle: 'short'
-						}).format(announcment.createdAt)}
+						}).format(announcement.createdAt)}
 					</p>
 				{/if}
-				<MdEditor editable={false} content={announcment.description || 'No Announcements'} />
+				<MdEditor editable={false} content={announcement.description || 'No Announcements'} />
 			</div>
 		{/each}
 	</div>
@@ -41,12 +41,12 @@
 		align-items: center;
 		justify-content: start;
 	}
-	.annoucmentList {
+	.announcementList {
 		width: 90%;
 		max-width: 600px;
 		padding-top: 25px;
 	}
-	.announcment {
+	.announcement {
 		width: 100%;
 		background: var(--bgPure);
 		padding: 50px;
