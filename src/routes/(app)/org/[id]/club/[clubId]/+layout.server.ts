@@ -1,4 +1,4 @@
-import { prisma } from '$lib/db';
+import { prisma } from '$lib/prismaConnection';
 import {
 	createPermissionsCheck,
 	createPermissionList,

@@ -1,4 +1,4 @@
-import { prisma } from '$lib/db';
+import { prisma } from '$lib/prismaConnection';
 import { createPermissionsCheck, createPermissionList } from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
 import { error, redirect } from '@sveltejs/kit';
