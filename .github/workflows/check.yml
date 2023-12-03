@@ -33,7 +33,7 @@ jobs:
         run: yarn
       
       - name: run deployment
-        run: yarn depoloy
+        run: yarn deploy
         env: 
           BDURL: "postgresql://prisma:prisma@db/tests"
           BETA: true
