@@ -39,20 +39,13 @@ jobs:
 
       - name: Create Bucket
         run: yarn run s3devdata
-
-      - name: Deploy Database
-        run: yarn deploy
-        env:
-          DBURL: postgresql://prisma:prisma@db/tests
-          BETA: true
-          r2endpoint: http://s3.docker.test:8000
-          accessKeyId: 'accessKey1'
-          accessKeySecret: 'verySecretKey1'
-          bucket: 'clubsaurus'
-          mediaurl: 'http://localhost:8000/clubsaurus'
       - name: Generate ENV
         run: |
           cp .env.test .env
           echo "BETA=false" >> .env
+      - name: Build
+        run: yarn build
+      - name: Deploy database
+        run: yarn db:deploy
       - name: Run Tests
         run: yarn test
