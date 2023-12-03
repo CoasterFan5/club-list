@@ -3,7 +3,7 @@
 	import { removeToast, type Toast } from './toaster';
 	import { quintInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
-	import DOMPurify from 'dompurify';
+	import DOMPurify from 'isomorphic-dompurify';
 
 	export let data: Toast;
 	let showTimer = false;
