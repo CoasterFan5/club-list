@@ -45,7 +45,7 @@ jobs:
         env:
           DBURL: postgresql://prisma:prisma@db/tests
           BETA: true
-          r2endpoint: http://s3.docker.test:8000
+          r2endpoint: http://storage:8000
           accessKeyId: 'accessKey1'
           accessKeySecret: 'verySecretKey1'
           bucket: 'clubsaurus'
