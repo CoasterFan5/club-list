@@ -2,9 +2,7 @@ import {
 	S3Client,
 	CreateBucketCommand,
 	BucketCannedACL,
-	PutBucketPolicyCommand,
-	PutBucketCorsCommand,
-	DeleteBucketCorsCommand
+	PutBucketPolicyCommand
 } from '@aws-sdk/client-s3';
 
 const S3 = new S3Client({
@@ -30,22 +28,11 @@ const readOnlyAnonUserPolicy = {
 	]
 };
 
-const corsConfiguration = {
-	"CORSRules": [
-	  {
-		"AllowedOrigins": ["*"],
-		"AllowedMethods": ["GET", "PUT", "POST", "DELETE"],
-		"AllowedHeaders": ["content-type"],
-		"MaxAgeSeconds": 300,
-	  },
-	],
-  };
-
 console.log(
 	await S3.send(
 		new CreateBucketCommand({
 			Bucket: 'clubsaurus',
-			ACL: BucketCannedACL.public_read,
+			ACL: BucketCannedACL.public_read
 		})
 	)
 );
@@ -58,14 +45,3 @@ console.log(
 		})
 	)
 );
-
-console.log(await S3.send(new DeleteBucketCorsCommand({Bucket: "clubsaurus"})))
-
-console.log(
-	await S3.send(
-		new PutBucketCorsCommand({
-			Bucket: "clubsaurus",
-			CORSConfiguration: corsConfiguration
-		})
-	)
-)

@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { addToast } from "./toaster";
-
 	
 	export let pfpUrl: string | null;
-	export let action: string | null;
+
 
 	let newImageData = pfpUrl || '/upload.svg';
 
@@ -14,54 +12,14 @@
 	let fileSelector: HTMLInputElement;
 	let submitButton: HTMLButtonElement;
 
-
 	let startUpload = () => {
 		fileSelector.click();
 	};
 
 	let inputHandler = async () => {
 		if (fileSelector.files && fileSelector.files?.length > 0) {
-			const file = fileSelector.files[0]
-			
-
-			//get the presigned url to avoid crazy egress 
-			let signedURLrequest = await fetch("/uploadHelper.ts", {
-				method: "POST",
-				body: JSON.stringify({
-					fileName: file.name
-				})
-			})
-			
-			if(signedURLrequest.status != 200) {
-				addToast({
-					type: "error",
-					message: "Something went wrong.",
-					life: 3000
-				})
-			}
-
-			let response = await signedURLrequest.json()
-			console.log(response)
-			if(!response || !response.signedURL) {
-				console.log("something went wrong.")
-				addToast({
-					type: "error",
-					message: "Something went wrong.",
-					life: 3000
-				})
-			}
-
-			//now we upload to the url
-			let upload = await fetch(response.signedURL, {
-				method: "PUT", 
-				body: file,
-			})
-
-			console.log(upload)
-
-			console.log(await upload.json())
-
-			//submitButton.click();
+			console.log(fileSelector.files[0]);
+			submitButton.click();
 		}
 	};
 </script>
