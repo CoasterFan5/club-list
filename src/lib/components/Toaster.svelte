@@ -6,6 +6,7 @@
 </script>
 
 <div class="wrap">
+	<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 	{#each $toasts as toast, _ (toast)}
 		<div animate:flip={{ duration: 500, easing: cubicInOut }}>
 			<Toast data={toast} />

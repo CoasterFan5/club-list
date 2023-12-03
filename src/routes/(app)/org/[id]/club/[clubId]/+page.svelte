@@ -14,7 +14,6 @@
 	let editing = false;
 
 	let toggleEdit = () => (editing = !editing);
-	let showModel = () => (visibleModel = true);
 </script>
 
 <ModelHelper bind:showing={visibleModel}>
