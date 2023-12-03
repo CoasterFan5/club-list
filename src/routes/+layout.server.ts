@@ -1,8 +1,7 @@
 import { BETA } from '$env/static/private';
 
-export const load = ({ url }) => {
+export const load = () => {
 	return {
-		beta: BETA.toLowerCase() == 'true',
-		pathname: url.pathname
+		beta: BETA.toLowerCase() == 'true'
 	};
 };

@@ -2,7 +2,8 @@ import {
 	S3Client,
 	CreateBucketCommand,
 	BucketCannedACL,
-	PutBucketPolicyCommand
+	PutBucketPolicyCommand,
+	ListBucketsCommand
 } from '@aws-sdk/client-s3';
 
 const S3 = new S3Client({
@@ -28,19 +29,25 @@ const readOnlyAnonUserPolicy = {
 	]
 };
 
-console.log(
-	await S3.send(
-		new CreateBucketCommand({
-			Bucket: 'clubsaurus',
-			ACL: BucketCannedACL.public_read
-		})
-	)
-);
+const bucketName = 'clubsaurus';
+
+const hasBucket = await S3.send(new ListBucketsCommand({ })).then((data) => data.Buckets?.some((bucket) => bucket.Name === bucketName));
+
+if (!hasBucket) {
+	console.log(
+		await S3.send(
+			new CreateBucketCommand({
+				Bucket: bucketName,
+				ACL: BucketCannedACL.public_read
+			})
+		)
+	);
+}
 
 console.log(
 	await S3.send(
 		new PutBucketPolicyCommand({
-			Bucket: 'clubsaurus',
+			Bucket: bucketName,
 			Policy: JSON.stringify(readOnlyAnonUserPolicy)
 		})
 	)

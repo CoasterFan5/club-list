@@ -8,7 +8,6 @@
 	export let data: Toast;
 	let showTimer = false;
 	let hidden = false;
-	console.log(data);
 
 	let close = () => {
 		hidden = true;
@@ -63,6 +62,7 @@
 <style>
 	.wrap {
 		position: relative;
+		z-index: 11;
 		margin-top: 10px;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
 	}

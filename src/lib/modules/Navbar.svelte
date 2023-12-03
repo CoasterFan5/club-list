@@ -13,8 +13,6 @@
 		hamburgerShowing = false;
 	};
 
-	export let dashboard: boolean;
-
 	let inTransition: FlyParams = { easing: cubicOut, x: 10, duration: 300, delay: 400 };
 	let outTransition: FlyParams = { easing: cubicIn, x: -10, duration: 300 };
 </script>
@@ -31,34 +29,18 @@
 			</div>
 		{/if}
 		{#if !hamburgerLinks || hamburgerShowing}
-			{#if dashboard}
-				<div
-					class:hamburgerMenu={hamburgerLinks}
-					class="links"
-					in:fly={inTransition}
-					out:fly={outTransition}
-				>
-					<a on:click={closeClick} href="/dashboard">Dashboard</a>
-					<a on:click={closeClick} href="/org">Organizations</a>
-					<a on:click={closeClick} href="/profile">Profile</a>
-					{#if hamburgerLinks}
-						<a href="##" on:click={closeClick}>Close</a>
-					{/if}
-				</div>
-			{:else}
-				<div
-					class:hamburgerMenu={hamburgerLinks}
-					class="links"
-					in:fly={inTransition}
-					out:fly={outTransition}
-				>
-					<a on:click={closeClick} href="/login">Log In</a>
-					<a on:click={closeClick} href="/get-started">Get Started</a>
-					{#if hamburgerLinks}
-						<a href="##" on:click={closeClick}>Close</a>
-					{/if}
-				</div>
-			{/if}
+			<div
+				class:hamburgerMenu={hamburgerLinks}
+				class="links"
+				in:fly={inTransition}
+				out:fly={outTransition}
+			>
+				<a on:click={closeClick} href="/login">Log In</a>
+				<a on:click={closeClick} href="/get-started">Get Started</a>
+				{#if hamburgerLinks}
+					<a href="##" on:click={closeClick}>Close</a>
+				{/if}
+			</div>
 		{/if}
 	</div>
 </nav>

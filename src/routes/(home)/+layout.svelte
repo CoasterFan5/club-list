@@ -9,37 +9,20 @@
 	import '@fontsource/work-sans/800.css';
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
-	import type { LayoutData } from './$types';
-	import { fly } from 'svelte/transition';
-	import { cubicIn, cubicInOut, cubicOut } from 'svelte/easing';
 	import Footer from '$lib/modules/Footer.svelte';
 	import Navbar from '$lib/modules/Navbar.svelte';
-
-	export let data: LayoutData;
-
-	const dashboardLike = ['/dashboard', '/org', '/profile'];
 </script>
 
 <div class="wrap">
-	<Navbar dashboard={dashboardLike.includes(data.pathname)} />
-	{#key data.pathname}
-		<div class="content">
-			<div
-				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
-				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
-				class="wrapper"
-			>
-				<slot />
-			</div>
-			<div
-				class="footer"
-				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
-				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
-			>
-				<Footer />
-			</div>
+	<Navbar />
+	<div class="content">
+		<div class="wrapper">
+			<slot />
 		</div>
-	{/key}
+		<div class="footer">
+			<Footer />
+		</div>
+	</div>
 </div>
 
 <style>
