@@ -12,10 +12,10 @@
 <div class="wrap">
 	<form action="?/updateClub" method="post">
 		<div class="formItem">
-			<Input bgColor="white" name="clubName" label="Club Name" value={name} />
+			<Input name="clubName" bgColor="white" label="Club Name" value={name} />
 		</div>
 		<div class="formItem">
-			<Input bgColor="white" name="imgURL" label="Image Url" value={imgURL} />
+			<Input name="imgURL" bgColor="white" label="Image Url" value={imgURL} />
 		</div>
 		<div class="formItem">
 			<Button type="submit" value="Save" />
