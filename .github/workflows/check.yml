@@ -47,6 +47,8 @@ jobs:
         run: yarn build
       - name: Deploy database
         run: yarn db:deploy
+      - name: Install Playwright Dependencies
+        run: npx playwright install-deps
       - name: Install Playwright
         run: npx playwright install
       - name: Run Tests
