@@ -27,6 +27,7 @@
 		box-sizing: border-box;
 		font-size: 1.2rem;
 		cursor: pointer;
+		text-align: center;
 		color: var(--textDark);
 
 		&:focus,
