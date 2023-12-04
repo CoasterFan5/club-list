@@ -153,7 +153,7 @@
 		align-items: center;
 		justify-content: center;
 
-		&:hover .clubInner {
+		.clubInner:hover {
 			box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
 			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 		}
