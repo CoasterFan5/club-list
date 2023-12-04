@@ -5,7 +5,6 @@ on: ['push', 'pull_request']
 jobs:
   container-job:
     runs-on: ubuntu-latest
-    container: node:20.9.0-alpine3.18
 
     services:
       db:
@@ -47,9 +46,6 @@ jobs:
         run: yarn build
       - name: Deploy database
         run: yarn db:deploy
-      # TODO: alpine on github actions doesn't give permissions?
-      - name: Give permissions to /
-        run: chmod -R 777 /
       - name: Install Playwright
         run: npx playwright install
       - name: Run Tests
