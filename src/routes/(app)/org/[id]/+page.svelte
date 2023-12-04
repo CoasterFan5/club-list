@@ -71,7 +71,7 @@
 					bind:value={searchTerm}
 				/>
 			</button>
-			{#each sortedClubs as club}
+			{#each sortedClubs as club (club.id)}
 				<a class="club" href="/org/{data.orgUser.organizationId}/club/{club.id}">
 					<div class="clubInner">
 						{#if club.imageURL}
