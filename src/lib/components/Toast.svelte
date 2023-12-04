@@ -3,6 +3,7 @@
 	import { removeToast, type Toast } from './toaster';
 	import { quintInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import sanitizeHtml from 'sanitize-html';
 
 	export let data: Toast;
 	let showTimer = false;
@@ -39,7 +40,7 @@
 		class:warn={data.type == 'warn'}
 	>
 		<h3>{typeTitles[data.type]}</h3>
-		<p>{data.message}</p>
+		<p>{@html sanitizeHtml(data.message)}</p>
 		<button class="close" on:click={close}>
 			<img alt="close" src="/icons/x.svg" />
 		</button>
