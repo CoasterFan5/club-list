@@ -47,8 +47,9 @@ jobs:
         run: yarn build
       - name: Deploy database
         run: yarn db:deploy
-      - name: Give permissions to .
-        run: chmod -R 777 .
+      # TODO: alpine on github actions doesn't give permissions?
+      - name: Give permissions to /
+        run: chmod -R 777 /
       - name: Install Playwright
         run: npx playwright install
       - name: Run Tests
