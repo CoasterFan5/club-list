@@ -49,5 +49,7 @@ jobs:
         run: yarn db:deploy
       - name: Give permissions to .
         run: chmod -R 777 .
+      - name: Install Playwright
+        run: npx playwright install
       - name: Run Tests
         run: yarn test
