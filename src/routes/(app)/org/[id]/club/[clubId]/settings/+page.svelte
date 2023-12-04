@@ -1,35 +1,29 @@
 <script lang="ts">
-	import Button from "$lib/components/Button.svelte";
-import Input from "$lib/components/Input.svelte";
-	import type { PageData } from "./$types"
+	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	let name = data.club.name || "";
-	let imgURL = data.club.imageURL || "";
-
+	let name = data.club.name || '';
+	let imgURL = data.club.imageURL || '';
 </script>
 
-
-
 <div class="wrap">
-	<form method="post" action="?/updateClub">
+	<form action="?/updateClub" method="post">
 		<div class="formItem">
-			<Input name="clubName" label="Club Name" value={name}/>
+			<Input name="clubName" label="Club Name" value={name} />
 		</div>
 		<div class="formItem">
-			<Input name="imgURL" label="Image Url" value={imgURL}/>
+			<Input name="imgURL" label="Image Url" value={imgURL} />
 		</div>
 		<div class="formItem">
-			<Button type="submit" value="Save"/>
+			<Button type="submit" value="Save" />
 		</div>
-		
-		
-		
 	</form>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		width: 100%;
 		height: 100%;

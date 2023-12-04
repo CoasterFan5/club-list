@@ -40,6 +40,7 @@
 		class:warn={data.type == 'warn'}
 	>
 		<h3>{typeTitles[data.type]}</h3>
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		<p>{@html sanitizeHtml(data.message)}</p>
 		<button class="close" on:click={close}>
 			<img alt="close" src="/icons/x.svg" />
