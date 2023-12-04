@@ -10,10 +10,10 @@
 		<img class="pfpImage" alt="profile" src={pfp} />
 	</a>
 	<a class="button" href="/dashboard">
-		<img class="img" alt="home" src="/icons/home.svg" />
+		<img alt="home" src="/icons/home.svg" />
 	</a>
 	<a class="button" href="/org">
-		<img class="img" alt="home" src="/icons/orgs.svg" />
+		<img alt="home" src="/icons/orgs.svg" />
 	</a>
 </nav>
 
@@ -74,7 +74,7 @@
 		}
 
 		img {
-			filter: var(--iconFilter);
+			filter: var(--redIconFilter);
 			aspect-ratio: 1/1;
 			width: 100%;
 			height: 100%;
