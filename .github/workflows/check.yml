@@ -45,8 +45,6 @@ jobs:
           echo "BETA=false" >> .env
       - name: Build
         run: yarn build
-      - name: Start Server
-        run: node build
       - name: Deploy database
         run: yarn db:deploy
       - name: Install Playwright Dependencies
