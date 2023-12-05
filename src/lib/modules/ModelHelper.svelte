@@ -38,9 +38,9 @@
 		justify-content: center;
 		background: rgba(0, 0, 0, 0.5);
 		backdrop-filter: blur(5px);
-		z-index: 100;
 		top: 0px;
 		left: 0px;
+		z-index: 1001;
 	}
 
 	.modalForm {

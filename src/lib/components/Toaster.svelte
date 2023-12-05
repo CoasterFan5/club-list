@@ -21,5 +21,6 @@
 		display: flex;
 		flex-direction: column-reverse;
 		margin: 10px;
+		z-index: 999;
 	}
 </style>

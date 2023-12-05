@@ -67,6 +67,7 @@
 		margin: 5px 0px;
 		aspect-ratio: 1/1;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+		border-radius: 5px;
 
 		&:hover {
 			background: var(--accent50);
