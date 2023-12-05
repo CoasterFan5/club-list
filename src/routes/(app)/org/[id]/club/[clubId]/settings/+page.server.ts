@@ -18,7 +18,8 @@ export const actions = {
 		}
 
 		const clubName = data.get("clubName")?.toString();
-		const clubImage = data.get("imageUrl")?.toString();
+		const clubImage = data.get("imgURL")?.toString();
+
 
 		if(!clubName) {
 			return {
@@ -83,7 +84,7 @@ export const actions = {
 		
 		type ClubDataObject = {
 			name: string,
-			clubImage?: string,
+			imageURL?: string,
 		}
 
 		const dataObject: ClubDataObject = {
@@ -91,7 +92,7 @@ export const actions = {
 		};
 		
 		if(clubImage) {
-			dataObject.clubImage = clubImage;
+			dataObject.imageURL = clubImage;
 		}
 
 		//now we can update the club
