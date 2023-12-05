@@ -31,6 +31,10 @@
 					href="{baseURL}/announcements">Announcements</a
 				>
 				<a
+					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/events'}
+					href="{baseURL}/events">Events</a
+				>
+				<a
 					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}
 					href="{baseURL}/settings">Settings</a
 				>
