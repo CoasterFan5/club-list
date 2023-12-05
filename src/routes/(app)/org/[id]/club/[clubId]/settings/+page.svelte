@@ -1,12 +1,32 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import type { PageData } from './$types';
+	import { addToast } from '$lib/components/toaster';
+	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
+	export let form: ActionData;
 
 	let name = data.club.name || '';
 	let imgURL = data.club.imageURL || '';
+
+	if(form) {
+		if(form.success) {
+			addToast({
+				type: "success",
+				message: "Club Updated!",
+				life: 3000
+			})
+		} else {
+			addToast({
+				type: "error",
+				message: form.message || "An error occured!",
+				life: 3000
+				
+			})
+		}
+	}
 </script>
 
 <div class="wrap">
