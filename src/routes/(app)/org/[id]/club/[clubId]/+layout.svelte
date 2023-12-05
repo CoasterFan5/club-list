@@ -17,7 +17,13 @@
 <div class="wrap">
 	<div class="header">
 		<div class="headerInner">
-			<h2 class="clubName">{data.club.name}</h2>
+			<div class="title">
+				<a class="back" href="/org/{data.org.id}">
+					<img src="/icons/back.svg" alt="back"/>
+				</a>
+				
+				<h2 class="clubName">{data.club.name}</h2>
+			</div>
 			<div class="nav">
 				<a class:selected={route.id == '/(app)/org/[id]/club/[clubId]'} href={baseURL}>About</a>
 				<a
@@ -37,6 +43,13 @@
 </div>
 
 <style lang="scss">
+	.title {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: start;
+		margin-bottom: 25px;
+	}
 	.header {
 		background: var(--bgMid);
 		width: 100%;
@@ -72,7 +85,8 @@
 		font-size: 2rem;
 		font-weight: 500;
 		margin: 0px;
-		margin-bottom: 25px;
+		padding-left: 10px;
+		
 	}
 
 	.nav {
@@ -120,5 +134,19 @@
 				}
 			}
 		}
+	}
+	.back {
+		all: unset;
+		cursor: pointer;
+		height: 100%;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	}
+	.back:hover {
+		scale: 1.1;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 </style>
