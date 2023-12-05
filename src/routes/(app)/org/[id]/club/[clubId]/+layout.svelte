@@ -34,10 +34,12 @@
 					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/events'}
 					href="{baseURL}/events">Events</a
 				>
+				{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
 				<a
 					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}
 					href="{baseURL}/settings">Settings</a
 				>
+				{/if}
 			</div>
 		</div>
 	</div>
