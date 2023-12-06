@@ -1,0 +1,55 @@
+name: publish
+
+on: ['push', 'pull_request']
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    container: node:20.9.0
+
+    services:
+      db:
+        image: postgres:13
+        env:
+          POSTGRES_USER: prisma
+          POSTGRES_PASSWORD: prisma
+          POSTGRES_DB: tests
+        ports:
+          - '5432:5432'
+      s3.docker.test:
+        image: zenko/cloudserver
+        env:
+          REMOVE_MANAGEMENT_DISABLE: 1
+          S3BACKEND: mem
+        ports:
+          - '8000:8000'
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Initialize Bucket
+        run: yarn run s3devdata
+      - name: Setup .env
+        run: |
+          cp .env.test .env
+          echo "BETA=false" >> .env
+      - name: Build
+        run: yarn build
+      - name: Deploy database
+        run: yarn db:deploy
+      - name: Install Playwright Dependencies
+        run: npx playwright install-deps
+      - name: Install Playwright
+        run: npx playwright install
+      - name: Run Tests
+        run: yarn test

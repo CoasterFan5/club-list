@@ -1,4 +1,7 @@
-module.exports = {
+// @ts-check
+const { defineConfig } = require('eslint-define-config');
+
+module.exports = defineConfig({
 	root: true,
 	extends: [
 		'eslint:recommended',
@@ -18,6 +21,23 @@ module.exports = {
 		es2017: true,
 		node: true
 	},
+	rules: {
+		'svelte/block-lang': [
+			'error',
+			{
+				script: 'ts',
+				style: 'scss'
+			}
+		],
+		'svelte/no-target-blank': 'error',
+		'svelte/shorthand-attribute': 'error',
+		'svelte/shorthand-directive': 'error',
+		'svelte/sort-attributes': 'error',
+		'svelte/spaced-html-comment': 'error',
+		'svelte/no-at-debug-tags': 'error',
+		'svelte/mustache-spacing': 'error',
+		'svelte/html-self-closing': 'error'
+	},
 	overrides: [
 		{
 			files: ['*.svelte'],
@@ -27,4 +47,4 @@ module.exports = {
 			}
 		}
 	]
-};
+});

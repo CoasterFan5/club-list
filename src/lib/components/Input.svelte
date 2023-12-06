@@ -41,21 +41,21 @@
 </script>
 
 <button
-	type="button"
 	style="--bgColor: {bgColor}"
 	class="wrap"
 	class:active
-	on:click={startFocus}
 	tabindex="-1"
+	type="button"
+	on:click={startFocus}
 >
 	<input
 		bind:this={input}
 		{name}
+		{autocomplete}
+		{required}
 		on:focus={selectInput}
 		on:blur={deselectText}
 		bind:value
-		{required}
-		{autocomplete}
 		{...{ type /* asserting string input since we know the type is always a password */ }}
 	/>
 	<div class="labelBase" class:label1={!moveText} class:labelMoved={moveText}>
@@ -63,7 +63,7 @@
 	</div>
 </button>
 
-<style>
+<style lang="scss">
 	.wrap {
 		all: unset;
 		position: relative;
@@ -74,6 +74,7 @@
 		cursor: text;
 		background: var(--bgColor);
 	}
+
 	input {
 		border: 0px;
 		outline: 0px;
@@ -105,6 +106,7 @@
 		background: transparent;
 		color: #333;
 	}
+
 	.labelMoved {
 		font-size: 0.8rem;
 		position: absolute;
@@ -114,6 +116,7 @@
 		padding: 0px 5px;
 		color: black;
 	}
+
 	.active {
 		border: 1px solid var(--accent);
 	}

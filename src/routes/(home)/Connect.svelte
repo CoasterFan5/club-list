@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { inview } from 'svelte-inview';
 	let height = 0;
 	let width = 0;
 	let canvas: HTMLCanvasElement;
@@ -51,13 +50,15 @@
 
 <div class="connect" bind:clientHeight={height} bind:clientWidth={width}>
 	<h2>Clubsaurus helps people express themselves</h2>
-	<canvas bind:this={canvas} on:mousemove={draw} {height} {width} />
+	<canvas bind:this={canvas} {height} {width} on:mousemove={draw} />
 </div>
 
-<style>
+<style lang="scss">
 	h2 {
 		text-align: center;
 		padding: 0px 20px;
+		font-weight: 500;
+		font-size: 2rem;
 	}
 
 	.connect {
@@ -70,10 +71,7 @@
 		position: relative;
 		border-bottom: 1px solid black;
 	}
-	h2 {
-		font-weight: 500;
-		font-size: 2rem;
-	}
+
 	canvas {
 		position: absolute;
 		width: 100%;

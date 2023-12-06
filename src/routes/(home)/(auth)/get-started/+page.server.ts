@@ -33,7 +33,7 @@ export const actions = {
 		// pull the user from the database
 		const newEmail = email.toLowerCase();
 
-		// make sure no user exsists with this email
+		// make sure no user exists with this email
 		const userCheck = await prisma.user.findFirst({
 			where: {
 				email: newEmail

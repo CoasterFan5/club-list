@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { afterNavigate } from '$app/navigation';
-	import { onMount, tick } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
 	import { fade } from 'svelte/transition';
@@ -9,12 +7,9 @@
 		duration: 300,
 		easing: cubicOut
 	});
-
-
 </script>
 
-
-<footer transition:fade style="bottom: {$bottom}px;">
+<footer style="bottom: {$bottom}px;" transition:fade>
 	<div class="inner">
 		<div class="left">
 			<h2>Clubsaur<span class="emphasize">.</span>us</h2>
@@ -28,7 +23,7 @@
 	</div>
 </footer>
 
-<style>
+<style lang="scss">
 	.emphasize {
 		color: var(--textDark);
 	}
@@ -45,7 +40,7 @@
 		width: 100%;
 		z-index: 10;
 	}
-	
+
 	.inner {
 		width: 80%;
 		display: flex;
@@ -66,26 +61,29 @@
 		align-items: end;
 		justify-content: center;
 		flex-direction: column;
-	}
-	.right a {
-		color: var(--accent);
-		text-decoration: none;
-		margin: 2px 0px;
-		position: relative;
-		font-size: 1rem;
-	}
-	.right a::after {
-		content: '';
-		position: absolute;
-		bottom: 0px;
-		width: 100%;
-		height: 2px;
-		left: 0px;
-		background: var(--accent);
-		transform: scaleX(0);
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	}
-	.right a:hover::after {
-		transform: scale(1);
+
+		a {
+			color: var(--accent);
+			text-decoration: none;
+			margin: 2px 0px;
+			position: relative;
+			font-size: 1rem;
+
+			&:hover::after {
+				transform: scaleX(1);
+			}
+
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: 0px;
+				width: 100%;
+				height: 2px;
+				left: 0px;
+				background: var(--accent);
+				transform: scaleX(0);
+				transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+			}
+		}
 	}
 </style>

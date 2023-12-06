@@ -1,44 +1,5 @@
-import { prisma } from '$lib/db.js';
+import { prisma } from '$lib/prismaConnection';
 import { redirect } from '@sveltejs/kit';
-
-export const load = async ({ cookies }) => {
-	const session = cookies.get('session');
-	if (!session) {
-		throw redirect(303, '/login');
-	}
-
-	const sessionCheck = await prisma.session.findFirst({
-		where: {
-			sessionToken: session
-		},
-		include: {
-			user: {
-				include: {
-					orgUsers: {
-						include: {
-							organization: true
-						}
-					},
-					organization: true
-				}
-			}
-		}
-	});
-
-	if (!sessionCheck) {
-		throw redirect(303, '/login');
-	}
-
-	const user = sessionCheck.user;
-
-	if (!user) {
-		throw redirect(303, '/login');
-	}
-
-	return {
-		user
-	};
-};
 
 export const actions = {
 	create: async ({ request, cookies }) => {
@@ -109,7 +70,7 @@ export const actions = {
 		});
 
 		return {
-			sucess: true,
+			success: true,
 			message: 'created!'
 		};
 	},
@@ -147,13 +108,27 @@ export const actions = {
 		const joinCheck = await prisma.organization.findFirst({
 			where: {
 				joinCode: joinCode
+			},
+			include: {
+				orgUsers: {
+					where: {
+						userId: sessionCheck.userId
+					}
+				}
 			}
 		});
 
 		if (!joinCheck) {
 			return {
-				sucess: false,
+				success: false,
 				message: 'Invalid Join Code'
+			};
+		}
+
+		if (joinCheck.orgUsers.length > 0) {
+			return {
+				success: false,
+				message: 'Already in this org!'
 			};
 		}
 
@@ -167,7 +142,7 @@ export const actions = {
 		});
 
 		return {
-			sucess: true,
+			success: true,
 			message: 'Joined!'
 		};
 	}

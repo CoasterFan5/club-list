@@ -10,93 +10,38 @@
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
 	import type { LayoutData } from './$types';
-	import { fade, fly } from 'svelte/transition';
-	import { cubicIn, cubicInOut, cubicOut } from 'svelte/easing';
-	import Footer from '$lib/modules/Footer.svelte';
-	import Navbar from '$lib/modules/Navbar.svelte';
-
-	let content: HTMLDivElement;
-
+	import Toaster from '$lib/components/Toaster.svelte';
+	import { addToast, resetToast } from '$lib/components/toaster';
 	export let data: LayoutData;
-	let showBeta = true;
+
+	let sent = false;
+	resetToast();
+	if (data.beta && !sent) {
+		addToast({
+			message:
+				'You are on a beta version. <a href="https://clubsaur.us">Click here to go to the main site.</a>',
+			type: 'warn'
+		});
+		sent = true;
+	}
 </script>
 
 <svelte:head>
 	<title>Clubsaur.us</title>
 </svelte:head>
 
-{#if data.beta && showBeta}
-	<div class="betaWarning" transition:fade={{ duration: 400, easing: cubicInOut }}>
-		<p>
-			This a beta version! For a production ready version, go to <a href="https://clubsaur.us"
-				>Clubsaur.us</a
-			> <button class="close" on:click={() => (showBeta = false)}>(x)</button>
-		</p>
-	</div>
-{/if}
-
 <div class="wrap">
-	<Navbar dashboard={data.pathname.startsWith('/dashboard') || data.pathname.startsWith('/org')} />
-	{#key data.pathname}
-		<div class="content" bind:this={content}>
-			<div
-				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
-				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
-				class="wrapper"
-			>
-				<slot />
-			</div>
-			<div class="footer" 
-				in:fly={{ easing: cubicOut, y: 10, duration: 300, delay: 400 }}
-				out:fly={{ easing: cubicIn, y: -10, duration: 300 }}
-			>
-				<Footer/>
-			</div>
-		</div>
-	{/key}
-	
-	
+	<slot />
 </div>
 
+<Toaster />
 
-
-<style>
-	.footer {
-		position: absolute;
-		height: 120px;
-		width: 100%;
-		bottom: -0px;
-	}
+<style lang="scss">
 	.wrap {
-		min-height: 100vh;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-	.wrapper {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-	}
-	.content {
-		position: relative;
-		box-sizing: border-box;
-		width: 100%;
 		min-height: calc(100vh);
-		padding-bottom: 120px;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: start;
-	}
-
-
-	.close {
-		all: unset;
-		cursor: pointer;
-		text-decoration: underline;
 	}
 
 	:global(html) {
@@ -107,33 +52,24 @@
 		--dark: #202020;
 		--mid: #333533;
 		--bg: #f1f1f1;
+		--bgMid: #f8f8f8;
 		--bgPure: #ffffff;
 		--accent: #e63946;
 		--accent50: rgba(230, 57, 70, 0.5);
+		--redIconFilter: invert(45%) sepia(57%) saturate(7438%) hue-rotate(337deg) brightness(94%)
+			contrast(92%);
 	}
+
 	:global(body) {
 		margin: 0;
 		background: var(--bg);
 	}
+
+	:global(.ProseMirror-focused) {
+		outline: 0px;
+	}
+
 	:global(.mono) {
 		font-family: 'Source Code Pro Variable', sans-serif;
-	}
-	.betaWarning {
-		all: unset;
-		font-family: 'Work Sans', sans-serif;
-		border: 0px;
-		text-align: center;
-		background: var(--accent);
-		color: var(--bg);
-		right: 0px;
-		bottom: 0px;
-		z-index: 10000;
-		position: fixed;
-		padding: 5px;
-		border-radius: 5px;
-		margin: 5px;
-	}
-	.betaWarning a {
-		color: var(--bg);
 	}
 </style>

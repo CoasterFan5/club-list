@@ -1,21 +1,25 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import type { ActionData, PageData } from './$types';
+	import Fuse from 'fuse.js';
+
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
-	import type { ActionData, PageData } from './$types';
-	import Fuse from 'fuse.js';
 
 	let searchTerm = '';
 
 	export let data: PageData;
 	export let form: ActionData;
 
+	let searchBox: HTMLInputElement;
+
 	let showingModel = false;
 	let toggleModel = () => {
 		showingModel = !showingModel;
 	};
 
-	let focusSearch = () => {};
+	let focusSearch = () => searchBox.focus();
 
 	const fuse = new Fuse(data.clubs, {
 		keys: ['name', 'description']
@@ -30,7 +34,7 @@
 </script>
 
 <ModelHelper bind:showing={showingModel}>
-	<form action="?/createClub" method="post">
+	<form action="?/createClub" method="post" use:enhance>
 		<h2>Create Club</h2>
 		<div class="formItem">
 			<Input name="clubName" label="Club Name" />
@@ -38,14 +42,15 @@
 		<div class="formItem">
 			<Button type="submit" value="Create" />
 		</div>
+
+		{#if form?.message}
+			<p class="error">Error: {form?.message}</p>
+		{/if}
 	</form>
 </ModelHelper>
 
 <div class="wrap">
 	<div class="content">
-		{#if form?.success == false}
-			<p class="error">Error: {form?.message}</p>
-		{/if}
 		{#if data.clubs.length < 1}
 			<h2>
 				No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
@@ -54,16 +59,23 @@
 					>{/if}
 			</h2>
 		{/if}
-		<div class="searchWrap">
-			<input class="search" placeholder="Search..." bind:value={searchTerm} />
-		</div>
 
 		<div class="clubs">
-			{#each sortedClubs as club}
-				<a href="/org/{data.orgUser.organizationId}/club/{club.id}" class="club">
+			<button class="searchWrap" on:click={focusSearch}>
+				<img alt="search" src="/search.svg" />
+				<input
+					bind:this={searchBox}
+					class="search"
+					placeholder="Search..."
+					tabindex="-1"
+					bind:value={searchTerm}
+				/>
+			</button>
+			{#each sortedClubs as club (club.id)}
+				<a class="club" href="/org/{data.orgUser.organizationId}/club/{club.id}">
 					<div class="clubInner">
 						{#if club.imageURL}
-							<img class="clubImage" src={club.imageURL} alt="{club.name} background image" />
+							<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
 						{:else}
 							<div class="clubImage" />
 						{/if}
@@ -83,7 +95,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		height: 100%;
 		width: 100%;
@@ -94,10 +106,10 @@
 		align-items: start;
 		justify-content: center;
 	}
+
 	.content {
 		width: 100%;
 		box-sizing: border-box;
-		padding-right: 1rem;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
@@ -110,30 +122,29 @@
 		text-decoration: none;
 		color: var(--accent);
 		position: relative;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0px;
+			left: 0;
+			width: 100%;
+			height: 2px;
+			background: var(--accent);
+			transform: scaleX(0);
+			transform-origin: center;
+			transition: transform 0.3s ease-in-out;
+		}
+
+		&:hover::after {
+			transform: scaleX(1);
+		}
 	}
-	.textButton::after {
-		content: '';
-		position: absolute;
-		bottom: 0px;
-		left: 0;
-		width: 100%;
-		height: 2px;
-		background: var(--accent);
-		transform: scaleX(0);
-		transform-origin: center;
-		transition: transform 0.3s ease-in-out;
+
+	.error {
+		color: red;
 	}
-	.textButton:hover::after {
-		transform: scaleX(1);
-	}
-	form {
-		border-radius: 5px;
-		padding: 20px;
-		background: var(--bgPure);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+
 	.clubs {
 		width: 100%;
 		display: flex;
@@ -141,10 +152,15 @@
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
+
+		.clubInner:hover {
+			box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+		}
 	}
 	.club {
 		aspect-ratio: 5/2;
-		width: 33%;
+		width: calc(100% / 3);
 		padding: 0px 10px 20px 10px;
 		box-sizing: border-box;
 		display: flex;
@@ -153,6 +169,7 @@
 		min-width: 320px;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
+
 	.clubImage {
 		position: absolute;
 		width: 100%;
@@ -162,10 +179,7 @@
 		object-fit: cover;
 		border-radius: 3px;
 	}
-	.club:hover .clubInner {
-		box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	}
+
 	.clubInner {
 		position: relative;
 		display: flex;
@@ -183,52 +197,66 @@
 		width: 100%;
 		color: var(--textLight);
 		border-radius: 0px 0px 3px 3px;
-	}
-	.clubText::after {
-		content: '';
-		position: absolute;
-		background: var(--mid);
-		bottom: 0px;
-		border-radius: 0px 0px 3px 3px;
-		opacity: 0.8;
-		z-index: -1;
-		width: 100%;
-		height: 100%;
-	}
-	.clubText > h2 {
-		margin: 5px;
-		font-weight: 400;
+
+		&::after {
+			content: '';
+			position: absolute;
+			background: var(--mid);
+			bottom: 0px;
+			border-radius: 0px 0px 3px 3px;
+			opacity: 0.8;
+			z-index: -1;
+			width: 100%;
+			height: 100%;
+		}
+
+		& > h2 {
+			margin: 5px;
+			font-weight: 400;
+		}
 	}
 
 	.formItem {
-		width: 100%;
 		margin: 7px;
 	}
 
 	.searchWrap {
 		width: 100%;
-		padding: 0px 10px 20px 10px;
 		box-sizing: border-box;
+		margin: 10px 0px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-	.search {
-		box-sizing: border-box;
-		width: 100%;
-		outline: 0px;
-		border: 1px solid transparent;
-		border-radius: 5px;
-		overflow: hidden;
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+		background: var(--bgPure);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
-		padding: 10px 10px;
 		outline: 0px;
 		border: 0px;
-		box-sizing: border-box;
-		font-size: 1.2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 3px;
+		overflow: hidden;
+
+		img {
+			padding: 0px 10px;
+		}
+
+		&:hover,
+		&:focus {
+			box-shadow: 0px 0px 1px 1px var(--accent);
+			cursor: text;
+		}
 	}
-	.search:hover,
-	.search:focus {
-		box-shadow: 0px 0px 1px 1px var(--accent);
+
+	.search {
+		width: 100%;
+		outline: 0px;
+		padding: 10px;
+		border-radius: 5px;
+		overflow: hidden;
+		border: 0px;
+		font-size: 1.2rem;
+		height: 100%;
 	}
 </style>

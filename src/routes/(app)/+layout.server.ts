@@ -1,7 +1,7 @@
 import { prisma } from '$lib/prismaConnection';
 import { redirect } from '@sveltejs/kit';
 
-export const load = async ({ cookies }) => {
+export const load = async ({ cookies, url }) => {
 	// if the user isn't logged in, we need to redirect them to the login page
 	const session = cookies.get('session');
 	if (!session) {
@@ -21,7 +21,11 @@ export const load = async ({ cookies }) => {
 		throw redirect(303, '/login');
 	}
 
+	const isInClub = /org\/\d+\/club/.test(url.pathname);
+	const pathType = isInClub ? '__club__' : url.pathname;
+
 	return {
-		user: sessionCheck.user
+		user: sessionCheck.user,
+		pathType
 	};
 };
