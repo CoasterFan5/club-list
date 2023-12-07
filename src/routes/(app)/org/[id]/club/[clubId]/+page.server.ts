@@ -96,5 +96,58 @@ export const actions = {
 			},
 			data: dataUpdateObject
 		});
+	},
+
+	joinClub: async ({cookies, params}) => {
+		//get the user
+		const session = cookies.get("session");
+		if(!session) {
+			throw redirect(303, "/login")
+		}
+
+		//get the club id
+		const clubId = parseInt(params.clubId);
+
+		const sessionCheck = await prisma.session.findUnique({
+			where: {
+				sessionToken: session
+			},
+			include: {
+				user: {
+					include: {
+						clubUsers: {
+							where: {
+								clubId: clubId
+							}
+						}
+					}
+				}
+			}
+		})
+
+		if(!sessionCheck || !sessionCheck.user) {
+			throw redirect(303, "/login")
+		}
+
+		if(sessionCheck.user.clubUsers.length > 0) {
+			return {
+				success: false,
+				message: "Already in this club!"
+			}
+		}
+
+		//now we can create the club user
+		await prisma.clubUser.create({
+			data: {
+				clubId: clubId,
+				userId: sessionCheck.user.id,
+				permissions: 0
+			}
+		})
+
+		return {
+			success: true,
+			message: "Successfully joined this club!"
+		}
 	}
 };

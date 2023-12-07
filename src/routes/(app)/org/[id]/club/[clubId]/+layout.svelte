@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
+	import Button from '$lib/components/Button.svelte';
+	import { addToast } from '$lib/components/toaster';
 	export let data: PageData;
+	export let form: ActionData;
 
 	let route = get(page).route;
 	page.subscribe((page) => {
@@ -10,8 +13,11 @@
 	});
 
 	console.log(route);
+	$: console.log(form)
 
 	let baseURL = `/org/${data.org.id}/club/${data.club.id.toString()}`;
+
+	
 </script>
 
 <div class="wrap">
@@ -23,6 +29,12 @@
 				</a>
 				
 				<h2 class="clubName">{data.club.name}</h2>
+				<form class="buttonWrap" method="post" action="{baseURL}?/joinClub">
+					{#if !data.clubUser && data.club.ownerId != data.user.id}
+						<Button value="Join Club"/>
+							
+					{/if}
+				</form>
 			</div>
 			<div class="nav">
 				<a class:selected={route.id == '/(app)/org/[id]/club/[clubId]'} href={baseURL}>About</a>
@@ -154,5 +166,8 @@
 	.back:hover {
 		scale: 1.1;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	}
+	.buttonWrap {
+		padding: 0px 10px;
 	}
 </style>

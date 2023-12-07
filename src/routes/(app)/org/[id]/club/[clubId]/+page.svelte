@@ -2,10 +2,12 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 	import MdEditor from '$lib/components/MdEditor.svelte';
 	import { enhance } from '$app/forms';
+	import { addToast } from '$lib/components/toaster';
 	export let data: PageData;
+	export let form: ActionData;
 
 	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
 	let clubImage = data.club.imageURL || '';
@@ -14,6 +16,23 @@
 	let editing = false;
 
 	let toggleEdit = () => (editing = !editing);
+
+	$: if (form) {
+		console.log("form found in layout")
+		if(form.success) {
+			addToast({
+				message: form.message || "success",
+				type: "success",
+				life: 3000,
+			})
+		} else {
+			addToast({
+				message: form.message || "Failed.",
+				type: "error",
+				life: 3000,
+			})
+		}
+	}
 </script>
 
 <ModelHelper bind:showing={visibleModel}>

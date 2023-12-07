@@ -57,6 +57,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 
 	return {
 		club,
-		clubPerms
+		clubPerms,
+		clubUser,
 	};
 };
