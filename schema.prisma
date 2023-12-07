@@ -44,11 +44,12 @@ model OrgUser {
 
 model ClubUser {
 	id             Int @id @default(autoincrement())
-	permissions    Int
 	club           Club @relation(fields: [clubId], references: [id])
 	clubId         Int
 	user 	       User         @relation(fields: [userId], references: [id])
 	userId 	       Int
+	roleId Int
+	role ClubRole @relation(fields: [roleId], references: [id])
 }
 
 model Organization {
@@ -93,6 +94,6 @@ model ClubRole {
 	color String
 	permissionInt Int
 	clubId Int
-	priority Int
 	club Club @relation(fields: [clubId], references: [id])
+	members ClubUser[]
 }
