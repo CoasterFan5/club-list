@@ -74,6 +74,7 @@ model Club {
 	organizationId Int
 	clubUsers      ClubUser[]
 	announcements  Announcement[]
+	roles ClubRole[]
 }
 
 model Announcement {
@@ -82,5 +83,16 @@ model Announcement {
 	title String 
 	description String? 
 	clubId Int
+	club Club @relation(fields: [clubId], references: [id])
+}
+
+model ClubRole {
+	id Int @id @default(autoincrement())
+	createdAt DateTime @default(now())
+	name String
+	color String
+	permissionInt Int
+	clubId Int
+	priority Int
 	club Club @relation(fields: [clubId], references: [id])
 }
