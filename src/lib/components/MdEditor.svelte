@@ -117,13 +117,20 @@
 	}
 
 	.menu {
+		border-radius: 5px;
+		overflow: hidden;
+		background: var(--bgPure);
+		display: flex;
+
 		button {
 			all: unset;
 			cursor: pointer;
-			padding: 0.25rem 0.5rem;
-			border-radius: 5px;
+			padding: 10px;
 			background: white;
-			border: 1px solid black;
+			
+			&:hover {
+				background: var(--accent50);
+			}
 
 			.active {
 				background: black;
