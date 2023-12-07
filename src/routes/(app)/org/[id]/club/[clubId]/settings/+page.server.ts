@@ -52,6 +52,9 @@ export const actions = {
 							where: {
 								clubId: parseInt(params.clubId)
 							},
+							include: {
+								role: true
+							}
 						}
 					}
 				}
@@ -66,7 +69,10 @@ export const actions = {
 		let userPermission = {...defaultClubPermissionObject};
 
 		if(sessionCheck.user.clubUsers[0]) {
-			userPermission = {...defaultClubPermissionObject, ...createPermissionsCheck(createPermissionList(defaultClubPermissionObject), sessionCheck.user.clubUsers[0].permissions)}
+			userPermission = {...defaultClubPermissionObject, 
+				...createPermissionsCheck(createPermissionList(defaultClubPermissionObject), 
+				sessionCheck.user.clubUsers[0].role ? sessionCheck.user.clubUsers[0].role.permissionInt : 0)
+			}
 		} else if (club.ownerId == sessionCheck.user.id) {
 			for (const key of Object.keys(userPermission)) {
 				(userPermission as PermissionObject)[key] = true;

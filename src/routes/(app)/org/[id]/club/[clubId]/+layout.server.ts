@@ -47,7 +47,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 			...defaultClubPermissionObject,
 			...createPermissionsCheck(
 				createPermissionList(defaultClubPermissionObject),
-				clubUser.role.permissionInt
+				clubUser.role ? clubUser.role.permissionInt : 0
 			)
 		};
 	}
