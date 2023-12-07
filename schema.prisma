@@ -48,8 +48,8 @@ model ClubUser {
 	clubId         Int
 	user 	       User         @relation(fields: [userId], references: [id])
 	userId 	       Int
-	roleId Int
-	role ClubRole @relation(fields: [roleId], references: [id])
+	roleId Int?
+	role ClubRole? @relation(fields: [roleId], references: [id])
 }
 
 model Organization {

@@ -66,6 +66,9 @@ export const actions = {
 				clubUsers: {
 					where: {
 						id: sessionCheck.user.id
+					},
+					include: {
+						role: true
 					}
 				}
 			}
@@ -82,7 +85,7 @@ export const actions = {
 			}
 			const permissionObject = createPermissionsCheck(
 				createPermissionList(defaultClubPermissionObject),
-				club.clubUsers[0].permissions
+				club.clubUsers[0].role.permissionInt
 			);
 			if (!permissionObject.admin && !permissionObject.updateAppearance) {
 				throw error(500, 'No Permissions');
@@ -141,7 +144,6 @@ export const actions = {
 			data: {
 				clubId: clubId,
 				userId: sessionCheck.user.id,
-				permissions: 0
 			}
 		})
 
