@@ -64,7 +64,6 @@ export const actions = {
 
 		//make sure this user is signed in
 		let userPermission = {...defaultClubPermissionObject};
-		console.log(userPermission)
 
 		if(sessionCheck.user.clubUsers[0]) {
 			userPermission = {...defaultClubPermissionObject, ...createPermissionsCheck(createPermissionList(defaultClubPermissionObject), sessionCheck.user.clubUsers[0].permissions)}
@@ -74,9 +73,6 @@ export const actions = {
 			}
 		}
 
-		console.log(userPermission)
-		console.log(club.ownerId)
-		console.log(sessionCheck.user.id)
 		
 		if(!userPermission.admin && !userPermission.updateAppearance) {
 			return {
