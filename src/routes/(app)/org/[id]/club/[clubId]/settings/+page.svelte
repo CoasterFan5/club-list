@@ -66,5 +66,6 @@
 		align-items: center;
 		margin-top: 50px;
 		justify-content: center;
+		border-radius: 5px;
 	}
 </style>
