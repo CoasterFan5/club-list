@@ -7,6 +7,7 @@
       "phases": {
         "setup": {
           "nixPkgs": [
+            "nodejs_20",
             "nodePackages.pnpm"
           ]
         }
