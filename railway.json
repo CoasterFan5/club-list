@@ -3,11 +3,12 @@
 	"build": {
 		"builder": "NIXPACKS",
 		"buildCommand": "pnpm run deploy",
-        "nixpacksPlan": {
-            "phases": {
-                "nixPkgs": ["nodePackages.pnpm"]
-            }
-        }
+	        "nixpacksPlan": {
+	            "phases": {
+	                "setup" {
+				"nixPkgs": ["nodePackages.pnpm"]
+			}
+	        }
 	},
 	"deploy": {
 		"startCommand": "node build",
