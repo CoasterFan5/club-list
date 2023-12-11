@@ -22,7 +22,7 @@ services:
     environment:
       - REMOTE_MANAGEMENT_DISABLE=1
       - S3BACKEND=mem
-    command: bash -c "pnpm run start"
+    command: bash -c "yarn start"
   web:
     image: node:20.9.0-alpine3.18
     container_name: club-list-web

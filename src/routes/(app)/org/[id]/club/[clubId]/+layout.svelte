@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 	import Button from '$lib/components/Button.svelte';
-	import { addToast } from '$lib/components/toaster';
 	export let data: PageData;
-	export let form: ActionData;
 
 	let route = get(page).route;
 	page.subscribe((page) => (route = page.route));
@@ -18,11 +16,11 @@
 		<div class="headerInner">
 			<div class="title">
 				<a class="back" href="/org/{data.org.id}">
-					<img src="/icons/back.svg" alt="back" />
+					<img alt="back" src="/icons/back.svg" />
 				</a>
 
 				<h2 class="clubName">{data.club.name}</h2>
-				<form class="buttonWrap" method="post" action="{baseURL}?/joinClub">
+				<form class="buttonWrap" action="{baseURL}?/joinClub" method="post">
 					{#if !data.clubUser && data.club.ownerId != data.user.id}
 						<Button value="Join Club" />
 					{/if}

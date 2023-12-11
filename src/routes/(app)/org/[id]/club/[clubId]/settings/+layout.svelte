@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
 
 	let baseUrl = `/org/${$page.params.id}/club/${$page.params.clubId}/settings`;
@@ -14,7 +14,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		padding-top: 50px;
 		padding-bottom: 50px;
