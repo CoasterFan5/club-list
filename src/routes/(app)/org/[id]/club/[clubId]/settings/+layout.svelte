@@ -1,17 +1,16 @@
 <script>
-	import { page } from "$app/stores"
-	
+	import { page } from '$app/stores';
 
-	let baseUrl = `/org/${$page.params.id}/club/${$page.params.clubId}/settings`
+	let baseUrl = `/org/${$page.params.id}/club/${$page.params.clubId}/settings`;
 </script>
 
 <div class="wrap">
 	<div class="leftBar">
-		<a class="link" href="{baseUrl}">General</a>
+		<a class="link" href={baseUrl}>General</a>
 		<a class="link" href="{baseUrl}/roles">Roles</a>
 	</div>
 	<div class="content">
-		<slot/>
+		<slot />
 	</div>
 </div>
 
@@ -46,7 +45,6 @@
 		color: var(--textColor);
 		text-decoration: none;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-
 	}
 	.link:hover {
 		color: var(--accent);

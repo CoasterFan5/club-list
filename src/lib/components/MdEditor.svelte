@@ -127,7 +127,7 @@
 			cursor: pointer;
 			padding: 10px;
 			background: white;
-			
+
 			&:hover {
 				background: var(--accent50);
 			}

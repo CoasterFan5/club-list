@@ -18,19 +18,19 @@
 	let toggleEdit = () => (editing = !editing);
 
 	$: if (form) {
-		console.log("form found in layout")
-		if(form.success) {
+		console.log('form found in layout');
+		if (form.success) {
 			addToast({
-				message: form.message || "success",
-				type: "success",
-				life: 3000,
-			})
+				message: form.message || 'success',
+				type: 'success',
+				life: 3000
+			});
 		} else {
 			addToast({
-				message: form.message || "Failed.",
-				type: "error",
-				life: 3000,
-			})
+				message: form.message || 'Failed.',
+				type: 'error',
+				life: 3000
+			});
 		}
 	}
 </script>

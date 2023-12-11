@@ -11,20 +11,19 @@
 	let name = data.club.name || '';
 	let imgURL = data.club.imageURL || '';
 
-	if(form) {
-		if(form.success) {
+	if (form) {
+		if (form.success) {
 			addToast({
-				type: "success",
-				message: "Club Updated!",
+				type: 'success',
+				message: 'Club Updated!',
 				life: 3000
-			})
+			});
 		} else {
 			addToast({
-				type: "error",
-				message: form.message || "An error occured!",
+				type: 'error',
+				message: form.message || 'An error occured!',
 				life: 3000
-				
-			})
+			});
 		}
 	}
 </script>

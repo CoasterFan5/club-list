@@ -1,5 +1,9 @@
 import { prisma } from '$lib/prismaConnection';
-import { createPermissionsCheck, createPermissionList, type PermissionObject } from '$lib/permissionHelper';
+import {
+	createPermissionsCheck,
+	createPermissionList,
+	type PermissionObject
+} from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
 import { error, redirect } from '@sveltejs/kit';
 
@@ -85,15 +89,17 @@ export const actions = {
 			}
 			let permissionObject: PermissionObject;
 
-			if(club.clubUsers[0].role) {
+			if (club.clubUsers[0].role) {
 				permissionObject = createPermissionsCheck(
 					createPermissionList(defaultClubPermissionObject),
 					club.clubUsers[0].role.permissionInt
 				);
 			} else {
-				permissionObject = createPermissionsCheck(createPermissionList(defaultClubPermissionObject), 0);
+				permissionObject = createPermissionsCheck(
+					createPermissionList(defaultClubPermissionObject),
+					0
+				);
 			}
-			
 
 			if (!permissionObject.admin && !permissionObject.updateAppearance) {
 				throw error(500, 'No Permissions');
@@ -109,11 +115,11 @@ export const actions = {
 		});
 	},
 
-	joinClub: async ({cookies, params}) => {
+	joinClub: async ({ cookies, params }) => {
 		//get the user
-		const session = cookies.get("session");
-		if(!session) {
-			throw redirect(303, "/login")
+		const session = cookies.get('session');
+		if (!session) {
+			throw redirect(303, '/login');
 		}
 
 		//get the club id
@@ -134,30 +140,30 @@ export const actions = {
 					}
 				}
 			}
-		})
+		});
 
-		if(!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, "/login")
+		if (!sessionCheck || !sessionCheck.user) {
+			throw redirect(303, '/login');
 		}
 
-		if(sessionCheck.user.clubUsers.length > 0) {
+		if (sessionCheck.user.clubUsers.length > 0) {
 			return {
 				success: false,
-				message: "Already in this club!"
-			}
+				message: 'Already in this club!'
+			};
 		}
 
 		//now we can create the club user
 		await prisma.clubUser.create({
 			data: {
 				clubId: clubId,
-				userId: sessionCheck.user.id,
+				userId: sessionCheck.user.id
 			}
-		})
+		});
 
 		return {
 			success: true,
-			message: "Successfully joined this club!"
-		}
+			message: 'Successfully joined this club!'
+		};
 	}
 };

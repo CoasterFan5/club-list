@@ -8,11 +8,9 @@
 	export let form: ActionData;
 
 	let route = get(page).route;
-	page.subscribe((page) => route = page.route);
+	page.subscribe((page) => (route = page.route));
 
 	let baseURL = `/org/${data.org.id}/club/${data.club.id.toString()}`;
-
-	
 </script>
 
 <div class="wrap">
@@ -20,14 +18,13 @@
 		<div class="headerInner">
 			<div class="title">
 				<a class="back" href="/org/{data.org.id}">
-					<img src="/icons/back.svg" alt="back"/>
+					<img src="/icons/back.svg" alt="back" />
 				</a>
-				
+
 				<h2 class="clubName">{data.club.name}</h2>
 				<form class="buttonWrap" method="post" action="{baseURL}?/joinClub">
 					{#if !data.clubUser && data.club.ownerId != data.user.id}
-						<Button value="Join Club"/>
-							
+						<Button value="Join Club" />
 					{/if}
 				</form>
 			</div>
@@ -42,10 +39,10 @@
 					href="{baseURL}/events">Events</a
 				>
 				{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
-				<a
-					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}
-					href="{baseURL}/settings">Settings</a
-				>
+					<a
+						class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}
+						href="{baseURL}/settings">Settings</a
+					>
 				{/if}
 			</div>
 		</div>
@@ -101,7 +98,6 @@
 		font-weight: 500;
 		margin: 0px;
 		padding-left: 10px;
-		
 	}
 
 	.nav {
