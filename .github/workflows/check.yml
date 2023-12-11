@@ -56,7 +56,7 @@ jobs:
         run: pnpm install
 
       - name: Initialize Bucket
-        run: pnpm run s3devdata
+        run: yarn run s3devdata
 
       - name: Setup .env
         run: |
