@@ -37,8 +37,9 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules/
+      - /app/.pnpm-store/
     working_dir: /app
-    command: sh -c "pnpm install && pnpm run db:deploy && pnpm run s3devdata && pnpm run seed && pnpm run dev --host --port 5173"
+    command: sh -c "npm i -g pnpm@8.10.2 && pnpm install && pnpm run db:deploy && pnpm run s3devdata && pnpm run seed && pnpm run dev --host --port 5173"
     depends_on:
       - db
       - storage
