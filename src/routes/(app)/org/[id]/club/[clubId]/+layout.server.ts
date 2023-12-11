@@ -35,6 +35,9 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 				userId: parentData.user.id,
 				clubId: club.id
 			}
+		},
+		include: {
+			role: true
 		}
 	});
 
@@ -44,7 +47,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 			...defaultClubPermissionObject,
 			...createPermissionsCheck(
 				createPermissionList(defaultClubPermissionObject),
-				clubUser.permissions
+				clubUser.role ? clubUser.role.permissionInt : 0
 			)
 		};
 	}
@@ -57,6 +60,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 
 	return {
 		club,
-		clubPerms
+		clubPerms,
+		clubUser
 	};
 };

@@ -1,5 +1,9 @@
 import { prisma } from '$lib/prismaConnection';
-import { createPermissionsCheck, createPermissionList } from '$lib/permissionHelper';
+import {
+	createPermissionsCheck,
+	createPermissionList,
+	type PermissionObject
+} from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
 import { error, redirect } from '@sveltejs/kit';
 
@@ -66,6 +70,9 @@ export const actions = {
 				clubUsers: {
 					where: {
 						id: sessionCheck.user.id
+					},
+					include: {
+						role: true
 					}
 				}
 			}
@@ -80,10 +87,20 @@ export const actions = {
 			if (!club.clubUsers) {
 				throw error(500, 'No Permissions');
 			}
-			const permissionObject = createPermissionsCheck(
-				createPermissionList(defaultClubPermissionObject),
-				club.clubUsers[0].permissions
-			);
+			let permissionObject: PermissionObject;
+
+			if (club.clubUsers[0].role) {
+				permissionObject = createPermissionsCheck(
+					createPermissionList(defaultClubPermissionObject),
+					club.clubUsers[0].role.permissionInt
+				);
+			} else {
+				permissionObject = createPermissionsCheck(
+					createPermissionList(defaultClubPermissionObject),
+					0
+				);
+			}
+
 			if (!permissionObject.admin && !permissionObject.updateAppearance) {
 				throw error(500, 'No Permissions');
 			}
@@ -96,5 +113,57 @@ export const actions = {
 			},
 			data: dataUpdateObject
 		});
+	},
+
+	joinClub: async ({ cookies, params }) => {
+		//get the user
+		const session = cookies.get('session');
+		if (!session) {
+			throw redirect(303, '/login');
+		}
+
+		//get the club id
+		const clubId = parseInt(params.clubId);
+
+		const sessionCheck = await prisma.session.findUnique({
+			where: {
+				sessionToken: session
+			},
+			include: {
+				user: {
+					include: {
+						clubUsers: {
+							where: {
+								clubId: clubId
+							}
+						}
+					}
+				}
+			}
+		});
+
+		if (!sessionCheck || !sessionCheck.user) {
+			throw redirect(303, '/login');
+		}
+
+		if (sessionCheck.user.clubUsers.length > 0) {
+			return {
+				success: false,
+				message: 'Already in this club!'
+			};
+		}
+
+		//now we can create the club user
+		await prisma.clubUser.create({
+			data: {
+				clubId: clubId,
+				userId: sessionCheck.user.id
+			}
+		});
+
+		return {
+			success: true,
+			message: 'Successfully joined this club!'
+		};
 	}
 };

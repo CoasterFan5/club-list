@@ -1,4 +1,8 @@
-import { createPermissionList, createPermissionsCheck, type PermissionObject } from '$lib/permissionHelper.js';
+import {
+	createPermissionList,
+	createPermissionsCheck,
+	type PermissionObject
+} from '$lib/permissionHelper.js';
 import { defaultClubPermissionObject } from '$lib/permissions.js';
 import { prisma } from '$lib/prismaConnection.js';
 import { redirect } from '@sveltejs/kit';
@@ -8,37 +12,35 @@ export const load = async () => {
 };
 
 export const actions = {
-	updateClub: async ({request, cookies, params}) => {
-		
-		const data = await request.formData()
-		const session = cookies.get("session")
+	updateClub: async ({ request, cookies, params }) => {
+		const data = await request.formData();
+		const session = cookies.get('session');
 
-		if(!session) {
-			throw redirect(303, "/login")
+		if (!session) {
+			throw redirect(303, '/login');
 		}
 
-		const clubName = data.get("clubName")?.toString();
-		const clubImage = data.get("imgURL")?.toString();
+		const clubName = data.get('clubName')?.toString();
+		const clubImage = data.get('imgURL')?.toString();
 
-
-		if(!clubName) {
+		if (!clubName) {
 			return {
 				success: false,
-				message: "Must specify a club name"
-			}
+				message: 'Must specify a club name'
+			};
 		}
 
 		const club = await prisma.club.findFirst({
 			where: {
 				id: parseInt(params.clubId)
 			}
-		})
-		
-		if(!club) {
+		});
+
+		if (!club) {
 			return {
 				success: false,
-				message: "how did we get here"
-			}
+				message: 'how did we get here'
+			};
 		}
 
 		const sessionCheck = await prisma.session.findUnique({
@@ -52,46 +54,55 @@ export const actions = {
 							where: {
 								clubId: parseInt(params.clubId)
 							},
+							include: {
+								role: true
+							}
 						}
 					}
 				}
 			}
-		})
+		});
 
-		if(!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, "/login")
+		if (!sessionCheck || !sessionCheck.user) {
+			throw redirect(303, '/login');
 		}
 
 		//make sure this user is signed in
-		let userPermission = defaultClubPermissionObject;
+		let userPermission = { ...defaultClubPermissionObject };
 
-		if(sessionCheck.user.clubUsers[0]) {
-			userPermission = {...defaultClubPermissionObject, ...createPermissionsCheck(createPermissionList(defaultClubPermissionObject), sessionCheck.user.clubUsers[0].permissions)}
-		} else {
-			if (club?.ownerId == sessionCheck.user.id) {
-				for (const key of Object.keys(userPermission)) {
-					(userPermission as PermissionObject)[key] = true;
-				}
+		if (sessionCheck.user.clubUsers[0]) {
+			userPermission = {
+				...defaultClubPermissionObject,
+				...createPermissionsCheck(
+					createPermissionList(defaultClubPermissionObject),
+					sessionCheck.user.clubUsers[0].role
+						? sessionCheck.user.clubUsers[0].role.permissionInt
+						: 0
+				)
+			};
+		} else if (club.ownerId == sessionCheck.user.id) {
+			for (const key of Object.keys(userPermission)) {
+				(userPermission as PermissionObject)[key] = true;
 			}
 		}
-		
-		if(!userPermission.admin && !userPermission.updateAppearance) {
+
+		if (!userPermission.admin && !userPermission.updateAppearance) {
 			return {
 				success: false,
-				message: "No Permissions"
-			}
+				message: 'No Permissions'
+			};
 		}
-		
+
 		type ClubDataObject = {
-			name: string,
-			imageURL?: string,
-		}
+			name: string;
+			imageURL?: string;
+		};
 
 		const dataObject: ClubDataObject = {
 			name: clubName
 		};
-		
-		if(clubImage) {
+
+		if (clubImage) {
 			dataObject.imageURL = clubImage;
 		}
 
@@ -101,14 +112,11 @@ export const actions = {
 				id: parseInt(params.clubId)
 			},
 			data: dataObject
-		})
-
-		
-
+		});
 
 		return {
 			success: true,
-			message: "success!"
-		}
+			message: 'success!'
+		};
 	}
-}
+};

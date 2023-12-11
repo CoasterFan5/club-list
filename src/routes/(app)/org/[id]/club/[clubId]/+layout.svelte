@@ -2,14 +2,11 @@
 	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
 	import type { PageData } from './$types';
+	import Button from '$lib/components/Button.svelte';
 	export let data: PageData;
 
 	let route = get(page).route;
-	page.subscribe((page) => {
-		route = page.route;
-	});
-
-	console.log(route);
+	page.subscribe((page) => (route = page.route));
 
 	let baseURL = `/org/${data.org.id}/club/${data.club.id.toString()}`;
 </script>
@@ -19,10 +16,15 @@
 		<div class="headerInner">
 			<div class="title">
 				<a class="back" href="/org/{data.org.id}">
-					<img src="/icons/back.svg" alt="back"/>
+					<img alt="back" src="/icons/back.svg" />
 				</a>
-				
+
 				<h2 class="clubName">{data.club.name}</h2>
+				<form class="buttonWrap" action="{baseURL}?/joinClub" method="post">
+					{#if !data.clubUser && data.club.ownerId != data.user.id}
+						<Button value="Join Club" />
+					{/if}
+				</form>
 			</div>
 			<div class="nav">
 				<a class:selected={route.id == '/(app)/org/[id]/club/[clubId]'} href={baseURL}>About</a>
@@ -35,10 +37,10 @@
 					href="{baseURL}/events">Events</a
 				>
 				{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
-				<a
-					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}
-					href="{baseURL}/settings">Settings</a
-				>
+					<a
+						class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}
+						href="{baseURL}/settings">Settings</a
+					>
 				{/if}
 			</div>
 		</div>
@@ -73,6 +75,7 @@
 
 	.wrap {
 		width: 100%;
+		height: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -82,6 +85,7 @@
 	.inner {
 		display: flex;
 		width: 90%;
+		height: 100%;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
@@ -92,7 +96,6 @@
 		font-weight: 500;
 		margin: 0px;
 		padding-left: 10px;
-		
 	}
 
 	.nav {
@@ -154,5 +157,8 @@
 	.back:hover {
 		scale: 1.1;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	}
+	.buttonWrap {
+		padding: 0px 10px;
 	}
 </style>

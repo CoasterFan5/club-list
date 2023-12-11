@@ -33,18 +33,23 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-        
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
       - name: Install dependencies
-        run: 'pnpm i'
+        run: pnpm install
 
       - name: Initialize Bucket
-        run: yarn run s3devdata
+        run: pnpm run s3devdata
+
       - name: Setup .env
         run: |
           cp .env.test .env
           echo "BETA=false" >> .env
+
       - name: Build
         run: pnpm run build
       - name: Deploy database

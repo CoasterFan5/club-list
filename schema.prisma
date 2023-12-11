@@ -44,11 +44,12 @@ model OrgUser {
 
 model ClubUser {
 	id             Int @id @default(autoincrement())
-	permissions    Int
 	club           Club @relation(fields: [clubId], references: [id])
 	clubId         Int
 	user 	       User         @relation(fields: [userId], references: [id])
 	userId 	       Int
+	roleId Int?
+	role ClubRole? @relation(fields: [roleId], references: [id])
 }
 
 model Organization {
@@ -74,6 +75,7 @@ model Club {
 	organizationId Int
 	clubUsers      ClubUser[]
 	announcements  Announcement[]
+	roles ClubRole[]
 }
 
 model Announcement {
@@ -83,4 +85,15 @@ model Announcement {
 	description String? 
 	clubId Int
 	club Club @relation(fields: [clubId], references: [id])
+}
+
+model ClubRole {
+	id Int @id @default(autoincrement())
+	createdAt DateTime @default(now())
+	name String
+	color String
+	permissionInt Int
+	clubId Int
+	club Club @relation(fields: [clubId], references: [id])
+	members ClubUser[]
 }

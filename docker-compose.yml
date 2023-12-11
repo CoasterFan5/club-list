@@ -23,18 +23,6 @@ services:
       - REMOTE_MANAGEMENT_DISABLE=1
       - S3BACKEND=mem
     command: bash -c "yarn start"
-
-  #  prisma-studio:
-  #   container_name: club-list-prisma-studio
-  #   image: timothyjmiller/prisma-studio:latest
-  #   restart: unless-stopped
-  #   environment:
-  #     - POSTGRES_URL=postgresql://prisma:prisma@db:5432/tests
-  #   env_file:
-  #     - .env.test
-  #   ports:
-  #     - 5555:5555
-
   web:
     image: node:20.9.0-alpine3.18
     container_name: club-list-web
@@ -50,7 +38,7 @@ services:
       - ./:/app
       - /app/node_modules/
     working_dir: /app
-    command: sh -c "yarn && yarn db:deploy && yarn run s3devdata && yarn run seed && yarn dev --host --port 5173"
+    command: sh -c "pnpm install && pnpm run db:deploy && pnpm run s3devdata && pnpm run seed && pnpm run dev --host --port 5173"
     depends_on:
       - db
       - storage

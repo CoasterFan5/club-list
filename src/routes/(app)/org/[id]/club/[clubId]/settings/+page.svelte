@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import { addToast } from '$lib/components/toaster';
@@ -11,20 +10,19 @@
 	let name = data.club.name || '';
 	let imgURL = data.club.imageURL || '';
 
-	if(form) {
-		if(form.success) {
+	if (form) {
+		if (form.success) {
 			addToast({
-				type: "success",
-				message: "Club Updated!",
+				type: 'success',
+				message: 'Club Updated!',
 				life: 3000
-			})
+			});
 		} else {
 			addToast({
-				type: "error",
-				message: form.message || "An error occured!",
+				type: 'error',
+				message: form.message || 'An error occured!',
 				life: 3000
-				
-			})
+			});
 		}
 	}
 </script>
@@ -66,5 +64,6 @@
 		align-items: center;
 		margin-top: 50px;
 		justify-content: center;
+		border-radius: 5px;
 	}
 </style>
