@@ -80,8 +80,6 @@ export const actions = {
 			const pfp: File = FormData.pfp as File;
 			const pfpBuffer: Buffer = Buffer.from(await pfp.arrayBuffer());
 
-			console.log(pfp.size);
-
 			if (pfp.size > 3e6) {
 				throw fail(400, { message: 'Max size: 3mb' });
 			}
@@ -113,7 +111,7 @@ export const actions = {
 				}
 			});
 		} catch (e) {
-			console.log(e);
+			console.error(e);
 		}
 	}
 };

@@ -11,10 +11,7 @@
 	let close = () => removeToast(data.id);
 
 	if (data.life && data.life > 0) {
-		setTimeout(() => {
-			console.log('toast expired');
-			close();
-		}, data.life);
+		setTimeout(() => close(), data.life);
 	}
 
 	onMount(() => {
