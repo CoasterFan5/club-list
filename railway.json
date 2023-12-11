@@ -1,19 +1,22 @@
 {
-	"$schema": "https://railway.app/railway.schema.json",
-	"build": {
-		"builder": "NIXPACKS",
-		"buildCommand": "pnpm run deploy",
-	        "nixpacksPlan": {
-	            "phases": {
-	                "setup": {
-				"nixPkgs": ["nodePackages.pnpm"]
-			}
-	        }
-	},
-	"deploy": {
-		"startCommand": "node build",
-		"healthcheckPath": "/",
-		"healthcheckTimeout": 100,
-		"restartPolicyType": "NEVER"
-	}
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "pnpm run deploy",
+    "nixpacksPlan": {
+      "phases": {
+        "setup": {
+          "nixPkgs": [
+            "nodePackages.pnpm"
+          ]
+        }
+      }
+    }
+  },
+  "deploy": {
+    "startCommand": "node build",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 100,
+    "restartPolicyType": "NEVER"
+  }
 }
