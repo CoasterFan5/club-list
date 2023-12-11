@@ -8,12 +8,7 @@
 	export let form: ActionData;
 
 	let route = get(page).route;
-	page.subscribe((page) => {
-		route = page.route;
-	});
-
-	console.log(route);
-	$: console.log(form)
+	page.subscribe((page) => route = page.route);
 
 	let baseURL = `/org/${data.org.id}/club/${data.club.id.toString()}`;
 
