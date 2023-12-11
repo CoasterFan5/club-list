@@ -5,7 +5,7 @@
 		"buildCommand": "pnpm run deploy",
 	        "nixpacksPlan": {
 	            "phases": {
-	                "setup" {
+	                "setup": {
 				"nixPkgs": ["nodePackages.pnpm"]
 			}
 	        }
