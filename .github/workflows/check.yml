@@ -32,10 +32,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn
+        run: 'pnpm i'
 
       - name: Initialize Bucket
         run: yarn run s3devdata
@@ -44,12 +44,12 @@ jobs:
           cp .env.test .env
           echo "BETA=false" >> .env
       - name: Build
-        run: yarn build
+        run: pnpm run build
       - name: Deploy database
-        run: yarn db:deploy
+        run: pnmp run db:deploy
       - name: Install Playwright Dependencies
         run: npx playwright install-deps
       - name: Install Playwright
         run: npx playwright install
       - name: Run Tests
-        run: yarn test
+        run: pnpm run test
