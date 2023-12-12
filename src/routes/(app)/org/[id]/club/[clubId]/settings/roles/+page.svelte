@@ -41,13 +41,13 @@
 	{/if}
 	{#each data.roles as role, i}
 		<form
-			class="role"
 			style="--color: {role.color};"
-			method="post"
+			class="role"
 			action="?/updateRole"
+			method="post"
 			use:enhance
 		>
-			<input hidden name="roleId" bind:value={role.id} />
+			<input name="roleId" hidden bind:value={role.id} />
 			<div class="nameWrap">
 				<input
 					name="name"
@@ -61,18 +61,18 @@
 			<div class="actions">
 				<input
 					name="color"
-					type="color"
 					class="color"
+					type="color"
 					bind:value={role.color}
 					on:blur={() => {
 						forms[i]?.click();
 					}}
 				/>
 			</div>
-			<button hidden type="submit" bind:this={forms[i]} />
+			<button bind:this={forms[i]} hidden type="submit" />
 		</form>
 	{/each}
-	<form class="buttonHolder" method="post" action="?/makeRole" use:enhance>
+	<form class="buttonHolder" action="?/makeRole" method="post" use:enhance>
 		<Button value="Add Role" />
 	</form>
 </div>

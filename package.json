@@ -48,6 +48,7 @@
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
 		"prisma": "^5.5.2",
+		"rrule": "^2.8.1",
 		"sanitize-html": "^2.11.0",
 		"sass": "^1.69.5",
 		"surrealdb.js": "^0.9.1",

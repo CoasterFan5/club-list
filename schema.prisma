@@ -50,6 +50,7 @@ model ClubUser {
 	userId 	       Int
 	roleId Int?
 	role ClubRole? @relation(fields: [roleId], references: [id])
+	events         Event[]
 }
 
 model Organization {
@@ -75,7 +76,23 @@ model Club {
 	organizationId Int
 	clubUsers      ClubUser[]
 	announcements  Announcement[]
+	events         Event[]
 	roles ClubRole[]
+}
+
+model Event {
+	id Int @id @default(autoincrement())
+	createdAt DateTime? @default(now())
+	title String
+	description String?
+	clubId Int
+	authorId Int
+	author ClubUser @relation(fields: [authorId], references: [id])
+	club Club @relation(fields: [clubId], references: [id])
+	// An RRULE string
+	date String
+	// A list of RRULE strings
+	exclusions String[]
 }
 
 model Announcement {
