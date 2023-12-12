@@ -3,5 +3,5 @@ export const defaultClubPermissionObject = {
 	updateAppearance: false,
 	updateDescription: false,
 	manageAnnouncements: false,
-	manageRoles: false,
+	manageRoles: false
 };

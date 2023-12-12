@@ -9,56 +9,72 @@
 
 	let forms: Array<HTMLButtonElement | undefined> = [];
 
-	let roles = data.roles
+	let roles = data.roles;
 
-	$: if(form) {
-		if(form.success) {
+	$: if (form) {
+		if (form.success) {
 			addToast({
-				type: "success",
-				message: form.message || "Success!",
-				life: 3000,
-			})
+				type: 'success',
+				message: form.message || 'Success!',
+				life: 3000
+			});
 		} else {
 			addToast({
-				type: "error",
-				message: form.message || "Failed!",
-				life: 3000,
-			})
+				type: 'error',
+				message: form.message || 'Failed!',
+				life: 3000
+			});
 		}
 	}
 
 	let colorInput: HTMLInputElement;
 	let showColorPicker = () => {
 		colorInput.hidden = false;
-	}
+	};
 
-	$: console.log(forms)
-
-	
-
+	$: console.log(forms);
 </script>
-
 
 <div class="rolesHolder">
 	{#if data.roles.length < 1}
 		<h2>No roles yet</h2>
 	{/if}
 	{#each data.roles as role, i}
-		<form class="role" style="--color: {role.color};"  method="post" action="?/updateRole" use:enhance>
-			<input hidden name="roleId" bind:value={role.id}/>
+		<form
+			class="role"
+			style="--color: {role.color};"
+			method="post"
+			action="?/updateRole"
+			use:enhance
+		>
+			<input hidden name="roleId" bind:value={role.id} />
 			<div class="nameWrap">
-				<input name="name" class="name" bind:value={role.name} on:blur={() => {forms[i]?.click()}}>
+				<input
+					name="name"
+					class="name"
+					bind:value={role.name}
+					on:blur={() => {
+						forms[i]?.click();
+					}}
+				/>
 			</div>
 			<div class="actions">
-				<input name="color" type="color" class="color" bind:value={role.color} on:blur={() => {forms[i]?.click()}}/>
+				<input
+					name="color"
+					type="color"
+					class="color"
+					bind:value={role.color}
+					on:blur={() => {
+						forms[i]?.click();
+					}}
+				/>
 			</div>
-			<button hidden type="submit" bind:this={forms[i]}/>
+			<button hidden type="submit" bind:this={forms[i]} />
 		</form>
-	{/each} 
+	{/each}
 	<form class="buttonHolder" method="post" action="?/makeRole" use:enhance>
-		<Button value="Add Role"/>
+		<Button value="Add Role" />
 	</form>
-	
 </div>
 
 <style>
@@ -78,7 +94,7 @@
 		flex-direction: row;
 	}
 	.role::after {
-		content: "";
+		content: '';
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -131,11 +147,11 @@
 		padding: 3px;
 		box-sizing: border-box;
 	}
-	input[type="color"]::-moz-color-swatch {
-	border: none;
+	input[type='color']::-moz-color-swatch {
+		border: none;
 	}
 
-	input[type="color"]::-webkit-color-swatch {
-	border: none;
+	input[type='color']::-webkit-color-swatch {
+		border: none;
 	}
 </style>

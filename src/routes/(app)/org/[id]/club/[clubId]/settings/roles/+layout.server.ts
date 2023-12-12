@@ -10,7 +10,7 @@ export const load: LayoutServerLoad = async ({ parent }) => {
 			clubId: parentData.club.id
 		},
 		orderBy: {
-			id: "asc"
+			id: 'asc'
 		}
 	});
 
