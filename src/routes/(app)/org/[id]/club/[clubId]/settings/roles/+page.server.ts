@@ -183,7 +183,133 @@ export const actions = {
 
 		return {
 			success: true,
-			message: 'Role Created!'
+			message: 'Role Updated!'
+		};
+	},
+
+	deleteRole: async ({request, params, cookies}) => {
+		const formData = await request.formData();
+
+		const roleName = formData.get('roleName')?.toString();
+		if(!roleName) {
+			return {
+				success: false,
+				message: "No role name typed"
+			}
+		}
+
+		const roleIdString = formData.get('roleId')?.toString();
+		if (!roleIdString) {
+			throw error(400, 'How did we get here?');
+		}
+		const roleId = parseInt(roleIdString);
+
+		const session = cookies.get('session');
+
+		const sessionCheck = await prisma.session.findUnique({
+			where: {
+				sessionToken: session
+			},
+			include: {
+				user: {
+					include: {
+						clubUsers: {
+							where: {
+								clubId: parseInt(params.clubId)
+							},
+							include: {
+								role: true
+							}
+						}
+					}
+				}
+			}
+		});
+
+		const club = await prisma.club.findUnique({
+			where: {
+				id: parseInt(params.clubId)
+			}
+		});
+
+
+		if (!club) {
+			throw error(400, 'How did we get here?');
+		}
+
+		
+
+		if (!sessionCheck || !sessionCheck.user) {
+			throw redirect(303, '/login');
+		}
+
+		//make sure the user has the proper perms
+
+		let userPerms = { ...defaultClubPermissionObject };
+
+		if (sessionCheck.user.id == club?.ownerId) {
+			for (const key in userPerms) {
+				(userPerms as PermissionObject)[key] = true;
+			}
+		} else {
+			if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
+				throw error(401, 'No Permissions');
+			}
+			userPerms = {
+				...userPerms,
+				...createPermissionsCheck(
+					createPermissionList(defaultClubPermissionObject),
+					sessionCheck.user.clubUsers[0].role.permissionInt
+				)
+			};
+		}
+
+		if (!userPerms.admin && !userPerms.manageRoles) {
+			throw error(401, 'No Permissions');
+		}
+
+		//grab the role
+		const role = await prisma.clubRole.findFirst({
+			where: {
+				id: roleId
+			}
+		});
+
+		
+
+		if (!role || role?.clubId != club.id) {
+			throw error(400, 'How did we get here?');
+		}
+
+		if(role.name != roleName) {
+			console.log(role.name, roleName)
+			return {
+				success: false,
+				message: "Role name typed wrong"
+			}
+		}
+
+		//delete the role
+		await prisma.clubUser.updateMany({
+			where: {
+				roleId: roleId
+			},
+			data: {
+				roleId: undefined
+			}
+		})
+
+		await prisma.clubRole.delete({
+			where: {
+				id: roleId
+			}
+		})
+
+		//return
+
+		return {
+			success: true,
+			message: 'Role Deleted!'
 		};
 	}
 };

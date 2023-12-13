@@ -3,6 +3,8 @@
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
+	import ModelHelper from '$lib/modules/ModelHelper.svelte';
+	import Input from '$lib/components/Input.svelte';
 	export let data: LayoutData;
 	export let form: ActionData;
 	console.log(data.roles);
@@ -33,7 +35,26 @@
 	};
 
 	$: console.log(forms);
+
+	let showDeleteForm = false;
+	let selectedRoleName = "";
+	let selectedRoleId: number;
 </script>
+
+<ModelHelper bind:showing={showDeleteForm}>
+	<form method="post" action="?/deleteRole">
+		<h1>Are you sure?</h1>
+		<p>Type {selectedRoleName} to confirm</p>
+		<input name="roleId" hidden bind:value={selectedRoleId}>
+		<div class="formItem">
+			<Input name="roleName" label="type role name"/>
+		</div>
+		<div class="formItem">
+			<Button type="submit" value="Delete Role"/>
+		</div>
+		
+	</form>
+</ModelHelper>
 
 <div class="rolesHolder">
 	{#if data.roles.length < 1}
@@ -59,7 +80,11 @@
 				/>
 			</div>
 			<div class="actions">
-				<button type="button" class="button">
+				<button type="button" class="button" on:click={() => {
+					showDeleteForm = true;
+					selectedRoleId = role.id
+					selectedRoleName = role.name
+				}}>
 					<img src="/icons/trash.svg" alt="delete">
 
 				</button>
@@ -173,5 +198,12 @@
 		all: unset;
 		height: 100%;
 		aspect-ratio: 1/1;
+	}
+	.formItem {
+		width: 100%;
+		margin: 7px 0px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 </style>
