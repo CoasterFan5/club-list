@@ -51,12 +51,15 @@
 </div>
 
 <style lang="scss">
-	.title {
+	.wrap {
+		width: 100%;
+		height: 100%;
+		min-height: 100vh;
 		display: flex;
-		flex-direction: row;
 		align-items: center;
-		justify-content: start;
-		margin-bottom: 25px;
+		flex-direction: column;
+		padding-bottom: 50px;
+		box-sizing: border-box;
 	}
 	.header {
 		background: var(--bgMid);
@@ -68,24 +71,25 @@
 		align-items: center;
 		justify-content: center;
 	}
-
 	.headerInner {
 		width: 90%;
 	}
-
-	.wrap {
-		width: 100%;
-		height: 100%;
+	.title {
 		display: flex;
+		flex-direction: row;
 		align-items: center;
-		justify-content: center;
-		flex-direction: column;
+		justify-content: start;
+		margin-bottom: 25px;
 	}
+	
 
+	
+
+	
 	.inner {
 		display: flex;
 		width: 90%;
-		height: 100%;
+		
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;

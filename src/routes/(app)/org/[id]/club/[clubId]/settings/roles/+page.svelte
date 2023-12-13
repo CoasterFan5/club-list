@@ -53,18 +53,22 @@
 					name="name"
 					class="name"
 					bind:value={role.name}
-					on:blur={() => {
+					on:change={() => {
 						forms[i]?.click();
 					}}
 				/>
 			</div>
 			<div class="actions">
+				<button type="button" class="button">
+					<img src="/icons/trash.svg" alt="delete">
+
+				</button>
 				<input
 					name="color"
 					class="color"
 					type="color"
 					bind:value={role.color}
-					on:blur={() => {
+					on:change={() => {
 						forms[i]?.click();
 					}}
 				/>
@@ -88,6 +92,7 @@
 		color: var(--textColor);
 		border-radius: 7px;
 		padding: 20px;
+		height: 70px;
 		box-sizing: border-box;
 		margin-bottom: 7px;
 		display: flex;
@@ -131,8 +136,8 @@
 	.actions {
 		flex-direction: row;
 		display: flex;
-		align-items: end;
-		justify-content: center;
+		align-items: center;
+		justify-content: end;
 		height: 100%;
 	}
 	.color {
@@ -153,5 +158,20 @@
 
 	input[type='color']::-webkit-color-swatch {
 		border: none;
+	}
+	.button {
+		all: unset;
+		height: 100%;
+		padding: 0px 10px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+	.button img {
+		all: unset;
+		height: 100%;
+		aspect-ratio: 1/1;
 	}
 </style>
