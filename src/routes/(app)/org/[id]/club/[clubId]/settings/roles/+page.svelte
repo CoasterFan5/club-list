@@ -7,7 +7,6 @@
 	import Input from '$lib/components/Input.svelte';
 	export let data: LayoutData;
 	export let form: ActionData;
-	console.log(data.roles);
 
 	let forms: Array<HTMLButtonElement | undefined> = [];
 
