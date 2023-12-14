@@ -187,15 +187,15 @@ export const actions = {
 		};
 	},
 
-	deleteRole: async ({request, params, cookies}) => {
+	deleteRole: async ({ request, params, cookies }) => {
 		const formData = await request.formData();
 
 		const roleName = formData.get('roleName')?.toString();
-		if(!roleName) {
+		if (!roleName) {
 			return {
 				success: false,
-				message: "No role name typed"
-			}
+				message: 'No role name typed'
+			};
 		}
 
 		const roleIdString = formData.get('roleId')?.toString();
@@ -232,12 +232,9 @@ export const actions = {
 			}
 		});
 
-
 		if (!club) {
 			throw error(400, 'How did we get here?');
 		}
-
-		
 
 		if (!sessionCheck || !sessionCheck.user) {
 			throw redirect(303, '/login');
@@ -275,18 +272,16 @@ export const actions = {
 			}
 		});
 
-		
-
 		if (!role || role?.clubId != club.id) {
 			throw error(400, 'How did we get here?');
 		}
 
-		if(role.name != roleName) {
-			console.log(role.name, roleName)
+		if (role.name != roleName) {
+			console.log(role.name, roleName);
 			return {
 				success: false,
-				message: "Role name typed wrong"
-			}
+				message: 'Role name typed wrong'
+			};
 		}
 
 		//delete the role
@@ -297,13 +292,13 @@ export const actions = {
 			data: {
 				roleId: undefined
 			}
-		})
+		});
 
 		await prisma.clubRole.delete({
 			where: {
 				id: roleId
 			}
-		})
+		});
 
 		//return
 

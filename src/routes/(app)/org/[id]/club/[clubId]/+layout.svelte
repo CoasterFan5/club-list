@@ -19,7 +19,9 @@
 					<img alt="back" src="/icons/back.svg" />
 				</a>
 
-				<h2 class="clubName">{data.club.name}</h2>
+				<h2 class="clubName">
+					<a href="/org/{data.org.id}/club/{data.club.id}">{data.club.name}</a>
+				</h2>
 				<form class="buttonWrap" action="{baseURL}?/joinClub" method="post">
 					{#if !data.clubUser && data.club.ownerId != data.user.id}
 						<Button value="Join Club" />
@@ -81,15 +83,20 @@
 		justify-content: start;
 		margin-bottom: 25px;
 	}
-	
 
-	
+	h2.clubName a {
+		color: var(--textColor);
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
 
-	
+		&:hover {
+			color: var(--accent);
+		}
+	}
+
 	.inner {
 		display: flex;
 		width: 90%;
-		
+
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;

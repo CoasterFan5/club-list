@@ -5,11 +5,11 @@
 </script>
 
 {#if href}
-	<a class="button" on:click {href}>
+	<a class="button" {href} on:click>
 		{value}
 	</a>
 {:else}
-	<button class="button" on:click {type}>
+	<button class="button" {type} on:click>
 		{value}
 	</button>
 {/if}

@@ -10,8 +10,6 @@
 
 	let forms: Array<HTMLButtonElement | undefined> = [];
 
-	let roles = data.roles;
-
 	$: if (form) {
 		if (form.success) {
 			addToast({
@@ -28,30 +26,22 @@
 		}
 	}
 
-	let colorInput: HTMLInputElement;
-	let showColorPicker = () => {
-		colorInput.hidden = false;
-	};
-
-	$: console.log(forms);
-
 	let showDeleteForm = false;
-	let selectedRoleName = "";
+	let selectedRoleName = '';
 	let selectedRoleId: number;
 </script>
 
 <ModelHelper bind:showing={showDeleteForm}>
-	<form method="post" action="?/deleteRole">
+	<form action="?/deleteRole" method="post">
 		<h1>Are you sure?</h1>
 		<p>Type {selectedRoleName} to confirm</p>
-		<input name="roleId" hidden bind:value={selectedRoleId}>
+		<input name="roleId" hidden bind:value={selectedRoleId} />
 		<div class="formItem">
-			<Input name="roleName" label="type role name"/>
+			<Input name="roleName" label="type role name" />
 		</div>
 		<div class="formItem">
-			<Button type="submit" value="Delete Role"/>
+			<Button type="submit" value="Delete Role" />
 		</div>
-		
 	</form>
 </ModelHelper>
 
@@ -79,13 +69,16 @@
 				/>
 			</div>
 			<div class="actions">
-				<button type="button" class="button" on:click={() => {
-					showDeleteForm = true;
-					selectedRoleId = role.id
-					selectedRoleName = role.name
-				}}>
-					<img src="/icons/trash.svg" alt="delete">
-
+				<button
+					class="button"
+					type="button"
+					on:click={() => {
+						showDeleteForm = true;
+						selectedRoleId = role.id;
+						selectedRoleName = role.name;
+					}}
+				>
+					<img alt="delete" src="/icons/trash.svg" />
 				</button>
 				<input
 					name="color"
@@ -105,7 +98,7 @@
 	</form>
 </div>
 
-<style>
+<style lang="scss">
 	h2 {
 		font-weight: 400;
 	}
