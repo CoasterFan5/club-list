@@ -1,1 +1,5 @@
-<h1>Coming Soon</h1>
+<script lang="ts">
+    import Calendar from "$lib/components/Calendar.svelte";
+</script>
+
+<Calendar />

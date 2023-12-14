@@ -39,6 +39,7 @@
 		"@types/sanitize-html": "^2.9.5",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
+		"dayjs": "^1.11.10",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-define-config": "^2.0.0",
