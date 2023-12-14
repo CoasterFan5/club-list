@@ -4,8 +4,8 @@
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { addToast } from '$lib/components/toaster';
-	import { applyAction, enhance } from '$app/forms';
-	import type { SubmitFunction } from '@sveltejs/kit';
+	import { enhance } from '$app/forms';
+	import { closeModal } from '$lib/closeModalEnhance';
 
 	let showingCreateModel = false;
 	let showingJoinModel = false;
@@ -20,15 +20,6 @@
 			message: form.message
 		});
 	}
-
-	const closeModal: (lambda: () => void) => SubmitFunction = (closeModalLambda) => {
-		return () => {
-			return async ({ result }) => {
-				await applyAction(result);
-				closeModalLambda();
-			};
-		};
-	};
 </script>
 
 <ModelHelper bind:showing={showingCreateModel}>

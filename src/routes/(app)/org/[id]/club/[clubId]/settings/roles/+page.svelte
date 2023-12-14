@@ -5,6 +5,8 @@
 	import { addToast } from '$lib/components/toaster';
 	import ModelHelper from '$lib/modules/ModelHelper.svelte';
 	import Input from '$lib/components/Input.svelte';
+	import { closeModal } from '$lib/closeModalEnhance';
+	import { flip } from 'svelte/animate';
 	export let data: LayoutData;
 	export let form: ActionData;
 
@@ -33,7 +35,10 @@
 </script>
 
 <ModelHelper bind:showing={showDeleteForm}>
-	<form action="?/deleteRole" method="post">
+	<form action="?/deleteRole" method="post" use:enhance={closeModal(() => {
+		showDeleteForm = false
+		inputtedRoleName = ''
+	})}>
 		<h1>Are you sure?</h1>
 		<p>Type <b>{selectedRoleName}</b> to confirm</p>
 		<input name="roleId" hidden bind:value={selectedRoleId} />
@@ -50,13 +55,17 @@
 	{#if data.roles.length < 1}
 		<h2>No roles yet</h2>
 	{/if}
-	{#each data.roles as role, i}
+	<form class="buttonHolder" action="?/makeRole" method="post" use:enhance>
+		<Button value="Add Role" />
+	</form>
+	{#each data.roles as role, i (role.id)}
 		<form
 			style="--color: {role.color};"
 			class="role"
 			action="?/updateRole"
 			method="post"
 			use:enhance
+			animate:flip
 		>
 			<input name="roleId" hidden bind:value={role.id} />
 			<div class="nameWrap">
@@ -85,6 +94,7 @@
 					name="color"
 					class="color"
 					type="color"
+					hidden
 					bind:value={role.color}
 					on:change={() => {
 						forms[i]?.click();
@@ -94,15 +104,17 @@
 			<button bind:this={forms[i]} hidden type="submit" />
 		</form>
 	{/each}
-	<form class="buttonHolder" action="?/makeRole" method="post" use:enhance>
-		<Button value="Add Role" />
-	</form>
 </div>
 
 <style lang="scss">
 	h2 {
 		font-weight: 400;
 	}
+
+	.buttonHolder {
+		margin-bottom: 1rem;
+	}
+
 	.role {
 		position: relative;
 		width: 100%;
@@ -115,18 +127,20 @@
 		margin-bottom: 7px;
 		display: flex;
 		flex-direction: row;
+
+		&::after {
+			content: '';
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0px;
+			left: 0px;
+			background: var(--color);
+			opacity: 0.25;
+			z-index: -1;
+		}
 	}
-	.role::after {
-		content: '';
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0px;
-		left: 0px;
-		background: var(--color);
-		opacity: 0.25;
-		z-index: -1;
-	}
+
 	.nameWrap {
 		font-weight: 400;
 		margin: 0px;
@@ -137,11 +151,13 @@
 		font-size: 1.3rem;
 		background: transparent;
 		border: 1px solid transparent;
+
+		&:focus {
+			border: 1px solid var(--color);
+			outline: 0px;
+		}
 	}
-	.name:focus {
-		border: 1px solid var(--color);
-		outline: 0px;
-	}
+
 	.rolesHolder {
 		width: 100%;
 		height: 100%;
@@ -151,6 +167,7 @@
 		flex-direction: column;
 		align-items: center;
 	}
+
 	.actions {
 		flex-direction: row;
 		display: flex;
@@ -158,6 +175,7 @@
 		justify-content: end;
 		height: 100%;
 	}
+
 	.color {
 		all: unset;
 		border: 0px;
@@ -170,13 +188,15 @@
 		padding: 3px;
 		box-sizing: border-box;
 	}
-	input[type='color']::-moz-color-swatch {
-		border: none;
+
+	input[type='color'] {
+		&::-moz-color-swatch, &::-webkit-color-swatch {
+			border: none;
+			border-radius: 50%;
+		}
 	}
 
-	input[type='color']::-webkit-color-swatch {
-		border: none;
-	}
+
 	.button {
 		all: unset;
 		height: 100%;
@@ -186,12 +206,14 @@
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
+
+		img {
+			all: unset;
+			height: 100%;
+			aspect-ratio: 1/1;
+		}
 	}
-	.button img {
-		all: unset;
-		height: 100%;
-		aspect-ratio: 1/1;
-	}
+
 	.formItem {
 		width: 100%;
 		margin: 7px 0px;

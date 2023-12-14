@@ -6,6 +6,7 @@
 	import MdEditor from '$lib/components/MdEditor.svelte';
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
+	import { closeModal } from '$lib/closeModalEnhance';
 	export let data: PageData;
 	export let form: ActionData;
 
@@ -70,11 +71,7 @@
 						<form
 							action="?/updateClub"
 							method="post"
-							use:enhance={() => {
-								return () => {
-									editing = false;
-								};
-							}}
+							use:enhance={closeModal(() => editing = false)}
 						>
 							<input name="clubDescription" style="display: none;" bind:value={clubDescription} />
 							<button class="editButton">

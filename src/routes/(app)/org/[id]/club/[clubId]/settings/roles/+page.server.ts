@@ -73,7 +73,7 @@ export const actions = {
 		//actually make the role
 		await prisma.clubRole.create({
 			data: {
-				name: 'new role',
+				name: 'New Role',
 				color: '#808080',
 				permissionInt: 0,
 				clubId: club.id
