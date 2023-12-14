@@ -1,20 +1,24 @@
 import { prisma } from '$lib/prismaConnection';
+import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	const parentData = await parent();
 
-	//gather together the announcements
-	const announcements = await prisma.announcement.findMany({
+	const club = await prisma.club.findUnique({
 		where: {
-			clubId: parentData.club.id
+			id: parentData.club.id
 		},
-		orderBy: {
-			createdAt: 'asc'
+		include: {
+			announcements: true
 		}
 	});
 
+	if (club === null) {
+		throw error(500, 'Invalid club ID');
+	}
+
 	return {
-		announcements
+		announcements: club.announcements
 	};
 };

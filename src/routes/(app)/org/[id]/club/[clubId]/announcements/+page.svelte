@@ -16,7 +16,7 @@
 	<div class="announcementList">
 		{#each data.announcements as announcement}
 			<div class="announcement">
-				<h2>{announcement.title || 'No Announcements'}</h2>
+				<h2>{announcement.title}</h2>
 				{#if announcement.createdAt}
 					<p class="timestamp">
 						{new Intl.DateTimeFormat('en-US', {
@@ -25,7 +25,7 @@
 						}).format(announcement.createdAt)}
 					</p>
 				{/if}
-				<MdEditor content={announcement.description || 'No Announcements'} editable={false} />
+				<MdEditor content={announcement.description || 'No Announcement'} editable={false} />
 			</div>
 		{/each}
 	</div>
