@@ -12,20 +12,30 @@
 	export let data: PageData;
 </script>
 
+<div class="info">
+	<h1>{day.format('MMMM YYYY')}</h1>
+</div>
+
+<div class="button big">
+	<Button value={'Add Event'} />
+</div>
+
 <div class="datebar">
 	<div class="button">
 		<Button value={'Previous'} on:click={() => (day = day.subtract(1, 'month'))} />
 	</div>
-	<h1>{day.format('MMMM YYYY')}</h1>
+	<div class="button">
+		<Button value={'Today'} on:click={() => (day = dayjs())} />
+	</div>
 	<div class="button">
 		<Button value={'Next'} on:click={() => (day = day.add(1, 'month'))} />
 	</div>
 </div>
 <div class="calendar">
 	{#each daysInMonth as day}
-		<div class="day">
+		<button class="day">
 			{day.format('D')}
-		</div>
+		</button>
 	{/each}
 </div>
 
@@ -36,6 +46,15 @@
 		align-items: center;
 		width: calc(100% - 2rem);
 		height: 3rem;
+		margin: 1rem;
+	}
+
+	.info {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		width: calc(100% - 2rem);
+		height: 2rem;
 		margin: 1rem;
 	}
 
@@ -56,9 +75,20 @@
 		height: 100%;
 		margin: 1rem;
 		background-color: #fff;
+		border: 0;
+		cursor: pointer;
+
+		&:hover {
+			background-color: var(--accent);
+			color: #fff;
+		}
 	}
 
 	.button {
 		width: 25%;
+
+		&.big {
+			width: 40%;
+		}
 	}
 </style>
