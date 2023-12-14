@@ -37,7 +37,7 @@
 		<p>Type <b>{selectedRoleName}</b> to confirm</p>
 		<input name="roleId" hidden bind:value={selectedRoleId} />
 		<div class="formItem">
-			<Input name="roleName" label="Type Role Name" bgColor="white" />
+			<Input name="roleName" bgColor="white" label="Type Role Name" />
 		</div>
 		<div class="formItem">
 			<Button type="submit" value="Delete Role" />
