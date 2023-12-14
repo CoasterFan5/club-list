@@ -26,7 +26,7 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        width: 100%;
+        width: calc(100% - 2rem);
         height: 3rem;
         margin: 1rem;
     }
@@ -37,7 +37,7 @@
         grid-template-rows: repeat(5, 1fr);
         grid-gap: 1rem;
         width: calc(100% - 2rem);
-        height: calc(100% - 2rem - 3rem);
+        height: calc(100% - 2rem - (3rem + 2rem));
     }
 
     .day {
