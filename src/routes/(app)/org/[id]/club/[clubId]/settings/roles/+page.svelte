@@ -34,10 +34,10 @@
 <ModelHelper bind:showing={showDeleteForm}>
 	<form action="?/deleteRole" method="post">
 		<h1>Are you sure?</h1>
-		<p>Type {selectedRoleName} to confirm</p>
+		<p>Type <b>{selectedRoleName}</b> to confirm</p>
 		<input name="roleId" hidden bind:value={selectedRoleId} />
 		<div class="formItem">
-			<Input name="roleName" label="type role name" />
+			<Input name="roleName" label="Type Role Name" bgColor="white" />
 		</div>
 		<div class="formItem">
 			<Button type="submit" value="Delete Role" />
