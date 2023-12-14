@@ -41,7 +41,7 @@
 			<Input name="roleName" bgColor="white" label="Type Role Name" bind:value={inputtedRoleName} />
 		</div>
 		<div class="formItem">
-			<Button type="submit" value="Delete Role" disabled={selectedRoleName !== inputtedRoleName} />
+			<Button disabled={selectedRoleName !== inputtedRoleName} type="submit" value="Delete Role" />
 		</div>
 	</form>
 </ModelHelper>

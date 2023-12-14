@@ -10,7 +10,7 @@
 		{value}
 	</a>
 {:else}
-	<button class="button" {type} on:click disabled={disabled} class:disabled>
+	<button class="button" class:disabled {disabled} {type} on:click>
 		{value}
 	</button>
 {/if}
