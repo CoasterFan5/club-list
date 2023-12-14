@@ -28,6 +28,7 @@
 
 	let showDeleteForm = false;
 	let selectedRoleName = '';
+	let inputtedRoleName = '';
 	let selectedRoleId: number;
 </script>
 
@@ -37,10 +38,10 @@
 		<p>Type <b>{selectedRoleName}</b> to confirm</p>
 		<input name="roleId" hidden bind:value={selectedRoleId} />
 		<div class="formItem">
-			<Input name="roleName" bgColor="white" label="Type Role Name" />
+			<Input name="roleName" bgColor="white" label="Type Role Name" bind:value={inputtedRoleName} />
 		</div>
 		<div class="formItem">
-			<Button type="submit" value="Delete Role" />
+			<Button type="submit" value="Delete Role" disabled={selectedRoleName !== inputtedRoleName} />
 		</div>
 	</form>
 </ModelHelper>

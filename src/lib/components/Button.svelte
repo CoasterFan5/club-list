@@ -1,15 +1,16 @@
 <script lang="ts">
-	export let value = 'Button!';
+	export let value: string;
 	export let type: HTMLButtonElement['type'] = 'submit';
-	export let href: string | undefined = '';
+	export let href: string | undefined = undefined;
+	export let disabled = false;
 </script>
 
-{#if href}
+{#if href !== undefined}
 	<a class="button" {href} on:click>
 		{value}
 	</a>
 {:else}
-	<button class="button" {type} on:click>
+	<button class="button" {type} on:click disabled={disabled} class:disabled>
 		{value}
 	</button>
 {/if}
@@ -32,6 +33,11 @@
 		&:hover,
 		&:active {
 			border: 1px solid var(--accent);
+		}
+
+		&:disabled {
+			cursor: not-allowed;
+			opacity: 0.5;
 		}
 	}
 </style>
