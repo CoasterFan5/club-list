@@ -1,17 +1,15 @@
 <script lang="ts">
-	// why a custom button?
-	// keeps everything looking clean
 	export let value = 'Button!';
 	export let type: HTMLButtonElement['type'] = 'submit';
 	export let href: string | undefined = '';
 </script>
 
 {#if href}
-	<a class="button" {href}>
+	<a class="button" on:click {href}>
 		{value}
 	</a>
 {:else}
-	<button class="button" {type}>
+	<button class="button" on:click {type}>
 		{value}
 	</button>
 {/if}
