@@ -75,9 +75,7 @@ export const actions = {
 				...defaultClubPermissionObject,
 				...createPermissionsCheck(
 					createPermissionList(defaultClubPermissionObject),
-					sessionCheck.user.clubUsers[0].role
-						? sessionCheck.user.clubUsers[0].role.permissionInt
-						: 0
+					sessionCheck.user.clubUsers[0].role?.permissionInt ?? 0
 				)
 			};
 		} else if (club.ownerId == sessionCheck.user.id) {

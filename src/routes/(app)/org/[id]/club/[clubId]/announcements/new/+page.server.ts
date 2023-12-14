@@ -56,6 +56,9 @@ export const actions = {
 						clubUsers: {
 							where: {
 								clubId: parseInt(params.clubId)
+							},
+							include: {
+								role: true
 							}
 						}
 					}
@@ -77,7 +80,7 @@ export const actions = {
 			}
 			const permissionCheck = createPermissionsCheck(
 				createPermissionList(defaultClubPermissionObject),
-				clubUser.permissions
+				clubUser.role?.permissionInt ?? 0
 			);
 			if (!permissionCheck.admin && !permissionCheck.manageAnnoucements) {
 				throw redirect(303, '/login');
