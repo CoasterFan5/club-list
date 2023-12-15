@@ -2,8 +2,9 @@ import type { PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
 	webServer: {
-		command: 'npm run build && node build',
-		port: 3000
+		command: '',
+		port: 3000,
+		reuseExistingServer: true
 	},
 	testDir: 'tests',
 	testMatch: /(.+\.)?(test|spec)\.[jt]s/

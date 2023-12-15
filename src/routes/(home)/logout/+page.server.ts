@@ -20,7 +20,7 @@ export const actions = {
 		});
 
 		if (hasSession) {
-			/* @migration task: add path argument */ cookies.delete('session');
+			cookies.delete('session', { path: '/' });
 		}
 
 		redirect(303, '/login');
