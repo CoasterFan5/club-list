@@ -71,7 +71,7 @@
 						<form
 							action="?/updateClub"
 							method="post"
-							use:enhance={closeModal(() => editing = false)}
+							use:enhance={closeModal(() => (editing = false))}
 						>
 							<input name="clubDescription" style="display: none;" bind:value={clubDescription} />
 							<button class="editButton">

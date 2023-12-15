@@ -35,10 +35,14 @@
 </script>
 
 <ModelHelper bind:showing={showDeleteForm}>
-	<form action="?/deleteRole" method="post" use:enhance={closeModal(() => {
-		showDeleteForm = false
-		inputtedRoleName = ''
-	})}>
+	<form
+		action="?/deleteRole"
+		method="post"
+		use:enhance={closeModal(() => {
+			showDeleteForm = false;
+			inputtedRoleName = '';
+		})}
+	>
 		<h1>Are you sure?</h1>
 		<p>Type <b>{selectedRoleName}</b> to confirm</p>
 		<input name="roleId" hidden bind:value={selectedRoleId} />
@@ -190,12 +194,12 @@
 	}
 
 	input[type='color'] {
-		&::-moz-color-swatch, &::-webkit-color-swatch {
+		&::-moz-color-swatch,
+		&::-webkit-color-swatch {
 			border: none;
 			border-radius: 50%;
 		}
 	}
-
 
 	.button {
 		all: unset;
