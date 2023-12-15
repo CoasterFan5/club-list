@@ -49,6 +49,8 @@
 	</form>
 </ModelHelper>
 
+<h1>{data.org.name}</h1>
+
 <div class="wrap">
 	<div class="content">
 		{#if data.clubs.length < 1}
