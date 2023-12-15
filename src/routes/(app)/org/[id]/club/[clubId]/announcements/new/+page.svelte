@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import MdEditor from '$lib/components/MdEditor.svelte';
@@ -7,7 +8,7 @@
 </script>
 
 <div class="wrap">
-	<form class="editor" action="?/createAnnouncement" method="post">
+	<form class="editor" action="?/createAnnouncement" method="post" use:enhance>
 		<Input name="title" bgColor="var(--bg)" label="Title" />
 		<MdEditor editable={true} bind:content />
 		<hr />

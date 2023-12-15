@@ -8,8 +8,6 @@
 	$: daysInMonth = Array(day.daysInMonth())
 		.fill(0)
 		.map((_, i) => dayjs().date(i + 1));
-
-	export let data: PageData;
 </script>
 
 <div class="info">

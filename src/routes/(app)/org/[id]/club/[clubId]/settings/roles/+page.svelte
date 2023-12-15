@@ -68,7 +68,12 @@
 			class="role"
 			action="?/updateRole"
 			method="post"
-			use:enhance
+			use:enhance={() => {
+				// Keep all form data
+				return async ({ update }) => {
+					await update({ reset: false })
+				};
+			}}
 			animate:flip
 		>
 			<input name="roleId" hidden bind:value={role.id} />
