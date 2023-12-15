@@ -1,13 +1,24 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import Button from '$lib/components/Button.svelte';
 	import dayjs from 'dayjs';
 
 	let day = dayjs();
 
-	$: daysInMonth = Array(day.daysInMonth())
-		.fill(0)
+	const emptyArray = (length: number) => Array(length).fill(0);
+
+	$: daysInMonth = emptyArray(day.daysInMonth())
 		.map((_, i) => dayjs().date(i + 1));
+	
+	$: startPaddingDays = emptyArray(day.date(1).day())
+		.map((_, i) => dayjs().date(-i))
+		.reverse();
+	
+	$: lastDay = day.date(day.daysInMonth());
+
+	$: endPaddingDays = lastDay.day() < 6 ? emptyArray(6 - lastDay.day())
+		.map((_, i) => dayjs().date(lastDay.date() + i + 1)) : [];
+
+	$: calendarDays = [...startPaddingDays, ...daysInMonth, ...endPaddingDays];
 </script>
 
 <div class="info">
@@ -30,9 +41,10 @@
 	</div>
 </div>
 <div class="calendar">
-	{#each daysInMonth as day}
-		<button class="day">
-			{day.format('D')}
+	{#each calendarDays as loopDay}
+		{@const inMonth = day.month() === loopDay.month()}
+		<button class="day" class:inMonth>
+			{loopDay.format('D')}
 		</button>
 	{/each}
 </div>
@@ -75,6 +87,10 @@
 		background-color: #fff;
 		border: 0;
 		cursor: pointer;
+
+		&:not(.inMonth) {
+			background-color: #ddd;
+		}
 
 		&:hover {
 			background-color: var(--accent);
