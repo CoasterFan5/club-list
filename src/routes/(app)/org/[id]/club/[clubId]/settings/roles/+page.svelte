@@ -97,8 +97,8 @@
 				<input
 					name="color"
 					class="color"
-					type="color"
 					hidden
+					type="color"
 					bind:value={role.color}
 					on:change={() => {
 						forms[i]?.click();
