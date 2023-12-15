@@ -6,7 +6,7 @@ export const actions = {
 		// get some basic data
 
 		if (!cookies.get('session')) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const data = await request.formData();
@@ -40,7 +40,7 @@ export const actions = {
 
 		// make sure we have a user who submitted this!
 		if (!orgOwner) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		//we need to know the number of orgs created currently
@@ -76,7 +76,7 @@ export const actions = {
 	},
 	join: async ({ cookies, request }) => {
 		if (!cookies.get('session')) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 		const session = cookies.get('session');
 
@@ -101,7 +101,7 @@ export const actions = {
 		});
 
 		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		// search the join code

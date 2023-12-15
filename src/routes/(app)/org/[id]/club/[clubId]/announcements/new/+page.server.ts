@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 		!parentData.clubPerms.manageAnnouncements &&
 		parentData.club.ownerId != parentData.user.id
 	) {
-		throw redirect(303, baseUrl);
+		redirect(303, baseUrl);
 	}
 };
 
@@ -67,7 +67,7 @@ export const actions = {
 		});
 
 		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const club = sessionCheck.user.clubs[0];
@@ -76,14 +76,14 @@ export const actions = {
 
 		if (club.ownerId != sessionCheck.userId) {
 			if (!clubUser) {
-				throw redirect(303, '/login');
+				redirect(303, '/login');
 			}
 			const permissionCheck = createPermissionsCheck(
 				createPermissionList(defaultClubPermissionObject),
 				clubUser.role?.permissionInt ?? 0
 			);
 			if (!permissionCheck.admin && !permissionCheck.manageAnnoucements) {
-				throw redirect(303, '/login');
+				redirect(303, '/login');
 			}
 		}
 		//whoo! valid!
@@ -97,6 +97,6 @@ export const actions = {
 		});
 
 		//we did it!
-		throw redirect(303, `${baseUrl}/announcements`);
+		redirect(303, `${baseUrl}/announcements`);
 	}
 };

@@ -17,7 +17,7 @@ export const actions = {
 		const session = cookies.get('session');
 
 		if (!session) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const clubName = data.get('clubName')?.toString();
@@ -64,7 +64,7 @@ export const actions = {
 		});
 
 		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		//make sure this user is signed in

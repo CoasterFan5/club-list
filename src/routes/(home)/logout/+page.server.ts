@@ -6,7 +6,7 @@ export const actions = {
 		// Get the session cookie
 		const session = cookies.get('session');
 		if (!session) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const hasSession = await prisma.user.findFirst({
@@ -20,9 +20,9 @@ export const actions = {
 		});
 
 		if (hasSession) {
-			cookies.delete('session');
+			/* @migration task: add path argument */ cookies.delete('session');
 		}
 
-		throw redirect(303, '/login');
+		redirect(303, '/login');
 	}
 };

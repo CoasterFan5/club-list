@@ -38,11 +38,11 @@ export const actions = {
 		});
 
 		if (!club) {
-			throw error(400, 'How did we get here?');
+			error(400, 'How did we get here?');
 		}
 
 		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		//make sure the user has the proper perms
@@ -55,7 +55,7 @@ export const actions = {
 			}
 		} else {
 			if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
-				throw error(401, 'No Permissions');
+				error(401, 'No Permissions');
 			}
 			userPerms = {
 				...userPerms,
@@ -67,7 +67,7 @@ export const actions = {
 		}
 
 		if (!userPerms.admin && !userPerms.manageRoles) {
-			throw error(401, 'No Permissions');
+			error(401, 'No Permissions');
 		}
 
 		//actually make the role
@@ -92,7 +92,7 @@ export const actions = {
 		const roleColor = formData.get('color')?.toString();
 		const roleIdString = formData.get('roleId')?.toString();
 		if (!roleIdString) {
-			throw error(400, 'How did we get here?');
+			error(400, 'How did we get here?');
 		}
 		const roleId = parseInt(roleIdString);
 
@@ -125,11 +125,11 @@ export const actions = {
 		});
 
 		if (!club) {
-			throw error(400, 'How did we get here?');
+			error(400, 'How did we get here?');
 		}
 
 		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		//make sure the user has the proper perms
@@ -142,7 +142,7 @@ export const actions = {
 			}
 		} else {
 			if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
-				throw error(401, 'No Permissions');
+				error(401, 'No Permissions');
 			}
 			userPerms = {
 				...userPerms,
@@ -154,7 +154,7 @@ export const actions = {
 		}
 
 		if (!userPerms.admin && !userPerms.manageRoles) {
-			throw error(401, 'No Permissions');
+			error(401, 'No Permissions');
 		}
 
 		//grab the role
@@ -165,7 +165,7 @@ export const actions = {
 		});
 
 		if (!role || role?.clubId != club.id) {
-			throw error(400, 'How did we get here?');
+			error(400, 'How did we get here?');
 		}
 
 		//update the role
@@ -200,7 +200,7 @@ export const actions = {
 
 		const roleIdString = formData.get('roleId')?.toString();
 		if (!roleIdString) {
-			throw error(400, 'How did we get here?');
+			error(400, 'How did we get here?');
 		}
 		const roleId = parseInt(roleIdString);
 
@@ -233,11 +233,11 @@ export const actions = {
 		});
 
 		if (!club) {
-			throw error(400, 'How did we get here?');
+			error(400, 'How did we get here?');
 		}
 
 		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		//make sure the user has the proper perms
@@ -250,7 +250,7 @@ export const actions = {
 			}
 		} else {
 			if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
-				throw error(401, 'No Permissions');
+				error(401, 'No Permissions');
 			}
 			userPerms = {
 				...userPerms,
@@ -262,7 +262,7 @@ export const actions = {
 		}
 
 		if (!userPerms.admin && !userPerms.manageRoles) {
-			throw error(401, 'No Permissions');
+			error(401, 'No Permissions');
 		}
 
 		//grab the role
@@ -273,7 +273,7 @@ export const actions = {
 		});
 
 		if (!role || role?.clubId != club.id) {
-			throw error(400, 'How did we get here?');
+			error(400, 'How did we get here?');
 		}
 
 		if (role.name != roleName) {

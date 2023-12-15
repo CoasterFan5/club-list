@@ -5,7 +5,7 @@ export const load = async ({ cookies, url }) => {
 	// if the user isn't logged in, we need to redirect them to the login page
 	const session = cookies.get('session');
 	if (!session) {
-		throw redirect(303, '/login');
+		redirect(303, '/login');
 	}
 
 	const sessionCheck = await prisma.session.findFirst({
@@ -18,7 +18,7 @@ export const load = async ({ cookies, url }) => {
 	});
 
 	if (!sessionCheck) {
-		throw redirect(303, '/login');
+		redirect(303, '/login');
 	}
 
 	const isInClub = /org\/\d+\/club/.test(url.pathname);

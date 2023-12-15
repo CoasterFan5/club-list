@@ -26,7 +26,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		}
 	});
 	if (!club) {
-		throw error(404, 'Club Not Found');
+		error(404, 'Club Not Found');
 	}
 
 	const clubUser = await prisma.clubUser.findFirst({

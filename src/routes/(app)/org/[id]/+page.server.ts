@@ -24,13 +24,13 @@ export const actions = {
 		});
 
 		if (!sessionCheck) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const user = sessionCheck.user;
 
 		if (!user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		// get the org user
@@ -42,7 +42,7 @@ export const actions = {
 		});
 
 		if (!orgUser) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		if (orgUser.role != 'OWNER' && orgUser.role != 'ADMIN') {
@@ -67,6 +67,6 @@ export const actions = {
 			}
 		});
 
-		throw redirect(303, `/org/${params.id}/club/${club.id}`);
+		redirect(303, `/org/${params.id}/club/${club.id}`);
 	}
 };

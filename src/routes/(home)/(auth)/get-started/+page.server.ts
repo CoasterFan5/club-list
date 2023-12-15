@@ -73,12 +73,12 @@ export const actions = {
 			}
 		});
 
-		cookies.set('session', session, {
+		/* @migration task: add path argument */ cookies.set('session', session, {
 			secure: true,
 			sameSite: 'strict',
 			expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
 		});
 
-		throw redirect(303, '/dashboard');
+		redirect(303, '/dashboard');
 	}
 };

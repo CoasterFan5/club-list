@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 	});
 
 	if (club === null) {
-		throw error(500, 'Invalid club ID');
+		error(500, 'Invalid club ID');
 	}
 
 	return {

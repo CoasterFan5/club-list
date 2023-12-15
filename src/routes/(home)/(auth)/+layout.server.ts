@@ -20,6 +20,6 @@ export const load = async ({ cookies }) => {
 	});
 
 	if (userCheck) {
-		throw redirect(303, '/dashboard');
+		redirect(303, '/dashboard');
 	}
 };

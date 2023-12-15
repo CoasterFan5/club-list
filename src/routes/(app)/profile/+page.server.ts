@@ -8,7 +8,7 @@ import crypto from 'crypto';
 export const actions = {
 	updateProfile: async ({ request, cookies }) => {
 		if (!cookies.get('session')) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const data = await request.formData();
@@ -52,7 +52,7 @@ export const actions = {
 		const session = cookies.get('session');
 
 		if (!session) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const sessionCheck = await prisma.session.findUnique({
@@ -65,7 +65,7 @@ export const actions = {
 		});
 
 		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const FormData = Object.fromEntries(await request.formData());

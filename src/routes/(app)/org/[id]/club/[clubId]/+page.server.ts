@@ -34,7 +34,7 @@ export const actions = {
 		//ensure the user is actually allowed to edit this thing
 		const session = cookies.get('session');
 		if (!session) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 		const sessionCheck = await prisma.session.findFirst({
 			where: {
@@ -53,12 +53,12 @@ export const actions = {
 			}
 		});
 		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const id = parseInt(params.clubId);
 		if (!id || Number.isNaN(id)) {
-			throw error(500, 'Invalid Club Id');
+			error(500, 'Invalid Club Id');
 		}
 
 		//check for permissions
@@ -79,13 +79,13 @@ export const actions = {
 		});
 
 		if (!club) {
-			throw error(500, 'Invalid Club Id');
+			error(500, 'Invalid Club Id');
 		}
 
 		if (club.ownerId != sessionCheck.user.id) {
 			//check if the user has permissions
 			if (!club.clubUsers) {
-				throw error(500, 'No Permissions');
+				error(500, 'No Permissions');
 			}
 			let permissionObject: PermissionObject;
 
@@ -102,7 +102,7 @@ export const actions = {
 			}
 
 			if (!permissionObject.admin && !permissionObject.updateAppearance) {
-				throw error(500, 'No Permissions');
+				error(500, 'No Permissions');
 			}
 		}
 
@@ -119,7 +119,7 @@ export const actions = {
 		//get the user
 		const session = cookies.get('session');
 		if (!session) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		//get the club id
@@ -143,7 +143,7 @@ export const actions = {
 		});
 
 		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		if (sessionCheck.user.clubUsers.length > 0) {
