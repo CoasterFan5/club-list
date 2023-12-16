@@ -51,6 +51,8 @@ jobs:
           echo "BETA=false" >> .env
 
       - name: Build
+        env:
+          ORIGIN: http://localhost:3000
         run: pnpm run build
       - name: Deploy database
         run: pnpm run db:deploy

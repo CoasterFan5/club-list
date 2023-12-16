@@ -28,6 +28,7 @@ services:
     container_name: club-list-web
     environment:
       - CODESPACES
+      - ORIGIN=http://localhost:3000
     ports:
       - '3000:3000'
     env_file:
