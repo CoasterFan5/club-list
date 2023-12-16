@@ -2,7 +2,7 @@ import type { PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
 	webServer: {
-		command: 'pnpm run build && node build',
+		command: 'pnpm run build && pnpm exec dotenv node build',
 		port: 3000,
 		reuseExistingServer: true
 	},
