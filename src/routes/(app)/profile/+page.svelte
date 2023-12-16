@@ -9,9 +9,9 @@
 	export let data: PageData;
 	export let form: ActionData;
 
-	let firstName = data.user.firstName;
-	let lastName = data.user.lastName;
-	let email = data.user.email;
+	$: firstName = data.user.firstName;
+	$: lastName = data.user.lastName;
+	$: email = data.user.email;
 
 	$: if (form) {
 		if (form.success) {

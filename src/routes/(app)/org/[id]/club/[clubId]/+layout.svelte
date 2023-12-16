@@ -27,7 +27,7 @@
 				</form>
 			</div>
 			<div class="nav">
-				<a class:selected={route.id == '/(app)/org/[id]/club/[clubId]'} href={baseURL}>About</a>
+				<a class:selected={route.id == '/(app)/org/[id]/club/[clubId]'} href={baseURL}>Home</a>
 				<a
 					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/announcements'}
 					href="{baseURL}/announcements">Announcements</a

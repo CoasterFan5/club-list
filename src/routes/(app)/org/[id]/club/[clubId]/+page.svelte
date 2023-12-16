@@ -1,64 +1,18 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
-	import Input from '$lib/components/Input.svelte';
-	import ModelHelper from '$lib/modules/ModelHelper.svelte';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 	import MdEditor from '$lib/components/MdEditor.svelte';
 	import { enhance } from '$app/forms';
-	import { addToast } from '$lib/components/toaster';
 	import { closeModal } from '$lib/closeModalEnhance';
 	export let data: PageData;
-	export let form: ActionData;
 
 	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
-	let clubImage = data.club.imageURL || '';
-
-	let visibleModel = false;
 	let editing = false;
 
 	let toggleEdit = () => (editing = !editing);
-
-	$: if (form) {
-		console.log('form found in layout');
-		if (form.success) {
-			addToast({
-				message: form.message || 'success',
-				type: 'success',
-				life: 3000
-			});
-		} else {
-			addToast({
-				message: form.message || 'Failed.',
-				type: 'error',
-				life: 3000
-			});
-		}
-	}
 </script>
 
-<ModelHelper bind:showing={visibleModel}>
-	<form
-		class="settingsForm"
-		action="?/updateClub"
-		method="post"
-		use:enhance={() => {
-			visibleModel = false;
-		}}
-	>
-		<h2>Settings</h2>
-		<div class="formItem">
-			<Input name="clubName" label="Club Name" bind:value={data.club.name} />
-		</div>
-		<div class="formItem">
-			<Input name="imageURL" label="Image URL" bind:value={clubImage} />
-		</div>
-		<div class="formItem">
-			<Button value="Update" />
-		</div>
-	</form>
-</ModelHelper>
-
 <div class="wrap">
+	<h2>About</h2>
 	<div class="content">
 		<div class="editor">
 			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
@@ -87,6 +41,9 @@
 			/>
 		</div>
 	</div>
+	<div class="announcements">
+		<h2>Recent Announcements</h2>
+	</div>
 </div>
 
 <style lang="scss">
@@ -101,19 +58,8 @@
 		justify-content: start;
 	}
 
-	.settingsForm {
-		background: var(--bgPure);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-direction: column;
-		padding: 20px;
-		border-radius: 5px;
-	}
-
-	.formItem {
-		margin: 7px 0px;
-		width: 100%;
+	.announcements {
+		margin-top: 2rem;
 	}
 
 	.content {

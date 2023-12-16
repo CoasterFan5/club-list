@@ -71,7 +71,7 @@
 			use:enhance={() => {
 				// Keep all form data
 				return async ({ update }) => {
-					await update({ reset: false })
+					await update({ reset: false });
 				};
 			}}
 			animate:flip
