@@ -15,7 +15,7 @@
 		"prisma": "prisma generate",
 		"studio": "dotenv -e .env.test prisma studio",
 		"db:deploy": "prisma migrate deploy",
-		"seed": "tsx scripts/seed.ts",
+		"seed": "dotenv tsx scripts/seed.ts",
 		"s3devdata": "tsx scripts/s3devdata.ts",
 		"deploy": "pnpm install && prisma migrate deploy && prisma generate && pnpm run build"
 	},
