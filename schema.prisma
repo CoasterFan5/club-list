@@ -16,21 +16,22 @@ model Session {
 }
 
 model User {
-	id 	         Int      @id @default(autoincrement())
-	createdAt    DateTime @default(now())
-  	updatedAt    DateTime @updatedAt
-	email        String   @db.VarChar(255) @unique
-	hash         String   @db.VarChar(1000)
-	salt         String   @db.VarChar(255)
-	firstName    String   @db.VarChar(255)
-	lastName     String   @db.VarChar(255)
-	pfp			 String?  @db.VarChar(255)
-	organization Organization[]
-	orgUsers     OrgUser[]
-	clubs 	     Club[]
-	sessions     Session[]
-	clubUsers    ClubUser[]
-
+	id 	          Int      @id @default(autoincrement())
+	createdAt     DateTime @default(now())
+  	updatedAt     DateTime @updatedAt
+	email         String   @db.VarChar(255) @unique
+	hash          String   @db.VarChar(1000)
+	salt          String   @db.VarChar(255)
+	firstName     String   @db.VarChar(255)
+	lastName      String   @db.VarChar(255)
+	pfp			  String?  @db.VarChar(255)
+	organization  Organization[]
+	orgUsers      OrgUser[]
+	clubs 	      Club[]
+	sessions      Session[]
+	clubUsers     ClubUser[]
+	announcements Announcement[]
+	events        Event[]
 }
 
 model OrgUser {
@@ -50,7 +51,6 @@ model ClubUser {
 	userId 	       Int
 	roleId Int?
 	role ClubRole? @relation(fields: [roleId], references: [id])
-	events         Event[]
 }
 
 model Organization {
@@ -65,8 +65,8 @@ model Organization {
 
 model Club {
 	id 	           Int           @id @default(autoincrement())
-	createAt       DateTime?     @default(now())
-	updateAt       DateTime?     @updatedAt
+	createdAt       DateTime?     @default(now())
+	updatedAt       DateTime?     @updatedAt
 	name 	       String        @db.VarChar(255)
 	description    String?
 	imageURL       String?
@@ -83,11 +83,12 @@ model Club {
 model Event {
 	id Int @id @default(autoincrement())
 	createdAt DateTime? @default(now())
+	updatedAt DateTime? @updatedAt
 	title String
 	description String?
 	clubId Int
-	authorId Int
-	author ClubUser @relation(fields: [authorId], references: [id])
+	authorId Int?
+	author User? @relation(fields: [authorId], references: [id])
 	club Club @relation(fields: [clubId], references: [id])
 	// An RRULE string
 	date String
@@ -98,15 +99,19 @@ model Event {
 model Announcement {
 	id Int @id @default(autoincrement())
 	createdAt DateTime? @default(now())
+	updatedAt DateTime? @updatedAt
 	title String 
 	description String? 
 	clubId Int
 	club Club @relation(fields: [clubId], references: [id])
+	authorId Int?
+	author User? @relation(fields: [authorId], references: [id])
 }
 
 model ClubRole {
 	id Int @id @default(autoincrement())
 	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
 	name String
 	color String
 	permissionInt Int
