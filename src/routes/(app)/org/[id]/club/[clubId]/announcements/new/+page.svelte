@@ -9,7 +9,7 @@
 
 <div class="wrap">
 	<form class="editor" action="?/createAnnouncement" method="post" use:enhance>
-		<Input name="title" bgColor="var(--bg)" label="Title" />
+		<Input name="title" label="Title" />
 		<MdEditor editable={true} bind:content />
 		<hr />
 		<input name="desc" style="display: none" bind:value={content} />

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import { addToast } from '$lib/components/toaster';
@@ -10,7 +11,7 @@
 	let name = data.club.name || '';
 	let imgURL = data.club.imageURL || '';
 
-	if (form) {
+	$: if (form) {
 		if (form.success) {
 			addToast({
 				type: 'success',
@@ -28,12 +29,19 @@
 </script>
 
 <div class="wrap">
-	<form action="?/updateClub" method="post">
+	<form
+		action="?/updateClub"
+		method="post"
+		use:enhance={() =>
+			async ({ update }) => {
+				await update({ reset: false });
+			}}
+	>
 		<div class="formItem">
-			<Input name="clubName" bgColor="white" label="Club Name" value={name} />
+			<Input name="clubName" label="Club Name" value={name} />
 		</div>
 		<div class="formItem">
-			<Input name="imgURL" bgColor="white" label="Image Url" value={imgURL} />
+			<Input name="imgURL" label="Image Url" value={imgURL} />
 		</div>
 		<div class="formItem">
 			<Button type="submit" value="Save" />
