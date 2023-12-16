@@ -19,7 +19,7 @@
 	.button {
 		all: unset;
 		background: transparent;
-		border: 1px solid gray;
+		border: 1px solid var(--accent);
 		border-radius: 3px;
 		width: 100%;
 		padding: 10px 25px;
@@ -27,12 +27,14 @@
 		font-size: 1.2rem;
 		cursor: pointer;
 		text-align: center;
-		color: var(--textDark);
+		color: var(--accent);
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
 
 		&:focus,
 		&:hover,
 		&:active {
-			border: 1px solid var(--accent);
+			color: white;
+			background: var(--accent);
 		}
 
 		&:disabled {
