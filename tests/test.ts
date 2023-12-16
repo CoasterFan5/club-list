@@ -8,7 +8,9 @@ test('index page has expected h1', async ({ page }) => {
 });
 
 test('login page works as expected', async ({ page }) => {
-	await page.goto('/login', { waitUntil: 'networkidle' });
+	await page.goto('/login');
+	await page.waitForSelector('body.started', { timeout: 5000 });
+
 	await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
 
 	await page.locator('input[name="email"]').fill('bstone@card.board');
@@ -19,7 +21,9 @@ test('login page works as expected', async ({ page }) => {
 });
 
 test('register page works as expected', async ({ page }) => {
-	await page.goto('/get-started', { waitUntil: 'networkidle' });
+	await page.goto('/get-started');
+	await page.waitForSelector('body.started', { timeout: 5000 });
+
 	await expect(page.getByRole('heading', { name: 'Register' })).toBeVisible();
 
 	await page.locator('input[name="firstName"]').fill('Test');

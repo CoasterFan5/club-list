@@ -12,6 +12,7 @@
 	import type { LayoutData } from './$types';
 	import Toaster from '$lib/components/Toaster.svelte';
 	import { addToast, resetToast } from '$lib/components/toaster';
+	import { onMount } from 'svelte';
 	export let data: LayoutData;
 
 	let sent = false;
@@ -24,6 +25,10 @@
 		});
 		sent = true;
 	}
+
+	onMount(() => {
+		document.body.classList.add('started');
+	});
 </script>
 
 <svelte:head>
