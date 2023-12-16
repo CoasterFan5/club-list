@@ -54,6 +54,8 @@ jobs:
         run: pnpm run build
       - name: Deploy database
         run: pnpm run db:deploy
+      - name: Seed database
+        run: pnpm run seed
       - name: Install Playwright Dependencies
         run: npx playwright install-deps
       - name: Install Playwright
