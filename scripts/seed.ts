@@ -72,7 +72,15 @@ async function main() {
 													id: 1
 												}
 											},
-											imageURL: 'https://media.timeout.com/images/105627949/750/422/image.jpg'
+											imageURL: 'https://media.timeout.com/images/105627949/750/422/image.jpg',
+											announcements: {
+												create: [
+													{
+														title: 'Checkers Tournament',
+														description: 'Ariane and Ling won the regional checkers tournament! Congratulations!',
+													}
+												]
+											}
 										},
 										{
 											name: 'Math Club',
