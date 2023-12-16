@@ -4,7 +4,7 @@
 </script>
 
 <div class="wrap">
-	<div class="leftBar">
+	<div class="sidebar">
 		<a class="link" href={baseUrl}>General</a>
 		<a class="link" href="{baseUrl}/roles">Roles</a>
 	</div>
@@ -26,7 +26,7 @@
 	.content {
 		width: 100%;
 	}
-	.leftBar {
+	.sidebar {
 		width: 200px;
 		padding: 10px 20px;
 		box-sizing: border-box;
@@ -44,8 +44,9 @@
 		color: var(--textColor);
 		text-decoration: none;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	}
-	.link:hover {
-		color: var(--accent);
+
+		&:hover {
+			color: var(--accent);
+		}
 	}
 </style>

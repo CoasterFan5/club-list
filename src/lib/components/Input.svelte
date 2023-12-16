@@ -20,9 +20,11 @@
 		position: relative;
 		padding: 15px 0 0;
 		width: 100%;
+		background: rgba(0, 0, 0, 0.04);
 	}
 
 	input {
+		box-sizing: border-box;
 		font-family: inherit;
 		width: 100%;
 		border: 0;
@@ -30,7 +32,7 @@
 		outline: 0;
 		font-size: 1.3rem;
 		color: black;
-		padding: 7px 0;
+		padding: 9px;
 		background: transparent;
 		transition: border-color 0.2s;
 
@@ -41,7 +43,7 @@
 		&:placeholder-shown ~ label {
 			font-size: 1.3rem;
 			cursor: text;
-			top: 20px;
+			top: 17px;
 		}
 
 		&:required,
@@ -57,11 +59,7 @@
 				transition: 0.2s;
 				font-size: 1rem;
 				color: var(--accent);
-				font-weight: 700;
 			}
-			padding-bottom: 6px;
-			font-weight: 700;
-			border-width: 3px;
 			border-image: linear-gradient(to right, var(--accent), var(--accent));
 			border-image-slice: 1;
 		}
@@ -70,6 +68,7 @@
 	label {
 		position: absolute;
 		top: 0;
+		left: 10px;
 		display: block;
 		transition: 0.2s;
 		font-size: 1rem;
