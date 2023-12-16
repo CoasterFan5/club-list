@@ -6,7 +6,7 @@
 
 	const emptyArray = (length: number) => Array(length).fill(0);
 
-	$: daysInMonth = emptyArray(day.daysInMonth()).map((_, i) => dayjs().date(i + 1));
+	$: daysInMonth = emptyArray(day.daysInMonth()).map((_, i) => day.date(i + 1));
 
 	$: startPaddingDays = emptyArray(day.date(1).day())
 		.map((_, i) => dayjs().date(-i))
@@ -16,7 +16,7 @@
 
 	$: endPaddingDays =
 		lastDay.day() < 6
-			? emptyArray(6 - lastDay.day()).map((_, i) => dayjs().date(lastDay.date() + i + 1))
+			? emptyArray(6 - lastDay.day()).map((_, i) => day.date(lastDay.date() + i + 1))
 			: [];
 
 	$: calendarDays = [...startPaddingDays, ...daysInMonth, ...endPaddingDays];
