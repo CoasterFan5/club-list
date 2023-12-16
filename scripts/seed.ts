@@ -44,60 +44,73 @@ async function main() {
 				}
 			},
 			orgUsers: {
-				create: {
-					role: 'ADMIN',
-					user: {
-						create: {
-							firstName: 'Brick',
-							lastName: 'Stone',
-							email: 'bstone@card.board',
-							...(await makePassword('password')),
-							clubs: {
-								create: [
-									{
-										name: 'Cardboard Club',
-										organization: {
-											connect: {
-												id: 1
-											}
+				create: [
+					{
+						role: 'ADMIN',
+						user: {
+							create: {
+								firstName: 'Brick',
+								lastName: 'Stone',
+								email: 'bstone@card.board',
+								...(await makePassword('password')),
+								clubs: {
+									create: [
+										{
+											name: 'Cardboard Club',
+											organization: {
+												connect: {
+													id: 1
+												}
+											},
+											imageURL:
+												'https://static01.nyt.com/images/2022/12/04/magazine/04mag-cardboard-copy/04mag-cardboard-copy-facebookJumbo-v2.jpg'
 										},
-										imageURL:
-											'https://static01.nyt.com/images/2022/12/04/magazine/04mag-cardboard-copy/04mag-cardboard-copy-facebookJumbo-v2.jpg'
-									},
-									{
-										name: 'Board Game Club',
-										organization: {
-											connect: {
-												id: 1
-											}
+										{
+											name: 'Board Game Club',
+											organization: {
+												connect: {
+													id: 1
+												}
+											},
+											imageURL: 'https://media.timeout.com/images/105627949/750/422/image.jpg'
 										},
-										imageURL: 'https://media.timeout.com/images/105627949/750/422/image.jpg'
-									},
-									{
-										name: 'Math Club',
-										organization: {
-											connect: {
-												id: 1
-											}
+										{
+											name: 'Math Club',
+											organization: {
+												connect: {
+													id: 1
+												}
+											},
+											imageURL:
+												'https://www.the74million.org/wp-content/uploads/2023/02/iStock-470493341-copy.jpg'
 										},
-										imageURL:
-											'https://www.the74million.org/wp-content/uploads/2023/02/iStock-470493341-copy.jpg'
-									},
-									{
-										name: 'Football Club',
-										organization: {
-											connect: {
-												id: 1
-											}
-										},
-										imageURL:
-											'https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg'
-									}
-								]
+										{
+											name: 'Football Club',
+											organization: {
+												connect: {
+													id: 1
+												}
+											},
+											imageURL:
+												'https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg'
+										}
+									]
+								}
+							}
+						}
+					},
+					{
+						role: 'STUDENT',
+						user: {
+							create: {
+								firstName: 'Silly',
+								lastName: 'Putty',
+								email: 'sputty@card.board',
+								...(await makePassword('password')),
 							}
 						}
 					}
-				}
+				]
 			}
 		}
 	});
