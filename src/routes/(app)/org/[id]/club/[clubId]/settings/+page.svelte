@@ -21,7 +21,7 @@
 		} else {
 			addToast({
 				type: 'error',
-				message: form.message || 'An error occured!',
+				message: form.message || 'An error occurred!',
 				life: 3000
 			});
 		}

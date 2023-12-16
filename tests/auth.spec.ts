@@ -22,7 +22,7 @@ test('logging in with the wrong password shows an error', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
 
     await page.locator('input[name="email"]').fill('bstone@card.board');
-    await page.locator('input[name="password"]').fill('wrongpassword');
+    await page.locator('input[name="password"]').fill('wrongPassword');
     await page.locator('button[type="submit"]').click();
 
     await expect(page.locator('text=Error')).toBeVisible();
@@ -40,6 +40,9 @@ test('register page works as expected', async ({ page }) => {
 	await page.locator('input[name="password"]').fill('password');
 	await page.locator('input[name="confirmPassword"]').fill('password');
 	await page.locator('button[type="submit"]').click();
+
+	// log the body to see what's going on
+	console.log(await page.innerHTML('body'));
 
 	await expect(page.locator('text=Error')).not.toBeVisible();
 
