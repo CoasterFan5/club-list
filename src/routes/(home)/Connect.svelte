@@ -7,7 +7,7 @@
 	interface DrawCoords {
 		x: number;
 		y: number;
-	};
+	}
 
 	let lastDraw: DrawCoords | null;
 
