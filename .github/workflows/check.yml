@@ -49,10 +49,9 @@ jobs:
         run: |
           cp .env.test .env
           echo "BETA=false" >> .env
+          echo "ORIGIN=http://localhost:3000" >> .env
 
       - name: Build
-        env:
-          ORIGIN: http://localhost:3000
         run: pnpm run build
       - name: Deploy database
         run: pnpm run db:deploy
