@@ -4,10 +4,11 @@
 	let width = 0;
 	let canvas: HTMLCanvasElement;
 
-	type DrawCoords = {
+	interface DrawCoords {
 		x: number;
 		y: number;
 	};
+
 	let lastDraw: DrawCoords | null;
 
 	let draw = (e: MouseEvent) => {
@@ -39,13 +40,7 @@
 		};
 	};
 
-	onMount(() => {
-		let context = canvas.getContext('2d');
-		if (!context) {
-			return;
-		}
-		context.moveTo(0, 0);
-	});
+	onMount(() => canvas.getContext('2d')?.moveTo(0, 0));
 </script>
 
 <div class="connect" bind:clientHeight={height} bind:clientWidth={width}>
@@ -78,6 +73,6 @@
 		height: 100%;
 		top: 0px;
 		left: 0px;
-		z-index: 10;
+		z-index: 1;
 	}
 </style>
