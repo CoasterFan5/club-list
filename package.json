@@ -11,7 +11,7 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write . && eslint --fix .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest",
+		"test:unit": "vitest run",
 		"prisma": "prisma generate",
 		"studio": "dotenv -e .env.test prisma studio",
 		"db:deploy": "prisma migrate deploy",
