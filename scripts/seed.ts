@@ -77,7 +77,8 @@ async function main() {
 												create: [
 													{
 														title: 'Checkers Tournament',
-														description: 'Ariane and Ling won the regional checkers tournament! Congratulations!',
+														description:
+															'Ariane and Ling won the regional checkers tournament! Congratulations!'
 													}
 												]
 											}
@@ -114,7 +115,7 @@ async function main() {
 								firstName: 'Silly',
 								lastName: 'Putty',
 								email: 'sputty@card.board',
-								...(await makePassword('password')),
+								...(await makePassword('password'))
 							}
 						}
 					}

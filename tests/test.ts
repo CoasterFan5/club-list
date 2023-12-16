@@ -38,9 +38,7 @@ test('register page works as expected', async ({ page }) => {
 test('404 page has a home link', async ({ page }) => {
 	await page.goto(`/${Math.random()}`);
 
-	await expect(
-		page.getByRole('heading', { name: '404 | Not Found' })
-	).toBeVisible();
+	await expect(page.getByRole('heading', { name: '404 | Not Found' })).toBeVisible();
 
 	await page.getByRole('link', { name: 'Go Home' }).click();
 
