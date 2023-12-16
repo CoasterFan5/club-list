@@ -41,11 +41,6 @@ test('register page works as expected', async ({ page }) => {
 	await page.locator('input[name="confirmPassword"]').fill('password');
 	await page.locator('button[type="submit"]').click();
 
-	await page.waitForTimeout(1000);
-
-	// log the body to see what's going on
-	console.log(await page.innerHTML('body'));
-
 	await expect(page.locator('text=Error')).not.toBeVisible();
 
 	await page.waitForURL('/dashboard');
