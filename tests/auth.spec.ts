@@ -18,7 +18,7 @@ test('login page works as expected', async ({ page }) => {
 test('logging in with the wrong password shows an error', async ({ page }) => {
     await page.goto('/login');
 
-	page.on('console', msg => console.log(msg.text()));
+	page.on('console', msg => console.log(JSON.stringify(msg)));
 
     await page.waitForSelector('body.started', { timeout: 5000 });
 
