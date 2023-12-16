@@ -63,7 +63,7 @@
 		justify-content: center;
 		flex-direction: column;
 		margin: 25px;
-		border-radius: 5px;
+		border-radius: 1rem;
 		aspect-ratio: 1/1;
 	}
 	img {
