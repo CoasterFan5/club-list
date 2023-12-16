@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import { promisify } from 'util';
 import crypto from 'crypto';
 
-const pkdf2 = promisify(crypto.pbkdf2);
+const pbkdf2 = promisify(crypto.pbkdf2);
 
 export const actions = {
 	login: async ({ request, cookies }) => {
@@ -38,7 +38,7 @@ export const actions = {
 
 		//get the salt and rehash the password
 		const salt = user.salt;
-		const hash = (await pkdf2(password, salt, 1000, 100, 'sha512')).toString('hex');
+		const hash = (await pbkdf2(password, salt, 1000, 100, 'sha512')).toString('hex');
 
 		if (hash != user.hash) {
 			return {

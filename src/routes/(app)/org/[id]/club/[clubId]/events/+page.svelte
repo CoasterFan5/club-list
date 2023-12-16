@@ -27,18 +27,18 @@
 </div>
 
 <div class="button big">
-	<Button value={'Add Event'} />
+	<Button value="Add Event" />
 </div>
 
 <div class="datebar">
 	<div class="button">
-		<Button value={'Previous'} on:click={() => (day = day.subtract(1, 'month'))} />
+		<Button value="Previous" on:click={() => (day = day.subtract(1, 'month'))} />
 	</div>
 	<div class="button">
-		<Button value={'Today'} on:click={() => (day = dayjs())} />
+		<Button value="Today" on:click={() => (day = dayjs())} />
 	</div>
 	<div class="button">
-		<Button value={'Next'} on:click={() => (day = day.add(1, 'month'))} />
+		<Button value="Next" on:click={() => (day = day.add(1, 'month'))} />
 	</div>
 </div>
 <div class="calendar">

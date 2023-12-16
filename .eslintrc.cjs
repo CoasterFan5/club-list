@@ -5,7 +5,7 @@ module.exports = defineConfig({
 	root: true,
 	extends: [
 		'eslint:recommended',
-		'plugin:@typescript-eslint/recommended',
+		'plugin:@typescript-eslint/strict',
 		'plugin:svelte/recommended',
 		'prettier'
 	],
@@ -36,7 +36,8 @@ module.exports = defineConfig({
 		'svelte/spaced-html-comment': 'error',
 		'svelte/no-at-debug-tags': 'error',
 		'svelte/mustache-spacing': 'error',
-		'svelte/html-self-closing': 'error'
+		'svelte/html-self-closing': 'error',
+		'svelte/no-useless-mustaches': 'error'
 	},
 	overrides: [
 		{
