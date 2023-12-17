@@ -1,10 +1,5 @@
 import { prisma } from '$lib/prismaConnection';
-import {
-	createPermissionsCheck,
-	createPermissionList,
-	type PermissionObject,
-	defaultClubPermissionObject
-} from '$lib/permissions.js';
+import { createPermissionsCheck } from '$lib/permissions.js';
 import { error, redirect } from '@sveltejs/kit';
 import { formHandler } from '$lib/bodyguard';
 import { z } from 'zod';
@@ -90,19 +85,8 @@ export const actions = {
 				if (!club.clubUsers) {
 					error(500, 'No Permissions');
 				}
-				let permissionObject: PermissionObject;
 
-				if (club.clubUsers[0].role) {
-					permissionObject = createPermissionsCheck(
-						createPermissionList(defaultClubPermissionObject),
-						club.clubUsers[0].role.permissionInt
-					);
-				} else {
-					permissionObject = createPermissionsCheck(
-						createPermissionList(defaultClubPermissionObject),
-						0
-					);
-				}
+				const permissionObject = createPermissionsCheck(club.clubUsers[0].role?.permissionInt ?? 0);
 
 				if (!permissionObject.admin && !permissionObject.updateAppearance) {
 					error(500, 'No Permissions');

@@ -1,9 +1,9 @@
 import { prisma } from '$lib/prismaConnection';
 import {
 	createPermissionsCheck,
-	createPermissionList,
 	type PermissionObject,
-	defaultClubPermissionObject
+	defaultClubPermissionObject,
+	permissionKeys
 } from '$lib/permissions.js';
 import type { LayoutServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
@@ -41,20 +41,14 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		}
 	});
 
-	let clubPerms = { ...defaultClubPermissionObject };
-	if (clubUser) {
-		clubPerms = {
-			...defaultClubPermissionObject,
-			...createPermissionsCheck(
-				createPermissionList(defaultClubPermissionObject),
-				clubUser.role ? clubUser.role.permissionInt : 0
-			)
-		};
-	}
+	const clubPerms: PermissionObject = {
+		...defaultClubPermissionObject,
+		...createPermissionsCheck(clubUser?.role?.permissionInt ?? 0)
+	};
 
 	if (club.ownerId == parentData.user.id) {
-		for (const key of Object.keys(clubPerms)) {
-			(clubPerms as PermissionObject)[key] = true;
+		for (const key of permissionKeys) {
+			clubPerms[key] = true;
 		}
 	}
 

@@ -14,7 +14,9 @@ export const defaultClubPermissionObject = Object.freeze({
 	manageRoles: false
 });
 
-const permissionKeys = Object.keys(defaultClubPermissionObject) as (keyof PermissionObject)[];
+export const permissionKeys = Object.freeze(
+	Object.keys(defaultClubPermissionObject) as (keyof PermissionObject)[]
+);
 
 export const createPermissionNumber = (permissionObject: PermissionObject): number => {
 	let permissionInt = 0;

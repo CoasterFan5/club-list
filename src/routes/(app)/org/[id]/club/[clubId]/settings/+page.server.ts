@@ -1,9 +1,9 @@
 import { formHandler } from '$lib/bodyguard.js';
 import {
-	createPermissionList,
 	createPermissionsCheck,
 	type PermissionObject,
-	defaultClubPermissionObject
+	defaultClubPermissionObject,
+	permissionKeys
 } from '$lib/permissions.js';
 import { prisma } from '$lib/prismaConnection.js';
 import { redirect } from '@sveltejs/kit';
@@ -71,19 +71,16 @@ export const actions = {
 			}
 
 			//make sure this user is signed in
-			let userPermission = { ...defaultClubPermissionObject };
+			let userPermission: PermissionObject = { ...defaultClubPermissionObject };
 
 			if (sessionCheck.user.clubUsers[0]) {
 				userPermission = {
 					...defaultClubPermissionObject,
-					...createPermissionsCheck(
-						createPermissionList(defaultClubPermissionObject),
-						sessionCheck.user.clubUsers[0].role?.permissionInt ?? 0
-					)
+					...createPermissionsCheck(sessionCheck.user.clubUsers[0].role?.permissionInt ?? 0)
 				};
 			} else if (club.ownerId == sessionCheck.user.id) {
-				for (const key of Object.keys(userPermission)) {
-					(userPermission as PermissionObject)[key] = true;
+				for (const key of permissionKeys) {
+					userPermission[key] = true;
 				}
 			}
 

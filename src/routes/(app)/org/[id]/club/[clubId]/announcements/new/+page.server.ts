@@ -1,11 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageParentData, PageServerLoad } from './$types';
 import { prisma } from '$lib/prismaConnection';
-import {
-	createPermissionsCheck,
-	createPermissionList,
-	defaultClubPermissionObject
-} from '$lib/permissions.js';
+import { createPermissionsCheck } from '$lib/permissions.js';
 import { formHandler } from '$lib/bodyguard';
 import { z } from 'zod';
 
@@ -75,11 +71,8 @@ export const actions = {
 				if (!clubUser) {
 					redirect(303, '/login');
 				}
-				const permissionCheck = createPermissionsCheck(
-					createPermissionList(defaultClubPermissionObject),
-					clubUser.role?.permissionInt ?? 0
-				);
-				if (!permissionCheck.admin && !permissionCheck.manageAnnoucements) {
+				const permissionCheck = createPermissionsCheck(clubUser.role?.permissionInt ?? 0);
+				if (!permissionCheck.admin && !permissionCheck.manageAnnouncements) {
 					redirect(303, '/login');
 				}
 			}

@@ -1,10 +1,10 @@
 import { prisma } from '$lib/prismaConnection.js';
 import { error, redirect } from '@sveltejs/kit';
 import {
-	createPermissionList,
 	createPermissionsCheck,
 	type PermissionObject,
-	defaultClubPermissionObject
+	defaultClubPermissionObject,
+	permissionKeys
 } from '$lib/permissions.js';
 import { formHandler } from '$lib/bodyguard.js';
 import { z } from 'zod';
@@ -49,26 +49,23 @@ export const actions = {
 
 		//make sure the user has the proper perms
 
-		let userPerms = { ...defaultClubPermissionObject };
+		let userPermissions: PermissionObject = { ...defaultClubPermissionObject };
 
 		if (sessionCheck.user.id == club?.ownerId) {
-			for (const key in userPerms) {
-				(userPerms as PermissionObject)[key] = true;
+			for (const key of permissionKeys) {
+				userPermissions[key] = true;
 			}
 		} else {
 			if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
 				error(401, 'No Permissions');
 			}
-			userPerms = {
-				...userPerms,
-				...createPermissionsCheck(
-					createPermissionList(defaultClubPermissionObject),
-					sessionCheck.user.clubUsers[0].role.permissionInt
-				)
+			userPermissions = {
+				...userPermissions,
+				...createPermissionsCheck(sessionCheck.user.clubUsers[0].role.permissionInt)
 			};
 		}
 
-		if (!userPerms.admin && !userPerms.manageRoles) {
+		if (!userPermissions.admin && !userPermissions.manageRoles) {
 			error(401, 'No Permissions');
 		}
 
@@ -132,11 +129,11 @@ export const actions = {
 
 			//make sure the user has the proper perms
 
-			let userPerms = { ...defaultClubPermissionObject };
+			let userPerms: PermissionObject = { ...defaultClubPermissionObject };
 
 			if (sessionCheck.user.id == club?.ownerId) {
-				for (const key in userPerms) {
-					(userPerms as PermissionObject)[key] = true;
+				for (const key of permissionKeys) {
+					userPerms[key] = true;
 				}
 			} else {
 				if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
@@ -144,10 +141,7 @@ export const actions = {
 				}
 				userPerms = {
 					...userPerms,
-					...createPermissionsCheck(
-						createPermissionList(defaultClubPermissionObject),
-						sessionCheck.user.clubUsers[0].role.permissionInt
-					)
+					...createPermissionsCheck(sessionCheck.user.clubUsers[0].role.permissionInt)
 				};
 			}
 
@@ -230,11 +224,11 @@ export const actions = {
 
 			//make sure the user has the proper perms
 
-			let userPerms = { ...defaultClubPermissionObject };
+			let userPerms: PermissionObject = { ...defaultClubPermissionObject };
 
 			if (sessionCheck.user.id == club?.ownerId) {
-				for (const key in userPerms) {
-					(userPerms as PermissionObject)[key] = true;
+				for (const key of permissionKeys) {
+					userPerms[key] = true;
 				}
 			} else {
 				if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
@@ -242,10 +236,7 @@ export const actions = {
 				}
 				userPerms = {
 					...userPerms,
-					...createPermissionsCheck(
-						createPermissionList(defaultClubPermissionObject),
-						sessionCheck.user.clubUsers[0].role.permissionInt
-					)
+					...createPermissionsCheck(sessionCheck.user.clubUsers[0].role.permissionInt)
 				};
 			}
 
