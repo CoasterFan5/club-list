@@ -1,8 +1,10 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import type { PageParentData, PageServerLoad } from './$types';
 import { prisma } from '$lib/prismaConnection';
 import { createPermissionsCheck, createPermissionList } from '$lib/permissionHelper';
 import { defaultClubPermissionObject } from '$lib/permissions';
+import { formHandler } from '$lib/bodyguard';
+import { z } from 'zod';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
 	const parentData: PageParentData = await parent();
@@ -20,83 +22,76 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 };
 
 export const actions = {
-	createAnnouncement: async ({ request, cookies, params }) => {
-		const clubId = params.clubId;
-		const orgId = params.id;
-		const baseUrl = `/org/${orgId}/club/${clubId}`;
+	createAnnouncement: formHandler(
+		z.object({
+			title: z.string().max(100).min(1),
+			desc: z.string()
+		}),
+		async ({ title, desc }, { cookies, params }) => {
+			const clubId = params.clubId;
+			const orgId = params.id;
+			const baseUrl = `/org/${orgId}/club/${clubId}`;
 
-		const FormData = await request.formData();
+			// now the long task of validating data
+			const session = cookies.get('session');
 
-		const title = FormData.get('title')?.toString();
-		const desc = FormData.get('desc')?.toString();
-
-		if (!title) {
-			return fail(400, {
-				title,
-				desc,
-				message: 'Missing title'
-			});
-		}
-
-		// now the long task of validating data
-		const session = cookies.get('session');
-
-		const sessionCheck = await prisma.session.findUnique({
-			where: {
-				sessionToken: session
-			},
-			include: {
-				user: {
-					include: {
-						clubs: {
-							where: {
-								id: parseInt(params.clubId)
-							}
-						},
-						clubUsers: {
-							where: {
-								clubId: parseInt(params.clubId)
+			const sessionCheck = await prisma.session.findUnique({
+				where: {
+					sessionToken: session
+				},
+				include: {
+					user: {
+						include: {
+							clubs: {
+								where: {
+									id: parseInt(params.clubId)
+								}
 							},
-							include: {
-								role: true
+							clubUsers: {
+								where: {
+									clubId: parseInt(params.clubId)
+								},
+								include: {
+									role: true
+								}
 							}
 						}
 					}
 				}
-			}
-		});
+			});
 
-		if (!sessionCheck || !sessionCheck.user) {
-			redirect(303, '/login');
-		}
-
-		const club = sessionCheck.user.clubs[0];
-		const clubUser = sessionCheck.user.clubUsers[0];
-		// check permissions
-
-		if (club.ownerId != sessionCheck.userId) {
-			if (!clubUser) {
+			if (!sessionCheck || !sessionCheck.user) {
 				redirect(303, '/login');
 			}
-			const permissionCheck = createPermissionsCheck(
-				createPermissionList(defaultClubPermissionObject),
-				clubUser.role?.permissionInt ?? 0
-			);
-			if (!permissionCheck.admin && !permissionCheck.manageAnnoucements) {
-				redirect(303, '/login');
+
+			const club = sessionCheck.user.clubs[0];
+			const clubUser = sessionCheck.user.clubUsers[0];
+			// check permissions
+
+			if (club.ownerId != sessionCheck.userId) {
+				if (!clubUser) {
+					redirect(303, '/login');
+				}
+				const permissionCheck = createPermissionsCheck(
+					createPermissionList(defaultClubPermissionObject),
+					clubUser.role?.permissionInt ?? 0
+				);
+				if (!permissionCheck.admin && !permissionCheck.manageAnnoucements) {
+					redirect(303, '/login');
+				}
 			}
+			//whoo! valid!
+
+			await prisma.announcement.create({
+				data: {
+					title,
+					description: desc,
+					clubId: club.id
+				}
+			});
+
+			//we did it!
+			redirect(303, `${baseUrl}/announcements`);
 		}
-		//whoo! valid!
-
-		await prisma.announcement.create({
-			data: {
-				title,
-				description: desc,
-				clubId: club.id
-			}
-		});
-
-		//we did it!
-		redirect(303, `${baseUrl}/announcements`);
-	}
+	)
 };

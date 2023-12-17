@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 devDependencies:
+  '@auth70/bodyguard':
+    specifier: ^1.3.0
+    version: 1.3.0
   '@aws-sdk/client-s3':
     specifier: ^3.462.0
     version: 3.470.0
@@ -137,6 +140,12 @@ devDependencies:
   vitest:
     specifier: ^1.0.0
     version: 1.0.4(sass@1.69.5)
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
+  zod-validation-error:
+    specifier: ^2.1.0
+    version: 2.1.0(zod@3.22.4)
 
 packages:
 
@@ -151,6 +160,13 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.20
+    dev: true
+
+  /@auth70/bodyguard@1.3.0:
+    resolution: {integrity: sha512-yFBS6pxCONOyLibrdtUIa1aTCOI4iUmgiafR9BVv5qnzDwNeLIPXf7XU7DVdHvrEhg6XtMf1HnFYhhl6KxZQPw==}
+    dependencies:
+      '@exact-realty/multipart-parser': 1.0.10
+      '@streamparser/json': 0.0.18
     dev: true
 
   /@aws-crypto/crc32@3.0.0:
@@ -1172,6 +1188,11 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
+  /@exact-realty/multipart-parser@1.0.10:
+    resolution: {integrity: sha512-qfjWXnX3Zwhsaj6lO96OBhaSKEHfpFRhrQTbEhNhQ+oNTqQ7r6J1acbBDb5LQXaECRzZuC9cbq0mvQWzD5pnrw==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+    dev: true
+
   /@fontsource-variable/source-code-pro@5.0.17:
     resolution: {integrity: sha512-O1Hn0QamTJDfFauR68ALijno0xTOy/sJAE/cORyP2s5unEiJOZj0EBQIhHymHdS7XI+xccAfSEdaZNmz9rhttA==}
     dev: true
@@ -1956,6 +1977,10 @@ packages:
       '@smithy/abort-controller': 2.0.15
       '@smithy/types': 2.7.0
       tslib: 2.6.2
+    dev: true
+
+  /@streamparser/json@0.0.18:
+    resolution: {integrity: sha512-El/ocRiqntVr8mbQPuRK8NvBbMe+r4e5S8AzbR58rl5nimBeKzPBj2P4ykNlwbaMV+dqGPhzyGEaNm9pAPkTxQ==}
     dev: true
 
   /@sveltejs/adapter-auto@3.0.0(@sveltejs/kit@2.0.0):
@@ -5063,4 +5088,17 @@ packages:
   /yocto-queue@1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
+    dev: true
+
+  /zod-validation-error@2.1.0(zod@3.22.4):
+    resolution: {integrity: sha512-VJh93e2wb4c3tWtGgTa0OF/dTt/zoPCPzXq4V11ZjxmEAFaPi/Zss1xIZdEB5RD8GD00U0/iVXgqkF77RV7pdQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      zod: ^3.18.0
+    dependencies:
+      zod: 3.22.4
+    dev: true
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: true

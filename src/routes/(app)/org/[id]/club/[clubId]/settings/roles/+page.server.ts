@@ -6,6 +6,8 @@ import {
 	createPermissionsCheck,
 	type PermissionObject
 } from '$lib/permissionHelper.js';
+import { formHandler } from '$lib/bodyguard.js';
+import { z } from 'zod';
 
 export const actions = {
 	makeRole: async ({ params, cookies }) => {
@@ -85,226 +87,211 @@ export const actions = {
 			message: 'Role Created!'
 		};
 	},
-	updateRole: async ({ params, cookies, request }) => {
-		const formData = await request.formData();
+	updateRole: formHandler(
+		z.object({
+			name: z.string().max(100).min(1),
+			color: z.string(),
+			roleId: z.number()
+		}),
+		async ({ name, color, roleId }, { params, cookies }) => {
+			const session = cookies.get('session');
 
-		const roleName = formData.get('name')?.toString();
-		const roleColor = formData.get('color')?.toString();
-		const roleIdString = formData.get('roleId')?.toString();
-		if (!roleIdString) {
-			error(400, 'How did we get here?');
-		}
-		const roleId = parseInt(roleIdString);
-
-		const session = cookies.get('session');
-
-		const sessionCheck = await prisma.session.findUnique({
-			where: {
-				sessionToken: session
-			},
-			include: {
-				user: {
-					include: {
-						clubUsers: {
-							where: {
-								clubId: parseInt(params.clubId)
-							},
-							include: {
-								role: true
+			const sessionCheck = await prisma.session.findUnique({
+				where: {
+					sessionToken: session
+				},
+				include: {
+					user: {
+						include: {
+							clubUsers: {
+								where: {
+									clubId: parseInt(params.clubId)
+								},
+								include: {
+									role: true
+								}
 							}
 						}
 					}
 				}
+			});
+
+			const club = await prisma.club.findUnique({
+				where: {
+					id: parseInt(params.clubId)
+				}
+			});
+
+			if (!club) {
+				error(400, 'How did we get here?');
 			}
-		});
 
-		const club = await prisma.club.findUnique({
-			where: {
-				id: parseInt(params.clubId)
+			if (!sessionCheck || !sessionCheck.user) {
+				redirect(303, '/login');
 			}
-		});
 
-		if (!club) {
-			error(400, 'How did we get here?');
-		}
+			//make sure the user has the proper perms
 
-		if (!sessionCheck || !sessionCheck.user) {
-			redirect(303, '/login');
-		}
+			let userPerms = { ...defaultClubPermissionObject };
 
-		//make sure the user has the proper perms
-
-		let userPerms = { ...defaultClubPermissionObject };
-
-		if (sessionCheck.user.id == club?.ownerId) {
-			for (const key in userPerms) {
-				(userPerms as PermissionObject)[key] = true;
+			if (sessionCheck.user.id == club?.ownerId) {
+				for (const key in userPerms) {
+					(userPerms as PermissionObject)[key] = true;
+				}
+			} else {
+				if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
+					error(401, 'No Permissions');
+				}
+				userPerms = {
+					...userPerms,
+					...createPermissionsCheck(
+						createPermissionList(defaultClubPermissionObject),
+						sessionCheck.user.clubUsers[0].role.permissionInt
+					)
+				};
 			}
-		} else {
-			if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
+
+			if (!userPerms.admin && !userPerms.manageRoles) {
 				error(401, 'No Permissions');
 			}
-			userPerms = {
-				...userPerms,
-				...createPermissionsCheck(
-					createPermissionList(defaultClubPermissionObject),
-					sessionCheck.user.clubUsers[0].role.permissionInt
-				)
-			};
-		}
 
-		if (!userPerms.admin && !userPerms.manageRoles) {
-			error(401, 'No Permissions');
-		}
+			//grab the role
+			const role = await prisma.clubRole.findFirst({
+				where: {
+					id: roleId
+				}
+			});
 
-		//grab the role
-		const role = await prisma.clubRole.findFirst({
-			where: {
-				id: roleId
+			if (!role || role?.clubId != club.id) {
+				error(400, 'How did we get here?');
 			}
-		});
 
-		if (!role || role?.clubId != club.id) {
-			error(400, 'How did we get here?');
-		}
+			//update the role
+			await prisma.clubRole.update({
+				where: {
+					id: roleId
+				},
+				data: {
+					name,
+					color
+				}
+			});
 
-		//update the role
-		await prisma.clubRole.update({
-			where: {
-				id: roleId
-			},
-			data: {
-				name: roleName,
-				color: roleColor
-			}
-		});
+			//actually make the role
 
-		//actually make the role
-
-		return {
-			success: true,
-			message: 'Role Updated!'
-		};
-	},
-
-	deleteRole: async ({ request, params, cookies }) => {
-		const formData = await request.formData();
-
-		const roleName = formData.get('roleName')?.toString();
-		if (!roleName) {
 			return {
-				success: false,
-				message: 'No role name typed'
+				success: true,
+				message: 'Role Updated!'
 			};
 		}
+	),
 
-		const roleIdString = formData.get('roleId')?.toString();
-		if (!roleIdString) {
-			error(400, 'How did we get here?');
-		}
-		const roleId = parseInt(roleIdString);
+	deleteRole: formHandler(
+		z.object({
+			roleName: z.string().max(100).min(1),
+			roleId: z.number()
+		}),
+		async ({ roleName, roleId }, { params, cookies }) => {
+			const session = cookies.get('session');
 
-		const session = cookies.get('session');
-
-		const sessionCheck = await prisma.session.findUnique({
-			where: {
-				sessionToken: session
-			},
-			include: {
-				user: {
-					include: {
-						clubUsers: {
-							where: {
-								clubId: parseInt(params.clubId)
-							},
-							include: {
-								role: true
+			const sessionCheck = await prisma.session.findUnique({
+				where: {
+					sessionToken: session
+				},
+				include: {
+					user: {
+						include: {
+							clubUsers: {
+								where: {
+									clubId: parseInt(params.clubId)
+								},
+								include: {
+									role: true
+								}
 							}
 						}
 					}
 				}
+			});
+
+			const club = await prisma.club.findUnique({
+				where: {
+					id: parseInt(params.clubId)
+				}
+			});
+
+			if (!club) {
+				error(400, 'How did we get here?');
 			}
-		});
 
-		const club = await prisma.club.findUnique({
-			where: {
-				id: parseInt(params.clubId)
+			if (!sessionCheck || !sessionCheck.user) {
+				redirect(303, '/login');
 			}
-		});
 
-		if (!club) {
-			error(400, 'How did we get here?');
-		}
+			//make sure the user has the proper perms
 
-		if (!sessionCheck || !sessionCheck.user) {
-			redirect(303, '/login');
-		}
+			let userPerms = { ...defaultClubPermissionObject };
 
-		//make sure the user has the proper perms
-
-		let userPerms = { ...defaultClubPermissionObject };
-
-		if (sessionCheck.user.id == club?.ownerId) {
-			for (const key in userPerms) {
-				(userPerms as PermissionObject)[key] = true;
+			if (sessionCheck.user.id == club?.ownerId) {
+				for (const key in userPerms) {
+					(userPerms as PermissionObject)[key] = true;
+				}
+			} else {
+				if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
+					error(401, 'No Permissions');
+				}
+				userPerms = {
+					...userPerms,
+					...createPermissionsCheck(
+						createPermissionList(defaultClubPermissionObject),
+						sessionCheck.user.clubUsers[0].role.permissionInt
+					)
+				};
 			}
-		} else {
-			if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
+
+			if (!userPerms.admin && !userPerms.manageRoles) {
 				error(401, 'No Permissions');
 			}
-			userPerms = {
-				...userPerms,
-				...createPermissionsCheck(
-					createPermissionList(defaultClubPermissionObject),
-					sessionCheck.user.clubUsers[0].role.permissionInt
-				)
-			};
-		}
 
-		if (!userPerms.admin && !userPerms.manageRoles) {
-			error(401, 'No Permissions');
-		}
+			//grab the role
+			const role = await prisma.clubRole.findFirst({
+				where: {
+					id: roleId
+				}
+			});
 
-		//grab the role
-		const role = await prisma.clubRole.findFirst({
-			where: {
-				id: roleId
+			if (!role || role?.clubId != club.id) {
+				error(400, 'How did we get here?');
 			}
-		});
 
-		if (!role || role?.clubId != club.id) {
-			error(400, 'How did we get here?');
-		}
+			if (role.name != roleName) {
+				console.log(role.name, roleName);
+				return {
+					success: false,
+					message: 'Role name typed wrong'
+				};
+			}
 
-		if (role.name != roleName) {
-			console.log(role.name, roleName);
+			//delete the role
+			await prisma.clubUser.updateMany({
+				where: {
+					roleId: roleId
+				},
+				data: {
+					roleId: undefined
+				}
+			});
+
+			await prisma.clubRole.delete({
+				where: {
+					id: roleId
+				}
+			});
+
 			return {
-				success: false,
-				message: 'Role name typed wrong'
+				success: true,
+				message: 'Role Deleted!'
 			};
 		}
-
-		//delete the role
-		await prisma.clubUser.updateMany({
-			where: {
-				roleId: roleId
-			},
-			data: {
-				roleId: undefined
-			}
-		});
-
-		await prisma.clubRole.delete({
-			where: {
-				id: roleId
-			}
-		});
-
-		//return
-
-		return {
-			success: true,
-			message: 'Role Deleted!'
-		};
-	}
+	)
 };

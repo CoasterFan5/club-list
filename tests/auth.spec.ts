@@ -16,19 +16,19 @@ test('login page works as expected', async ({ page }) => {
 });
 
 test('logging in with the wrong password shows an error', async ({ page }) => {
-    await page.goto('/login');
+	await page.goto('/login');
 
-	page.on('console', msg => console.log(JSON.stringify(msg)));
+	page.on('console', (msg) => console.log(JSON.stringify(msg)));
 
-    await page.waitForSelector('body.started', { timeout: 5000 });
+	await page.waitForSelector('body.started', { timeout: 5000 });
 
-    await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
 
-    await page.locator('input[name="email"]').fill('bstone@card.board');
-    await page.locator('input[name="password"]').fill('wrongPassword');
-    await page.locator('button[type="submit"]').click();
+	await page.locator('input[name="email"]').fill('bstone@card.board');
+	await page.locator('input[name="password"]').fill('wrongPassword');
+	await page.locator('button[type="submit"]').click();
 
-    await expect(page.locator('text=Error')).toBeVisible();
+	await expect(page.locator('text=Error')).toBeVisible();
 });
 
 test('register page works as expected', async ({ page }) => {

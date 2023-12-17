@@ -4,50 +4,41 @@ import { S3 } from '$lib/s3.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { bucket, mediaurl } from '$env/static/private';
 import crypto from 'crypto';
+import { formHandler } from '$lib/bodyguard.js';
+import { z } from 'zod';
 
 export const actions = {
-	updateProfile: async ({ request, cookies }) => {
-		if (!cookies.get('session')) {
-			redirect(303, '/login');
-		}
-
-		const data = await request.formData();
-
-		const firstName = data.get('firstName')?.toString();
-		const lastName = data.get('lastName')?.toString();
-		const email = data.get('email')?.toString();
-
-		if (!firstName || firstName == '') {
-			return fail(400, { message: 'First name is required' });
-		}
-
-		if (!lastName || lastName == '') {
-			return fail(400, { message: 'Last name is required' });
-		}
-
-		if (!email || email == '') {
-			return fail(400, { message: 'Email is required' });
-		}
-
-		const session = cookies.get('session');
-
-		await prisma.user.updateMany({
-			where: {
-				sessions: {
-					some: {
-						sessionToken: session
-					}
-				}
-			},
-			data: {
-				firstName,
-				lastName,
-				email
+	updateProfile: formHandler(
+		z.object({
+			firstName: z.string().min(1),
+			lastName: z.string().min(1),
+			email: z.string().email()
+		}),
+		async ({ firstName, lastName, email }, { cookies }) => {
+			if (!cookies.get('session')) {
+				redirect(303, '/login');
 			}
-		});
 
-		return { success: true };
-	},
+			const session = cookies.get('session');
+
+			await prisma.user.updateMany({
+				where: {
+					sessions: {
+						some: {
+							sessionToken: session
+						}
+					}
+				},
+				data: {
+					firstName,
+					lastName,
+					email
+				}
+			});
+
+			return { success: true };
+		}
+	),
 	updatePfp: async ({ request, cookies }) => {
 		const session = cookies.get('session');
 
@@ -68,16 +59,16 @@ export const actions = {
 			redirect(303, '/login');
 		}
 
-		const FormData = Object.fromEntries(await request.formData());
+		const formData = Object.fromEntries(await request.formData());
 
-		if (!FormData.pfp) {
+		if (!formData.pfp) {
 			return {};
 		}
 
 		const randomId = Date.now().toString(36) + crypto.randomBytes(32).toString('hex');
 
 		try {
-			const pfp: File = FormData.pfp as File;
+			const pfp: File = formData.pfp as File;
 			const pfpBuffer = await pfp.arrayBuffer();
 
 			if (pfp.size > 3e6) {
