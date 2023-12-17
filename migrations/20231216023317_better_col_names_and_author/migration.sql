@@ -11,13 +11,13 @@ ALTER TABLE "Event" DROP CONSTRAINT "Event_authorId_fkey";
 
 -- AlterTable
 ALTER TABLE "Announcement" ADD COLUMN     "authorId" INTEGER,
-ADD COLUMN     "updatedAt" TIMESTAMP(3);
+ADD COLUMN     "updatedAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP;
 
 -- AlterTable
 ALTER TABLE "Club" DROP COLUMN "createAt",
 DROP COLUMN "updateAt",
 ADD COLUMN     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "updatedAt" TIMESTAMP(3);
+ADD COLUMN     "updatedAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP;
 
 -- AlterTable
 ALTER TABLE "ClubRole" ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL;
