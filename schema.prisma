@@ -12,7 +12,7 @@ model Session {
 	createdAt    DateTime @default(now())
 	sessionToken String   @unique
 	userId       Int
-	user         User @relation(fields: [userId], references: [id])
+	user         User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -37,7 +37,7 @@ model User {
 model OrgUser {
 	id 	           Int          @id @default(autoincrement())
 	role           String
-	organization   Organization @relation(fields: [organizationId], references: [id])
+	organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 	organizationId Int
 	user 	       User         @relation(fields: [userId], references: [id])
 	userId 	       Int
@@ -45,7 +45,7 @@ model OrgUser {
 
 model ClubUser {
 	id             Int @id @default(autoincrement())
-	club           Club @relation(fields: [clubId], references: [id])
+	club           Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	clubId         Int
 	user 	       User         @relation(fields: [userId], references: [id])
 	userId 	       Int
