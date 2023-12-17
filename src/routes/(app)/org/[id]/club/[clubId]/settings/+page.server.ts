@@ -2,9 +2,9 @@ import { formHandler } from '$lib/bodyguard.js';
 import {
 	createPermissionList,
 	createPermissionsCheck,
-	type PermissionObject
-} from '$lib/permissionHelper.js';
-import { defaultClubPermissionObject } from '$lib/permissions.js';
+	type PermissionObject,
+	defaultClubPermissionObject
+} from '$lib/permissions.js';
 import { prisma } from '$lib/prismaConnection.js';
 import { redirect } from '@sveltejs/kit';
 import { z } from 'zod';

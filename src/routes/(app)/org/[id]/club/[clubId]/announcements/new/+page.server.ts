@@ -1,8 +1,11 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageParentData, PageServerLoad } from './$types';
 import { prisma } from '$lib/prismaConnection';
-import { createPermissionsCheck, createPermissionList } from '$lib/permissionHelper';
-import { defaultClubPermissionObject } from '$lib/permissions';
+import {
+	createPermissionsCheck,
+	createPermissionList,
+	defaultClubPermissionObject
+} from '$lib/permissions.js';
 import { formHandler } from '$lib/bodyguard';
 import { z } from 'zod';
 

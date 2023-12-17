@@ -36,6 +36,7 @@ export const actions = {
 
 			// make a join code
 			// TODO: use crypto.getRandomValues() instead of Math.random()
+			// TODO: retry if the join code already exists
 			const random = Math.round(Math.random() * 324000 + 36000).toString(36);
 			const joinString = (orgAmount + 1).toString(36) + random;
 

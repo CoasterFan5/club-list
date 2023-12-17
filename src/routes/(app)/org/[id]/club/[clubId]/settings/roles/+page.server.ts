@@ -1,11 +1,11 @@
 import { prisma } from '$lib/prismaConnection.js';
 import { error, redirect } from '@sveltejs/kit';
-import { defaultClubPermissionObject } from '$lib/permissions.js';
 import {
 	createPermissionList,
 	createPermissionsCheck,
-	type PermissionObject
-} from '$lib/permissionHelper.js';
+	type PermissionObject,
+	defaultClubPermissionObject
+} from '$lib/permissions.js';
 import { formHandler } from '$lib/bodyguard.js';
 import { z } from 'zod';
 
