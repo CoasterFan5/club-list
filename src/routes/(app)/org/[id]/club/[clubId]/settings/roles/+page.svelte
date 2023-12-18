@@ -109,6 +109,9 @@
 						forms[i]?.click();
 					}}
 				/>
+        <a class="button" href="/org/{data.org.id}/club/{data.club.id}/settings/roles/{role.id}" type="button">
+          <img alt="goto" src="/icons/right.svg" />
+        </a>
 			</div>
 			<button bind:this={forms[i]} hidden type="submit" />
 		</form>

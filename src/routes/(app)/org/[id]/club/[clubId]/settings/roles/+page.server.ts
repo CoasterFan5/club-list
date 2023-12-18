@@ -47,7 +47,7 @@ export const actions = {
 			redirect(303, '/login');
 		}
 
-		//make sure the user has the proper perms
+		// Make sure the user has the proper perms
 
 		let userPermissions: PermissionObject = { ...defaultClubPermissionObject };
 
