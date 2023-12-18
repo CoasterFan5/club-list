@@ -16,7 +16,7 @@ test('index page icon redirects to index page', async ({ page }) => {
 
 test('get started button redirects to get started page', async ({ page }) => {
 	await page.goto('/');
-	await page.getByRole('link', { name: 'Get Started' }).click();
+	await page.getByRole('link', { name: 'Get Started' }).nth(0).click();
 	await page.waitForURL('/get-started');
 });
 
