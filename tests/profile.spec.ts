@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../playwright/fixtures';
 
-test('logging in with the wrong password shows an error', async ({ page }) => {
+test('profile page is shown', async ({ page }) => {
 	await page.goto('/profile');
 
-  await expect(page.getByText("Profile")).toBeVisible();
+	await expect(page.getByText('Profile', { exact: true })).toBeVisible();
 });
