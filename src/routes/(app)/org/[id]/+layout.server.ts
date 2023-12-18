@@ -23,8 +23,8 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		throw new Error('Organization not found');
 	}
 
-	if (!org.orgUsers || org.orgUsers.length < 1) {
-		throw new Error('Not in this organization');
+	if (!org.orgUsers || org.orgUsers.length == 0) {
+		throw new Error('Not in this organization; this shouldn\'t have happened');
 	}
 
 	return {

@@ -10,13 +10,12 @@ export const actions = {
 		}),
 		async ({ name }, { cookies }) => {
 			// get some basic data
-
 			if (!cookies.get('session')) {
 				redirect(303, '/login');
 			}
 
 			// find the user
-			const orgOwnerSession = await prisma.session.findFirst({
+			const session = await prisma.session.findFirst({
 				where: {
 					sessionToken: cookies.get('session')
 				},
@@ -24,7 +23,8 @@ export const actions = {
 					user: true
 				}
 			});
-			const orgOwner = orgOwnerSession?.user;
+
+			const orgOwner = session?.user;
 
 			// make sure we have a user who submitted this!
 			if (!orgOwner) {

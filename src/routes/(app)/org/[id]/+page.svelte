@@ -229,7 +229,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 		background: var(--bgPure);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
 		outline: 0px;
@@ -239,6 +238,7 @@
 		justify-content: center;
 		border-radius: 3px;
 		overflow: hidden;
+    border: 1px solid transparent;
 
 		img {
 			padding: 0px 10px;
@@ -246,7 +246,7 @@
 
 		&:hover,
 		&:focus {
-			box-shadow: 0px 0px 1px 1px var(--accent);
+      border: 1px solid var(--accent);
 			cursor: text;
 		}
 	}
