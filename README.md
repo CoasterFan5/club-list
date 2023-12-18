@@ -26,3 +26,9 @@ The following accounts are created by default:
 ## Frontend
 
 The frontend is created in [SvelteKit](https://kit.svelte.dev/). The start command for the dev server is `yarn dev`. The frontend is hosted on port `3000` in docker and `5173` outside docker.
+
+## Testing
+
+We use [playwright](https://playwright.dev/) and [vitest](https://vitest.dev/) for end to end and unit testing. For both of these, we have `test`, `test:integration`, and `test:unit`. Unit tests are located in the `src` folder, while e2e tests are in the `tests` folder.
+
+To debug e2e tests, run `pnpm run test:integration --debug`.
