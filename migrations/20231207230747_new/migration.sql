@@ -11,7 +11,7 @@ ALTER TABLE "ClubRole" DROP COLUMN "priority";
 
 -- AlterTable
 ALTER TABLE "ClubUser" DROP COLUMN "permissions",
-ADD COLUMN     "roleId" INTEGER NOT NULL;
+ADD COLUMN     "roleId" INTEGER;
 
 -- AddForeignKey
 ALTER TABLE "ClubUser" ADD CONSTRAINT "ClubUser_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "ClubRole"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
