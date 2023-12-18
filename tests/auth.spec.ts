@@ -1,5 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 
+test.describe.configure({ mode: 'parallel' });
+
 // TODO: add password validation
 // TODO: till ^ is done, test that numeric passwords work
 
@@ -13,7 +15,7 @@ import { expect, test, type Page } from '@playwright/test';
 async function login(page: Page, username: string, password: string) {
 	await page.goto('/');
 	await page.click('text=Login');
-	await page.waitForURL("/login");
+	await page.waitForURL('/login');
 
 	await page.waitForSelector('body.started', { timeout: 5000 });
 
@@ -29,7 +31,7 @@ async function login(page: Page, username: string, password: string) {
 }
 
 test('login page works as expected', async ({ page }) => {
-	await login(page, "bstone@card.board", 'password');
+	await login(page, 'bstone@card.board', 'password');
 });
 
 test('logging in with the wrong password shows an error', async ({ page }) => {
@@ -62,4 +64,20 @@ test('register page works as expected', async ({ page }) => {
 	await expect(page.locator('text=Error')).not.toBeVisible();
 
 	await page.waitForURL('/dashboard');
+});
+
+test('registration override errors out', async ({ page }) => {
+	await page.goto('/get-started');
+	await page.waitForSelector('body.started', { timeout: 5000 });
+
+	await expect(page.getByRole('heading', { name: 'Register' })).toBeVisible();
+
+	await page.locator('input[name="firstName"]').fill('Test');
+	await page.locator('input[name="lastName"]').fill('User');
+	await page.locator('input[name="email"]').fill(`bstone@card.board`);
+	await page.locator('input[name="password"]').fill('password');
+	await page.locator('input[name="confirmPassword"]').fill('password');
+	await page.locator('button[type="submit"]').click();
+
+	await expect(page.locator('text=Error')).toBeVisible();
 });

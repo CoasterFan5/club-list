@@ -67,38 +67,38 @@ export const actions = {
 
 		const randomId = Date.now().toString(36) + crypto.randomBytes(32).toString('hex');
 
-    const pfp: File = formData.pfp as File;
-    const pfpBuffer = await pfp.arrayBuffer();
+		const pfp: File = formData.pfp as File;
+		const pfpBuffer = await pfp.arrayBuffer();
 
-    if (pfp.size > 3e6) {
-      throw fail(400, { message: 'Max size: 3mb' });
-    }
+		if (pfp.size > 3e6) {
+			throw fail(400, { message: 'Max size: 3mb' });
+		}
 
-    if (pfp.name.length > 100) {
-      throw fail(400, { message: 'File Name Too Long' });
-    }
+		if (pfp.name.length > 100) {
+			throw fail(400, { message: 'File Name Too Long' });
+		}
 
-    const key = `${randomId}/${pfp.name}`;
+		const key = `${randomId}/${pfp.name}`;
 
-    if (key.length >= 255) {
-      throw fail(400, { message: 'File Name Too Long' });
-    }
+		if (key.length >= 255) {
+			throw fail(400, { message: 'File Name Too Long' });
+		}
 
-    S3.send(
-      new PutObjectCommand({
-        Bucket: bucket,
-        Key: key,
-        Body: pfpBuffer
-      })
-    );
+		S3.send(
+			new PutObjectCommand({
+				Bucket: bucket,
+				Key: key,
+				Body: pfpBuffer
+			})
+		);
 
-    await prisma.user.update({
-      where: {
-        id: sessionCheck.user.id
-      },
-      data: {
-        pfp: `${mediaurl}/${key}`
-      }
-    });
+		await prisma.user.update({
+			where: {
+				id: sessionCheck.user.id
+			},
+			data: {
+				pfp: `${mediaurl}/${key}`
+			}
+		});
 	}
 };

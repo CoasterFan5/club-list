@@ -1,10 +1,17 @@
 import { expect, test } from '@playwright/test';
 
+test.describe.configure({ mode: 'parallel' });
+
 test('index page has expected h1', async ({ page }) => {
 	await page.goto('/');
 	await expect(
 		page.getByRole('heading', { name: 'The modern clublist that helps you connect' })
 	).toBeVisible();
+});
+
+test('index page icon redirects to index page', async ({ page }) => {
+	await page.goto('/login');
+	await page.getByRole('link').filter({ hasText: 'Clubsaur.us' }).click();
 });
 
 test('404 page has a home link', async ({ page }) => {

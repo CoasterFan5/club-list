@@ -24,7 +24,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 	}
 
 	if (!org.orgUsers || org.orgUsers.length == 0) {
-		throw new Error('Not in this organization; this shouldn\'t have happened');
+		throw new Error("Not in this organization; this shouldn't have happened");
 	}
 
 	return {

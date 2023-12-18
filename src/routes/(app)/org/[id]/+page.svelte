@@ -238,7 +238,7 @@
 		justify-content: center;
 		border-radius: 3px;
 		overflow: hidden;
-    border: 1px solid transparent;
+		border: 1px solid transparent;
 
 		img {
 			padding: 0px 10px;
@@ -246,7 +246,7 @@
 
 		&:hover,
 		&:focus {
-      border: 1px solid var(--accent);
+			border: 1px solid var(--accent);
 			cursor: text;
 		}
 	}
