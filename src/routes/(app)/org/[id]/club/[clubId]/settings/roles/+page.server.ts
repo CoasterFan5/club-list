@@ -88,7 +88,7 @@ export const actions = {
 		z.object({
 			name: z.string().max(100).min(1),
 			color: z.string(),
-			roleId: z.number()
+			roleId: z.string()
 		}),
 		async ({ name, color, roleId }, { params, cookies }) => {
 			const session = cookies.get('session');
@@ -152,7 +152,7 @@ export const actions = {
 			//grab the role
 			const role = await prisma.clubRole.findFirst({
 				where: {
-					id: roleId
+					id: parseInt(roleId)
 				}
 			});
 
@@ -163,7 +163,7 @@ export const actions = {
 			//update the role
 			await prisma.clubRole.update({
 				where: {
-					id: roleId
+					id: parseInt(roleId)
 				},
 				data: {
 					name,
@@ -183,7 +183,7 @@ export const actions = {
 	deleteRole: formHandler(
 		z.object({
 			roleName: z.string().max(100).min(1),
-			roleId: z.number()
+			roleId: z.string()
 		}),
 		async ({ roleName, roleId }, { params, cookies }) => {
 			const session = cookies.get('session');
@@ -247,7 +247,7 @@ export const actions = {
 			//grab the role
 			const role = await prisma.clubRole.findFirst({
 				where: {
-					id: roleId
+					id: parseInt(roleId)
 				}
 			});
 
@@ -266,7 +266,7 @@ export const actions = {
 			//delete the role
 			await prisma.clubUser.updateMany({
 				where: {
-					roleId: roleId
+					roleId: parseInt(roleId)
 				},
 				data: {
 					roleId: undefined
@@ -275,7 +275,7 @@ export const actions = {
 
 			await prisma.clubRole.delete({
 				where: {
-					id: roleId
+					id: parseInt(roleId)
 				}
 			});
 

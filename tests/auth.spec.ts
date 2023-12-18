@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test';
 
+// TODO: add password validation
+// TODO: till ^ is done, test that numeric passwords work
+
 test('login page works as expected', async ({ page }) => {
 	await page.goto('/login');
 	await page.waitForSelector('body.started', { timeout: 5000 });

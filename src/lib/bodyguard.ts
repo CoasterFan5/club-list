@@ -3,9 +3,7 @@ import { fail, type RequestEvent } from '@sveltejs/kit';
 import type { ZodType } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
-const bodyguard = new Bodyguard({
-	castNumbers: true
-});
+const bodyguard = new Bodyguard();
 
 export function formHandler<Z extends ZodType, E extends RequestEvent>(
 	schema: Z,
