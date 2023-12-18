@@ -14,8 +14,9 @@ test.describe.configure({ mode: 'parallel' });
  */
 async function login(page: Page, username: string, password: string) {
 	await page.goto('/');
-	await page.click('text=Login');
-	await page.waitForURL('/login');
+	await page.waitForSelector('body.started', { timeout: 5000 });
+	await page.getByText('Log In').click();
+	await page.waitForURL('/login/');
 
 	await page.waitForSelector('body.started', { timeout: 5000 });
 
