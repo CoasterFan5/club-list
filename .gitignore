@@ -12,3 +12,4 @@ vite.config.ts.timestamp-*
 /database.db
 yarn-error.log
 .pnpm-store
+.auth
