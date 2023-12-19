@@ -1,18 +1,28 @@
-export type PermissionObject = {
-	admin: boolean;
-	updateAppearance: boolean;
-	updateDescription: boolean;
-	manageAnnouncements: boolean;
-	manageRoles: boolean;
+export interface TypedPermissionObject<K> {
+	admin: K;
+	updateAppearance: K;
+	updateDescription: K;
+	manageAnnouncements: K;
+	manageRoles: K;
 };
 
-export const defaultClubPermissionObject = Object.freeze({
+export type PermissionObject = TypedPermissionObject<boolean>;
+
+export const defaultClubPermissionObject: PermissionObject = Object.freeze({
 	admin: false,
 	updateAppearance: false,
 	updateDescription: false,
 	manageAnnouncements: false,
 	manageRoles: false
 });
+
+export const permissionObjectDescriptions: TypedPermissionObject<string> = Object.freeze({
+  admin: "Gives role all permissions",
+  updateAppearance: "Allows changing the banner and name of the club",
+  updateDescription: "Update the about me for the club",
+  manageAnnouncements: "Allows a user to send out announcements",
+  manageRoles: "Allows a user to create new roles"
+})
 
 export const permissionKeys = Object.freeze(
 	Object.keys(defaultClubPermissionObject) as (keyof PermissionObject)[]
