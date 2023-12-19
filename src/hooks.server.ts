@@ -3,7 +3,6 @@ import { bucket } from '$env/static/private';
 import { ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { RetryAfterRateLimiter } from 'sveltekit-rate-limiter/server';
 import { dev } from '$app/environment';
-import crypto from 'crypto';
 
 const limiter = new RetryAfterRateLimiter({
 	rates: {
@@ -11,7 +10,8 @@ const limiter = new RetryAfterRateLimiter({
 		IPUA: [5, 's'],
 		cookie: {
 			name: 'limiterid',
-			secret: crypto.getRandomBytes(),
+      // FIXME: this is incredibly unsecure. move this to .env
+			secret: Math.random().toString(),
 			rate: [2, 'm'],
 			preflight: true
 		}
