@@ -1,4 +1,3 @@
-//get all the club roles
 import { prisma } from '$lib/prismaConnection';
 import type { LayoutServerLoad } from './$types';
 
