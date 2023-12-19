@@ -18,7 +18,7 @@ model Session {
 model User {
 	id 	          Int      @id @default(autoincrement())
 	createdAt     DateTime @default(now())
-  	updatedAt     DateTime @updatedAt
+  updatedAt     DateTime @updatedAt
 	email         String   @db.VarChar(255) @unique
 	hash          String   @db.VarChar(1000)
 	salt          String   @db.VarChar(255)

@@ -125,6 +125,9 @@ devDependencies:
   svelte-inview:
     specifier: ^4.0.1
     version: 4.0.1(svelte@4.2.8)
+  sveltekit-rate-limiter:
+    specifier: ^0.4.2
+    version: 0.4.2(@sveltejs/kit@2.0.0)
   tslib:
     specifier: ^2.4.1
     version: 2.6.2
@@ -1219,6 +1222,11 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
+    dev: true
+
+  /@isaacs/ttlcache@1.4.1:
+    resolution: {integrity: sha512-RQgQ4uQ+pLbqXfOmieB91ejmLwvSgv9nLx6sT6sD83s7umBypgg+OIBOBbEUiJXrfpnp9j0mRhYYdzp9uqq3lA==}
+    engines: {node: '>=12'}
     dev: true
 
   /@jest/schemas@29.6.3:
@@ -4697,6 +4705,15 @@ packages:
       locate-character: 3.0.0
       magic-string: 0.30.5
       periscopic: 3.1.0
+    dev: true
+
+  /sveltekit-rate-limiter@0.4.2(@sveltejs/kit@2.0.0):
+    resolution: {integrity: sha512-TzeHtEczD1klE8xQJguCbHVQAZk2eYwUdoynmWL2FGENw+iPCwYx0+8wtM+5itaAqwlJbKrcADdV/P/UZr4VIQ==}
+    peerDependencies:
+      '@sveltejs/kit': 1.x || 2.x
+    dependencies:
+      '@isaacs/ttlcache': 1.4.1
+      '@sveltejs/kit': 2.0.0(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.8)(vite@5.0.9)
     dev: true
 
   /symbol-tree@3.2.4:
