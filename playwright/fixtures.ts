@@ -1,6 +1,7 @@
 import { test as baseTest, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 
 const sessionId = crypto.randomUUID();
 
@@ -23,7 +24,10 @@ export const test = baseTest.extend<object, { workerStorageState: string }>({
 			}
 
 			// Important: make sure we authenticate in a clean environment by unsetting storage state.
-			const page = await browser.newPage({ storageState: undefined });
+			const page = await browser.newPage({
+				storageState: undefined,
+				baseURL: 'http://localhost:3000'
+			});
 
 			// Perform authentication steps. Replace these actions with your own.
 			await page.goto('/get-started');
