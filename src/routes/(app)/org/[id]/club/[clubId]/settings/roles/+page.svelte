@@ -205,12 +205,13 @@
 		box-sizing: border-box;
 	}
 
-	input[type='color'] {
-		&::-moz-color-swatch,
-		&::-webkit-color-swatch {
-			border: none;
-			border-radius: 50%;
-		}
+	/*Don't change this, scss breaks it */
+	input[type='color']::-moz-color-swatch {
+		border: none;
+	}
+
+	input[type='color']::-webkit-color-swatch {
+		border: none;
 	}
 
 	.button {
