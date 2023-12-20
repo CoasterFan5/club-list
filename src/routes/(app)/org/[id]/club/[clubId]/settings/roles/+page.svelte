@@ -59,9 +59,7 @@
 	{#if data.roles.length < 1}
 		<h2>No roles yet</h2>
 	{/if}
-	<form class="buttonHolder" action="?/makeRole" method="post" use:enhance>
-		<Button value="Add Role" />
-	</form>
+	
 	{#each data.roles as role, i (role.id)}
 		<form
 			style="--color: {role.color};"
@@ -120,6 +118,9 @@
 			<button bind:this={forms[i]} hidden type="submit" />
 		</form>
 	{/each}
+	<form class="buttonHolder" action="?/makeRole" method="post" use:enhance>
+		<Button value="Add Role" />
+	</form>
 </div>
 
 <style lang="scss">
