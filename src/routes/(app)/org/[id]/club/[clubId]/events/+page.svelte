@@ -22,35 +22,44 @@
 	$: calendarDays = [...startPaddingDays, ...daysInMonth, ...endPaddingDays];
 </script>
 
-<div class="info">
-	<h1>{day.format('MMMM YYYY')}</h1>
-</div>
-
-<div class="button big">
-	<Button value="Add Event" />
-</div>
-
-<div class="datebar">
-	<div class="button">
-		<Button value="Previous" on:click={() => (day = day.subtract(1, 'month'))} />
+<div class="wrap">
+	<div class="info">
+		<h1>{day.format('MMMM YYYY')}</h1>
 	</div>
-	<div class="button">
-		<Button value="Today" on:click={() => (day = dayjs())} />
+	
+	<div class="button big">
+		<Button value="Add Event" />
 	</div>
-	<div class="button">
-		<Button value="Next" on:click={() => (day = day.add(1, 'month'))} />
+	
+	<div class="datebar">
+		<div class="button">
+			<Button value="Previous" on:click={() => (day = day.subtract(1, 'month'))} />
+		</div>
+		<div class="button">
+			<Button value="Today" on:click={() => (day = dayjs())} />
+		</div>
+		<div class="button">
+			<Button value="Next" on:click={() => (day = day.add(1, 'month'))} />
+		</div>
 	</div>
-</div>
-<div class="calendar">
-	{#each calendarDays as loopDay}
-		{@const inMonth = day.month() === loopDay.month()}
-		<button class="day" class:inMonth>
-			{loopDay.format('D')}
-		</button>
-	{/each}
+	<div class="calendar">
+		{#each calendarDays as loopDay}
+			{@const inMonth = day.month() === loopDay.month()}
+			<button class="day" class:inMonth>
+				{loopDay.format('D')}
+			</button>
+		{/each}
+	</div>
+	
 </div>
 
 <style lang="scss">
+	.wrap {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%
+	}
 	.datebar {
 		display: flex;
 		justify-content: space-between;
