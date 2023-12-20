@@ -84,7 +84,7 @@ export const actions = {
 			throw fail(400, { message: 'File Name Too Long' });
 		}
 
-		S3.send(
+		await S3.send(
 			new PutObjectCommand({
 				Bucket: bucket,
 				Key: key,
