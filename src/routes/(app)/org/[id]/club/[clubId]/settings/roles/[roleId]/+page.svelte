@@ -2,6 +2,12 @@
 	import type { PageData } from './$types';
 	import { createPermissionsCheck, permissionObjectDescriptions } from '$lib/permissions';
 
+  // https://stackoverflow.com/a/7225450/7589775
+  function toTitleCase(str: string) {
+    const result = str.replace(/([A-Z])/g, ' $1');
+    return result.charAt(0).toUpperCase() + result.slice(1);
+  }
+
 	export let data: PageData;
 	$: permissions = createPermissionsCheck(data.role.permissionInt);
 </script>
@@ -13,7 +19,7 @@
 	<div class="container">
 		{#each Object.entries(permissionObjectDescriptions) as [key, value]}
 			<div class="role">
-				<h2>{key}</h2>
+				<h2>{toTitleCase(key)}</h2>
 				<p>{value}</p>
 			</div>
 		{/each}
@@ -42,5 +48,13 @@
 		padding: 1rem;
 		margin: 1rem;
 		box-sizing: border-box;
+
+    h2 {
+      margin-top: 0;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
 	}
 </style>
