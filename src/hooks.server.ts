@@ -10,7 +10,7 @@ const limiter = new RetryAfterRateLimiter({
 		IPUA: [5, 's'],
 		cookie: {
 			name: 'limiterid',
-      // FIXME: this is incredibly unsecure. move this to .env
+			// FIXME: this is incredibly unsecure. move this to .env
 			secret: Math.random().toString(),
 			rate: [2, 'm'],
 			preflight: true
