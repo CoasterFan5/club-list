@@ -9,7 +9,7 @@
 	$: daysInMonth = emptyArray(day.daysInMonth()).map((_, i) => day.date(i + 1));
 
 	$: startPaddingDays = emptyArray(day.date(1).day())
-		.map((_, i) => dayjs().date(-i))
+		.map((_, i) => day.date(-i))
 		.reverse();
 
 	$: lastDay = day.date(day.daysInMonth());
