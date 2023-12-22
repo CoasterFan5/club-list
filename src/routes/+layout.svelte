@@ -11,12 +11,12 @@
 	import '@fontsource-variable/source-code-pro';
 	import type { LayoutData } from './$types';
 	import Toaster from '$lib/components/Toaster.svelte';
-	import { addToast, resetToast } from '$lib/components/toaster';
+	import { addToast, resetToasts } from '$lib/components/toaster';
 	import { onMount } from 'svelte';
 	export let data: LayoutData;
 
 	let sent = false;
-	resetToast();
+	resetToasts();
 	if (data.beta && !sent) {
 		addToast({
 			message:

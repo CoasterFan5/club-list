@@ -12,7 +12,7 @@ export interface Toast {
 
 export const toasts = writable<Toast[]>();
 
-export const resetToast = async () => {
+export const resetToasts = async () => {
 	toasts.set([]);
 };
 

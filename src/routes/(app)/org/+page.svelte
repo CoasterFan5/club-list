@@ -28,7 +28,7 @@
 		method="post"
 		use:enhance={closeModal(() => (showingCreateModel = false))}
 	>
-		<h2>Organization Name</h2>
+		<h2>Create Organization</h2>
 		<div class="formInput">
 			<Input name="name" label="Organization Name" />
 		</div>
