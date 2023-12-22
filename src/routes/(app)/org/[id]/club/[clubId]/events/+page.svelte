@@ -26,11 +26,11 @@
 	<div class="info">
 		<h1>{day.format('MMMM YYYY')}</h1>
 	</div>
-	
+
 	<div class="button big">
 		<Button value="Add Event" />
 	</div>
-	
+
 	<div class="datebar">
 		<div class="button">
 			<Button value="Previous" on:click={() => (day = day.subtract(1, 'month'))} />
@@ -50,7 +50,6 @@
 			</button>
 		{/each}
 	</div>
-	
 </div>
 
 <style lang="scss">
@@ -58,7 +57,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		width: 100%
+		width: 100%;
 	}
 	.datebar {
 		display: flex;

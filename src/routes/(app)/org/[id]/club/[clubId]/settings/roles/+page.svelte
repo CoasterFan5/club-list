@@ -59,7 +59,7 @@
 	{#if data.roles.length < 1}
 		<h2>No roles yet</h2>
 	{/if}
-	
+
 	{#each data.roles as role, i (role.id)}
 		<form
 			style="--color: {role.color};"
