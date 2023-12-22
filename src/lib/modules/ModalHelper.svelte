@@ -4,30 +4,24 @@
 
 	export let showing = false;
 
-	let bgDiv: HTMLButtonElement;
-
-	let modelClickHelper = (e: MouseEvent) => {
-		if (e.target === bgDiv) {
-			showing = false;
-		}
+	let modalClickHelper = () => {
+		showing = false;
 	};
 </script>
 
 {#if showing}
 	<button
-		bind:this={bgDiv}
-		class="wrap"
-		on:mousedown={modelClickHelper}
+		on:mousedown|self={modalClickHelper}
 		transition:fade={{ easing: cubicInOut, duration: 150 }}
 	>
-		<div class="modalForm" transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }}>
+		<div transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }}>
 			<slot />
 		</div>
 	</button>
 {/if}
 
 <style lang="scss">
-	.wrap {
+	button {
 		all: unset;
 		position: fixed;
 		width: 100%;
@@ -43,7 +37,7 @@
 		z-index: 1001;
 	}
 
-	.modalForm {
+	div {
 		border-radius: 5px;
 		padding: 20px;
 		background: var(--bgPure);

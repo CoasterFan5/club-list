@@ -31,7 +31,7 @@
 		<Button value="Add Event" />
 	</div>
 
-	<div class="datebar">
+	<div class="dateBar">
 		<div class="button">
 			<Button value="Previous" on:click={() => (day = day.subtract(1, 'month'))} />
 		</div>
@@ -59,7 +59,7 @@
 		align-items: center;
 		width: 100%;
 	}
-	.datebar {
+	.dateBar {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

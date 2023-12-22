@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
-	import ModelHelper from '$lib/modules/ModelHelper.svelte';
+	import ModelHelper from '$lib/modules/ModalHelper.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { addToast } from '$lib/components/toaster';

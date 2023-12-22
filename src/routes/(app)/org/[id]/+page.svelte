@@ -5,7 +5,7 @@
 
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import ModelHelper from '$lib/modules/ModelHelper.svelte';
+	import ModelHelper from '$lib/modules/ModalHelper.svelte';
 
 	let searchTerm = '';
 
