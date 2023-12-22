@@ -44,7 +44,7 @@
 </script>
 
 <div class="connect" bind:clientHeight={height} bind:clientWidth={width}>
-	<h2>Clubsaurus helps people express themselves</h2>
+	<h2>Clubsaurus helps you express yourself</h2>
 	<canvas bind:this={canvas} {height} {width} on:mousemove={draw} />
 </div>
 

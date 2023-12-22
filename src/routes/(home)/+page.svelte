@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Simplify from './Simplify.svelte';
 	import Connect from './Connect.svelte';
+	import You from './You.svelte';
+	import Button from '$lib/components/Button.svelte';
 </script>
 
 <div class="wrap">
@@ -9,10 +11,13 @@
 			The <span class="coolText">modern</span> clublist that helps you
 			<span class="coolText">connect</span>
 		</h1>
-		<a class="getStarted" href="/get-started"> Get Started </a>
+		<div class="button">
+			<Button style="font-size: 1.5rem" href="/get-started" value="Get Started" />
+		</div>
 	</div>
 	<Simplify />
 	<Connect />
+	<You />
 </div>
 
 <style lang="scss">
@@ -34,20 +39,8 @@
 		flex-direction: column;
 	}
 
-	.getStarted {
-		font-size: 1.5rem;
-		padding: 10px 20px;
-		margin: 20px;
-		border-radius: 5px;
-		border: 1px solid var(--accent);
-		text-decoration: none;
-		color: var(--textColor);
-		transition: background cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-
-		&:hover {
-			background: var(--accent);
-			color: var(--bg);
-		}
+	.button {
+		margin-top: 2rem;
 	}
 
 	.title h1 {

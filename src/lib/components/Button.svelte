@@ -3,14 +3,15 @@
 	export let type: HTMLButtonElement['type'] = 'submit';
 	export let href: string | undefined = undefined;
 	export let disabled = false;
+	export let style = '';
 </script>
 
 {#if href !== undefined}
-	<a class="button" {href} on:click>
+	<a class="button" {href} {style} on:click>
 		{value}
 	</a>
 {:else}
-	<button class="button" class:disabled {disabled} {type} on:click>
+	<button class="button" class:disabled {disabled} {type} {style} on:click>
 		{value}
 	</button>
 {/if}
