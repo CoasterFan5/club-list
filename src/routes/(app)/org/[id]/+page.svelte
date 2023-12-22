@@ -5,7 +5,7 @@
 
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import ModelHelper from '$lib/modules/ModalHelper.svelte';
+	import ModalHelper from '$lib/modules/ModalHelper.svelte';
 
 	let searchTerm = '';
 
@@ -33,7 +33,7 @@
 	}
 </script>
 
-<ModelHelper bind:showing={showingModel}>
+<ModalHelper bind:showing={showingModel}>
 	<form action="?/createClub" method="post" use:enhance>
 		<h2>Create Club</h2>
 		<div class="formItem">
@@ -47,7 +47,7 @@
 			<p class="error">Error: {form?.message}</p>
 		{/if}
 	</form>
-</ModelHelper>
+</ModalHelper>
 
 <h1>{data.org.name}</h1>
 

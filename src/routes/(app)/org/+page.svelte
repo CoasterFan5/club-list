@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
-	import ModelHelper from '$lib/modules/ModalHelper.svelte';
+	import ModalHelper from '$lib/modules/ModalHelper.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { addToast } from '$lib/components/toaster';
@@ -22,7 +22,7 @@
 	}
 </script>
 
-<ModelHelper bind:showing={showingCreateModel}>
+<ModalHelper bind:showing={showingCreateModel}>
 	<form
 		action="?/create"
 		method="post"
@@ -36,9 +36,9 @@
 			<Button type="submit" value="Create" />
 		</div>
 	</form>
-</ModelHelper>
+</ModalHelper>
 
-<ModelHelper bind:showing={showingJoinModel}>
+<ModalHelper bind:showing={showingJoinModel}>
 	<form action="?/join" method="post" use:enhance>
 		<h2>Join an Organization</h2>
 		<div class="formInput">
@@ -48,7 +48,7 @@
 			<Button type="submit" value="Join" />
 		</div>
 	</form>
-</ModelHelper>
+</ModalHelper>
 
 {#if data.user.orgUsers.length < 1}
 	<div class="noOrgs">

@@ -4,6 +4,7 @@ export interface TypedPermissionObject<K> {
 	updateDescription: K;
 	manageAnnouncements: K;
 	manageRoles: K;
+	manageEvents: K;
 }
 
 export type PermissionObject = TypedPermissionObject<boolean>;
@@ -13,7 +14,8 @@ export const defaultClubPermissionObject: PermissionObject = Object.freeze({
 	updateAppearance: false,
 	updateDescription: false,
 	manageAnnouncements: false,
-	manageRoles: false
+	manageRoles: false,
+	manageEvents: false
 });
 
 export const permissionObjectDescriptions: TypedPermissionObject<string> = Object.freeze({
@@ -21,7 +23,8 @@ export const permissionObjectDescriptions: TypedPermissionObject<string> = Objec
 	updateAppearance: 'Allows changing the banner and name of the club',
 	updateDescription: 'Update the about me for the club',
 	manageAnnouncements: 'Allows a user to send out announcements',
-	manageRoles: 'Allows a user to create new roles'
+	manageRoles: 'Allows a user to create new roles',
+	manageEvents: 'Allows a user to create new events'
 });
 
 export const permissionKeys = Object.freeze(
@@ -46,5 +49,5 @@ export const createPermissionsCheck = (integer: number): PermissionObject => {
 			const int = 2 ** index;
 			return [item, (int & integer) > 0];
 		})
-	) as PermissionObject;
+	) as unknown as PermissionObject;
 };

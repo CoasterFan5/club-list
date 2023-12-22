@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let name = 'Input';
 	export let label = 'Input';
-	export let type: 'password' | 'email' | undefined = undefined;
+	export let type: 'password' | 'email' | 'date' | undefined = undefined;
 	export let required = false;
 	export let autocomplete: HTMLInputElement['autocomplete'] | null = null;
 

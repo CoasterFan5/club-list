@@ -33,6 +33,10 @@ export const actions = {
 			}
 		});
 
+		if (!sessionCheck || !sessionCheck.user) {
+			redirect(303, '/login');
+		}
+
 		const club = await prisma.club.findUnique({
 			where: {
 				id: parseInt(params.clubId)
@@ -41,10 +45,6 @@ export const actions = {
 
 		if (!club) {
 			error(400, 'How did we get here?');
-		}
-
-		if (!sessionCheck || !sessionCheck.user) {
-			redirect(303, '/login');
 		}
 
 		// Make sure the user has the proper perms

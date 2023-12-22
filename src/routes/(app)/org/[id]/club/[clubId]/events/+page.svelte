@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import ModalHelper from '$lib/modules/ModalHelper.svelte';
 	import dayjs from 'dayjs';
 
 	let day = dayjs();
@@ -20,6 +22,8 @@
 			: [];
 
 	$: calendarDays = [...startPaddingDays, ...daysInMonth, ...endPaddingDays];
+
+	let showEventModal = false;
 </script>
 
 <div class="wrap">
@@ -28,7 +32,7 @@
 	</div>
 
 	<div class="button big">
-		<Button value="Add Event" />
+		<Button value="Add Event" on:click={() => (showEventModal = true)} />
 	</div>
 
 	<div class="dateBar">
@@ -51,6 +55,20 @@
 		{/each}
 	</div>
 </div>
+
+<ModalHelper bind:showing={showEventModal}>
+	<form method="POST">
+		<h1>Add Event</h1>
+
+		<div class="input"><Input name="title" label="Event Title" required /></div>
+		<div class="input"><Input name="description" label="Event Description" /></div>
+		<div class="input"><Input name="date" label="Event Date" required type="date" /></div>
+
+		<div class="submitButton">
+			<Button type="submit" value="Add Event" />
+		</div>
+	</form>
+</ModalHelper>
 
 <style lang="scss">
 	.wrap {
@@ -113,5 +131,15 @@
 		&.big {
 			width: 40%;
 		}
+	}
+
+	.input {
+		margin: 0.5rem 0;
+		width: 100%;
+	}
+
+	.submitButton {
+		margin-top: 1rem;
+		width: 100%;
 	}
 </style>

@@ -3,7 +3,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
-	import ModelHelper from '$lib/modules/ModalHelper.svelte';
+	import ModalHelper from '$lib/modules/ModalHelper.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import { closeModal } from '$lib/closeModalEnhance';
 	import { flip } from 'svelte/animate';
@@ -34,7 +34,7 @@
 	let selectedRoleId: number;
 </script>
 
-<ModelHelper bind:showing={showDeleteForm}>
+<ModalHelper bind:showing={showDeleteForm}>
 	<form
 		action="?/deleteRole"
 		method="post"
@@ -53,7 +53,7 @@
 			<Button disabled={selectedRoleName !== inputtedRoleName} type="submit" value="Delete Role" />
 		</div>
 	</form>
-</ModelHelper>
+</ModalHelper>
 
 <div class="rolesHolder">
 	{#if data.roles.length < 1}

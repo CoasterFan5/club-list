@@ -102,7 +102,7 @@
 		width: 30px;
 	}
 
-	@keyframes closebar {
+	@keyframes closeBar {
 		from {
 			width: 100%;
 		}
@@ -119,6 +119,6 @@
 		height: 3px;
 		background: var(--mid);
 		animation-timing-function: linear;
-		animation-name: closebar;
+		animation-name: closeBar;
 	}
 </style>
