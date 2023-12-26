@@ -3,6 +3,18 @@
 	import Input from '$lib/components/Input.svelte';
 	import ModalHelper from '$lib/modules/ModalHelper.svelte';
 	import dayjs from 'dayjs';
+	import { RRule } from './rrule.js';
+	import type { PageData } from './$types';
+	import dayOfYear from 'dayjs/plugin/dayOfYear';
+
+	export let data: PageData;
+
+	dayjs.extend(dayOfYear);
+
+	const datesOnSameDay = (date1: dayjs.Dayjs) => (date2: dayjs.Dayjs) =>
+		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
+
+	$: daysActive = data.events.map(event => RRule.fromString(event.date).all()).flat().map(day => dayjs(day))
 
 	let day = dayjs();
 
@@ -49,7 +61,7 @@
 	<div class="calendar">
 		{#each calendarDays as loopDay}
 			{@const inMonth = day.month() === loopDay.month()}
-			<button class="day" class:inMonth>
+			<button class="day" class:inMonth class:hasEvent={daysActive.some(datesOnSameDay(loopDay))}>
 				{loopDay.format('D')}
 			</button>
 		{/each}
@@ -114,6 +126,10 @@
 		background-color: #fff;
 		border: 0;
 		cursor: pointer;
+
+		&.hasEvent {
+			background-color: #ffabab;
+		}
 
 		&:not(.inMonth) {
 			background-color: #ddd;

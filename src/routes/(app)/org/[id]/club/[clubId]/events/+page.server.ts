@@ -3,10 +3,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { formHandler } from '$lib/bodyguard.js';
 import { z } from 'zod';
 import { createPermissionsCheck } from '$lib/permissions.js';
-import * as rrule from 'rrule';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const { RRule } = (rrule as any).default as typeof rrule;
+import { RRule } from './rrule.js';
 
 export const load = async ({ parent }) => {
 	const parentData = await parent();
