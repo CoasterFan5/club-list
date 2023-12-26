@@ -140,6 +140,19 @@
 		height: calc(100% - 2rem - (3rem + 2rem));
 	}
 
+	.event {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		margin: 1rem;
+		background-color: #ddd;
+		border: 0;
+		border-radius: 0.5rem;
+	}
+
 	.day {
 		display: flex;
 		justify-content: center;
