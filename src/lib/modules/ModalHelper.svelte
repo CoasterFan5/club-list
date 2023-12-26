@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { cubicInOut } from 'svelte/easing';
 	import { fade, fly } from 'svelte/transition';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher<{
+		close: void;
+	}>();
 
 	export let showing = false;
 
 	let modalClickHelper = () => {
 		showing = false;
+		dispatch('close');
 	};
 </script>
 

@@ -36,6 +36,10 @@
 	$: calendarDays = [...startPaddingDays, ...daysInMonth, ...endPaddingDays];
 
 	let showEventModal = false;
+
+	// we keep track of an extra boolean to wait till the modal closes to update selectedDay
+	let showDayModal = false;
+	let selectedDay: dayjs.Dayjs | null = null;
 </script>
 
 <div class="wrap">
@@ -59,14 +63,34 @@
 		</div>
 	</div>
 	<div class="calendar">
-		{#each calendarDays as loopDay}
+		{#each calendarDays as loopDay (loopDay.toDate())}
 			{@const inMonth = day.month() === loopDay.month()}
-			<button class="day" class:inMonth class:hasEvent={daysActive.some(datesOnSameDay(loopDay))}>
+			<button 
+				class="day"
+				class:inMonth
+				on:click={() => {
+					selectedDay = loopDay;
+					showDayModal = true;
+				}}
+				class:hasEvent={daysActive.some(datesOnSameDay(loopDay))}
+			>
 				{loopDay.format('D')}
 			</button>
 		{/each}
 	</div>
 </div>
+
+<ModalHelper bind:showing={showDayModal} on:close={() => (showDayModal = false)}>
+	{#if selectedDay !== null}
+		<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
+		{#each data.events.filter(event => daysActive.some(datesOnSameDay(selectedDay))) as event}
+			<div class="event">
+				<h2>{event.title}</h2>
+				<p>{event.description}</p>
+			</div>
+		{/each}
+	{/if}
+</ModalHelper>
 
 <ModalHelper bind:showing={showEventModal}>
 	<form method="POST">
