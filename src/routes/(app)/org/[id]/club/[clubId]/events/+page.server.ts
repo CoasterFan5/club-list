@@ -3,7 +3,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { formHandler } from '$lib/bodyguard.js';
 import { z } from 'zod';
 import { createPermissionsCheck } from '$lib/permissions.js';
-import { RRule } from './rrule.js';
+import { RRule } from './rrule';
 
 export const load = async ({ parent }) => {
 	const parentData = await parent();
