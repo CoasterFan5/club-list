@@ -1,11 +1,11 @@
 import { prisma } from '$lib/prismaConnection';
 
 export const load = async ({ parent }) => {
-	const parentData = await parent();
+	const { user } = await parent();
 
 	const orgUsers = await prisma.orgUser.findMany({
 		where: {
-			userId: parentData.user.id
+			userId: user.id
 		},
 		include: {
 			organization: true
@@ -13,6 +13,15 @@ export const load = async ({ parent }) => {
 	});
 
 	return {
-		user: { ...parentData.user, orgUsers }
+		user: {
+			user: {
+				id: user.id,
+				email: user.email,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				pfp: user.pfp,
+			},
+			orgUsers
+		}
 	};
 };

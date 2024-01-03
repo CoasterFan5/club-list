@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	// Basic options
-	export let style = '';
-
 	// Options
 	export let name = 'Input';
 	export let label = 'Input';
@@ -11,6 +8,8 @@
 	export let required = false;
 	export let autocomplete: HTMLInputElement['autocomplete'] | null = null;
 	export let pattern: string = '.*';
+
+	export let bg = 'var(--bg)';
 
 	/**
 	 * Value of the input
@@ -31,11 +30,10 @@
 	let blurHandle = () => (active = !!value);
 </script>
 
-<label {style}>
+<label style="--background: {bg}">
 	<span class:active class:inactive={!active} class:ready>{label}</span>
 	<input
 		{name}
-		{style}
 		class:doPlaceholder={!enableJS}
 		{autocomplete}
 		{pattern}
@@ -66,7 +64,7 @@
 		left: 10px;
 		align-items: center;
 		justify-content: center;
-		background: var(--bg);
+		background: var(--background);
 		padding: 0px 5px;
 		font-size: 0.8rem;
 		color: #0e0e0e;
@@ -94,7 +92,7 @@
 		font-size: 1.2rem;
 		width: 100%;
 		background: transparent;
-		background: var(--bg);
+		background: var(--background);
 		text-align: left;
 		border: 1px solid gray;
 		color: #0e0e0e;

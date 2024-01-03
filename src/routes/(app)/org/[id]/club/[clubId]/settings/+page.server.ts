@@ -70,7 +70,7 @@ export const actions = {
 				redirect(303, '/login');
 			}
 
-			//make sure this user is signed in
+			// Make sure this user is signed in
 			let userPermission: PermissionObject = { ...defaultClubPermissionObject };
 
 			if (sessionCheck.user.clubUsers[0]) {
@@ -104,7 +104,7 @@ export const actions = {
 				dataObject.imageURL = imgURL;
 			}
 
-			//now we can update the club
+			// Now, we can update the club
 			await prisma.club.update({
 				where: {
 					id: parseInt(params.clubId)
