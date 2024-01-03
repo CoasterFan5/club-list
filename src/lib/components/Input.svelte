@@ -14,10 +14,6 @@
 
 	/**
 	 * Value of the input
-	 *
-	 * @remarks
-	 * Allows you to set the value of the input
-	 * Can also be read to get the value the user has entered
 	 */
 	export let value: string = '';
 
