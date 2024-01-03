@@ -46,7 +46,6 @@
 		bind:files={fileList}
 		on:input|preventDefault={inputHandler}
 	/>
-	<p>Upload New</p>
 	<button bind:this={submitButton} hidden type="submit" />
 </form>
 
@@ -75,10 +74,5 @@
 		border: 2px solid var(--accent);
 		border-radius: 1rem;
 		object-fit: cover;
-	}
-
-	p {
-		margin: 0px;
-		text-align: center;
 	}
 </style>

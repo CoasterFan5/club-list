@@ -9,11 +9,13 @@
 
 <div class="wrap">
 	<form class="editor" action="?/createAnnouncement" method="post" use:enhance>
-		<Input name="title" label="Title" />
-		<MdEditor editable={true} bind:content />
-		<hr />
-		<input name="desc" style="display: none" bind:value={content} />
-		<Button type="submit" value="Create" />
+		<div>
+			<Input name="title" label="Title" />
+			<MdEditor editable bind:content />
+			<hr />
+			<input name="desc" style="display: none" bind:value={content} />
+			<Button type="submit" value="Create" />
+		</div>
 	</form>
 </div>
 
@@ -21,7 +23,6 @@
 	.wrap {
 		display: flex;
 		width: 100%;
-		height: 100%;
 		padding: 50px 0px;
 		flex-direction: column;
 		align-items: center;

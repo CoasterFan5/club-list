@@ -82,7 +82,8 @@ export const actions = {
 				data: {
 					title,
 					description: desc,
-					clubId: club.id
+					clubId: club.id,
+					authorId: sessionCheck.userId
 				}
 			});
 
