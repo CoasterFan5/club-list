@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
-import { inview, type Options } from 'svelte-inview';
+	import { inview, type Options } from 'svelte-inview';
 
 	const options: Options = {
 		rootMargin: '-250px'
@@ -10,7 +10,7 @@ import { inview, type Options } from 'svelte-inview';
 <div class="simplify">
 	<h2>Clubsaurus helps you find you<span class="highlighted">.</span></h2>
 	<div class="button">
-		<Button value="Get Started" href="/get-started" />
+		<Button href="/get-started" value="Get Started" />
 	</div>
 </div>
 

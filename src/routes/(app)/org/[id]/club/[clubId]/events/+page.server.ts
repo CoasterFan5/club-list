@@ -38,7 +38,7 @@ export const actions = {
 			const rrule = new RRule({
 				freq: RRule.YEARLY,
 				dtstart: parsedDate,
-				count: 1,
+				count: 1
 			});
 
 			const session = cookies.get('session');
@@ -82,13 +82,12 @@ export const actions = {
 				if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
 					error(401, 'No Permissions');
 				}
-				
-				const permissions = createPermissionsCheck(sessionCheck.user.clubUsers[0].role.permissionInt);
 
-				if (
-					!permissions.manageEvents
-					&& !permissions.admin
-				) {
+				const permissions = createPermissionsCheck(
+					sessionCheck.user.clubUsers[0].role.permissionInt
+				);
+
+				if (!permissions.manageEvents && !permissions.admin) {
 					error(401, 'No Permissions');
 				}
 			}

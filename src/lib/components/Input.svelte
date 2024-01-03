@@ -1,82 +1,126 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+	// Basic options
+	export let style = '';
+
+	// Options
 	export let name = 'Input';
 	export let label = 'Input';
-	export let type: 'password' | 'email' | 'date' | undefined = undefined;
+	export let type: 'password' | 'email' | undefined = undefined;
 	export let required = false;
 	export let autocomplete: HTMLInputElement['autocomplete'] | null = null;
+	export let pattern: string = '.*';
 
+	/**
+	 * Value of the input
+	 *
+	 * @remarks
+	 * Allows you to set the value of the input
+	 * Can also be read to get the value the user has entered
+	 */
 	export let value: string = '';
+
+	let enableJS = false;
+	let active = true;
+	let ready = false;
+
+	onMount(() => {
+		enableJS = true;
+		active = !!value;
+		ready = true;
+	});
+
+	let focusHandle = () => (active = true);
+	let blurHandle = () => (active = !!value);
 </script>
 
-<div>
-	<input {name} {autocomplete} placeholder={label} {required} bind:value {...{ type }} />
-	<label for={name}>{label}</label>
-</div>
+<label {style}>
+	<span class:active class:inactive={!active} class:ready>{label}</span>
+	<input
+		{name}
+		{style}
+		class:doPlaceholder={!enableJS}
+		{autocomplete}
+		{pattern}
+		{required}
+		{...{ type }}
+		placeholder={label}
+		bind:value
+		on:focus={focusHandle}
+		on:blur={blurHandle}
+	/>
+</label>
 
 <style lang="scss">
-	$gray: #9b9b9b;
-
-	div {
-		position: relative;
-		padding: 15px 0 0;
-		width: 100%;
-		background: rgba(0, 0, 0, 0.04);
-	}
-
-	input {
-		box-sizing: border-box;
-		font-family: inherit;
-		width: 100%;
-		border: 0;
-		border-bottom: 2px solid #9b9b9b;
-		outline: 0;
-		font-size: 1.3rem;
-		color: black;
-		padding: 9px;
-		background: transparent;
-		transition: border-color 0.2s;
-
-		&::placeholder {
-			color: transparent;
-		}
-
-		&:placeholder-shown ~ label {
-			font-size: 1.3rem;
-			cursor: text;
-			top: 17px;
-		}
-
-		&:required,
-		&:invalid {
-			box-shadow: none;
-		}
-
-		&:focus {
-			~ label {
-				position: absolute;
-				top: 0;
-				display: block;
-				transition: 0.2s;
-				font-size: 1rem;
-				color: var(--accent);
-			}
-			border-image: linear-gradient(to right, var(--accent), var(--accent));
-			border-image-slice: 1;
-		}
-	}
-
 	label {
-		position: absolute;
-		top: 0;
-		left: 10px;
 		display: block;
-		transition: 0.2s;
-		font-size: 1rem;
-		color: $gray;
-		pointer-events: none;
+		position: relative;
+		height: 100%;
+		cursor: text;
+		color: gray;
+		font-size: 1.2rem;
 	}
 
 	.active {
-		border: 1px solid var(--accent);
+		display: none;
+		height: 20px;
+		position: absolute;
+		top: -10px;
+		left: 10px;
+		align-items: center;
+		justify-content: center;
+		background: var(--bg);
+		padding: 0px 5px;
+		font-size: 0.8rem;
+		color: #0e0e0e;
+	}
+
+	.inactive {
+		display: none;
+		height: 100%;
+		position: absolute;
+		align-items: center;
+		justify-content: center;
+		padding: 0px 5px;
+		left: 6px;
+		box-sizing: border-box;
+		color: gray;
+	}
+
+	input {
+		all: unset;
+		border: 0px;
+		outline: 0px;
+		box-sizing: border-box;
+		padding: 10px;
+		border-radius: 3px;
+		font-size: 1.2rem;
+		width: 100%;
+		background: transparent;
+		background: var(--bg);
+		text-align: left;
+		border: 1px solid gray;
+		color: #0e0e0e;
+
+		&:focus {
+			border: 1px solid var(--accent);
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+		}
+
+		&::placeholder {
+			position: fixed;
+			display: none;
+			color: transparent;
+		}
+	}
+
+	.doPlaceholder::placeholder {
+		color: gray;
+	}
+
+	.ready {
+		display: flex;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 </style>

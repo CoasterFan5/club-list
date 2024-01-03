@@ -7,11 +7,11 @@
 </script>
 
 {#if href !== undefined}
-	<a class="button" {href} {style} on:click>
+	<a {style} class="button" {href} on:click>
 		{value}
 	</a>
 {:else}
-	<button class="button" class:disabled {disabled} {type} {style} on:click>
+	<button {style} class="button" class:disabled {disabled} {type} on:click>
 		{value}
 	</button>
 {/if}

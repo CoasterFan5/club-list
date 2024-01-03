@@ -6,17 +6,24 @@
 	import { RRule } from './rrule.js';
 	import type { PageData } from './$types';
 	import dayOfYear from 'dayjs/plugin/dayOfYear';
+	import utc from 'dayjs/plugin/utc';
 
 	export let data: PageData;
 
 	dayjs.extend(dayOfYear);
+	dayjs.extend(utc);
 
 	const datesOnSameDay = (date1: dayjs.Dayjs) => (date2: dayjs.Dayjs) =>
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
 
-	$: daysActive = data.events.map(event => RRule.fromString(event.date).all()).flat().map(day => dayjs(day))
+	$: daysActive = data.events
+		.map((event) => RRule.fromString(event.date).all())
+		.flat()
+		.map((day) => dayjs(day));
 
 	let day = dayjs();
+
+	let formDate = dayjs().format('YYYY-MM-DD');
 
 	const emptyArray = (length: number) => Array(length).fill(0);
 
@@ -65,14 +72,14 @@
 	<div class="calendar">
 		{#each calendarDays as loopDay (loopDay.toDate())}
 			{@const inMonth = day.month() === loopDay.month()}
-			<button 
+			<button
 				class="day"
+				class:hasEvent={daysActive.some(datesOnSameDay(loopDay))}
 				class:inMonth
 				on:click={() => {
 					selectedDay = loopDay;
 					showDayModal = true;
 				}}
-				class:hasEvent={daysActive.some(datesOnSameDay(loopDay))}
 			>
 				{loopDay.format('D')}
 			</button>
@@ -83,7 +90,7 @@
 <ModalHelper bind:showing={showDayModal} on:close={() => (showDayModal = false)}>
 	{#if selectedDay !== null}
 		<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
-		{#each data.events.filter(event => daysActive.some(datesOnSameDay(selectedDay))) as event}
+		{#each data.events.filter((event) => daysActive.some(datesOnSameDay(selectedDay))) as event}
 			<div class="event">
 				<h2>{event.title}</h2>
 				<p>{event.description}</p>
@@ -98,7 +105,8 @@
 
 		<div class="input"><Input name="title" label="Event Title" required /></div>
 		<div class="input"><Input name="description" label="Event Description" /></div>
-		<div class="input"><Input name="date" label="Event Date" required type="date" /></div>
+		<input name="date" type="hidden" value={dayjs(formDate).utc(true).format('YYYY-MM-DD')} />
+		<div class="input"><Input label="Event Date" required type="date" bind:value={formDate} /></div>
 
 		<div class="submitButton">
 			<Button type="submit" value="Add Event" />
