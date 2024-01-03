@@ -14,13 +14,11 @@ export const load = async ({ parent }) => {
 
 	return {
 		user: {
-			user: {
-				id: user.id,
-				email: user.email,
-				firstName: user.firstName,
-				lastName: user.lastName,
-				pfp: user.pfp,
-			},
+			id: user.id,
+			email: user.email,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			pfp: user.pfp,
 			orgUsers
 		}
 	};
