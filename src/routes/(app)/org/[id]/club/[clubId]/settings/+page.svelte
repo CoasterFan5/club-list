@@ -38,10 +38,10 @@
 			}}
 	>
 		<div class="formItem">
-			<Input bg="white" name="clubName" label="Club Name" value={name} />
+			<Input name="clubName" bg="white" label="Club Name" value={name} />
 		</div>
 		<div class="formItem">
-			<Input bg="white" name="imgURL" label="Image Url" value={imgURL} />
+			<Input name="imgURL" bg="white" label="Image Url" value={imgURL} />
 		</div>
 		<div class="formItem">
 			<Button type="submit" value="Save" />

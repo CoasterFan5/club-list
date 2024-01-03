@@ -4,7 +4,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher<{
-		close: void;
+		close: undefined;
 	}>();
 
 	export let showing = false;

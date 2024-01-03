@@ -1,10 +1,5 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
-	import { inview, type Options } from 'svelte-inview';
-
-	const options: Options = {
-		rootMargin: '-250px'
-	};
 </script>
 
 <div class="simplify">

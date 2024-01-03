@@ -30,7 +30,7 @@
 	>
 		<h2>Create Organization</h2>
 		<div class="formInput">
-			<Input bg="white" name="name" label="Organization Name" />
+			<Input name="name" bg="white" label="Organization Name" />
 		</div>
 		<div class="formInput">
 			<Button type="submit" value="Create" />
@@ -42,7 +42,7 @@
 	<form action="?/join" method="post" use:enhance>
 		<h2>Join an Organization</h2>
 		<div class="formInput">
-			<Input bg="white" name="joinCode" label="Join Code" />
+			<Input name="joinCode" bg="white" label="Join Code" />
 		</div>
 		<div class="formInput">
 			<Button type="submit" value="Join" />

@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	let baseUrl = `/org/${$page.params.id}/club/${$page.params.clubId}/settings`;
+
+	export let data;
 </script>
 
 <div class="wrap">
 	<div class="sidebar">
-		<a class="link" href={baseUrl}>General</a>
-		<a class="link" href="{baseUrl}/roles">Roles</a>
+		<a class="link" class:active={data.pathname === baseUrl} href={baseUrl}>General</a>
+		<a class="link" class:active={data.pathname === `${baseUrl}/roles`} href="{baseUrl}/roles"
+			>Roles</a
+		>
 	</div>
 	<div class="content">
 		<slot />
@@ -48,6 +52,10 @@
 
 		&:hover {
 			color: var(--accent);
+		}
+
+		&.active {
+			text-decoration: underline;
 		}
 	}
 </style>

@@ -37,7 +37,7 @@
 	<form action="?/createClub" method="post" use:enhance>
 		<h2>Create Club</h2>
 		<div class="formItem">
-			<Input bg="white" name="clubName" label="Club Name" />
+			<Input name="clubName" bg="white" label="Club Name" />
 		</div>
 		<div class="formItem">
 			<Button type="submit" value="Create" />
