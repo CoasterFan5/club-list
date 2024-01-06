@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import MdEditor from '$lib/components/MdEditor.svelte';
+	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 
 	let content = 'No Description';
 </script>

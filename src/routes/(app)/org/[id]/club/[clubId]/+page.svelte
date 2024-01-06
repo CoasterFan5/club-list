@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import MdEditor from '$lib/components/MdEditor.svelte';
+	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import { enhance } from '$app/forms';
 	import { closeModal } from '$lib/closeModalEnhance';
 	export let data: PageData;
@@ -15,28 +15,8 @@
 	<h2>About</h2>
 	<div class="content">
 		<div class="editor">
-			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
-				<div class="editTools">
-					{#if !editing}
-						<button class="editButton" on:click={toggleEdit}>
-							<img alt="edit" src="/edit.svg" />
-						</button>
-					{:else}
-						<form
-							action="?/updateClub"
-							method="post"
-							use:enhance={closeModal(() => (editing = false))}
-						>
-							<input name="clubDescription" style="display: none;" bind:value={clubDescription} />
-							<button class="editButton">
-								<img alt="edit" src="/check.svg" />
-							</button>
-						</form>
-					{/if}
-				</div>
-			{/if}
 			<MdEditor
-				editable={editing && (data.clubPerms.admin || data.clubPerms.updateDescription)}
+				editable={(data.clubPerms.admin || data.clubPerms.updateDescription)}
 				bind:content={clubDescription}
 			/>
 		</div>
