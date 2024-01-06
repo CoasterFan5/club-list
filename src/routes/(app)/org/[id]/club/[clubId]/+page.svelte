@@ -1,24 +1,50 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import type { PageData, ActionData } from './$types';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import { enhance } from '$app/forms';
 	import { closeModal } from '$lib/closeModalEnhance';
+	import { addToast } from '$lib/components/toaster';
 	export let data: PageData;
+	export let form: ActionData;
 
 	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
 	let editing = false;
+	let saveMdButton: HTMLButtonElement;
 
 	let toggleEdit = () => (editing = !editing);
+
+	$: if (form) {
+		if (form.success) {
+			addToast({
+				type: 'success',
+				message: 'Club Updated!',
+				life: 3000
+			});
+		} else {
+			addToast({
+				type: 'error',
+				message: form.message || 'An error occurred!',
+				life: 3000
+			});
+		}
+	}
 </script>
 
 <div class="wrap">
-	<h2>About</h2>
 	<div class="content">
 		<div class="editor">
 			<MdEditor
 				editable={(data.clubPerms.admin || data.clubPerms.updateDescription)}
 				bind:content={clubDescription}
+				on:saveRequest={() => {
+					saveMdButton.click()
+				}}
 			/>
+			<form hidden use:enhance method="post" action="?/updateClub">
+				<input name="clubDescription" value={clubDescription}/>
+				<button type="submit" bind:this={saveMdButton}/>
+			</form>
+
 		</div>
 	</div>
 	<div class="announcements">
@@ -48,14 +74,12 @@
 		flex-direction: column;
 		align-items: start;
 		justify-content: center;
-		min-height: 300px;
 	}
 
 	.editor {
 		position: relative;
 		width: 100%;
 		height: 100%;
-		min-height: 300px;
 	}
 
 	.editTools {

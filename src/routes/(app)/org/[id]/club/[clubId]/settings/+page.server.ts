@@ -8,10 +8,9 @@ import {
 import { prisma } from '$lib/prismaConnection.js';
 import { redirect } from '@sveltejs/kit';
 import { z } from 'zod';
+import type { Actions } from './$types';
 
-export const load = async () => {
-	return {};
-};
+
 
 export const actions = {
 	updateClub: formHandler(
@@ -118,4 +117,4 @@ export const actions = {
 			};
 		}
 	)
-};
+} satisfies Actions;

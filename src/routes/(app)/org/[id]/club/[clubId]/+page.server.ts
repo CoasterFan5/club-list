@@ -77,19 +77,28 @@ export const actions = {
 			});
 
 			if (!club) {
-				error(500, 'Invalid Club Id');
+				return {
+					success: false,
+					message: "How did we get here?"
+				}
 			}
 
 			if (club.ownerId != sessionCheck.user.id) {
 				//check if the user has permissions
 				if (!club.clubUsers) {
-					error(500, 'No Permissions');
+					return {
+						success: false,
+						message: "No Permissions"
+					}
 				}
 
 				const permissionObject = createPermissionsCheck(club.clubUsers[0].role?.permissionInt ?? 0);
 
 				if (!permissionObject.admin && !permissionObject.updateAppearance) {
-					error(500, 'No Permissions');
+					return {
+						success: false,
+						message: "No Permissions"
+					}
 				}
 			}
 
@@ -100,6 +109,11 @@ export const actions = {
 				},
 				data: dataUpdateObject
 			});
+
+			return {
+				success: true,
+				message: "Club Updated!"
+			}
 		}
 	),
 

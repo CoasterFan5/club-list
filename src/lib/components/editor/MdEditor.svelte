@@ -13,7 +13,7 @@
 
 	export let content: string | null = '<h1>wow! what a club</h1>';
 	export let editable: boolean;
-	export let saveable = false;
+	export let saveable = true;
 
 	let element: HTMLDivElement;
 	let floatingMenu: HTMLDivElement;
@@ -22,7 +22,12 @@
 	
 
 	let saved = true;
-	let saving = false;
+
+	const save = () => {
+		if(!saved) {
+			dispatch("saveRequest")
+		}
+	}
 
 	onMount(() => {
 		editor = new Editor({
@@ -69,9 +74,19 @@
 </script>
 
 <div class="wrap">
+	<div bind:this={element} class="editor" class:borders={editable} />
+	<div class="utils"> 
+		{#if saveable && !saved}
+			<button on:click={save}>
+				<img src="/icons/save.svg" alt="save"/>
+			</button>
+			
+		{/if}
+	</div>
 </div>
 
-<div bind:this={element} class="editor" />
+
+
 
 
 
@@ -86,11 +101,43 @@
 	.editor {
 		width: 100%;
 		height: 100%;
-		border: 1px solid gray;
-		padding: 1rem;
+		padding: 0.5rem;
 		box-sizing: border-box;
 		border-radius: 5px;
-		margin-top: 1rem;
+	}
+	.borders {
+		border: 1px solid gray;
+	}
+
+	.utils {
+		position: absolute;
+		border-radius: 5px;
+		top: 0px;
+		right: 0px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		margin: 1px;
+		background: var(--bgPure);
+	}
+
+	.utils button {
+		all: unset;
+		cursor: pointer;
+		aspect-ratio: 1/1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 5px;
+
+		&:hover {
+			background: var(--accent50);
+		}
+	}
+
+	.utils img {
+		height: 30px;
 	}
 
 	.menu {
