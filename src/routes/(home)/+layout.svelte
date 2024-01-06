@@ -19,6 +19,7 @@
 		<div class="wrapper">
 			<slot />
 		</div>
+		
 		<div class="footer">
 			<Footer />
 		</div>
@@ -26,37 +27,46 @@
 </div>
 
 <style lang="scss">
-	.footer {
-		position: absolute;
-		height: 120px;
-		width: 100%;
-		bottom: -0px;
-	}
 
 	.wrap {
-		min-height: calc(100vh);
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.wrapper {
-		width: 100%;
+		min-height: 100vh;
 		height: 100%;
+		width: 100%;
 		display: flex;
-		align-items: center;
 		flex-direction: column;
 	}
 
 	.content {
 		position: relative;
-		box-sizing: border-box;
 		width: 100%;
-		min-height: calc(100vh - 60px);
+		min-height: calc(100vh - 120px);
+		height: 100%;
 		padding-bottom: 120px;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: start;
+		
 	}
+	.wrapper {
+		height: 100%;
+		width: 100%;
+		flex-grow: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+	.footer {
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		height: 120px;
+		width: 100%;
+	}
+
+	
+
+	
+
+	
 </style>

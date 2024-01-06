@@ -64,7 +64,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		position: sticky;
+		position: fixed;
 		top: 0px;
 		left: 0px;
 		z-index: 65000;

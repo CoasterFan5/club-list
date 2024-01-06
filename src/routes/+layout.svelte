@@ -50,6 +50,7 @@
 	}
 
 	:global(html) {
+		height: 100%;
 		font-family: 'Work Sans', sans-serif;
 		--text: #f1f1f1;
 		--textLight: #f1f1f1;
