@@ -1,63 +1,45 @@
 import { prisma } from '$lib/prismaConnection';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { S3 } from '$lib/s3.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { bucket, mediaurl } from '$env/static/private';
 import crypto from 'crypto';
-import { formHandler } from '$lib/bodyguard.js';
-import { z } from 'zod';
+import { verifySession } from '$lib/verifySession';
+
+
 
 export const actions = {
-	updateProfile: formHandler(
-		z.object({
-			firstName: z.string().min(1),
-			lastName: z.string().min(1),
-			email: z.string().email()
-		}),
-		async ({ firstName, lastName, email }, { cookies }) => {
-			if (!cookies.get('session')) {
-				redirect(303, '/login');
+	updateProfile: async ({cookies, request}) => {
+		const user = await verifySession(cookies.get("session"))
+
+		const formData = await request.formData();
+		const firstName = formData.get("firstName")?.toString()
+		const lastName = formData.get("firstName")?.toString()
+		const email = formData.get("firstName")?.toString()
+
+		if(!firstName || !lastName || !email) {
+			return {
+				success: false,
+				message: "Missing Fields"
 			}
-
-			const session = cookies.get('session');
-
-			await prisma.user.updateMany({
-				where: {
-					sessions: {
-						some: {
-							sessionToken: session
-						}
-					}
-				},
-				data: {
-					firstName,
-					lastName,
-					email
-				}
-			});
-
-			return { success: true };
-		}
-	),
-	updatePfp: async ({ request, cookies }) => {
-		const session = cookies.get('session');
-
-		if (!session) {
-			redirect(303, '/login');
 		}
 
-		const sessionCheck = await prisma.session.findUnique({
+		await prisma.user.updateMany({
 			where: {
-				sessionToken: session
+				id: user.id
 			},
-			include: {
-				user: true
+			data: {
+				firstName,
+				lastName,
+				email
 			}
 		});
 
-		if (!sessionCheck || !sessionCheck.user) {
-			redirect(303, '/login');
-		}
+		return { success: true };
+	},
+
+	updatePfp: async ({ request, cookies }) => {
+		const user = await verifySession(cookies.get("session"))
 
 		const formData = Object.fromEntries(await request.formData());
 
@@ -88,13 +70,13 @@ export const actions = {
 			new PutObjectCommand({
 				Bucket: bucket,
 				Key: key,
-				Body: pfpBuffer
+				Body: new Uint8Array(pfpBuffer)
 			})
 		);
 
 		await prisma.user.update({
 			where: {
-				id: sessionCheck.user.id
+				id: user.id
 			},
 			data: {
 				pfp: `${mediaurl}/${key}`
