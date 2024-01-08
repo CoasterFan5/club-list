@@ -33,17 +33,12 @@ jobs:
         with:
           node-version: '20'
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 8
-          run_install: false
 
       - name: Install dependencies
-        run: pnpm install
+        run: yarn install
 
       - name: Initialize Bucket
-        run: pnpm run s3devdata
+        run: yarn run s3devdata
 
       - name: Setup .env
         run: |
@@ -51,12 +46,12 @@ jobs:
           echo "BETA=false" >> .env
 
       - name: Build
-        run: pnpm run build
+        run: yarn run build
       - name: Deploy database
-        run: pnpm run db:deploy
+        run: yarn run db:deploy
       - name: Install Playwright Dependencies
         run: npx playwright install-deps
       - name: Install Playwright
         run: npx playwright install
       - name: Run Tests
-        run: pnpm run test
+        run: yarn run test
