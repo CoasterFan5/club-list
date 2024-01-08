@@ -1,4 +1,3 @@
-import { formHandler } from '$lib/bodyguard.js';
 import {
 	createPermissionsCheck,
 	type PermissionObject,
@@ -6,25 +5,21 @@ import {
 	permissionKeys
 } from '$lib/permissions.js';
 import { prisma } from '$lib/prismaConnection.js';
-import { redirect } from '@sveltejs/kit';
-import { z } from 'zod';
-import type { Actions } from './$types';
+import { verifySession } from '$lib/verifySession';
 
 
 
 export const actions = {
-	updateClub: formHandler(
-		z.object({
-			clubName: z.string().max(100).min(1).optional(),
-			imgURL: z.string().optional()
-		}),
-		async ({ clubName, imgURL }, { cookies, params }) => {
-			const session = cookies.get('session');
+	updateClub: async ({ cookies, params, request }) => {
 
-			if (!session) {
-				redirect(303, '/login');
-			}
+			const user = await verifySession(cookies.get("session"))
+			 
 
+			const formData = await request.formData();
+
+			const clubName = formData.get("clubName")?.toString()
+			const imgURL = formData.get("imgURL")?.toString()
+	
 			if (!clubName) {
 				return {
 					success: false,
@@ -45,39 +40,29 @@ export const actions = {
 				};
 			}
 
-			const sessionCheck = await prisma.session.findUnique({
+			const clubUser = await prisma.clubUser.findFirst({
 				where: {
-					sessionToken: session
+					AND: {
+						clubId: parseInt(params.clubId),
+						userId: user.id,
+					},
 				},
 				include: {
-					user: {
-						include: {
-							clubUsers: {
-								where: {
-									clubId: parseInt(params.clubId)
-								},
-								include: {
-									role: true
-								}
-							}
-						}
-					}
+					role: true
 				}
-			});
+			})
 
-			if (!sessionCheck || !sessionCheck.user) {
-				redirect(303, '/login');
-			}
+		
 
 			// Make sure this user is signed in
 			let userPermission: PermissionObject = { ...defaultClubPermissionObject };
 
-			if (sessionCheck.user.clubUsers[0]) {
+			if (clubUser) {
 				userPermission = {
 					...defaultClubPermissionObject,
-					...createPermissionsCheck(sessionCheck.user.clubUsers[0].role?.permissionInt ?? 0)
+					...createPermissionsCheck(clubUser.role?.permissionInt ?? 0)
 				};
-			} else if (club.ownerId == sessionCheck.user.id) {
+			} else if (club.ownerId == user.id) {
 				for (const key of permissionKeys) {
 					userPermission[key] = true;
 				}
@@ -116,5 +101,5 @@ export const actions = {
 				message: 'success!'
 			};
 		}
-	)
-} satisfies Actions;
+	
+}
