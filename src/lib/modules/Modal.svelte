@@ -7,8 +7,6 @@
 		close: undefined;
 	}>();
 
-	export let showing = false;
-
 	let modalClickHelper = () => dispatch('close');
 </script>
 

@@ -2,7 +2,6 @@
 	import type { PageData, ActionData } from './$types';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import { enhance } from '$app/forms';
-	import { closeModal } from '$lib/closeModalEnhance';
 	import { addToast } from '$lib/components/toaster';
 	export let data: PageData;
 	export let form: ActionData;
@@ -10,8 +9,6 @@
 	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
 	let editing = false;
 	let saveMdButton: HTMLButtonElement;
-
-	let toggleEdit = () => (editing = !editing);
 
 	$: if (form) {
 		if (form.success) {
@@ -79,23 +76,5 @@
 		position: relative;
 		width: 100%;
 		height: 100%;
-	}
-
-	.editTools {
-		position: absolute;
-		top: 32px;
-		right: 0px;
-		z-index: 100;
-
-		img {
-			aspect-ratio: 1/1;
-		}
-	}
-	.editButton {
-		all: unset;
-		display: flex;
-		width: 32px;
-		height: 32px;
-		cursor: pointer;
 	}
 </style>
