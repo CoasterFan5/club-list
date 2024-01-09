@@ -10,7 +10,9 @@
 <div class="wrap">
 	<form class="editor" action="?/createAnnouncement" method="post" use:enhance>
 		<div>
-			<Input name="title" label="Title" />
+			<div class="input">
+				<Input name="title" label="Title" />
+			</div>
 			<MdEditor editable saveable={false} bind:content />
 			<hr />
 			<input name="desc" style="display: none" bind:value={content} />
@@ -38,5 +40,9 @@
 		padding: 0px;
 		margin: 7px 0px;
 		border: 0px;
+	}
+
+	.input {
+		margin-bottom: 1rem;
 	}
 </style>
