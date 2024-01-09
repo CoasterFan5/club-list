@@ -13,12 +13,12 @@
 </script>
 
 <button
-    on:mousedown|self={modalClickHelper}
-    transition:fade={{ easing: cubicInOut, duration: 150 }}
+	on:mousedown|self={modalClickHelper}
+	transition:fade={{ easing: cubicInOut, duration: 150 }}
 >
-    <div transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }}>
-        <slot />
-    </div>
+	<div transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }}>
+		<slot />
+	</div>
 </button>
 
 <style lang="scss">

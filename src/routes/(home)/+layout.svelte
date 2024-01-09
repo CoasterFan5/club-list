@@ -19,7 +19,7 @@
 		<div class="wrapper">
 			<slot />
 		</div>
-		
+
 		<div class="footer">
 			<Footer />
 		</div>
@@ -27,7 +27,6 @@
 </div>
 
 <style lang="scss">
-
 	.wrap {
 		min-height: 100vh;
 		height: 100%;
@@ -44,7 +43,6 @@
 		padding-bottom: 120px;
 		display: flex;
 		flex-direction: column;
-		
 	}
 	.wrapper {
 		height: 100%;
@@ -63,10 +61,4 @@
 		height: 120px;
 		width: 100%;
 	}
-
-	
-
-	
-
-	
 </style>

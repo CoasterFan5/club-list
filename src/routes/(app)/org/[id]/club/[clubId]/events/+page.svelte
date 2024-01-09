@@ -103,10 +103,12 @@
 	<form method="POST">
 		<h1>Add Event</h1>
 
-		<div class="input"><Input bg="white" name="title" label="Event Title" required /></div>
-		<div class="input"><Input bg="white" name="description" label="Event Description" /></div>
+		<div class="input"><Input name="title" bg="white" label="Event Title" required /></div>
+		<div class="input"><Input name="description" bg="white" label="Event Description" /></div>
 		<input name="date" type="hidden" value={dayjs(formDate).utc(true).format('YYYY-MM-DD')} />
-		<div class="input"><Input bg="white" label="Event Date" required type="date" bind:value={formDate} /></div>
+		<div class="input">
+			<Input bg="white" label="Event Date" required type="date" bind:value={formDate} />
+		</div>
 
 		<div class="submitButton">
 			<Button type="submit" value="Add Event" />

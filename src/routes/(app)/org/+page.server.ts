@@ -16,7 +16,7 @@ export const actions = {
 			}
 
 			// find the user
-			const user = await verifySession(cookies.get("session"))
+			const user = await verifySession(cookies.get('session'));
 
 			//we need to know the number of orgs created currently
 			const orgAmount = await prisma.organization.count();
@@ -38,7 +38,7 @@ export const actions = {
 			// also make the user an org user
 			await prisma.orgUser.create({
 				data: {
-					userId:	user.id,
+					userId: user.id,
 					organizationId: org.id,
 					role: 'OWNER'
 				}
@@ -55,8 +55,7 @@ export const actions = {
 			joinCode: z.string()
 		}),
 		async ({ joinCode }, { cookies }) => {
-			
-			const user = await verifySession(cookies.get("session"))
+			const user = await verifySession(cookies.get('session'));
 
 			// search the join code
 			const joinCheck = await prisma.organization.findFirst({

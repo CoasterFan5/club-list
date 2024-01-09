@@ -79,8 +79,8 @@ export const actions = {
 			if (!club) {
 				return {
 					success: false,
-					message: "How did we get here?"
-				}
+					message: 'How did we get here?'
+				};
 			}
 
 			if (club.ownerId != sessionCheck.user.id) {
@@ -88,8 +88,8 @@ export const actions = {
 				if (!club.clubUsers) {
 					return {
 						success: false,
-						message: "No Permissions"
-					}
+						message: 'No Permissions'
+					};
 				}
 
 				const permissionObject = createPermissionsCheck(club.clubUsers[0].role?.permissionInt ?? 0);
@@ -97,8 +97,8 @@ export const actions = {
 				if (!permissionObject.admin && !permissionObject.updateAppearance) {
 					return {
 						success: false,
-						message: "No Permissions"
-					}
+						message: 'No Permissions'
+					};
 				}
 			}
 
@@ -112,8 +112,8 @@ export const actions = {
 
 			return {
 				success: true,
-				message: "Club Updated!"
-			}
+				message: 'Club Updated!'
+			};
 		}
 	),
 

@@ -34,17 +34,16 @@
 	<div class="content">
 		<div class="editor">
 			<MdEditor
-				editable={(data.clubPerms.admin || data.clubPerms.updateDescription)}
+				editable={data.clubPerms.admin || data.clubPerms.updateDescription}
 				bind:content={clubDescription}
 				on:saveRequest={() => {
-					saveMdButton.click()
+					saveMdButton.click();
 				}}
 			/>
-			<form hidden use:enhance method="post" action="?/updateClub">
-				<input name="clubDescription" value={clubDescription}/>
-				<button type="submit" bind:this={saveMdButton}/>
+			<form action="?/updateClub" hidden method="post" use:enhance>
+				<input name="clubDescription" value={clubDescription} />
+				<button bind:this={saveMdButton} type="submit" />
 			</form>
-
 		</div>
 	</div>
 	<div class="announcements">

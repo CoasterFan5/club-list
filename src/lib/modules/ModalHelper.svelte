@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from "./Modal.svelte"
+	import Modal from './Modal.svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher<{
@@ -9,7 +9,7 @@
 	export let showing = false;
 
 	let onClose = () => {
-		dispatch('close')
+		dispatch('close');
 		showing = false;
 	};
 </script>

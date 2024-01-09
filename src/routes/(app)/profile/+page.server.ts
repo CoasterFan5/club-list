@@ -6,22 +6,20 @@ import { bucket, mediaurl } from '$env/static/private';
 import crypto from 'crypto';
 import { verifySession } from '$lib/verifySession';
 
-
-
 export const actions = {
-	updateProfile: async ({cookies, request}) => {
-		const user = await verifySession(cookies.get("session"))
+	updateProfile: async ({ cookies, request }) => {
+		const user = await verifySession(cookies.get('session'));
 
 		const formData = await request.formData();
-		const firstName = formData.get("firstName")?.toString()
-		const lastName = formData.get("firstName")?.toString()
-		const email = formData.get("firstName")?.toString()
+		const firstName = formData.get('firstName')?.toString();
+		const lastName = formData.get('firstName')?.toString();
+		const email = formData.get('firstName')?.toString();
 
-		if(!firstName || !lastName || !email) {
+		if (!firstName || !lastName || !email) {
 			return {
 				success: false,
-				message: "Missing Fields"
-			}
+				message: 'Missing Fields'
+			};
 		}
 
 		await prisma.user.updateMany({
@@ -39,7 +37,7 @@ export const actions = {
 	},
 
 	updatePfp: async ({ request, cookies }) => {
-		const user = await verifySession(cookies.get("session"))
+		const user = await verifySession(cookies.get('session'));
 
 		const formData = Object.fromEntries(await request.formData());
 

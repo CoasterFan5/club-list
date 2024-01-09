@@ -9,7 +9,7 @@ export function formHandler<Z extends ZodType, E extends RequestEvent, K>(
 	schema: Z,
 	onSuccess: (data: Z['_output'], event: E) => Promise<K>,
 	config?: Partial<BodyguardConfig>
-): (event: E) => Promise<K | ActionFailure<{ message: string; }>> {
+): (event: E) => Promise<K | ActionFailure<{ message: string }>> {
 	return async (event: E) => {
 		const data = await bodyguard.softForm(event.request, undefined, {
 			...config

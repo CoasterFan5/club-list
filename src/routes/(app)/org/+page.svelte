@@ -12,13 +12,13 @@
 	function showCreateModal() {
 		pushState('', {
 			showingCreateModal: true
-		})
+		});
 	}
 
 	function showJoinModal() {
 		pushState('', {
 			showingJoinModal: true
-		})
+		});
 	}
 
 	export let data: PageData;
@@ -35,11 +35,7 @@
 
 {#if $page.state.showingCreateModal}
 	<Modal on:close={() => history.back()}>
-		<form
-			action="?/create"
-			method="post"
-			use:enhance={closeModal(() => history.back())}
-		>
+		<form action="?/create" method="post" use:enhance={closeModal(() => history.back())}>
 			<h2>Create Organization</h2>
 			<div class="formInput">
 				<Input name="name" bg="white" label="Organization Name" />
@@ -69,15 +65,9 @@
 	<div class="noOrgs">
 		<h1>No Joined Organizations</h1>
 		<p>
-			<button
-				class="textButton"
-				on:click={showJoinModal}>Join</button
-			>
+			<button class="textButton" on:click={showJoinModal}>Join</button>
 			or
-			<button
-				class="textButton"
-				on:click={showCreateModal}>Create</button
-			> one!
+			<button class="textButton" on:click={showCreateModal}>Create</button> one!
 		</p>
 	</div>
 {/if}
@@ -92,15 +82,9 @@
 		</div>
 
 		<p>
-			Not what you want? <button
-				class="textButton"
-				on:click={showJoinModal}>Join</button
-			>
+			Not what you want? <button class="textButton" on:click={showJoinModal}>Join</button>
 			or
-			<button
-				class="textButton"
-				on:click={showCreateModal}>Create</button
-			> a new organization
+			<button class="textButton" on:click={showCreateModal}>Create</button> a new organization
 		</p>
 	</div>
 {/if}

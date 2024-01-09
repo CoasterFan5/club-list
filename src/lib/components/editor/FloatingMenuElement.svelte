@@ -2,7 +2,7 @@
 	import { Editor } from '@tiptap/core';
 	export let editor: Editor | null;
 
-	export let element: HTMLDivElement
+	export let element: HTMLDivElement;
 
 	let button: HTMLButtonElement;
 	let showSubMenu = false;
@@ -11,69 +11,52 @@
 
 	const clickHelper = (e: Event) => {
 		showSubMenu = true;
-		
-	}
+	};
 
 	const closeMenu = (e?: Event) => {
 		showSubMenu = false;
-	}
+	};
 
 	const enableTitle = () => {
-		editor && editor.chain().focus().toggleHeading({ level: 1 }).run()
-		closeMenu()
-	}
+		editor && editor.chain().focus().toggleHeading({ level: 1 }).run();
+		closeMenu();
+	};
 	const enableSubTitle = () => {
-		editor && editor.chain().focus().toggleHeading({ level: 2 }).run()
-		closeMenu()
-	}
+		editor && editor.chain().focus().toggleHeading({ level: 2 }).run();
+		closeMenu();
+	};
 	const enableList = () => {
-		editor && editor.chain().focus().toggleBulletList().run()
-		closeMenu()
-	}
+		editor && editor.chain().focus().toggleBulletList().run();
+		closeMenu();
+	};
 
-	
-
-	
 	/*let showing;
 	$: showing = editor?.state.selection.$anchor.parent.isTextblock && !editor?.state.selection.$anchor.parent.textContent;*/
 </script>
 
-
-<div class="wrap" bind:this={element} on:blur={closeMenu}>
+<div bind:this={element} class="wrap" on:blur={closeMenu}>
 	<div class="menu">
-		<button on:click={clickHelper} bind:this={button}  >
-			<svg width="24" height="24" viewBox="0 0 24 24" style="fill: var(--textDark)">
-				<path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4z"></path>
-				<path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path>
+		<button bind:this={button} on:click={clickHelper}>
+			<svg style="fill: var(--textDark)" height="24" viewBox="0 0 24 24" width="24">
+				<path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4z" />
+				<path
+					d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"
+				/>
 			</svg>
 		</button>
-		
 	</div>
 	{#if showSubMenu}
 		<div class="secondMenu">
-			<button
-				class:active={editor?.isActive('heading', { level: 1 })}
-				on:click={enableTitle}
-			>
+			<button class:active={editor?.isActive('heading', { level: 1 })} on:click={enableTitle}>
 				h1
 			</button>
-			<button
-				class:active={editor?.isActive('heading', { level: 2 })}
-				on:click={enableSubTitle}
-			>
+			<button class:active={editor?.isActive('heading', { level: 2 })} on:click={enableSubTitle}>
 				h2
 			</button>
-			<button
-				class:active={editor?.isActive('bulletList')}
-				on:click={enableList}
-			>
-				ul
-			</button>
+			<button class:active={editor?.isActive('bulletList')} on:click={enableList}> ul </button>
 		</div>
 	{/if}
 </div>
-
-
 
 <style lang="scss">
 	.menu {
@@ -115,5 +98,4 @@
 			}
 		}
 	}
-
 </style>

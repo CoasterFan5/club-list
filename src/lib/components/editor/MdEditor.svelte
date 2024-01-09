@@ -19,15 +19,14 @@
 	let floatingMenu: HTMLDivElement;
 	let bubbleMenu: HTMLDivElement;
 	let editor: Editor | null;
-	
 
 	let saved = true;
 
 	const save = () => {
-		if(!saved) {
-			dispatch("saveRequest")
+		if (!saved) {
+			dispatch('saveRequest');
 		}
-	}
+	};
 
 	onMount(() => {
 		editor = new Editor({
@@ -38,7 +37,7 @@
 				Typography,
 				Color,
 				TextStyle,
-				FloatingMenu.configure({ 
+				FloatingMenu.configure({
 					element: floatingMenu,
 					tippyOptions: {
 						offset: [0, -50]
@@ -75,27 +74,17 @@
 
 <div class="wrap">
 	<div bind:this={element} class="editor" class:borders={editable} />
-	<div class="utils"> 
+	<div class="utils">
 		{#if saveable && !saved}
 			<button on:click={save}>
-				<img src="/icons/save.svg" alt="save"/>
+				<img alt="save" src="/icons/save.svg" />
 			</button>
-			
 		{/if}
 	</div>
 </div>
 
-
-
-
-
-
-	
-
-<FloatingMenuElement bind:editor={editor} bind:element={floatingMenu}/>
-<BubbleMenuElement bind:editor={editor} bind:element={bubbleMenu}/>
-
-
+<FloatingMenuElement bind:editor bind:element={floatingMenu} />
+<BubbleMenuElement bind:editor bind:element={bubbleMenu} />
 
 <style lang="scss">
 	.editor {

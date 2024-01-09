@@ -2,11 +2,10 @@
 	import { Editor } from '@tiptap/core';
 	export let editor: Editor | null;
 
-	export let element: HTMLDivElement
-	
+	export let element: HTMLDivElement;
 </script>
 
-<div class="menu" bind:this={element}>
+<div bind:this={element} class="menu">
 	<button
 		class:active={editor?.isActive('bold')}
 		on:click={() => editor && editor.chain().focus().toggleBold().run()}
@@ -31,7 +30,6 @@
 	>
 		code
 	</button>
-	
 </div>
 
 <style lang="scss">
