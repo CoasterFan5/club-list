@@ -45,6 +45,7 @@
 	let showEventModal = false;
 
 	// we keep track of an extra boolean to wait till the modal closes to update selectedDay
+	// to prevent state update before modal transitition
 	let showDayModal = false;
 	let selectedDay: dayjs.Dayjs | null = null;
 </script>
@@ -89,8 +90,11 @@
 
 <ModalHelper bind:showing={showDayModal} on:close={() => (showDayModal = false)}>
 	{#if selectedDay !== null}
+		<!-- Assure typescript that our selectedDay will remain the same in filter -->
+		{@const selectedDayLocal = selectedDay}
+		
 		<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
-		{#each data.events.filter((event) => daysActive.some(datesOnSameDay(selectedDay))) as event}
+		{#each data.events.filter((event) => daysActive.some(datesOnSameDay(selectedDayLocal))) as event}
 			<div class="event">
 				<h2>{event.title}</h2>
 				<p>{event.description}</p>

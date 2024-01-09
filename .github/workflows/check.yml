@@ -50,6 +50,9 @@ jobs:
           cp .env.test .env
           echo "BETA=false" >> .env
 
+      - name: Check for TS errors
+        run: pnpm run check
+
       - name: Build
         run: pnpm run build
       - name: Deploy database

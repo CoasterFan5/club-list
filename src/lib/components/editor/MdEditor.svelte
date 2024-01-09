@@ -128,27 +128,4 @@
 	.utils img {
 		height: 30px;
 	}
-
-	.menu {
-		border-radius: 5px;
-		overflow: hidden;
-		background: var(--bgPure);
-		display: flex;
-
-		button {
-			all: unset;
-			cursor: pointer;
-			padding: 10px;
-			background: white;
-
-			&:hover {
-				background: var(--accent50);
-			}
-
-			.active {
-				background: black;
-				color: white;
-			}
-		}
-	}
 </style>
