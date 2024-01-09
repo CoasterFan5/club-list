@@ -14,4 +14,6 @@
 	};
 </script>
 
-<Modal on:close={onClose}><slot /></Modal>
+{#if showing}
+	<Modal on:close={onClose}><slot /></Modal>
+{/if}
