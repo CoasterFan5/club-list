@@ -1,14 +1,25 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
-	import ModalHelper from '$lib/modules/ModalHelper.svelte';
+	import Modal from '$lib/modules/Modal.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { addToast } from '$lib/components/toaster';
 	import { enhance } from '$app/forms';
 	import { closeModal } from '$lib/closeModalEnhance';
+	import { page } from '$app/stores';
+	import { pushState } from '$app/navigation';
 
-	let showingCreateModel = false;
-	let showingJoinModel = false;
+	function showCreateModal() {
+		pushState('', {
+			showingCreateModal: true
+		})
+	}
+
+	function showJoinModal() {
+		pushState('', {
+			showingJoinModal: true
+		})
+	}
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -22,33 +33,37 @@
 	}
 </script>
 
-<ModalHelper bind:showing={showingCreateModel}>
-	<form
-		action="?/create"
-		method="post"
-		use:enhance={closeModal(() => (showingCreateModel = false))}
-	>
-		<h2>Create Organization</h2>
-		<div class="formInput">
-			<Input name="name" bg="white" label="Organization Name" />
-		</div>
-		<div class="formInput">
-			<Button type="submit" value="Create" />
-		</div>
-	</form>
-</ModalHelper>
+{#if $page.state.showingCreateModal}
+	<Modal on:close={() => history.back()}>
+		<form
+			action="?/create"
+			method="post"
+			use:enhance={closeModal(() => history.back())}
+		>
+			<h2>Create Organization</h2>
+			<div class="formInput">
+				<Input name="name" bg="white" label="Organization Name" />
+			</div>
+			<div class="formInput">
+				<Button type="submit" value="Create" />
+			</div>
+		</form>
+	</Modal>
+{/if}
 
-<ModalHelper bind:showing={showingJoinModel}>
-	<form action="?/join" method="post" use:enhance>
-		<h2>Join an Organization</h2>
-		<div class="formInput">
-			<Input name="joinCode" bg="white" label="Join Code" />
-		</div>
-		<div class="formInput">
-			<Button type="submit" value="Join" />
-		</div>
-	</form>
-</ModalHelper>
+{#if $page.state.showingJoinModal}
+	<Modal on:close={() => history.back()}>
+		<form action="?/join" method="post" use:enhance>
+			<h2>Join an Organization</h2>
+			<div class="formInput">
+				<Input name="joinCode" bg="white" label="Join Code" />
+			</div>
+			<div class="formInput">
+				<Button type="submit" value="Join" />
+			</div>
+		</form>
+	</Modal>
+{/if}
 
 {#if data.user.orgUsers.length < 1}
 	<div class="noOrgs">
@@ -56,16 +71,12 @@
 		<p>
 			<button
 				class="textButton"
-				on:click={() => {
-					showingJoinModel = true;
-				}}>Join</button
+				on:click={showJoinModal}>Join</button
 			>
 			or
 			<button
 				class="textButton"
-				on:click={() => {
-					showingCreateModel = true;
-				}}>Create</button
+				on:click={showCreateModal}>Create</button
 			> one!
 		</p>
 	</div>
@@ -83,16 +94,12 @@
 		<p>
 			Not what you want? <button
 				class="textButton"
-				on:click={() => {
-					showingJoinModel = true;
-				}}>Join</button
+				on:click={showJoinModal}>Join</button
 			>
 			or
 			<button
 				class="textButton"
-				on:click={() => {
-					showingCreateModel = true;
-				}}>Create</button
+				on:click={showCreateModal}>Create</button
 			> a new organization
 		</p>
 	</div>

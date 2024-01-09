@@ -1,15 +1,15 @@
 import { Bodyguard, type BodyguardConfig } from '@auth70/bodyguard';
-import { fail, type RequestEvent } from '@sveltejs/kit';
+import { fail, type ActionFailure, type RequestEvent } from '@sveltejs/kit';
 import type { ZodType } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
 const bodyguard = new Bodyguard();
 
-export function formHandler<Z extends ZodType, E extends RequestEvent>(
+export function formHandler<Z extends ZodType, E extends RequestEvent, K>(
 	schema: Z,
-	onSuccess: (data: Z['_output'], event: E) => Promise<unknown>,
+	onSuccess: (data: Z['_output'], event: E) => Promise<K>,
 	config?: Partial<BodyguardConfig>
-): (event: E) => Promise<unknown> {
+): (event: E) => Promise<K | ActionFailure<{ message: string; }>> {
 	return async (event: E) => {
 		const data = await bodyguard.softForm(event.request, undefined, {
 			...config
