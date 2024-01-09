@@ -11,7 +11,7 @@
 	<form class="editor" action="?/createAnnouncement" method="post" use:enhance>
 		<div>
 			<Input name="title" label="Title" />
-			<MdEditor editable bind:content />
+			<MdEditor editable saveable={false} bind:content />
 			<hr />
 			<input name="desc" style="display: none" bind:value={content} />
 			<Button type="submit" value="Create" />
