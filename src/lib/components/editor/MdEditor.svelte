@@ -8,6 +8,8 @@
 	import TextStyle from '@tiptap/extension-text-style';
 	import BubbleMenu from '@tiptap/extension-bubble-menu';
 	import FloatingMenu from '@tiptap/extension-floating-menu';
+	import Placeholder from '@tiptap/extension-placeholder';
+
 	import FloatingMenuElement from './FloatingMenuElement.svelte';
 	import BubbleMenuElement from './BubbleMenuElement.svelte';
 
@@ -21,6 +23,7 @@
 	let editor: Editor | null;
 
 	let saved = true;
+	let isActive = false;
 
 	const save = () => {
 		if (!saved) {
@@ -37,6 +40,19 @@
 				Typography,
 				Color,
 				TextStyle,
+				Placeholder.configure({
+					showOnlyWhenEditable: true,
+					includeChildren: true,
+					placeholder: ({ node }) => {
+						console.log(node.type.name);
+
+						if (node.type.name === 'heading') {
+							return 'Write something big...';
+						}
+
+						return 'Write something...';
+					}
+				}),
 				FloatingMenu.configure({
 					element: floatingMenu,
 					tippyOptions: {
@@ -54,12 +70,22 @@
 				if (editor) content = editor.getHTML();
 				saved = false;
 			},
-			onFocus: () => dispatch('focus'),
-			onBlur: () => dispatch('blur')
+			onFocus: () => {
+				isActive = true;
+				dispatch('focus');
+			},
+			onBlur: () => {
+				isActive = false;
+				dispatch('blur');
+			}
 		});
 	});
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{
+		saveRequest: void;
+		focus: void;
+		blur: void;
+	}>();
 
 	$: if (editor) editor.setEditable(editable);
 	$: if (editable) focusEditor();
@@ -73,7 +99,7 @@
 </script>
 
 <div class="wrap">
-	<div bind:this={element} class="editor" class:borders={editable} />
+	<div bind:this={element} class="editor" class:borders={editable} class:focus={isActive} />
 	<div class="utils">
 		{#if saveable && !saved}
 			<button on:click={save}>
@@ -94,8 +120,21 @@
 		box-sizing: border-box;
 		border-radius: 5px;
 	}
+
 	.borders {
 		border: 1px solid gray;
+
+		&.focus {
+			border: 1px solid var(--accent);
+		}
+	}
+
+	.wrap :global(.tiptap .is-empty::before) {
+		color: #adb5bd;
+		content: attr(data-placeholder);
+		float: left;
+		height: 0;
+		pointer-events: none;
 	}
 
 	.utils {

@@ -47,6 +47,9 @@ devDependencies:
   '@tiptap/extension-floating-menu':
     specifier: ^2.1.12
     version: 2.1.13(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13)
+  '@tiptap/extension-placeholder':
+    specifier: ^2.1.16
+    version: 2.1.16(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13)
   '@tiptap/extension-text-style':
     specifier: ^2.1.12
     version: 2.1.13(@tiptap/core@2.1.13)
@@ -2253,6 +2256,16 @@ packages:
       '@tiptap/core': ^2.0.0
     dependencies:
       '@tiptap/core': 2.1.13(@tiptap/pm@2.1.13)
+    dev: true
+
+  /@tiptap/extension-placeholder@2.1.16(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13):
+    resolution: {integrity: sha512-C6xgWKn6LT7yhvz0RCHjzFxpstFCHUw2eXisrHlOz36SP/1EmGIBiKqJUP7ySSSQMgl4hzHDhj6W1KyGdsyYaA==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/pm': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.1.13(@tiptap/pm@2.1.13)
+      '@tiptap/pm': 2.1.13
     dev: true
 
   /@tiptap/extension-strike@2.1.13(@tiptap/core@2.1.13):

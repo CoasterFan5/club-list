@@ -30,7 +30,7 @@ export const verifyOptionalSession = async (session: string | undefined) => {
 
 export const verifySession = async (session: string | undefined) => {
 	const sessionCheck = await verifyOptionalSession(session);
-	
+
 	if (!sessionCheck) {
 		return redirect(303, '/login');
 	}
