@@ -87,7 +87,7 @@ export const actions = {
 				}
 			});
 
-			//we did it!
+			// We did it!
 			redirect(303, `${baseUrl}/announcements`);
 		}
 	)

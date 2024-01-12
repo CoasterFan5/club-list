@@ -18,14 +18,19 @@
 			<div class="announcement">
 				<h2>{announcement.title}</h2>
 				{#if announcement.createdAt}
-					<p class="timestamp">
+					<p class="info">
 						{new Intl.DateTimeFormat('en-US', {
 							dateStyle: 'long',
 							timeStyle: 'short'
 						}).format(announcement.createdAt)}
+						{#if announcement.author}
+							<span>by {announcement.author?.firstName} {announcement.author?.lastName}</span>
+						{/if}
 					</p>
 				{/if}
-				<MdEditor content={announcement.description || 'No Announcement'} editable={false} />
+				<div class="editor">
+					<MdEditor content={announcement.description || 'No Announcement'} editable={false} />
+				</div>
 			</div>
 		{/each}
 	</div>
@@ -54,13 +59,17 @@
 		border-radius: 5px;
 		margin-bottom: 50px;
 	}
-	.timestamp {
+	.info {
 		margin: 0px;
-		color: var(--bgDark);
+		color: var(--textLow);
 	}
 	h2 {
 		margin: 0px;
 		font-size: 1.5rem;
 		font-weight: 500;
+	}
+	.editor {
+		margin-top: 1rem;
+		border-left: 5px solid var(--textLow);
 	}
 </style>

@@ -10,7 +10,14 @@ export const load: PageServerLoad = async ({ parent }) => {
 			id: parentData.club.id
 		},
 		include: {
-			announcements: true
+			announcements: {
+				include: {
+					author: true
+				},
+				orderBy: {
+					createdAt: 'desc'
+				}
+			}
 		}
 	});
 
@@ -19,6 +26,12 @@ export const load: PageServerLoad = async ({ parent }) => {
 	}
 
 	return {
-		announcements: club.announcements
+		announcements: club.announcements.map(announcement => ({
+			...announcement,
+			author: announcement.author ? {
+				firstName: announcement.author.firstName,
+				lastName: announcement.author.lastName,
+			} : null
+		}))
 	};
 };

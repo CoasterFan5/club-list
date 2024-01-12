@@ -54,6 +54,7 @@
 		font-family: 'Work Sans', sans-serif;
 		--text: #f1f1f1;
 		--textLight: #f1f1f1;
+		--textLow: #494949;
 		--textDark: #202020;
 		--dark: #202020;
 		--mid: #333533;
