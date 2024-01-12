@@ -6,8 +6,7 @@
 	export let data: PageData;
 	export let form: ActionData;
 
-	let clubDescription = data.club.description || '<h1>No description yet :(</h1>';
-	let editing = false;
+	let clubDescription = data.club.description || `<h1>${data.club.name}</h1>`;
 	let saveMdButton: HTMLButtonElement;
 
 	$: if (form) {

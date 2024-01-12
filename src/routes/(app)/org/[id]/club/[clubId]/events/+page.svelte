@@ -201,12 +201,12 @@
 	}
 
 	.input {
-		margin: 0.5rem 0;
+		margin: 1rem 0;
 		width: 100%;
 	}
 
 	.submitButton {
-		margin-top: 1rem;
+		margin-top: 2rem;
 		width: 100%;
 	}
 </style>

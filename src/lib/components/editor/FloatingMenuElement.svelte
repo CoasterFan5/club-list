@@ -1,21 +1,13 @@
 <script lang="ts">
 	import { Editor } from '@tiptap/core';
+	
 	export let editor: Editor | null;
-
 	export let element: HTMLDivElement;
 
-	let button: HTMLButtonElement;
 	let showSubMenu = false;
 
-	let clicks = 0;
-
-	const clickHelper = (e: Event) => {
-		showSubMenu = true;
-	};
-
-	const closeMenu = (e?: Event) => {
-		showSubMenu = false;
-	};
+	const clickHelper = () => showSubMenu = true;
+	const closeMenu = () => showSubMenu = false;
 
 	const enableTitle = () => {
 		editor && editor.chain().focus().toggleHeading({ level: 1 }).run();
@@ -29,14 +21,11 @@
 		editor && editor.chain().focus().toggleBulletList().run();
 		closeMenu();
 	};
-
-	/*let showing;
-	$: showing = editor?.state.selection.$anchor.parent.isTextblock && !editor?.state.selection.$anchor.parent.textContent;*/
 </script>
 
 <div bind:this={element} class="wrap" on:blur={closeMenu}>
 	<div class="menu">
-		<button bind:this={button} on:click={clickHelper}>
+		<button on:click={clickHelper}>
 			<svg style="fill: var(--textDark)" height="24" viewBox="0 0 24 24" width="24">
 				<path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4z" />
 				<path

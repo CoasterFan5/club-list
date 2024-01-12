@@ -44,7 +44,7 @@ export const actions = {
 		});
 
 		if (!club) {
-			error(400, 'How did we get here?');
+			error(400, 'Club not found');
 		}
 
 		// Make sure the user has the proper perms
@@ -149,7 +149,7 @@ export const actions = {
 				error(401, 'No Permissions');
 			}
 
-			//grab the role
+			// Grab the role
 			const role = await prisma.clubRole.findFirst({
 				where: {
 					id: parseInt(roleId)
@@ -160,7 +160,7 @@ export const actions = {
 				error(400, 'How did we get here?');
 			}
 
-			//update the role
+			// Update the role
 			await prisma.clubRole.update({
 				where: {
 					id: parseInt(roleId)
@@ -171,7 +171,7 @@ export const actions = {
 				}
 			});
 
-			//actually make the role
+			// Actually make the role
 
 			return {
 				success: true,
