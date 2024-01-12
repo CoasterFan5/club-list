@@ -92,9 +92,9 @@
 	{#if selectedDay !== null}
 		<!-- Assure typescript that our selectedDay will remain the same in filter -->
 		{@const selectedDayLocal = selectedDay}
-		
+
 		<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
-		{#each data.events.filter((event) => daysActive.some(datesOnSameDay(selectedDayLocal))) as event}
+		{#each data.events.filter( (event) => daysActive.some(datesOnSameDay(selectedDayLocal)) ) as event}
 			<div class="event">
 				<h2>{event.title}</h2>
 				<p>{event.description}</p>

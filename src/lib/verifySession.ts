@@ -1,34 +1,7 @@
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { prisma } from './prismaConnection';
 
-export const verifySession = async (session: string | undefined) => {
-	if (!session) {
-		throw redirect(303, '/login');
-	}
-
-	const sessionCheck = await prisma.session.findFirst({
-		where: {
-			sessionToken: session
-		},
-		include: {
-			user: true
-		}
-	});
-
-	if (!sessionCheck || !sessionCheck.user) {
-		throw redirect(303, '/login');
-	}
-
-	if (sessionCheck.createdAt.getTime() < Date.now() - 2592000000) {
-		throw redirect(303, '/login');
-	} //30 days
-
-	if (sessionCheck.user == null) {
-		throw error(400, 'How did we get here?');
-	} else {
-		return sessionCheck.user;
-	}
-};
+const THIRTY_DAYS = 1000 * 60 * 60 * 24 * 30;
 
 export const verifyOptionalSession = async (session: string | undefined) => {
 	if (!session) {
@@ -44,13 +17,23 @@ export const verifyOptionalSession = async (session: string | undefined) => {
 		}
 	});
 
-	if (!sessionCheck || !sessionCheck.user) {
+	if (!sessionCheck?.user) {
 		return null;
 	}
 
-	if (sessionCheck.createdAt.getTime() < Date.now() - 2592000000) {
+	if (sessionCheck.createdAt.getTime() < Date.now() - THIRTY_DAYS) {
 		return null;
-	} //30 days
+	}
 
 	return sessionCheck.user;
+};
+
+export const verifySession = async (session: string | undefined) => {
+	const sessionCheck = await verifyOptionalSession(session);
+	
+	if (!sessionCheck) {
+		return redirect(303, '/login');
+	}
+
+	return sessionCheck;
 };
