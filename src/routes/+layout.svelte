@@ -61,7 +61,7 @@
 		--bg: #f1f1f1;
 		--bgMid: #f8f8f8;
 		--bgPure: #ffffff;
-		--accent: #e63946;
+		--accent: rgba(230, 57, 70);
 		--accent50: rgba(230, 57, 70, 0.5);
 		--redIconFilter: invert(45%) sepia(57%) saturate(7438%) hue-rotate(337deg) brightness(94%)
 			contrast(92%);
