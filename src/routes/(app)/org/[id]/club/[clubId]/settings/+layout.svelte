@@ -11,6 +11,9 @@
 		<a class="link" class:active={data.pathname === `${baseUrl}/roles`} href="{baseUrl}/roles"
 			>Roles</a
 		>
+		<a class="link" class:active={data.pathname === `${baseUrl}/members`} href="{baseUrl}/members"
+			>Members</a
+		>
 	</div>
 	<div class="content">
 		<slot />
