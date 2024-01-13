@@ -21,7 +21,7 @@
 		method="POST"
 		use:enhance
 	>
-		<!-- TODO: color input, permission settings -->
+		<!-- TODO: color input -->
 		<input name="name" value={data.role.name} on:change={() => submitButton.click()} />
 
 		{#each keys as key}	
