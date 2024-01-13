@@ -3,7 +3,6 @@
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
-	import ModalHelper from '$lib/modules/ModalHelper.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import { closeModal } from '$lib/closeModalEnhance';
 	import { flip } from 'svelte/animate';

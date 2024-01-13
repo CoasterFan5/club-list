@@ -1,14 +1,15 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import ModalHelper from '$lib/modules/ModalHelper.svelte';
+	import Modal from '$lib/modules/Modal.svelte';
 	import dayjs from 'dayjs';
 	import { RRule } from './rrule.js';
-	import type { PageData } from './$types';
 	import dayOfYear from 'dayjs/plugin/dayOfYear';
 	import utc from 'dayjs/plugin/utc';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
 
-	export let data: PageData;
+	export let data;
 
 	dayjs.extend(dayOfYear);
 	dayjs.extend(utc);
@@ -56,11 +57,6 @@
 
 	$: calendarDays = [...startPaddingDays, ...daysInMonth, ...endPaddingDays];
 
-	let showEventModal = false;
-
-	// we keep track of an extra boolean to wait till the modal closes to update selectedDay
-	// to prevent state update before modal transition
-	let showDayModal = false;
 	let selectedDay: dayjs.Dayjs | null = null;
 </script>
 
@@ -70,7 +66,9 @@
 	</div>
 
 	<div class="button big">
-		<Button value="Add Event" on:click={() => (showEventModal = true)} />
+		<Button value="Add Event" on:click={() => {
+			pushState('', { showingModal: 'addEventModal' });
+		}} />
 	</div>
 
 	<div class="dateBar">
@@ -93,7 +91,7 @@
 				class:inMonth
 				on:click={() => {
 					selectedDay = loopDay;
-					showDayModal = true;
+					pushState('', { showingModal: 'dayModal' });
 				}}
 			>
 				{loopDay.format('D')}
@@ -102,41 +100,45 @@
 	</div>
 </div>
 
-<ModalHelper bind:showing={showDayModal} on:close={() => (showDayModal = false)}>
-	{#if selectedDay !== null}
-		<!-- Assure typescript that our selectedDay will remain the same in filter -->
-		{@const selectedDayLocal = selectedDay}
+{#if $page.state.showingModal === "dayModal"}
+	<Modal on:close={() => history.back()}>
+		{#if selectedDay !== null}
+			<!-- Assure typescript that our selectedDay will remain the same in filter -->
+			{@const selectedDayLocal = selectedDay}
 
-		<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
-		{#each daysActive.filter( ([, days]) => days.some(datesOnSameDay(selectedDayLocal)) ) as [event, days]}
-			<div class="event">
-				<h2>{event.title}</h2>
-				<p class="subDescription">At {days[0].format('h:mm A')}</p>
-				<p>{event.description}</p>
+			<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
+			{#each daysActive.filter( ([, days]) => days.some(datesOnSameDay(selectedDayLocal)) ) as [event, days]}
+				<div class="event">
+					<h2>{event.title}</h2>
+					<p class="subDescription">At {days[0].format('h:mm A')}</p>
+					<p>{event.description}</p>
+				</div>
+			{/each}
+		{/if}
+	</Modal>
+{/if}
+
+{#if $page.state.showingModal === "addEventModal"}
+	<Modal on:close={() => history.back()}>
+		<form method="POST">
+			<h1>Add Event</h1>
+
+			<div class="input"><Input name="title" bg="white" label="Event Title" required /></div>
+			<div class="input"><Input name="description" bg="white" label="Event Description" /></div>
+			<input name="date" type="hidden" value={calculatedFormDate} />
+			<div class="input">
+				<Input bg="white" label="Event Date" required type="date" bind:value={formDate} />
 			</div>
-		{/each}
-	{/if}
-</ModalHelper>
+			<div class="input">
+				<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
+			</div>
 
-<ModalHelper bind:showing={showEventModal}>
-	<form method="POST">
-		<h1>Add Event</h1>
-
-		<div class="input"><Input name="title" bg="white" label="Event Title" required /></div>
-		<div class="input"><Input name="description" bg="white" label="Event Description" /></div>
-		<input name="date" type="hidden" value={calculatedFormDate} />
-		<div class="input">
-			<Input bg="white" label="Event Date" required type="date" bind:value={formDate} />
-		</div>
-		<div class="input">
-			<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
-		</div>
-
-		<div class="submitButton">
-			<Button type="submit" value="Add Event" />
-		</div>
-	</form>
-</ModalHelper>
+			<div class="submitButton">
+				<Button type="submit" value="Add Event" />
+			</div>
+		</form>
+	</Modal>
+{/if}
 
 <style lang="scss">
 	.wrap {
