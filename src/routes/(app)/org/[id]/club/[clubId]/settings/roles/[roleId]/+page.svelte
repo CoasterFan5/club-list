@@ -13,20 +13,10 @@
 	let submitButton: HTMLButtonElement;
 
 	export let data: PageData;
-	$: permissions = createPermissionsCheck(data.role.permissionInt);
-
-	const updatePermissionInt = (e: MouseEvent) => {
-		console.log((e.currentTarget as HTMLInputElement).name);
-		console.log((e.currentTarget as HTMLInputElement).checked);
-		
-	}
-
 	let permissionInt: number;
 
-	$: if (permissions) {
-		permissionInt = createPermissionNumber(permissions)
-		console.log(permissionInt)
-	}
+	$: permissions = createPermissionsCheck(data.role.permissionInt);
+	$: if (permissions) permissionInt = createPermissionNumber(permissions)
 </script>
 
 <main>

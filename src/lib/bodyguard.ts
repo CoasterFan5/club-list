@@ -24,7 +24,6 @@ export function formHandler<S extends ZodRawShape, Z extends ZodObject<S>, E ext
 			});
 		}
 
-
 		// Let zod parse the validated client form data
 		const parsed = schema.strict().safeParse(data.value);
 
