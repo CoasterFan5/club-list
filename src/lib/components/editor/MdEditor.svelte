@@ -82,9 +82,9 @@
 	});
 
 	const dispatch = createEventDispatcher<{
-		saveRequest: void;
-		focus: void;
-		blur: void;
+		saveRequest: undefined;
+		focus: undefined;
+		blur: undefined;
 	}>();
 
 	$: if (editor) editor.setEditable(editable);

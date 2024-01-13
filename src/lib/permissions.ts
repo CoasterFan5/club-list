@@ -1,11 +1,7 @@
-export interface TypedPermissionObject<K> {
-	admin: K;
-	updateAppearance: K;
-	updateDescription: K;
-	manageAnnouncements: K;
-	manageRoles: K;
-	manageEvents: K;
-}
+export const keys = ['admin', 'updateAppearance', 'updateDescription', 'manageAnnouncements', 'manageRoles', 'manageEvents'] as const;
+export type PermissionKeys = typeof keys;
+
+export type TypedPermissionObject<K> = Record<PermissionKeys[number], K>;
 
 export type PermissionObject = TypedPermissionObject<boolean>;
 

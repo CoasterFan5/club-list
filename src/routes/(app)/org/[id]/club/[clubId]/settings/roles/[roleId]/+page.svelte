@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { createPermissionsCheck, permissionObjectDescriptions } from '$lib/permissions';
+	import { createPermissionsCheck, permissionObjectDescriptions, keys } from '$lib/permissions';
 	import { enhance } from '$app/forms';
 
 	// https://stackoverflow.com/a/7225450/7589775
@@ -24,14 +24,22 @@
 		<!-- TODO: color input, permission settings -->
 		<input name="name" value={data.role.name} on:change={() => submitButton.click()} />
 
-		<div class="container">
-			{#each Object.entries(permissionObjectDescriptions) as [key, value]}
-				<div class="role">
-					<h2>{toTitleCase(key)}</h2>
-					<p>{value}</p>
+		{#each keys as key}	
+			<div class="role">
+				<div class="input">
+					<input
+						name={key}
+						type="checkbox"
+						value={permissions[key]}
+						on:input={() => submitButton.click()}
+					/>
 				</div>
-			{/each}
-		</div>
+				<div class="description">
+					<h2>{toTitleCase(key)}</h2>
+					<p>{permissionObjectDescriptions[key]}</p>
+				</div>
+			</div>
+		{/each}
 
 		<button bind:this={submitButton} hidden type="submit" />
 	</form>
@@ -48,7 +56,7 @@
 		box-sizing: border-box;
 	}
 
-	input {
+	input[name='name'] {
 		background-color: transparent;
 		border: 0px;
 		font-size: 2rem;
@@ -60,9 +68,6 @@
 
 	form {
 		text-align: center;
-	}
-
-	div.container {
 		max-width: 800px;
 	}
 
@@ -72,7 +77,8 @@
 		text-align: left;
 		padding: 1rem;
 		margin: 1rem;
-		box-sizing: border-box;
+		display: flex;
+		flex-direction: row;
 
 		h2 {
 			margin-top: 0;
@@ -80,6 +86,17 @@
 
 		p {
 			margin-bottom: 0;
+		}
+
+		.input {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1rem;
+		}
+
+		.description {
+			width: 100%;
 		}
 	}
 </style>
