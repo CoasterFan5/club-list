@@ -46,7 +46,7 @@ export const actions = {
 
 			return {
 				success: true,
-				message: 'created!'
+				message: 'Organization created!'
 			};
 		}
 	),

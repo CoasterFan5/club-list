@@ -66,39 +66,39 @@
 						on:click={showModal}>Create One?</button
 					>{/if}
 			</h2>
-		{/if}
-
-		<div class="clubs">
-			<button class="searchWrap" on:click={focusSearch}>
-				<img alt="search" src="/search.svg" />
-				<input
-					bind:this={searchBox}
-					class="search"
-					placeholder="Search..."
-					tabindex="-1"
-					bind:value={searchTerm}
-				/>
-			</button>
-			{#each sortedClubs as club (club.id)}
-				<a class="club" href="/org/{data.orgUser.organizationId}/club/{club.id}">
-					<div class="clubInner">
-						{#if club.imageURL}
-							<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
-						{:else}
-							<div class="clubImage" />
-						{/if}
-						<div class="clubText">
-							<h2>{club.name}</h2>
+		{:else}
+			<div class="clubs">
+				<button class="searchWrap" on:click={focusSearch}>
+					<img alt="search" src="/search.svg" />
+					<input
+						bind:this={searchBox}
+						class="search"
+						placeholder="Search..."
+						tabindex="-1"
+						bind:value={searchTerm}
+					/>
+				</button>
+				{#each sortedClubs as club (club.id)}
+					<a class="club" href="/org/{data.orgUser.organizationId}/club/{club.id}">
+						<div class="clubInner">
+							{#if club.imageURL}
+								<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
+							{:else}
+								<div class="clubImage" />
+							{/if}
+							<div class="clubText">
+								<h2>{club.name}</h2>
+							</div>
 						</div>
-					</div>
-				</a>
-			{/each}
-		</div>
+					</a>
+				{/each}
+			</div>
 
-		{#if data.clubs.length > 0 && (data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER')}
-			<p>
-				Looking for more? <button class="textButton" on:click={showModal}>Create a club!</button>
-			</p>
+			{#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}
+				<p>
+					Looking for more? <button class="textButton" on:click={showModal}>Create a club!</button>
+				</p>
+			{/if}
 		{/if}
 	</div>
 </div>
