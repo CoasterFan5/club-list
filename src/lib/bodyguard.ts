@@ -6,26 +6,35 @@ import { fromZodError } from 'zod-validation-error';
 const bodyguard = new Bodyguard();
 
 export function formHandler<Z extends ZodType, E extends RequestEvent, K>(
-	schema: Z,
-	onSuccess: (data: Z['_output'], event: E) => Promise<K>,
-	config?: Partial<BodyguardConfig>
+	schema: Z, //zod schema
+	onSuccess: (data: Z['_output'], event: E) => Promise<K>, //user provided function to run on valid schema
+	config?: Partial<BodyguardConfig> //bodyguard config
 ): (event: E) => Promise<K | ActionFailure<{ message: string }>> {
 	return async (event: E) => {
+
+		//parse a form using bodygyard
 		const data = await bodyguard.softForm(event.request, undefined, {
 			...config
 		});
 
-		if (!data.success)
+		//error handling
+		if (!data.success) {
 			return fail(400, {
 				message: data.error
 			});
+		}
 
+
+		//return parsed form object for use in provided handler function
 		const parsed = schema.safeParse(data.value);
 
+
+		//error handle an invalid data schema being passed from client -> server based on zod provided schema
 		if (!parsed.success) {
 			console.error('Bodyguard fail:', parsed);
 			// TODO: more human-readable error messages (custom error mapping)
 			const error = fromZodError(parsed.error, { prefix: null });
+			console.log(error.message)
 			return fail(400, {
 				success: false,
 				message: error.message

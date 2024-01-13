@@ -1,10 +1,10 @@
 <script lang="ts">
 	export let name = "checkbox"
-	export let value: boolean = false;
+	export let checked: boolean = false;
 </script>
 
 <div class="wrap">
-	<input name={name} class="checkbox" type="checkbox" bind:value={value} on:click on:input/>
+	<input name={name} class="checkbox" type="checkbox" bind:checked on:click on:input/>
 	<div class="customBox"></div>
 	<div class="check">
 		<svg width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(0, 0, 0)"><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path></svg>

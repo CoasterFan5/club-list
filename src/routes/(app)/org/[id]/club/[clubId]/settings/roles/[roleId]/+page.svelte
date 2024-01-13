@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { createPermissionsCheck, permissionObjectDescriptions, keys } from '$lib/permissions';
+	import { createPermissionsCheck, permissionObjectDescriptions, keys, createPermissionNumber } from '$lib/permissions';
 	import { enhance } from '$app/forms';
 	import Checkbox from "$lib/components/Checkbox.svelte"
 
@@ -14,16 +14,31 @@
 
 	export let data: PageData;
 	$: permissions = createPermissionsCheck(data.role.permissionInt);
+
+	const updatePermissionInt = (e: MouseEvent) => {
+		console.log((e.currentTarget as HTMLInputElement).name);
+		console.log((e.currentTarget as HTMLInputElement).checked);
+		
+	}
+
+	let permissionInt: number;
+
+	$: if (permissions) {
+		permissionInt = createPermissionNumber(permissions)
+		console.log(permissionInt)
+	}
 </script>
 
 <main>
 	<form
-		action="/org/{data.org.id}/club/{data.club.id}/settings/roles?/updateRole"
+		action="?/updatePermissions"
 		method="POST"
 		use:enhance
-	>
+	>	
 		<!-- TODO: color input -->
-		<input name="name" value={data.role.name} on:change={() => submitButton.click()} />
+		<input name="name" value={data.role.name}/>
+
+		<input hidden name="permissionInt" bind:value={permissionInt}/>
 
 		{#each keys as key}	
 			<div class="role">
@@ -34,9 +49,8 @@
 				</div>
 				<div class="input">
 					<Checkbox
-						name={key}
-						value={permissions[key]}
-						on:input={() => submitButton.click()}
+						checked={permissions[key]}
+						on:click={() => {permissions[key] = !permissions[key]; submitButton.click()}}
 					/>
 				</div>
 			</div>
