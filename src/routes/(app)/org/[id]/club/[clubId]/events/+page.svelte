@@ -107,13 +107,18 @@
 			{@const selectedDayLocal = selectedDay}
 
 			<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
-			{#each daysActive.filter( ([, days]) => days.some(datesOnSameDay(selectedDayLocal)) ) as [event, days]}
-				<div class="event">
-					<h2>{event.title}</h2>
-					<p class="subDescription">At {days[0].format('h:mm A')}</p>
-					<p>{event.description}</p>
-				</div>
-			{/each}
+			{@const eventsOnThisDay = daysActive.filter(([, days]) => days.some(datesOnSameDay(selectedDayLocal)))}
+			{#if eventsOnThisDay.length === 0}
+				<p>No events today.</p>
+			{:else}
+				{#each eventsOnThisDay as [event, days]}
+					<div class="event">
+						<h2>{event.title}</h2>
+						<p class="subDescription">At {days[0].format('h:mm A')}</p>
+						<p>{event.description}</p>
+					</div>
+				{/each}
+			{/if}
 		{/if}
 	</Modal>
 {/if}
