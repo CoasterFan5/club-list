@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { Editor } from '@tiptap/core';
-	
+
 	export let editor: Editor | null;
 	export let element: HTMLDivElement;
 
 	let showSubMenu = false;
 
-	const clickHelper = () => showSubMenu = true;
-	const closeMenu = () => showSubMenu = false;
+	const clickHelper = () => (showSubMenu = true);
+	const closeMenu = () => (showSubMenu = false);
 
 	const enableTitle = () => {
 		editor && editor.chain().focus().toggleHeading({ level: 1 }).run();

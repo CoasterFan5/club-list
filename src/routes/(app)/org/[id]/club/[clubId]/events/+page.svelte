@@ -16,11 +16,12 @@
 	const datesOnSameDay = (date1: dayjs.Dayjs) => (date2: dayjs.Dayjs) =>
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
 
-	$: daysActive = data.events
-		.map((event) => [event, RRule.fromString(event.date).all().map(dayjs)] as const)
-	
+	$: daysActive = data.events.map(
+		(event) => [event, RRule.fromString(event.date).all().map(dayjs)] as const
+	);
+
 	$: flattenedDaysActive = daysActive.flatMap(([, days]) => days);
-	console.log(data.events)
+	console.log(data.events);
 
 	let day = dayjs();
 
@@ -35,7 +36,8 @@
 	$: calculatedFormDate = dayjs(formDate)
 		.set('hour', safeNumber(formTime.split(':')[0]) || 0)
 		.set('minute', safeNumber(formTime.split(':')[1]) || 0)
-		.utc().format();
+		.utc()
+		.format();
 
 	const emptyArray = (length: number) => Array(length).fill(0);
 
@@ -57,7 +59,7 @@
 	let showEventModal = false;
 
 	// we keep track of an extra boolean to wait till the modal closes to update selectedDay
-	// to prevent state update before modal transitition
+	// to prevent state update before modal transition
 	let showDayModal = false;
 	let selectedDay: dayjs.Dayjs | null = null;
 </script>
@@ -106,7 +108,7 @@
 		{@const selectedDayLocal = selectedDay}
 
 		<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
-		{#each daysActive.filter(([, days]) => days.some(datesOnSameDay(selectedDayLocal))) as [event, days]}
+		{#each daysActive.filter( ([, days]) => days.some(datesOnSameDay(selectedDayLocal)) ) as [event, days]}
 			<div class="event">
 				<h2>{event.title}</h2>
 				<p class="subDescription">At {days[0].format('h:mm A')}</p>
@@ -183,12 +185,10 @@
 
 		.subDescription {
 			color: var(--textLow);
-			text-align: center;
 			margin-top: 0;
 		}
 
 		h2 {
-			text-align: center;
 			margin-bottom: 0;
 		}
 	}

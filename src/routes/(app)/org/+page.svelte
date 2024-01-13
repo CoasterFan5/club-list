@@ -11,13 +11,13 @@
 
 	function showCreateModal() {
 		pushState('', {
-			showingCreateModal: true
+			showingModal: 'createOrg'
 		});
 	}
 
 	function showJoinModal() {
 		pushState('', {
-			showingJoinModal: true
+			showingModal: 'joinOrg'
 		});
 	}
 
@@ -33,7 +33,7 @@
 	}
 </script>
 
-{#if $page.state.showingCreateModal}
+{#if $page.state.showingModal == 'createOrg'}
 	<Modal on:close={() => history.back()}>
 		<form action="?/create" method="post" use:enhance={closeModal(() => history.back())}>
 			<h2>Create Organization</h2>
@@ -47,7 +47,7 @@
 	</Modal>
 {/if}
 
-{#if $page.state.showingJoinModal}
+{#if $page.state.showingModal == 'joinOrg'}
 	<Modal on:close={() => history.back()}>
 		<form action="?/join" method="post" use:enhance>
 			<h2>Join an Organization</h2>

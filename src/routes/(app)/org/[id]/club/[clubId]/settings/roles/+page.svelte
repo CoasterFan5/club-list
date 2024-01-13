@@ -7,6 +7,10 @@
 	import Input from '$lib/components/Input.svelte';
 	import { closeModal } from '$lib/closeModalEnhance';
 	import { flip } from 'svelte/animate';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import Modal from '$lib/modules/Modal.svelte';
+
 	export let data: LayoutData;
 	export let form: ActionData;
 
@@ -28,32 +32,37 @@
 		}
 	}
 
-	let showDeleteForm = false;
 	let selectedRoleName = '';
 	let inputtedRoleName = '';
 	let selectedRoleId: number;
 </script>
 
-<ModalHelper bind:showing={showDeleteForm}>
-	<form
-		action="?/deleteRole"
-		method="post"
-		use:enhance={closeModal(() => {
-			showDeleteForm = false;
-			inputtedRoleName = '';
-		})}
-	>
-		<h1>Are you sure?</h1>
-		<p>Type <b>{selectedRoleName}</b> to confirm</p>
-		<input name="roleId" hidden bind:value={selectedRoleId} />
-		<div class="formItem">
-			<Input name="roleName" label="Type Role Name" bind:value={inputtedRoleName} />
-		</div>
-		<div class="formItem">
-			<Button disabled={selectedRoleName !== inputtedRoleName} type="submit" value="Delete Role" />
-		</div>
-	</form>
-</ModalHelper>
+{#if $page.state.showingModal == 'deleteRole'}
+	<Modal on:close={() => history.back()}>
+		<form
+			action="?/deleteRole"
+			method="post"
+			use:enhance={closeModal(() => {
+				inputtedRoleName = '';
+				history.back();
+			})}
+		>
+			<h1>Are you sure?</h1>
+			<p>Type <b>{selectedRoleName}</b> to confirm</p>
+			<input name="roleId" hidden bind:value={selectedRoleId} />
+			<div class="formItem">
+				<Input name="roleName" bg="white" label="Type Role Name" bind:value={inputtedRoleName} />
+			</div>
+			<div class="formItem">
+				<Button
+					disabled={selectedRoleName !== inputtedRoleName}
+					type="submit"
+					value="Delete Role"
+				/>
+			</div>
+		</form>
+	</Modal>
+{/if}
 
 <div class="rolesHolder">
 	{#if data.roles.length < 1}
@@ -90,7 +99,9 @@
 					class="button"
 					type="button"
 					on:click={() => {
-						showDeleteForm = true;
+						pushState('', {
+							showingModal: 'deleteRole'
+						});
 						selectedRoleId = role.id;
 						selectedRoleName = role.name;
 					}}

@@ -3,8 +3,7 @@
 declare global {
 	namespace App {
 		interface PageState {
-			showingCreateModal?: boolean;
-			showingJoinModal?: boolean;
+			showingModal?: string;
 		}
 	}
 }

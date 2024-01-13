@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData, PageData } from './$types';
 	import Fuse from 'fuse.js';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+
+	import type { ActionData, PageData } from './$types';
 
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import ModalHelper from '$lib/modules/ModalHelper.svelte';
+	import Modal from '$lib/modules/Modal.svelte';
 
 	let searchTerm = '';
 
@@ -14,9 +17,10 @@
 
 	let searchBox: HTMLInputElement;
 
-	let showingModel = false;
-	let toggleModel = () => {
-		showingModel = !showingModel;
+	let showModal = () => {
+		pushState('', {
+			showingModal: 'createClub'
+		});
 	};
 
 	let focusSearch = () => searchBox.focus();
@@ -33,21 +37,23 @@
 	}
 </script>
 
-<ModalHelper bind:showing={showingModel}>
-	<form action="?/createClub" method="post" use:enhance>
-		<h2>Create Club</h2>
-		<div class="formItem">
-			<Input name="clubName" bg="white" label="Club Name" />
-		</div>
-		<div class="formItem">
-			<Button type="submit" value="Create" />
-		</div>
+{#if $page.state.showingModal == 'createClub'}
+	<Modal on:close={() => history.back()}>
+		<form action="?/createClub" method="post" use:enhance>
+			<h2>Create Club</h2>
+			<div class="formItem">
+				<Input name="clubName" bg="white" label="Club Name" />
+			</div>
+			<div class="formItem">
+				<Button type="submit" value="Create" />
+			</div>
 
-		{#if form?.message}
-			<p class="error">Error: {form?.message}</p>
-		{/if}
-	</form>
-</ModalHelper>
+			{#if form?.message}
+				<p class="error">Error: {form?.message}</p>
+			{/if}
+		</form>
+	</Modal>
+{/if}
 
 <h1>{data.org.name}</h1>
 
@@ -57,7 +63,7 @@
 			<h2>
 				No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
 						class="textButton"
-						on:click={toggleModel}>Create One?</button
+						on:click={showModal}>Create One?</button
 					>{/if}
 			</h2>
 		{/if}
@@ -91,7 +97,7 @@
 
 		{#if data.clubs.length > 0 && (data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER')}
 			<p>
-				Looking for more? <button class="textButton" on:click={toggleModel}>Create a club!</button>
+				Looking for more? <button class="textButton" on:click={showModal}>Create a club!</button>
 			</p>
 		{/if}
 	</div>

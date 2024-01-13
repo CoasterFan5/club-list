@@ -26,12 +26,14 @@ export const load: PageServerLoad = async ({ parent }) => {
 	}
 
 	return {
-		announcements: club.announcements.map(announcement => ({
+		announcements: club.announcements.map((announcement) => ({
 			...announcement,
-			author: announcement.author ? {
-				firstName: announcement.author.firstName,
-				lastName: announcement.author.lastName,
-			} : null
+			author: announcement.author
+				? {
+						firstName: announcement.author.firstName,
+						lastName: announcement.author.lastName
+				  }
+				: null
 		}))
 	};
 };
