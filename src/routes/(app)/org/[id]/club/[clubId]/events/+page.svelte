@@ -17,13 +17,25 @@
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
 
 	$: daysActive = data.events
-		.map((event) => RRule.fromString(event.date).all())
-		.flat()
-		.map((day) => dayjs(day));
+		.map((event) => [event, RRule.fromString(event.date).all().map(dayjs)] as const)
+	
+	$: flattenedDaysActive = daysActive.flatMap(([, days]) => days);
+	console.log(data.events)
 
 	let day = dayjs();
 
+	const safeNumber = (num: string): number | null => {
+		const parsed = parseInt(num);
+		return isNaN(parsed) ? null : parsed;
+	};
+
 	let formDate = dayjs().format('YYYY-MM-DD');
+	let formTime = dayjs().format('HH:mm');
+
+	$: calculatedFormDate = dayjs(formDate)
+		.set('hour', safeNumber(formTime.split(':')[0]) || 0)
+		.set('minute', safeNumber(formTime.split(':')[1]) || 0)
+		.utc().format();
 
 	const emptyArray = (length: number) => Array(length).fill(0);
 
@@ -75,7 +87,7 @@
 			{@const inMonth = day.month() === loopDay.month()}
 			<button
 				class="day"
-				class:hasEvent={daysActive.some(datesOnSameDay(loopDay))}
+				class:hasEvent={flattenedDaysActive.some(datesOnSameDay(loopDay))}
 				class:inMonth
 				on:click={() => {
 					selectedDay = loopDay;
@@ -94,9 +106,10 @@
 		{@const selectedDayLocal = selectedDay}
 
 		<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
-		{#each data.events.filter( (event) => daysActive.some(datesOnSameDay(selectedDayLocal)) ) as event}
+		{#each daysActive.filter(([, days]) => days.some(datesOnSameDay(selectedDayLocal))) as [event, days]}
 			<div class="event">
 				<h2>{event.title}</h2>
+				<p class="subDescription">At {days[0].format('h:mm A')}</p>
 				<p>{event.description}</p>
 			</div>
 		{/each}
@@ -109,9 +122,12 @@
 
 		<div class="input"><Input name="title" bg="white" label="Event Title" required /></div>
 		<div class="input"><Input name="description" bg="white" label="Event Description" /></div>
-		<input name="date" type="hidden" value={dayjs(formDate).utc(true).format('YYYY-MM-DD')} />
+		<input name="date" type="hidden" value={calculatedFormDate} />
 		<div class="input">
 			<Input bg="white" label="Event Date" required type="date" bind:value={formDate} />
+		</div>
+		<div class="input">
+			<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
 		</div>
 
 		<div class="submitButton">
@@ -155,16 +171,26 @@
 	}
 
 	.event {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
+		box-sizing: border-box;
+		text-align: left;
+		padding: 1rem;
+		margin: 2rem;
 		width: 100%;
 		height: 100%;
-		margin: 1rem;
 		background-color: #ddd;
 		border: 0;
 		border-radius: 0.5rem;
+
+		.subDescription {
+			color: var(--textLow);
+			text-align: center;
+			margin-top: 0;
+		}
+
+		h2 {
+			text-align: center;
+			margin-bottom: 0;
+		}
 	}
 
 	.day {

@@ -36,7 +36,7 @@ export const actions = {
 		async ({ title, description, date }, { params, cookies }) => {
 			const parsedDate = new Date(date);
 			const rrule = new RRule({
-				freq: RRule.YEARLY,
+				freq: RRule.DAILY,
 				dtstart: parsedDate,
 				count: 1
 			});
