@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { createPermissionsCheck, permissionObjectDescriptions, keys } from '$lib/permissions';
 	import { enhance } from '$app/forms';
+	import Checkbox from "$lib/components/Checkbox.svelte"
 
 	// https://stackoverflow.com/a/7225450/7589775
 	function toTitleCase(str: string) {
@@ -26,17 +27,17 @@
 
 		{#each keys as key}	
 			<div class="role">
-				<div class="input">
-					<input
-						name={key}
-						type="checkbox"
-						value={permissions[key]}
-						on:input={() => submitButton.click()}
-					/>
-				</div>
+				
 				<div class="description">
 					<h2>{toTitleCase(key)}</h2>
 					<p>{permissionObjectDescriptions[key]}</p>
+				</div>
+				<div class="input">
+					<Checkbox
+						name={key}
+						value={permissions[key]}
+						on:input={() => submitButton.click()}
+					/>
 				</div>
 			</div>
 		{/each}
