@@ -1,4 +1,5 @@
 import { prisma } from '$lib/prismaConnection';
+import { error } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ params, parent }) => {
@@ -24,7 +25,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 	}
 
 	if (!org.orgUsers || org.orgUsers.length == 0) {
-		throw new Error("Not in this organization; this shouldn't have happened");
+		throw error(400, "No Known Org")
 	}
 
 	return {

@@ -39,7 +39,10 @@
 	<slot />
 </div>
 
-<Toaster />
+<div class="toaster">
+	<Toaster />
+</div>
+
 
 <style lang="scss">
 	.wrap {
@@ -83,5 +86,9 @@
 
 	:global(.mono) {
 		font-family: 'Source Code Pro Variable', sans-serif;
+	}
+	.toaster {
+		position: fixed;
+		z-index: 9999999999999999999;
 	}
 </style>

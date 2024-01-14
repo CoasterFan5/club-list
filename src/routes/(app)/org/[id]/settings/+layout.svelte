@@ -31,7 +31,7 @@
 		top: 0px;
 		left: 0px;
 		background: var(--bg);
-		z-index: 100000;
+		z-index: 1001;
 		display: flex;
 		align-items: center;
 		justify-content: center;
