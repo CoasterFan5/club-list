@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 	import { createPermissionsCheck, permissionObjectDescriptions, keys, createPermissionNumber } from '$lib/permissions';
 	import { enhance } from '$app/forms';
 	import Checkbox from "$lib/components/Checkbox.svelte"
+	import { addToast } from '$lib/components/toaster';
 
 	// https://stackoverflow.com/a/7225450/7589775
 	function toTitleCase(str: string) {
@@ -11,21 +12,37 @@
 	}
 
 	let submitButton: HTMLButtonElement;
+	let permissionIntBox: HTMLInputElement;
 
 	export let data: PageData;
-	$: permissions = createPermissionsCheck(data.role.permissionInt);
+	export let form: ActionData
 
-	const updatePermissionInt = (e: MouseEvent) => {
-		console.log((e.currentTarget as HTMLInputElement).name);
-		console.log((e.currentTarget as HTMLInputElement).checked);
-		
-	}
+	$: permissions = createPermissionsCheck(data.role.permissionInt);
 
 	let permissionInt: number;
 
-	$: if (permissions) {
+
+	const updatePermissionInt = async (key: string) => {
+		(permissions as {[key: string]: boolean})[key] = !(permissions as {[key: string]: boolean})[key]
 		permissionInt = createPermissionNumber(permissions)
-		console.log(permissionInt)
+		permissionIntBox.value = permissionInt.toString()
+		submitButton.click()
+	}
+
+	$: if (form) {
+		if (form.success) {
+			addToast({
+				type: 'success',
+				message: form.message || 'Success!',
+				life: 3000
+			});
+		} else {
+			addToast({
+				type: 'error',
+				message: form.message || 'Failed!',
+				life: 3000
+			});
+		}
 	}
 </script>
 
@@ -33,12 +50,16 @@
 	<form
 		action="?/updatePermissions"
 		method="POST"
-		use:enhance
+		use:enhance={({}) => {
+			return async ({ update }) => {
+				update({ reset: false });
+			};
+		}}
 	>	
 		<!-- TODO: color input -->
 		<input name="name" value={data.role.name}/>
 
-		<input hidden name="permissionInt" bind:value={permissionInt}/>
+		<input hidden name="permissionInt" bind:this={permissionIntBox}>
 
 		{#each keys as key}	
 			<div class="role">
@@ -49,8 +70,8 @@
 				</div>
 				<div class="input">
 					<Checkbox
-						checked={permissions[key]}
-						on:click={() => {permissions[key] = !permissions[key]; submitButton.click()}}
+						bind:checked={permissions[key]}
+						on:click={() => {updatePermissionInt(key)}}
 					/>
 				</div>
 			</div>
@@ -91,9 +112,10 @@
 		background-color: white;
 		text-align: left;
 		padding: 1rem;
-		margin: 1rem;
+		margin: 1rem 0rem;
 		display: flex;
 		flex-direction: row;
+		box-sizing: border-box;
 
 		h2 {
 			margin-top: 0;

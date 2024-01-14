@@ -1,14 +1,68 @@
 import { formHandler } from '$lib/bodyguard.js';
+import { createPermissionsCheck } from '$lib/permissions.js';
+import { prisma } from '$lib/prismaConnection.js';
+import { verifySession } from '$lib/verifySession.js';
+import { redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 export const actions = {
 	updatePermissions: formHandler(
 		z.object({
-			permissionInt: z.number(),
+			permissionInt: z.coerce.number(),
 			name: z.string(),
 		}),
-		async ({permissionInt}) => {
-			console.log(permissionInt)
-			return {}
+		async ({permissionInt}, {cookies, params}) => {
+			const user = await verifySession(cookies.get("session"))
+			if(!user) {
+				throw redirect(303, "/login")
+			}
+
+			const club = await prisma.club.findFirst({
+				where: {
+					id: parseInt(params.clubId)
+				},
+				include: {
+					clubUsers: {
+						where: {
+							userId: user.id
+						},
+						include: {
+							role: true
+						}
+					}
+				}
+			})
+
+
+			if(club?.ownerId != user.id) {
+				if(!club?.clubUsers[0]?.role) {
+					return {
+						success: false,
+						message: "No permissions"
+					}
+				}
+				const permissionCheck = createPermissionsCheck(club.clubUsers[0].role.permissionInt)
+				if(!permissionCheck.admin && !permissionCheck.manageRoles) {
+					return {
+						success: false,
+						message: "No permissions"
+					}
+				}
+			}
+
+			//do the update
+			await prisma.clubRole.update({
+				where: {
+					id: parseInt(params.roleId)
+				},
+				data: {
+					permissionInt: permissionInt
+				}
+			})
+			
+			return {
+				success: true,
+				message: "Role updated!"
+			}
 	})
 }
