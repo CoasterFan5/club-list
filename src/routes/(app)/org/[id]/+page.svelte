@@ -153,7 +153,7 @@
 						</a>
 					{/each}
 				{:else}
-					<h2>No clubs found. Try searching for something else</h2>
+					<h2>No clubs found. Try searching for something else.</h2>
 				{/if}
 			</div>
 

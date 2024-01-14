@@ -2,6 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/modules/Modal.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
 	import dayjs from 'dayjs';
 	import { RRule } from './rrule.js';
 	import dayOfYear from 'dayjs/plugin/dayOfYear';
@@ -58,6 +59,8 @@
 	$: calendarDays = [...startPaddingDays, ...daysInMonth, ...endPaddingDays];
 
 	let selectedDay: dayjs.Dayjs | null = null;
+
+	let repeats = false;
 </script>
 
 <div class="wrap">
@@ -137,11 +140,37 @@
 			<div class="input"><Input name="description" bg="white" label="Event Description" /></div>
 			<input name="date" type="hidden" value={calculatedFormDate} />
 			<div class="input">
-				<Input bg="white" label="Event Date" required type="date" bind:value={formDate} />
+				<Input bg="white" label={repeats ? "Starts On" : "Event Date"} required type="date" bind:value={formDate} />
 			</div>
 			<div class="input">
 				<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
 			</div>
+
+			<hr />
+
+			<div class="input checkbox">
+				Repeats?
+				<Checkbox bind:checked={repeats} />
+			</div>
+
+			{#if repeats}
+				<div class="input">
+					<label for="repeat">Repeats every</label>
+					<!-- TODO: custom number input -->
+					<div class="input">
+						<Input type="number" label="Count" name="repeatEvery" bg="white" />
+					</div>
+					<select name="repeat" id="repeat">
+						<option value="daily">Days</option>
+						<option value="weekly">Weeks</option>
+						<option value="monthly">Months</option>
+						<option value="yearly">Years</option>
+					</select>
+					<div class="input">
+						<Input type="number" label="Amount of times" name="repeatEvery" bg="white" />
+					</div>
+				</div>
+			{/if}
 
 			<div class="submitButton">
 				<Button type="submit" value="Add Event" />
@@ -241,6 +270,12 @@
 	.input {
 		margin: 1rem 0;
 		width: 100%;
+
+		&.checkbox {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
 	}
 
 	.submitButton {
