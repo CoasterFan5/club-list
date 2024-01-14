@@ -107,6 +107,7 @@
 		font-weight: 600;
 		text-align: center;
 		width: 100%;
+		padding: 0;
 	}
 
 	.wrap {
