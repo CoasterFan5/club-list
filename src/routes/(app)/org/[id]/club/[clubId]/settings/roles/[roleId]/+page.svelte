@@ -56,7 +56,7 @@
 	<form
 		action="?/updatePermissions"
 		method="POST"
-		use:enhance={({}) => {
+		use:enhance={() => {
 			return async ({ update }) => {
 				update({ reset: false });
 			};
@@ -65,7 +65,7 @@
 		<!-- TODO: color input -->
 		<input name="name" value={data.role.name} />
 
-		<input hidden name="permissionInt" bind:this={permissionIntBox} />
+		<input bind:this={permissionIntBox} name="permissionInt" hidden />
 
 		{#each keys as key}
 			<div class="role">

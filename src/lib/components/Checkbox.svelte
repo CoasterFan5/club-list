@@ -7,7 +7,7 @@
 	<input {name} class="checkbox" type="checkbox" bind:checked on:click on:input />
 	<div class="customBox" />
 	<div class="check">
-		<svg width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(0, 0, 0)"
+		<svg style="fill: rgb(0, 0, 0)" height="24" viewBox="0 0 24 24" width="24"
 			><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z" /></svg
 		>
 	</div>
