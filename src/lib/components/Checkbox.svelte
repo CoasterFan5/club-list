@@ -1,10 +1,11 @@
 <script lang="ts">
-	export let name = 'checkbox';
+	export let name: string | null = 'checkbox';
 	export let checked = false;
+	export let disabled = false;
 </script>
 
 <div class="wrap">
-	<input {name} class="checkbox" type="checkbox" bind:checked on:click on:input />
+	<input {name} {disabled} class="checkbox" type="checkbox" bind:checked on:click on:input />
 	<div class="customBox" />
 	<div class="check">
 		<svg style="fill: rgb(0, 0, 0)" height="24" viewBox="0 0 24 24" width="24"

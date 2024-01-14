@@ -54,7 +54,7 @@
 
 <main>
 	<form
-		action="?/updatePermissions"
+		action="?/updateFullRole"
 		method="POST"
 		use:enhance={() => {
 			return async ({ update }) => {
@@ -64,11 +64,9 @@
 	>
 		<input bind:this={permissionIntBox} name="permissionInt" hidden />
 		<button bind:this={submitButton} hidden type="submit" />
-	</form>
-	<div class="wrap">
 		<!-- TODO: color input -->
-		<input name="name" value={data.role.name} />
 
+		<input name="name" value={data.role.name} on:change={() => submitButton.click()} />
 		{#each keys as key}
 			<div class="role">
 				<div class="description">
@@ -77,6 +75,7 @@
 				</div>
 				<div class="input">
 					<Checkbox
+						name={null}
 						checked={permissions[key]}
 						on:click={() => {
 							updatePermissionInt(key);
@@ -85,7 +84,7 @@
 				</div>
 			</div>
 		{/each}
-	</div>
+	</form>
 </main>
 
 <style lang="scss">
@@ -110,7 +109,7 @@
 		padding: 0;
 	}
 
-	.wrap {
+	form {
 		text-align: center;
 		max-width: 800px;
 	}

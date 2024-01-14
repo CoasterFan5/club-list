@@ -6,11 +6,12 @@ import { redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 export const actions = {
-	updatePermissions: formHandler(
+	updateFullRole: formHandler(
 		z.object({
-			permissionInt: z.coerce.number()
+			permissionInt: z.coerce.number(),
+			name: z.string()
 		}),
-		async ({ permissionInt }, { cookies, params }) => {
+		async ({ permissionInt, name }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
 			if (!user) {
 				throw redirect(303, '/login');
@@ -48,13 +49,14 @@ export const actions = {
 				}
 			}
 
-			//do the update
+			// do the update
 			await prisma.clubRole.update({
 				where: {
 					id: parseInt(params.roleId)
 				},
 				data: {
-					permissionInt: permissionInt
+					permissionInt: permissionInt,
+					name
 				}
 			});
 
