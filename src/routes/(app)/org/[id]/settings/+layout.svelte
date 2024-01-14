@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
@@ -11,17 +11,14 @@
 				<a href="/org/{data.org.id}/settings">General</a>
 			</div>
 			<a href="/org/{data.org.id}">Done</a>
-			
 		</div>
 		<div class="content">
 			<div class="contentInner">
-				<slot/>
+				<slot />
 			</div>
-			
 		</div>
 	</div>
 </div>
-
 
 <style>
 	.wrap {
@@ -56,7 +53,7 @@
 		flex-direction: column;
 		align-items: start;
 		justify-content: start;
-		padding: 5px
+		padding: 5px;
 	}
 	.top {
 		height: 100%;
@@ -77,7 +74,6 @@
 	}
 	.sidebar a:hover {
 		background: var(--accent50);
-		
 	}
 	.content {
 		width: 100%;

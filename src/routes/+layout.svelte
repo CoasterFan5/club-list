@@ -43,7 +43,6 @@
 	<Toaster />
 </div>
 
-
 <style lang="scss">
 	.wrap {
 		min-height: calc(100vh);

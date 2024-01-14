@@ -67,42 +67,38 @@ export const actions = {
 			redirect(303, `/org/${params.id}/club/${club.id}`);
 		}
 	),
-	leaveOrg: async ({cookies, params}) => {
-
-		const user = await verifySession(cookies.get("session"))
+	leaveOrg: async ({ cookies, params }) => {
+		const user = await verifySession(cookies.get('session'));
 
 		const orguser = await prisma.orgUser.findFirst({
 			where: {
 				AND: {
 					organizationId: parseInt(params.id),
-					userId: user.id,
+					userId: user.id
 				}
 			}
-		})
+		});
 
-		
-
-		if(!orguser) {
+		if (!orguser) {
 			return {
 				success: false,
-				message: "You are not in this org..."
-			}
+				message: 'You are not in this org...'
+			};
 		}
 
-		if(orguser.role == "OWNER") {
+		if (orguser.role == 'OWNER') {
 			return {
 				success: false,
-				message: "You cant leave an org you own!"
-			}
+				message: 'You cant leave an org you own!'
+			};
 		}
 
 		await prisma.orgUser.delete({
 			where: {
 				id: orguser.id
 			}
-		})
+		});
 
-		throw redirect(303, "/org")
-
+		throw redirect(303, '/org');
 	}
 };

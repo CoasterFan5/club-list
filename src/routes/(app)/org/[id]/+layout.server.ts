@@ -25,7 +25,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 	}
 
 	if (!org.orgUsers || org.orgUsers.length == 0) {
-		throw error(400, "No Known Org")
+		throw error(400, 'No Known Org');
 	}
 
 	return {

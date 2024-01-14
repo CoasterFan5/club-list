@@ -1,13 +1,13 @@
 <script lang="ts">
-	import Input from "$lib/components/Input.svelte"
-	import Button from "$lib/components/Button.svelte"
-	import type {PageData, ActionData} from "./$types"
-	
+	import Input from '$lib/components/Input.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import type { PageData, ActionData } from './$types';
+
 	export let data: PageData;
 	export let form: ActionData;
 
-	import { enhance } from "$app/forms";
-	import { addToast } from "$lib/components/toaster";
+	import { enhance } from '$app/forms';
+	import { addToast } from '$lib/components/toaster';
 
 	$: if (form) {
 		if (form.success) {
@@ -24,25 +24,27 @@
 			});
 		}
 	}
-
 </script>
 
-<form class="wrap" method="POST" action="?/updateOrg" use:enhance={() => {
+<form
+	class="wrap"
+	method="POST"
+	action="?/updateOrg"
+	use:enhance={() => {
 		return async ({ update }) => {
 			update({ reset: false });
 		};
-	}}>
+	}}
+>
 	<h2>General Settings</h2>
-	<hr>
+	<hr />
 	<div class="itemSpacer">
-		<Input name="name" label="Name" bind:value={data.org.name}/>
+		<Input name="name" label="Name" bind:value={data.org.name} />
 	</div>
 	<div class="itemSpacer">
-		<Button value="Update"/>
+		<Button value="Update" />
 	</div>
-	
 </form>
-
 
 <style>
 	.wrap {
@@ -52,7 +54,6 @@
 		justify-content: center;
 		width: 100%;
 		max-width: 500px;
-
 	}
 	h2 {
 		margin: 0px;

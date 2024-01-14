@@ -41,12 +41,12 @@
 		pushState('', {
 			showingModal: 'leaveOrg'
 		});
-	}
+	};
 
 	let leavingOrg = false;
 
 	$: if (form) {
-		history.back()
+		history.back();
 		if (form.success) {
 			addToast({
 				type: 'success',
@@ -63,14 +63,17 @@
 	}
 </script>
 
-
-{#if $page.state.showingModal == "leaveOrg"}
-	<Modal on:close={() => {history.back()}}>
+{#if $page.state.showingModal == 'leaveOrg'}
+	<Modal
+		on:close={() => {
+			history.back();
+		}}
+	>
 		<form method="post" action="?/leaveOrg" use:enhance>
 			<h2>Hold Up!</h2>
 			<p>Are you sure you want to leave this organization?</p>
 			<p>All your data and permissions will be lost forever</p>
-			<Button value="Leave {data.org.name}"/>
+			<Button value="Leave {data.org.name}" />
 		</form>
 	</Modal>
 {/if}
@@ -85,24 +88,19 @@
 			<div class="formItem">
 				<Button type="submit" value="Create" />
 			</div>
-
-			
 		</form>
 	</Modal>
 {/if}
 
-
 <div class="header">
 	<h1>{data.org.name}</h1>
 	<a href="/org/{data.org.id}/settings">
-		<img class="icon" src="/icons/settings.svg" alt="settings"/>
+		<img class="icon" src="/icons/settings.svg" alt="settings" />
 	</a>
 	<button on:click={startLeaveOrg}>
-		<img class="icon" src="/icons/leave.svg" alt="leave"/>
+		<img class="icon" src="/icons/leave.svg" alt="leave" />
 	</button>
-	
 </div>
-
 
 <div class="wrap">
 	<div class="content">
@@ -195,12 +193,10 @@
 	}
 	.header img {
 		height: 80%;
-
 	}
 	.header h1 {
 		margin: 0px 25px;
 		height: 100%;
-		
 	}
 
 	.content {
