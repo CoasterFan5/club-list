@@ -151,7 +151,7 @@ export const actions = {
 		if (sessionCheck.user.clubUsers.length > 0) {
 			return {
 				success: false,
-				message: 'Already in this club!'
+				message: 'You are already in this club!'
 			};
 		}
 

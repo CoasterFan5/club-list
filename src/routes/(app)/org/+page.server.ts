@@ -74,14 +74,14 @@ export const actions = {
 			if (!joinCheck) {
 				return {
 					success: false,
-					message: 'Invalid Join Code'
+					message: `Invalid Join Code ${joinCode}`
 				};
 			}
 
 			if (joinCheck.orgUsers.length > 0) {
 				return {
 					success: false,
-					message: 'Already in this org!'
+					message: 'You are already in this org!'
 				};
 			}
 
