@@ -43,8 +43,6 @@
 		});
 	};
 
-	let leavingOrg = false;
-
 	$: if (form) {
 		history.back();
 		if (form.success) {
@@ -69,7 +67,7 @@
 			history.back();
 		}}
 	>
-		<form method="post" action="?/leaveOrg" use:enhance>
+		<form action="?/leaveOrg" method="post" use:enhance>
 			<h2>Hold Up!</h2>
 			<p>Are you sure you want to leave this organization?</p>
 			<p>All your data and permissions will be lost forever</p>
@@ -92,15 +90,31 @@
 	</Modal>
 {/if}
 
-<div class="header">
-	<h1>{data.org.name}</h1>
-	<a href="/org/{data.org.id}/settings">
-		<img class="icon" src="/icons/settings.svg" alt="settings" />
-	</a>
-	<button on:click={startLeaveOrg}>
-		<img class="icon" src="/icons/leave.svg" alt="leave" />
-	</button>
-</div>
+<header>
+	<div class="main">
+		<h1>{data.org.name}</h1>
+		<a href="/org/{data.org.id}/settings">
+			<img class="icon" alt="settings" src="/icons/settings.svg" />
+		</a>
+		<button on:click={startLeaveOrg}>
+			<img class="icon" alt="leave" src="/icons/leave.svg" />
+		</button>
+	</div>
+	<div class="joinCode">
+		<p>
+			Join Code (Click to copy): <button
+				on:click={() => {
+					navigator.clipboard.writeText(data.org.joinCode);
+					addToast({
+						type: 'success',
+						message: 'Copied to clipboard!',
+						life: 3000
+					});
+				}}>{data.org.joinCode}</button
+			>
+		</p>
+	</div>
+</header>
 
 <div class="wrap">
 	<div class="content">
@@ -162,41 +176,69 @@
 		align-items: start;
 		justify-content: center;
 	}
-	.header {
+	header {
 		background: var(--bgMid);
 		width: 100%;
 		padding: 25px 0px;
 		box-sizing: border-box;
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-	}
-	.header a {
-		all: unset;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-		padding: 0px 5px;
-	}
-	.header button {
-		all: unset;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-		padding: 0px 5px;
-	}
-	.header img {
-		height: 80%;
-	}
-	.header h1 {
-		margin: 0px 25px;
-		height: 100%;
+
+		.main {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+		}
+
+		.joinCode {
+			width: 100%;
+			text-align: center;
+			font-size: 1.2rem;
+			color: var(--textLow);
+
+			button {
+				all: unset;
+				display: inline-block;
+				font-weight: 500;
+				background: var(--textLow);
+
+				&:hover {
+					cursor: pointer;
+					background: var(--text);
+				}
+			}
+		}
+
+		a {
+			all: unset;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+			padding: 0px 5px;
+		}
+		button {
+			all: unset;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+			padding: 0px 5px;
+		}
+		img {
+			height: 80%;
+		}
+		h1 {
+			margin: 0px 25px;
+			height: 100%;
+		}
 	}
 
 	.content {
