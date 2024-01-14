@@ -9,6 +9,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/modules/Modal.svelte';
+	import { addToast } from '$lib/components/toaster';
 
 	let searchTerm = '';
 
@@ -35,7 +36,44 @@
 	} else {
 		sortedClubs = data.clubs;
 	}
+
+	const startLeaveOrg = () => {
+		pushState('', {
+			showingModal: 'leaveOrg'
+		});
+	}
+
+	let leavingOrg = false;
+
+	$: if (form) {
+		history.back()
+		if (form.success) {
+			addToast({
+				type: 'success',
+				message: 'Club Updated!',
+				life: 3000
+			});
+		} else {
+			addToast({
+				type: 'error',
+				message: form.message || 'An error occurred!',
+				life: 3000
+			});
+		}
+	}
 </script>
+
+
+{#if $page.state.showingModal == "leaveOrg"}
+	<Modal on:close={() => {history.back()}}>
+		<form method="post" action="?/leaveOrg" use:enhance>
+			<h2>Hold Up!</h2>
+			<p>Are you sure you want to leave this organization?</p>
+			<p>All your data and permissions will be lost forever</p>
+			<Button value="Leave {data.org.name}"/>
+		</form>
+	</Modal>
+{/if}
 
 {#if $page.state.showingModal == 'createClub'}
 	<Modal on:close={() => history.back()}>
@@ -48,14 +86,23 @@
 				<Button type="submit" value="Create" />
 			</div>
 
-			{#if form?.message}
-				<p class="error">Error: {form?.message}</p>
-			{/if}
+			
 		</form>
 	</Modal>
 {/if}
 
-<h1>{data.org.name}</h1>
+
+<div class="header">
+	<h1>{data.org.name}</h1>
+	<a href="/org/{data.org.id}/settings">
+		<img class="icon" src="/icons/settings.svg" alt="settings"/>
+	</a>
+	<button on:click={startLeaveOrg}>
+		<img class="icon" src="/icons/leave.svg" alt="leave"/>
+	</button>
+	
+</div>
+
 
 <div class="wrap">
 	<div class="content">
@@ -104,6 +151,9 @@
 </div>
 
 <style lang="scss">
+	.icon:hover {
+		filter: var(--redIconFilter);
+	}
 	.wrap {
 		height: 100%;
 		width: 100%;
@@ -113,6 +163,44 @@
 		flex-direction: row;
 		align-items: start;
 		justify-content: center;
+	}
+	.header {
+		background: var(--bgMid);
+		width: 100%;
+		padding: 25px 0px;
+		box-sizing: border-box;
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+	.header a {
+		all: unset;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		padding: 0px 5px;
+	}
+	.header button {
+		all: unset;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		padding: 0px 5px;
+	}
+	.header img {
+		height: 80%;
+
+	}
+	.header h1 {
+		margin: 0px 25px;
+		height: 100%;
+		
 	}
 
 	.content {

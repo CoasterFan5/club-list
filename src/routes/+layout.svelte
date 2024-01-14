@@ -67,6 +67,11 @@
 			contrast(92%);
 	}
 
+	:global(h1),
+	:global(h2) {
+		font-weight: 500;
+	}
+
 	:global(body) {
 		margin: 0;
 		background: var(--bg);

@@ -1,5 +1,6 @@
 import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/prismaConnection';
+import { verifySession } from '$lib/verifySession.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
@@ -65,5 +66,43 @@ export const actions = {
 
 			redirect(303, `/org/${params.id}/club/${club.id}`);
 		}
-	)
+	),
+	leaveOrg: async ({cookies, params}) => {
+
+		const user = await verifySession(cookies.get("session"))
+
+		const orguser = await prisma.orgUser.findFirst({
+			where: {
+				AND: {
+					organizationId: parseInt(params.id),
+					userId: user.id,
+				}
+			}
+		})
+
+		
+
+		if(!orguser) {
+			return {
+				success: false,
+				message: "You are not in this org..."
+			}
+		}
+
+		if(orguser.role == "OWNER") {
+			return {
+				success: false,
+				message: "You cant leave an org you own!"
+			}
+		}
+
+		await prisma.orgUser.delete({
+			where: {
+				id: orguser.id
+			}
+		})
+
+		throw redirect(303, "/org")
+
+	}
 };
