@@ -22,7 +22,6 @@
 
 <style>
 	.wrap {
-		position: fixed;
 		height: 100vh;
 		width: 100%;
 		top: 0px;

@@ -27,7 +27,6 @@
 </script>
 
 <form
-	class="wrap"
 	action="?/updateOrg"
 	method="POST"
 	use:enhance={() => {
@@ -36,8 +35,7 @@
 		};
 	}}
 >
-	<h2>General Settings</h2>
-	<hr />
+	<h2>Settings</h2>
 	<div class="itemSpacer">
 		<Input name="name" label="Name" bind:value={data.org.name} />
 	</div>
@@ -47,7 +45,7 @@
 </form>
 
 <style>
-	.wrap {
+	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -55,9 +53,12 @@
 		width: 100%;
 		max-width: 500px;
 	}
+
 	h2 {
-		margin: 0px;
+		margin: 0;
+		margin-bottom: 2rem;
 	}
+
 	.itemSpacer {
 		width: 100%;
 		padding: 7px 0px;
