@@ -275,10 +275,6 @@
 		}
 	}
 
-	.error {
-		color: red;
-	}
-
 	.clubs {
 		width: 100%;
 		display: flex;
