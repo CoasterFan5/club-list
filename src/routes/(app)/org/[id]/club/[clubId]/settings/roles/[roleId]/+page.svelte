@@ -1,8 +1,13 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
-	import { createPermissionsCheck, permissionObjectDescriptions, keys, createPermissionNumber } from '$lib/permissions';
+	import {
+		createPermissionsCheck,
+		permissionObjectDescriptions,
+		keys,
+		createPermissionNumber
+	} from '$lib/permissions';
 	import { enhance } from '$app/forms';
-	import Checkbox from "$lib/components/Checkbox.svelte"
+	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { addToast } from '$lib/components/toaster';
 
 	// https://stackoverflow.com/a/7225450/7589775
@@ -15,19 +20,20 @@
 	let permissionIntBox: HTMLInputElement;
 
 	export let data: PageData;
-	export let form: ActionData
+	export let form: ActionData;
 
 	$: permissions = createPermissionsCheck(data.role.permissionInt);
 
 	let permissionInt: number;
 
-
 	const updatePermissionInt = async (key: string) => {
-		(permissions as {[key: string]: boolean})[key] = !(permissions as {[key: string]: boolean})[key]
-		permissionInt = createPermissionNumber(permissions)
-		permissionIntBox.value = permissionInt.toString()
-		submitButton.click()
-	}
+		(permissions as { [key: string]: boolean })[key] = !(permissions as { [key: string]: boolean })[
+			key
+		];
+		permissionInt = createPermissionNumber(permissions);
+		permissionIntBox.value = permissionInt.toString();
+		submitButton.click();
+	};
 
 	$: if (form) {
 		if (form.success) {
@@ -55,15 +61,14 @@
 				update({ reset: false });
 			};
 		}}
-	>	
+	>
 		<!-- TODO: color input -->
-		<input name="name" value={data.role.name}/>
+		<input name="name" value={data.role.name} />
 
-		<input hidden name="permissionInt" bind:this={permissionIntBox}>
+		<input hidden name="permissionInt" bind:this={permissionIntBox} />
 
-		{#each keys as key}	
+		{#each keys as key}
 			<div class="role">
-				
 				<div class="description">
 					<h2>{toTitleCase(key)}</h2>
 					<p>{permissionObjectDescriptions[key]}</p>
@@ -71,7 +76,9 @@
 				<div class="input">
 					<Checkbox
 						bind:checked={permissions[key]}
-						on:click={() => {updatePermissionInt(key)}}
+						on:click={() => {
+							updatePermissionInt(key);
+						}}
 					/>
 				</div>
 			</div>

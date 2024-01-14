@@ -9,12 +9,12 @@ export const actions = {
 	updatePermissions: formHandler(
 		z.object({
 			permissionInt: z.coerce.number(),
-			name: z.string(),
+			name: z.string()
 		}),
-		async ({permissionInt}, {cookies, params}) => {
-			const user = await verifySession(cookies.get("session"))
-			if(!user) {
-				throw redirect(303, "/login")
+		async ({ permissionInt }, { cookies, params }) => {
+			const user = await verifySession(cookies.get('session'));
+			if (!user) {
+				throw redirect(303, '/login');
 			}
 
 			const club = await prisma.club.findFirst({
@@ -31,22 +31,21 @@ export const actions = {
 						}
 					}
 				}
-			})
+			});
 
-
-			if(club?.ownerId != user.id) {
-				if(!club?.clubUsers[0]?.role) {
+			if (club?.ownerId != user.id) {
+				if (!club?.clubUsers[0]?.role) {
 					return {
 						success: false,
-						message: "No permissions"
-					}
+						message: 'No permissions'
+					};
 				}
-				const permissionCheck = createPermissionsCheck(club.clubUsers[0].role.permissionInt)
-				if(!permissionCheck.admin && !permissionCheck.manageRoles) {
+				const permissionCheck = createPermissionsCheck(club.clubUsers[0].role.permissionInt);
+				if (!permissionCheck.admin && !permissionCheck.manageRoles) {
 					return {
 						success: false,
-						message: "No permissions"
-					}
+						message: 'No permissions'
+					};
 				}
 			}
 
@@ -58,11 +57,12 @@ export const actions = {
 				data: {
 					permissionInt: permissionInt
 				}
-			})
-			
+			});
+
 			return {
 				success: true,
-				message: "Role updated!"
-			}
-	})
-}
+				message: 'Role updated!'
+			};
+		}
+	)
+};

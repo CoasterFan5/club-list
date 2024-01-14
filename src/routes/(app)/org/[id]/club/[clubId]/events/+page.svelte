@@ -66,9 +66,12 @@
 	</div>
 
 	<div class="button big">
-		<Button value="Add Event" on:click={() => {
-			pushState('', { showingModal: 'addEventModal' });
-		}} />
+		<Button
+			value="Add Event"
+			on:click={() => {
+				pushState('', { showingModal: 'addEventModal' });
+			}}
+		/>
 	</div>
 
 	<div class="dateBar">
@@ -100,14 +103,16 @@
 	</div>
 </div>
 
-{#if $page.state.showingModal === "dayModal"}
+{#if $page.state.showingModal === 'dayModal'}
 	<Modal on:close={() => history.back()}>
 		{#if selectedDay !== null}
 			<!-- Assure typescript that our selectedDay will remain the same in filter -->
 			{@const selectedDayLocal = selectedDay}
 
 			<h1>{selectedDay.format('MMMM D, YYYY')}</h1>
-			{@const eventsOnThisDay = daysActive.filter(([, days]) => days.some(datesOnSameDay(selectedDayLocal)))}
+			{@const eventsOnThisDay = daysActive.filter(([, days]) =>
+				days.some(datesOnSameDay(selectedDayLocal))
+			)}
 			{#if eventsOnThisDay.length === 0}
 				<p>No events today.</p>
 			{:else}
@@ -123,7 +128,7 @@
 	</Modal>
 {/if}
 
-{#if $page.state.showingModal === "addEventModal"}
+{#if $page.state.showingModal === 'addEventModal'}
 	<Modal on:close={() => history.back()}>
 		<form method="POST">
 			<h1>Add Event</h1>

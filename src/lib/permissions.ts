@@ -1,4 +1,11 @@
-export const keys = ['admin', 'updateAppearance', 'updateDescription', 'manageAnnouncements', 'manageRoles', 'manageEvents'] as const;
+export const keys = [
+	'admin',
+	'updateAppearance',
+	'updateDescription',
+	'manageAnnouncements',
+	'manageRoles',
+	'manageEvents'
+] as const;
 export type PermissionKeys = typeof keys;
 
 export type TypedPermissionObject<K> = Record<PermissionKeys[number], K>;
