@@ -18,7 +18,7 @@ model Session {
 model User {
 	id 	          Int      @id @default(autoincrement())
 	createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+	updatedAt     DateTime @updatedAt
 	email         String   @db.VarChar(255) @unique
 	hash          String   @db.VarChar(1000)
 	salt          String   @db.VarChar(255)
@@ -49,8 +49,8 @@ model ClubUser {
 	clubId         Int
 	user 	       User         @relation(fields: [userId], references: [id])
 	userId 	       Int
-	roleId Int?
-	role ClubRole? @relation(fields: [roleId], references: [id])
+	roleId         Int?
+	role           ClubRole? @relation(fields: [roleId], references: [id])
 }
 
 model Organization {
@@ -65,8 +65,8 @@ model Organization {
 
 model Club {
 	id 	           Int           @id @default(autoincrement())
-	createdAt       DateTime?     @default(now())
-	updatedAt       DateTime?     @updatedAt
+	createdAt      DateTime?     @default(now())
+	updatedAt      DateTime?     @updatedAt
 	name 	       String        @db.VarChar(255)
 	description    String?
 	imageURL       String?
@@ -77,45 +77,45 @@ model Club {
 	clubUsers      ClubUser[]
 	announcements  Announcement[]
 	events         Event[]
-	roles ClubRole[]
+	roles          ClubRole[]
 }
 
 model Event {
-	id Int @id @default(autoincrement())
-	createdAt DateTime? @default(now())
-	updatedAt DateTime? @updatedAt
-	title String
+	id          Int @id @default(autoincrement())
+	createdAt   DateTime? @default(now())
+	updatedAt   DateTime? @updatedAt
+	title       String
 	description String?
-	clubId Int
-	authorId Int?
-	author User? @relation(fields: [authorId], references: [id])
-	club Club @relation(fields: [clubId], references: [id])
+	clubId      Int
+	authorId    Int?
+	author      User? @relation(fields: [authorId], references: [id])
+	club        Club @relation(fields: [clubId], references: [id])
 	// An RRULE string
-	date String
+	date        String
 	// A list of RRULE strings
-	exclusions String[]
+	exclusions  String[]
 }
 
 model Announcement {
-	id Int @id @default(autoincrement())
-	createdAt DateTime? @default(now())
-	updatedAt DateTime? @updatedAt
-	title String 
+	id          Int @id @default(autoincrement())
+	createdAt   DateTime? @default(now())
+	updatedAt   DateTime? @updatedAt
+	title       String 
 	description String? 
-	clubId Int
-	club Club @relation(fields: [clubId], references: [id])
-	authorId Int?
-	author User? @relation(fields: [authorId], references: [id])
+	clubId      Int
+	club        Club @relation(fields: [clubId], references: [id])
+	authorId    Int?
+	author      User? @relation(fields: [authorId], references: [id])
 }
 
 model ClubRole {
-	id Int @id @default(autoincrement())
-	createdAt DateTime @default(now())
-	updatedAt DateTime @updatedAt
-	name String
-	color String
+	id            Int @id @default(autoincrement())
+	createdAt     DateTime @default(now())
+	updatedAt     DateTime @updatedAt
+	name          String
+	color         String
 	permissionInt Int
-	clubId Int
-	club Club @relation(fields: [clubId], references: [id])
-	members ClubUser[]
+	clubId        Int
+	club          Club @relation(fields: [clubId], references: [id])
+	members       ClubUser[]
 }
