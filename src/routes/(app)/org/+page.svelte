@@ -61,35 +61,47 @@
 	</Modal>
 {/if}
 
-{#if data.user.orgUsers.length < 1}
-	<div class="noOrgs">
-		<h1>No Joined Organizations</h1>
-		<p>
-			<button class="textButton" on:click={showJoinModal}>Join</button>
-			or
-			<button class="textButton" on:click={showCreateModal}>Create</button> one!
-		</p>
-	</div>
-{/if}
-
-{#if data.user.orgUsers.length > 0}
-	<h1>Joined Organizations</h1>
-	<div class="orgList">
-		<div class="list">
-			{#each data.user.orgUsers as orgUser}
-				<a href="/org/{orgUser.organization.id}">{orgUser.organization.name}</a>
-			{/each}
+<main>
+	{#if data.user.orgUsers.length < 1}
+		<div class="noOrgs">
+			<h1>No Joined Organizations</h1>
+			<p>
+				<button class="textButton" on:click={showJoinModal}>Join</button>
+				or
+				<button class="textButton" on:click={showCreateModal}>Create</button> one!
+			</p>
 		</div>
+	{/if}
 
-		<p>
-			Not what you want? <button class="textButton" on:click={showJoinModal}>Join</button>
-			or
-			<button class="textButton" on:click={showCreateModal}>Create</button> a new organization
-		</p>
-	</div>
-{/if}
+	{#if data.user.orgUsers.length > 0}
+		<h1>Joined Organizations</h1>
+		<div class="orgList">
+			<div class="list">
+				{#each data.user.orgUsers as orgUser}
+					<a href="/org/{orgUser.organization.id}">{orgUser.organization.name}</a>
+				{/each}
+			</div>
+
+			<p>
+				Not what you want? <button class="textButton" on:click={showJoinModal}>Join</button>
+				or
+				<button class="textButton" on:click={showCreateModal}>Create</button> a new organization
+			</p>
+		</div>
+	{/if}
+</main>
 
 <style lang="scss">
+	main {
+		padding: 1rem;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+	}
+
 	.noOrgs {
 		text-align: center;
 		font-size: 1.2rem;
