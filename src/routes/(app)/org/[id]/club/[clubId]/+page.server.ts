@@ -29,7 +29,7 @@ export const actions = {
 				dataUpdateObject.description = clubDescription;
 			}
 
-			//ensure the user is actually allowed to edit this thing
+			// ensure the user is actually allowed to edit this thing
 			const session = cookies.get('session');
 			if (!session) {
 				redirect(303, '/login');
@@ -59,7 +59,7 @@ export const actions = {
 				error(500, 'Invalid Club Id');
 			}
 
-			//check for permissions
+			// check for permissions
 			const club = await prisma.club.findFirst({
 				where: {
 					id: id
@@ -84,7 +84,7 @@ export const actions = {
 			}
 
 			if (club.ownerId != sessionCheck.user.id) {
-				//check if the user has permissions
+				// check if the user has permissions
 				if (!club.clubUsers) {
 					return {
 						success: false,
@@ -155,7 +155,7 @@ export const actions = {
 			};
 		}
 
-		//now we can create the club user
+		// now we can create the club user
 		await prisma.clubUser.create({
 			data: {
 				clubId: clubId,

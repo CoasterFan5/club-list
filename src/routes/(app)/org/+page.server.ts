@@ -18,7 +18,7 @@ export const actions = {
 			// find the user
 			const user = await verifySession(cookies.get('session'));
 
-			//we need to know the number of orgs created currently
+			// we need to know the number of orgs created currently
 			const orgAmount = await prisma.organization.count();
 
 			// make a join code

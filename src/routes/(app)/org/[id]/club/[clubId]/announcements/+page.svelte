@@ -1,9 +1,8 @@
 <script lang="ts">
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
-	import type { PageData } from './$types';
 	import Button from '$lib/components/Button.svelte';
 
-	export let data: PageData;
+	export let data;
 </script>
 
 <div class="wrap">

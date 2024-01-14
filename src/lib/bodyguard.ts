@@ -23,6 +23,7 @@ export function formHandler<
 
 		// Check if bodyguard failed to parse form
 		if (!data.success) {
+			console.warn("! Bodyguard fail:", data.error)
 			return fail(400, {
 				message: data.error
 			});
@@ -33,10 +34,9 @@ export function formHandler<
 
 		// Check if zod failed to parse the form
 		if (!parsed.success) {
-			console.error('Bodyguard fail:', parsed);
 			// TODO: more human-readable error messages (custom error mapping)
 			const error = fromZodError(parsed.error, { prefix: null });
-			console.log(error.message);
+			console.warn('Zod fail:', error.message);
 			return fail(400, {
 				success: false,
 				message: error.message

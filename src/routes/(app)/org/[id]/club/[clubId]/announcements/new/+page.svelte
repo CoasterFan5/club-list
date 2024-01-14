@@ -3,8 +3,18 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
+	import { addToast } from '$lib/components/toaster.js';
 
 	let content = 'No Description';
+	export let form;
+
+	$: if (form?.message) {
+		addToast({
+			type: 'error',
+			message: form.message || 'Something went wrong',
+			life: 3000
+		});
+	}
 </script>
 
 <div class="wrap">

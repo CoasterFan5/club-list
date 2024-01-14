@@ -76,7 +76,7 @@ export const actions = {
 					redirect(303, '/login');
 				}
 			}
-			//whoo! valid!
+			// Valid!
 
 			await prisma.announcement.create({
 				data: {

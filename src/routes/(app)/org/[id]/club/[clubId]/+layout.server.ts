@@ -9,7 +9,7 @@ import type { LayoutServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
 export const load: LayoutServerLoad = async ({ params, parent }) => {
-	//load some data!
+	// load some data!
 	const parentData = await parent();
 	const clubId = parseInt(params.clubId);
 

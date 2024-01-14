@@ -69,7 +69,7 @@ export const actions = {
 			error(401, 'No Permissions');
 		}
 
-		//actually make the role
+		// actually make the role
 		await prisma.clubRole.create({
 			data: {
 				name: 'New Role',
@@ -127,7 +127,7 @@ export const actions = {
 				redirect(303, '/login');
 			}
 
-			//make sure the user has the proper perms
+			// make sure the user has the proper perms
 
 			let userPerms: PermissionObject = { ...defaultClubPermissionObject };
 
@@ -222,7 +222,7 @@ export const actions = {
 				redirect(303, '/login');
 			}
 
-			//make sure the user has the proper perms
+			// make sure the user has the proper perms
 
 			let userPerms: PermissionObject = { ...defaultClubPermissionObject };
 
@@ -244,7 +244,7 @@ export const actions = {
 				error(401, 'No Permissions');
 			}
 
-			//grab the role
+			// grab the role
 			const role = await prisma.clubRole.findFirst({
 				where: {
 					id: parseInt(roleId)
@@ -263,7 +263,7 @@ export const actions = {
 				};
 			}
 
-			//delete the role
+			// delete the role
 			await prisma.clubUser.updateMany({
 				where: {
 					roleId: parseInt(roleId)
