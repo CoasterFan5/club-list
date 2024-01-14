@@ -132,25 +132,29 @@
 					<input
 						bind:this={searchBox}
 						class="search"
-						placeholder="Search..."
+						placeholder="Search for clubs..."
 						tabindex="-1"
 						bind:value={searchTerm}
 					/>
 				</button>
-				{#each sortedClubs as club (club.id)}
-					<a class="club" href="/org/{data.orgUser.organizationId}/club/{club.id}">
-						<div class="clubInner">
-							{#if club.imageURL}
-								<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
-							{:else}
-								<div class="clubImage" />
-							{/if}
-							<div class="clubText">
-								<h2>{club.name}</h2>
+				{#if sortedClubs.length > 0}
+					{#each sortedClubs as club (club.id)}
+						<a class="club" href="/org/{data.orgUser.organizationId}/club/{club.id}">
+							<div class="clubInner">
+								{#if club.imageURL}
+									<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
+								{:else}
+									<div class="clubImage" />
+								{/if}
+								<div class="clubText">
+									<h2>{club.name}</h2>
+								</div>
 							</div>
-						</div>
-					</a>
-				{/each}
+						</a>
+					{/each}
+				{:else}
+					<h2>No clubs found. Try searching for something else</h2>
+				{/if}
 			</div>
 
 			{#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}
@@ -354,12 +358,12 @@
 		width: 100%;
 		box-sizing: border-box;
 		margin: 10px 0px;
+		margin-bottom: 2rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		background: var(--bgPure);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
-		outline: 0px;
 		border: 0px;
 		display: flex;
 		align-items: center;
@@ -373,8 +377,9 @@
 		}
 
 		&:hover,
-		&:focus {
-			border: 1px solid var(--accent);
+		&:focus,
+		&:active {
+			outline: 1px solid var(--accent);
 			cursor: text;
 		}
 	}
