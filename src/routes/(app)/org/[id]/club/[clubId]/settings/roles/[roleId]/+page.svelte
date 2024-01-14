@@ -62,10 +62,12 @@
 			};
 		}}
 	>
+		<input bind:this={permissionIntBox} name="permissionInt" hidden />
+		<button bind:this={submitButton} hidden type="submit" />
+	</form>
+	<div class="wrap">
 		<!-- TODO: color input -->
 		<input name="name" value={data.role.name} />
-
-		<input bind:this={permissionIntBox} name="permissionInt" hidden />
 
 		{#each keys as key}
 			<div class="role">
@@ -75,7 +77,7 @@
 				</div>
 				<div class="input">
 					<Checkbox
-						bind:checked={permissions[key]}
+						checked={permissions[key]}
 						on:click={() => {
 							updatePermissionInt(key);
 						}}
@@ -83,9 +85,7 @@
 				</div>
 			</div>
 		{/each}
-
-		<button bind:this={submitButton} hidden type="submit" />
-	</form>
+	</div>
 </main>
 
 <style lang="scss">
@@ -109,7 +109,7 @@
 		width: 100%;
 	}
 
-	form {
+	.wrap {
 		text-align: center;
 		max-width: 800px;
 	}

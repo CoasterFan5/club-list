@@ -8,8 +8,7 @@ import { z } from 'zod';
 export const actions = {
 	updatePermissions: formHandler(
 		z.object({
-			permissionInt: z.coerce.number(),
-			name: z.string()
+			permissionInt: z.coerce.number()
 		}),
 		async ({ permissionInt }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
