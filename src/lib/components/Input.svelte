@@ -4,7 +4,7 @@
 	// Options
 	export let name = 'Input';
 	export let label = 'Input';
-	export let type: 'password' | 'email' | 'date' | 'time' | undefined = undefined;
+	export let type: 'password' | 'email' | 'date' | 'time' | 'number' | undefined = undefined;
 	export let required = false;
 	export let autocomplete: HTMLInputElement['autocomplete'] | null = null;
 	export let pattern: string = '.*';
