@@ -54,13 +54,13 @@ model ClubUser {
 }
 
 model Organization {
-	id 	     Int      @id @default(autoincrement())
-	name 	 String   @db.VarChar(255)
-	owner 	 User     @relation(fields: [ownerId], references: [id])
-	ownerId  Int
-	orgUsers OrgUser[]
-	clubs    Club[]
-	joinCode String	  @unique
+	id 	       Int       @id @default(autoincrement())
+	name 	   String    @db.VarChar(255)
+	owner 	   User      @relation(fields: [ownerId], references: [id])
+	ownerId    Int
+	orgUsers   OrgUser[]
+	clubs      Club[]
+	joinCode   String	 @unique
 }
 
 model Club {
@@ -72,12 +72,13 @@ model Club {
 	imageURL       String?
 	owner 	       User          @relation(fields: [ownerId], references: [id])
 	ownerId        Int
-	organization   Organization @relation(fields: [organizationId], references: [id])
+	organization   Organization  @relation(fields: [organizationId], references: [id])
 	organizationId Int
 	clubUsers      ClubUser[]
 	announcements  Announcement[]
 	events         Event[]
 	roles          ClubRole[]
+	openToJoin     Boolean       @default(true)
 }
 
 model Event {
