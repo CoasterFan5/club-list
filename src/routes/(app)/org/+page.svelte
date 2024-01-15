@@ -8,6 +8,7 @@
 	import { closeModal } from '$lib/closeModalEnhance';
 	import { page } from '$app/stores';
 	import { pushState } from '$app/navigation';
+	import Link from '$lib/components/Link.svelte';
 
 	function showCreateModal() {
 		pushState('', {
@@ -66,9 +67,9 @@
 		<div class="noOrgs">
 			<h1>No Joined Organizations</h1>
 			<p>
-				<button class="textButton" on:click={showJoinModal}>Join</button>
+				<Link on:click={showJoinModal}>Join</Link>
 				or
-				<button class="textButton" on:click={showCreateModal}>Create</button> one!
+				<Link on:click={showCreateModal}>Create</Link> one!
 			</p>
 		</div>
 	{/if}
@@ -83,9 +84,9 @@
 			</div>
 
 			<p>
-				Not what you want? <button class="textButton" on:click={showJoinModal}>Join</button>
+				Not what you want? <Link on:click={showJoinModal}>Join</Link>
 				or
-				<button class="textButton" on:click={showCreateModal}>Create</button> a new organization
+				<Link on:click={showCreateModal}>Create</Link> a new organization
 			</p>
 		</div>
 	{/if}
@@ -118,31 +119,6 @@
 
 	.formInput {
 		margin: 7px;
-	}
-
-	.textButton {
-		all: unset;
-		cursor: pointer;
-		text-decoration: none;
-		color: var(--accent);
-		position: relative;
-
-		&::after {
-			content: '';
-			position: absolute;
-			bottom: 0px;
-			left: 0;
-			width: 100%;
-			height: 2px;
-			background: var(--accent);
-			transform: scaleX(0);
-			transform-origin: center;
-			transition: transform 0.3s ease-in-out;
-		}
-
-		&:hover::after {
-			transform: scaleX(1);
-		}
 	}
 
 	.orgList {

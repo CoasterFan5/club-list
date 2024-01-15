@@ -2,6 +2,7 @@
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import { fly, type FlyParams } from 'svelte/transition';
 	import { Hamburger } from 'svelte-hamburgers';
+	import Link from '$lib/components/Link.svelte';
 
 	let innerWidth = 0;
 	let hamburgerLinks: boolean;
@@ -35,11 +36,8 @@
 				in:fly={inTransition}
 				out:fly={outTransition}
 			>
-				<a href="/login" on:click={closeClick}>Log In</a>
-				<a href="/get-started" on:click={closeClick}>Get Started</a>
-				{#if hamburgerLinks}
-					<a href="##" on:click={closeClick}>Close</a>
-				{/if}
+				<Link --marginLeft={"15px"} --fontSize={"1.2rem"} textColor="white" href="/login" on:click={closeClick}>Log In</Link>
+				<Link --marginLeft={"15px"} --fontSize={"1.2rem"} textColor="white" href="/get-started" on:click={closeClick}>Get Started</Link>
 			</div>
 		{/if}
 	</div>
@@ -99,31 +97,6 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-
-		a {
-			margin-left: 15px;
-			font-size: 1.2rem;
-			text-decoration: none;
-			color: var(--text);
-			position: relative;
-
-			&::after {
-				content: '';
-				position: absolute;
-				bottom: 0px;
-				left: 0;
-				width: 100%;
-				height: 2px;
-				background: var(--accent);
-				transform: scaleX(0);
-				transform-origin: center;
-				transition: transform 0.3s ease-in-out;
-			}
-
-			&:hover::after {
-				transform: scaleX(1);
-			}
-		}
 	}
 
 	.hamburgerMenu {
@@ -138,7 +111,7 @@
 		flex-direction: column;
 		color: var(--text);
 
-		a {
+		:global(a) {
 			padding: 10px;
 		}
 

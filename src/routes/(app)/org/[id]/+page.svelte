@@ -7,6 +7,7 @@
 	import type { ActionData, PageData } from './$types';
 
 	import Button from '$lib/components/Button.svelte';
+	import Link from '$lib/components/Link.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/modules/Modal.svelte';
 	import { addToast } from '$lib/components/toaster';
@@ -159,7 +160,7 @@
 
 			{#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}
 				<p>
-					Looking for more? <button class="textButton" on:click={showModal}>Create a club!</button>
+					Looking for more? <Link on:click={showModal}>Create a club!</Link>
 				</p>
 			{/if}
 		{/if}
@@ -253,30 +254,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: start;
-	}
-	.textButton {
-		all: unset;
-		cursor: pointer;
-		text-decoration: none;
-		color: var(--accent);
-		position: relative;
-
-		&::after {
-			content: '';
-			position: absolute;
-			bottom: 0px;
-			left: 0;
-			width: 100%;
-			height: 2px;
-			background: var(--accent);
-			transform: scaleX(0);
-			transform-origin: center;
-			transition: transform 0.3s ease-in-out;
-		}
-
-		&:hover::after {
-			transform: scaleX(1);
-		}
 	}
 
 	.clubs {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { ActionData } from './$types';
+	import Link from '$lib/components/Link.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
@@ -29,7 +30,7 @@
 			<span class="inputDiv">
 				<Button type="submit" value="Register" />
 			</span>
-			<p>Already have an account? <a href="/login">Log In</a></p>
+			<p>Already have an account? <Link href="/login">Log In</Link></p>
 			{#if form?.success == false}
 				<p class="error">Error: {form?.message}</p>
 			{/if}
@@ -74,27 +75,5 @@
 	.error {
 		margin: 0px;
 		color: red;
-	}
-
-	a {
-		color: var(--accent);
-		position: relative;
-		text-decoration: none;
-
-		&::after {
-			content: '';
-			position: absolute;
-			bottom: 0px;
-			left: 0px;
-			width: 100%;
-			height: 2px;
-			transform: scaleX(0);
-			background: var(--accent);
-			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-		}
-
-		&:hover::after {
-			transform: scaleX(1);
-		}
 	}
 </style>

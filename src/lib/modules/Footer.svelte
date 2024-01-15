@@ -2,6 +2,7 @@
 	import { cubicOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
 	import { fade } from 'svelte/transition';
+	import Link from '$lib/components/Link.svelte';
 
 	let bottom = tweened(0, {
 		duration: 300,
@@ -15,10 +16,10 @@
 			<h2>Clubsaur<span class="emphasize">.</span>us</h2>
 		</div>
 		<div class="right">
-			<a href="https://github.com/CoasterFan5/Clubsaurus">GitHub</a>
-			<a href="https://beta.clubsaur.us">Beta</a>
-			<a href="/login">Login</a>
-			<a href="/get-started">Signup</a>
+			<Link href="https://github.com/CoasterFan5/Clubsaurus">GitHub</Link>
+			<Link href="https://beta.clubsaur.us">Beta</Link>
+			<Link href="/login">Login</Link>
+			<Link href="/get-started">Signup</Link>
 		</div>
 	</div>
 </footer>
@@ -61,29 +62,5 @@
 		align-items: end;
 		justify-content: center;
 		flex-direction: column;
-
-		a {
-			color: var(--accent);
-			text-decoration: none;
-			margin: 2px 0px;
-			position: relative;
-			font-size: 1rem;
-
-			&:hover::after {
-				transform: scaleX(1);
-			}
-
-			&::after {
-				content: '';
-				position: absolute;
-				bottom: 0px;
-				width: 100%;
-				height: 2px;
-				left: 0px;
-				background: var(--accent);
-				transform: scaleX(0);
-				transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-			}
-		}
 	}
 </style>
