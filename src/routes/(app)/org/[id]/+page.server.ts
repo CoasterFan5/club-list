@@ -16,25 +16,7 @@ export const actions = {
 				});
 			}
 
-			const session = cookies.get('session');
-			const sessionCheck = await prisma.session.findFirst({
-				where: {
-					sessionToken: session
-				},
-				include: {
-					user: true
-				}
-			});
-
-			if (!sessionCheck) {
-				redirect(303, '/login');
-			}
-
-			const user = sessionCheck.user;
-
-			if (!user) {
-				redirect(303, '/login');
-			}
+			const user = await verifySession(cookies.get('session'));
 
 			// get the org user
 			const orgUser = await prisma.orgUser.findFirst({
@@ -70,7 +52,7 @@ export const actions = {
 	leaveOrg: async ({ cookies, params }) => {
 		const user = await verifySession(cookies.get('session'));
 
-		const orguser = await prisma.orgUser.findFirst({
+		const orgUser = await prisma.orgUser.findFirst({
 			where: {
 				AND: {
 					organizationId: parseInt(params.id),
@@ -79,14 +61,14 @@ export const actions = {
 			}
 		});
 
-		if (!orguser) {
+		if (!orgUser) {
 			return {
 				success: false,
 				message: 'You are not in this org...'
 			};
 		}
 
-		if (orguser.role == 'OWNER') {
+		if (orgUser.role == 'OWNER') {
 			return {
 				success: false,
 				message: 'You cant leave an org you own!'
@@ -95,7 +77,7 @@ export const actions = {
 
 		await prisma.orgUser.delete({
 			where: {
-				id: orguser.id
+				id: orgUser.id
 			}
 		});
 
