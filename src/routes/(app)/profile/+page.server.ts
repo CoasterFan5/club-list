@@ -1,10 +1,10 @@
-import { prisma } from '$lib/prismaConnection';
+import { prisma } from '$lib/server/prismaConnection';
 import { fail } from '@sveltejs/kit';
-import { S3 } from '$lib/s3.js';
+import { S3 } from '$lib/server/s3.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { bucket, mediaurl } from '$env/static/private';
 import crypto from 'crypto';
-import { verifySession } from '$lib/verifySession';
+import { verifySession } from '$lib/server/verifySession';
 
 export const actions = {
 	updateProfile: async ({ cookies, request }) => {

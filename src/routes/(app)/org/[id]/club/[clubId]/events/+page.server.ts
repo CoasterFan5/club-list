@@ -1,4 +1,4 @@
-import { prisma } from '$lib/prismaConnection';
+import { prisma } from '$lib/server/prismaConnection';
 import { error, redirect } from '@sveltejs/kit';
 import { formHandler } from '$lib/bodyguard.js';
 import { z } from 'zod';

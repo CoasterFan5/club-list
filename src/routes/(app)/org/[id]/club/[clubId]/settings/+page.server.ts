@@ -4,8 +4,8 @@ import {
 	defaultClubPermissionObject,
 	permissionKeys
 } from '$lib/permissions.js';
-import { prisma } from '$lib/prismaConnection.js';
-import { verifySession } from '$lib/verifySession';
+import { prisma } from '$lib/server/prismaConnection.js';
+import { verifySession } from '$lib/server/verifySession';
 
 export const actions = {
 	updateClub: async ({ cookies, params, request }) => {

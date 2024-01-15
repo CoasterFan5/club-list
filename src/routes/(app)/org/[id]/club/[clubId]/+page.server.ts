@@ -1,4 +1,4 @@
-import { prisma } from '$lib/prismaConnection';
+import { prisma } from '$lib/server/prismaConnection';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { error, redirect } from '@sveltejs/kit';
 import { formHandler } from '$lib/bodyguard';

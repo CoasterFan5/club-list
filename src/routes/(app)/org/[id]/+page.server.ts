@@ -1,6 +1,6 @@
 import { formHandler } from '$lib/bodyguard.js';
-import { prisma } from '$lib/prismaConnection';
-import { verifySession } from '$lib/verifySession.js';
+import { prisma } from '$lib/server/prismaConnection';
+import { verifySession } from '$lib/server/verifySession.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
