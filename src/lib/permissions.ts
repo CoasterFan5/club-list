@@ -4,7 +4,8 @@ export const keys = [
 	'updateDescription',
 	'manageAnnouncements',
 	'manageRoles',
-	'manageEvents'
+	'manageEvents',
+	'manageMembers'
 ] as const;
 export type PermissionKeys = typeof keys;
 
@@ -18,7 +19,8 @@ export const defaultClubPermissionObject: PermissionObject = Object.freeze({
 	updateDescription: false,
 	manageAnnouncements: false,
 	manageRoles: false,
-	manageEvents: false
+	manageEvents: false,
+	manageMembers: false
 });
 
 export const permissionObjectDescriptions: TypedPermissionObject<string> = Object.freeze({
@@ -27,7 +29,8 @@ export const permissionObjectDescriptions: TypedPermissionObject<string> = Objec
 	updateDescription: 'Update the about me for the club',
 	manageAnnouncements: 'Allows a user to send out announcements',
 	manageRoles: 'Allows a user to create new roles',
-	manageEvents: 'Allows a user to create new events'
+	manageEvents: 'Allows a user to create new events',
+	manageMembers: 'Allows a user to manage other members of the club'
 });
 
 export const permissionKeys = Object.freeze(
