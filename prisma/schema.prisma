@@ -44,10 +44,10 @@ model OrgUser {
 }
 
 model ClubUser {
-	id             Int @id @default(autoincrement())
-	club           Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	id             Int       @id @default(autoincrement())
+	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	clubId         Int
-	user 	       User         @relation(fields: [userId], references: [id])
+	user 	       User      @relation(fields: [userId], references: [id])
 	userId 	       Int
 	roleId         Int?
 	role           ClubRole? @relation(fields: [roleId], references: [id])
