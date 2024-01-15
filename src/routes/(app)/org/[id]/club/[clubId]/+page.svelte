@@ -2,7 +2,6 @@
 	import type { PageData, ActionData } from './$types';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import Announcement from '$lib/components/Announcement.svelte';
-	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
 	export let data: PageData;

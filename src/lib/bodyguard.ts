@@ -23,7 +23,7 @@ export function formHandler<
 
 		// Check if bodyguard failed to parse form
 		if (!data.success) {
-			console.warn("! Bodyguard fail:", data.error)
+			console.warn('! Bodyguard fail:', data.error);
 			return fail(400, {
 				message: data.error
 			});

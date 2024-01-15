@@ -140,7 +140,13 @@
 			<div class="input"><Input name="description" bg="white" label="Event Description" /></div>
 			<input name="date" type="hidden" value={calculatedFormDate} />
 			<div class="input">
-				<Input bg="white" label={repeats ? "Starts On" : "Event Date"} required type="date" bind:value={formDate} />
+				<Input
+					bg="white"
+					label={repeats ? 'Starts On' : 'Event Date'}
+					required
+					type="date"
+					bind:value={formDate}
+				/>
 			</div>
 			<div class="input">
 				<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
@@ -158,16 +164,16 @@
 					<label for="repeat">Repeats every</label>
 					<!-- TODO: custom number input -->
 					<div class="input">
-						<Input type="number" label="Count" name="repeatEvery" bg="white" />
+						<Input name="repeatEvery" bg="white" label="Count" type="number" />
 					</div>
-					<select name="repeat" id="repeat">
+					<select id="repeat" name="repeat">
 						<option value="daily">Days</option>
 						<option value="weekly">Weeks</option>
 						<option value="monthly">Months</option>
 						<option value="yearly">Years</option>
 					</select>
 					<div class="input">
-						<Input type="number" label="Amount of times" name="repeatEvery" bg="white" />
+						<Input name="repeatEvery" bg="white" label="Amount of times" type="number" />
 					</div>
 				</div>
 			{/if}

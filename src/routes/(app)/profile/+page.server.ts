@@ -5,36 +5,33 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { bucket, mediaurl } from '$env/static/private';
 import crypto from 'crypto';
 import { verifySession } from '$lib/server/verifySession';
+import { formHandler } from '$lib/bodyguard';
+import { z } from 'zod';
 
 export const actions = {
-	updateProfile: async ({ cookies, request }) => {
-		const user = await verifySession(cookies.get('session'));
+	updateProfile: formHandler(
+		z.object({
+			firstName: z.string(),
+			lastName: z.string(),
+			email: z.string().email()
+		}),
+		async ({ firstName, lastName, email }, { cookies }) => {
+			const user = await verifySession(cookies.get('session'));
+			
+			await prisma.user.updateMany({
+				where: {
+					id: user.id
+				},
+				data: {
+					firstName,
+					lastName,
+					email
+				}
+			});
 
-		const formData = await request.formData();
-		const firstName = formData.get('firstName')?.toString();
-		const lastName = formData.get('firstName')?.toString();
-		const email = formData.get('firstName')?.toString();
-
-		if (!firstName || !lastName || !email) {
-			return {
-				success: false,
-				message: 'Missing Fields'
-			};
+			return { success: true };
 		}
-
-		await prisma.user.updateMany({
-			where: {
-				id: user.id
-			},
-			data: {
-				firstName,
-				lastName,
-				email
-			}
-		});
-
-		return { success: true };
-	},
+	),
 
 	updatePfp: async ({ request, cookies }) => {
 		const user = await verifySession(cookies.get('session'));

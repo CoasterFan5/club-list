@@ -29,7 +29,7 @@
 		align-items: center;
 		justify-content: start;
 	}
-	
+
 	.announcementList {
 		width: 90%;
 		max-width: 600px;

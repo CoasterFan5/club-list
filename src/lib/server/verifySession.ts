@@ -21,7 +21,7 @@ export const verifyOptionalSession = async (session: string | undefined) => {
 					email: true,
 					createdAt: true,
 					updatedAt: true,
-					pfp: true,
+					pfp: true
 				}
 			}
 		}

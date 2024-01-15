@@ -21,7 +21,7 @@ export const load = async ({ params, parent }) => {
 					author: {
 						select: {
 							firstName: true,
-							lastName: true,
+							lastName: true
 						}
 					}
 				},

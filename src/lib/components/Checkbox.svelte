@@ -5,7 +5,7 @@
 </script>
 
 <div class="wrap">
-	<input {name} {disabled} class="checkbox" type="checkbox" bind:checked on:click on:input />
+	<input {name} class="checkbox" {disabled} type="checkbox" bind:checked on:click on:input />
 	<div class="customBox" />
 	<div class="check">
 		<svg style="fill: rgb(0, 0, 0)" height="24" viewBox="0 0 24 24" width="24"
