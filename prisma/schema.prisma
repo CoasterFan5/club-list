@@ -39,7 +39,7 @@ model OrgUser {
 	role           String
 	organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 	organizationId Int
-	user 	       User         @relation(fields: [userId], references: [id])
+	user 	       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 	userId 	       Int
 
 	@@id([organizationId, userId])
@@ -49,7 +49,7 @@ model ClubUser {
 	createdAt      DateTime  @default(now())
 	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	clubId         Int
-	user 	       User      @relation(fields: [userId], references: [id])
+	user 	       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 	userId 	       Int
 	roleId         Int?
 	role           ClubRole? @relation(fields: [roleId], references: [id])
@@ -76,7 +76,7 @@ model Club {
 	imageURL       String?
 	owner 	       User          @relation(fields: [ownerId], references: [id])
 	ownerId        Int
-	organization   Organization  @relation(fields: [organizationId], references: [id])
+	organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 	organizationId Int
 	clubUsers      ClubUser[]
 	announcements  Announcement[]
@@ -94,7 +94,7 @@ model Event {
 	clubId      Int
 	authorId    Int?
 	author      User? @relation(fields: [authorId], references: [id])
-	club        Club @relation(fields: [clubId], references: [id])
+	club        Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	// An RRULE string
 	date        String
 	// A list of RRULE strings
@@ -108,7 +108,7 @@ model Announcement {
 	title       String 
 	description String? 
 	clubId      Int
-	club        Club @relation(fields: [clubId], references: [id])
+	club        Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	authorId    Int?
 	author      User? @relation(fields: [authorId], references: [id])
 }
@@ -121,6 +121,6 @@ model ClubRole {
 	color         String
 	permissionInt Int
 	clubId        Int
-	club          Club @relation(fields: [clubId], references: [id])
+	club          Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	members       ClubUser[]
 }
