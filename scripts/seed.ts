@@ -63,7 +63,56 @@ async function main() {
 												}
 											},
 											imageURL:
-												'https://static01.nyt.com/images/2022/12/04/magazine/04mag-cardboard-copy/04mag-cardboard-copy-facebookJumbo-v2.jpg'
+												'https://static01.nyt.com/images/2022/12/04/magazine/04mag-cardboard-copy/04mag-cardboard-copy-facebookJumbo-v2.jpg',
+											clubUsers: {
+												create: [
+													{
+														user: {
+															create: {
+																firstName: 'Spice',
+																lastName: 'Bottle',
+																email: 'sbottle@card.board',
+																...(await makePassword('password')),
+															}
+														},
+													},
+													{
+														user: {
+															create: {
+																firstName: 'Cup',
+																lastName: 'Holder',
+																email: 'cholder@card.board',
+																...(await makePassword('password')),
+															}
+														}
+													},
+													{
+														user: {
+															create: {
+																firstName: 'Pencil',
+																lastName: 'Case',
+																email: 'pcase@card.board',
+																...(await makePassword('password')),
+															}
+														}
+													},
+													{
+														user: {
+															create: {
+																firstName: 'Lime',
+																lastName: 'Glasses',
+																email: 'lglasses@card.board',
+																...(await makePassword('password')),
+																organization: {
+																	connect: {
+																		id: 1
+																	}
+																}
+															}
+														}
+													}
+												]
+											}
 										},
 										{
 											name: 'Board Game Club',
@@ -117,7 +166,7 @@ async function main() {
 								email: 'sputty@card.board',
 								...(await makePassword('password'))
 							}
-						}
+						},
 					}
 				]
 			}
