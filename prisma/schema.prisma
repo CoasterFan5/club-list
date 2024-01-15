@@ -35,6 +35,7 @@ model User {
 }
 
 model OrgUser {
+	createdAt      DateTime     @default(now())
 	role           String
 	organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 	organizationId Int
@@ -45,6 +46,7 @@ model OrgUser {
 }
 
 model ClubUser {
+	createdAt      DateTime  @default(now())
 	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	clubId         Int
 	user 	       User      @relation(fields: [userId], references: [id])

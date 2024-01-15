@@ -67,7 +67,7 @@ export const actions = {
 				include: {
 					clubUsers: {
 						where: {
-							id: sessionCheck.user.id
+							userId: sessionCheck.user.id
 						},
 						include: {
 							role: true

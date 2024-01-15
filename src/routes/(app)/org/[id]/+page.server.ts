@@ -77,7 +77,10 @@ export const actions = {
 
 		await prisma.orgUser.delete({
 			where: {
-				id: orgUser.id
+				organizationId_userId: {
+					organizationId: orgUser.organizationId,
+					userId: user.id
+				}
 			}
 		});
 

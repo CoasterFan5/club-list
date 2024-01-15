@@ -4,8 +4,6 @@
 
 	export let data: PageData;
 
-	console.log(data.roles);
-
 	let showRoleSelector = false;
 	let roleSelectorHTML: HTMLDivElement;
 	let roleSearchElement: HTMLInputElement;
@@ -15,7 +13,7 @@
 		y: 0
 	};
 
-	let roleSearch: string = '';
+	let roleSearch = '';
 
 	let selectedUserId = 0;
 
@@ -32,7 +30,7 @@
 				x: e.clientX,
 				y: e.clientY
 			};
-			//use this so we can focus the role search element
+			// Use this so we can focus the role search element
 			roleSelectorHTML.hidden = !showRoleSelector;
 			roleSearchElement.focus();
 		}
@@ -92,7 +90,7 @@
 						<button
 							class="changeRole"
 							on:click|self={(e) => {
-								roleHelper(e, member.clubUserId);
+								roleHelper(e, member.userId);
 							}}
 						>
 							{member.role.name || 'None'}

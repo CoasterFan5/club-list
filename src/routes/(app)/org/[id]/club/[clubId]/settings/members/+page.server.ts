@@ -44,7 +44,6 @@ const validateUser = async (session: string | undefined, params: RouteParams) =>
 
 export const load = async ({ cookies, params }) => {
 	await validateUser(cookies.get('session'), params);
-	//all good
 	const memberData = await prisma.clubUser.findMany({
 		where: {
 			clubId: parseInt(params.clubId)
@@ -54,13 +53,13 @@ export const load = async ({ cookies, params }) => {
 			user: true
 		},
 		orderBy: {
-			id: 'asc'
+			createdAt: 'asc'
 		}
 	});
 
 	const filteredMemberData = memberData.map((item) => {
 		return {
-			clubUserId: item.id,
+			userId: item.userId,
 			firstName: item.user.firstName,
 			lastName: item.user.lastName,
 			pfp: item.user.pfp,
@@ -93,10 +92,12 @@ export const actions = {
 		async ({ userId, roleId }, { cookies, params }) => {
 			await validateUser(cookies.get('session'), params as RouteParams);
 
-			//all good to do the action
 			await prisma.clubUser.update({
 				where: {
-					id: userId
+					clubId_userId: {
+						clubId: parseInt(params.clubId),
+						userId
+					}
 				},
 				data: {
 					roleId: roleId

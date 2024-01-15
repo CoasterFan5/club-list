@@ -128,29 +128,29 @@ async function main() {
 	console.log('Generating test users...');
 
 	for (let i = 0; i < 100; i++) {
-		const item = {
-			firstName: names[Math.floor(Math.random() * names.length)],
-			lastName: names[Math.floor(Math.random() * names.length)],
-			email: `${i}.test.user@clubsaur.us`,
-			...(await makePassword('password')),
-			orgUsers: {
-				create: {
-					organizationId: 1,
-					role: 'STUDENT'
-				}
-			},
-			clubUsers: {
-				create: {
-					clubId: Math.ceil(Math.random() * 4)
-				}
-			}
-		};
 		await prisma.user.upsert({
 			where: {
 				id: i + 1
 			},
 			update: {},
-			create: item
+			create: {
+				firstName: names[Math.floor(Math.random() * names.length)],
+				lastName: names[Math.floor(Math.random() * names.length)],
+				email: `${i}.test.user@clubsaur.us`,
+				...(await makePassword('password')),
+				orgUsers: {
+					create: {
+						organizationId: 1,
+						role: 'STUDENT'
+					}
+				},
+				clubUsers: {
+					create: {
+						// TODO: don't hardcode this
+						clubId: Math.ceil(Math.random() * 4)
+					}
+				}
+			}
 		});
 	}
 
