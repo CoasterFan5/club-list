@@ -173,9 +173,6 @@
 		box-sizing: border-box;
 		z-index: 50;
 	}
-	.roleSelector h2 {
-		margin: 10px;
-	}
 	.roleSelector input {
 		position: relative;
 		all: unset;
