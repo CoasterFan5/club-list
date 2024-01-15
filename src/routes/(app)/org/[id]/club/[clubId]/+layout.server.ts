@@ -19,8 +19,16 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		},
 		include: {
 			announcements: {
+				include: {
+					author: {
+						select: {
+							firstName: true,
+							lastName: true,
+						}
+					}
+				},
 				orderBy: {
-					createdAt: 'asc'
+					createdAt: 'desc'
 				}
 			}
 		}

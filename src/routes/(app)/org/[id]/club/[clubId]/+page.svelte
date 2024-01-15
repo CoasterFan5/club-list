@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
+	import Announcement from '$lib/components/Announcement.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
 	export let data: PageData;
@@ -42,9 +44,15 @@
 			</form>
 		</div>
 	</div>
-	<div class="announcements">
-		<h2>Recent Announcements</h2>
-	</div>
+	{#if data.club.announcements.length > 0}
+		<h2 class="announcementsTitle">Recent Announcements</h2>
+
+		<div class="announcements">
+			{#each data.club.announcements.slice(0, 3) as announcement}
+				<Announcement {announcement} />
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -59,8 +67,15 @@
 		justify-content: start;
 	}
 
+	.announcementsTitle {
+		margin-top: 2rem;
+	}
+
 	.announcements {
 		margin-top: 2rem;
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
 	}
 
 	.content {
