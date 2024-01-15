@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
-	import {enhance} from "$app/forms"
+	import type { PageData } from './$types';
+	import { enhance } from '$app/forms';
 
-	export let data: PageData
+	export let data: PageData;
 
-	console.log(data.roles)
+	console.log(data.roles);
 
 	let showRoleSelector = false;
 	let roleSelectorHTML: HTMLDivElement;
@@ -12,61 +12,62 @@
 
 	let roleSelectorPos = {
 		x: 0,
-		y: 0,
-	}
+		y: 0
+	};
 
-	let roleSearch: string = ""
+	let roleSearch: string = '';
 
 	let selectedUserId = 0;
 
 	const roleHelper = async (e: MouseEvent, id: number) => {
-		
 		selectedUserId = id;
 
-		if(showRoleSelector) {
+		if (showRoleSelector) {
 			showRoleSelector = false;
-			roleSelectorHTML.hidden = !showRoleSelector
+			roleSelectorHTML.hidden = !showRoleSelector;
 		} else {
 			showRoleSelector = true;
-		
+
 			roleSelectorPos = {
 				x: e.clientX,
 				y: e.clientY
-			}
+			};
 			//use this so we can focus the role search element
-			roleSelectorHTML.hidden = !showRoleSelector
-			roleSearchElement.focus()
+			roleSelectorHTML.hidden = !showRoleSelector;
+			roleSearchElement.focus();
 		}
-		
-		
-		
-	}
+	};
 </script>
 
-	
+{#if showRoleSelector}
+	<button
+		class="clickInterceptor"
+		on:click|self={(e) => {
+			roleHelper(e, 0);
+		}}
+	/>
+{/if}
 
-	{#if showRoleSelector}
-		<button class="clickInterceptor" on:click|self={(e) => {roleHelper(e, 0)}}></button>
-	{/if}
-	
-	<div class="roleSelector" hidden={true} bind:this={roleSelectorHTML} style="top: {roleSelectorPos.y}px; left: {roleSelectorPos.x}px">
-		<input placeholder="Search" bind:value={roleSearch} bind:this={roleSearchElement}/>
-		{#each data.roles as role}
-			{#if role.name.toLowerCase().includes(roleSearch.toLowerCase())}
-				<form method="post" action="?/updateMemberRole" use:enhance>
-					<input style="display: none" name="userId" bind:value={selectedUserId}>
-					<input style="display: none" name="roleId" bind:value={role.id}>
-				
-					<button style="--color: {role.color}">
-						<div class="color">
-							
-						</div>
-						{role.name}
-					</button>
-				</form>
-			{/if}
-		{/each}
-		
+<div
+	bind:this={roleSelectorHTML}
+	style="top: {roleSelectorPos.y}px; left: {roleSelectorPos.x}px"
+	class="roleSelector"
+	hidden={true}
+>
+	<input bind:this={roleSearchElement} placeholder="Search" bind:value={roleSearch} />
+	{#each data.roles as role}
+		{#if role.name.toLowerCase().includes(roleSearch.toLowerCase())}
+			<form action="?/updateMemberRole" method="post" use:enhance>
+				<input name="userId" style="display: none" bind:value={selectedUserId} />
+				<input name="roleId" style="display: none" bind:value={role.id} />
+
+				<button style="--color: {role.color}">
+					<div class="color" />
+					{role.name}
+				</button>
+			</form>
+		{/if}
+	{/each}
 </div>
 <main>
 	<table>
@@ -78,24 +79,26 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.memberData as member }
+			{#each data.memberData as member}
 				<tr>
 					<td>
 						<div class="member tdInner">
-							<img class="pfp" src="{member.pfp || "/defaultPFP.png"}" alt="profile">
-							{member.firstName} {member.lastName}
+							<img class="pfp" alt="profile" src={member.pfp || '/defaultPFP.png'} />
+							{member.firstName}
+							{member.lastName}
 						</div>
 					</td>
-					<td class="role" style="--color: {member.role.color}">
-						<button class="changeRole" on:click|self={(e) => {
-							roleHelper(e, member.clubUserId);
-							
-						}}>
-							{member.role.name || "None"}
+					<td style="--color: {member.role.color}" class="role">
+						<button
+							class="changeRole"
+							on:click|self={(e) => {
+								roleHelper(e, member.clubUserId);
+							}}
+						>
+							{member.role.name || 'None'}
 						</button>
 					</td>
 				</tr>
-				
 			{/each}
 		</tbody>
 	</table>
@@ -119,7 +122,7 @@
 		white-space: nowrap;
 		border-radius: 3px;
 	}
-	
+
 	.member {
 		display: flex;
 		flex-direction: row;
@@ -149,11 +152,10 @@
 	.role {
 		position: relative;
 		z-index: 4;
-		
 	}
 	.role::after {
 		position: absolute;
-		content: "";
+		content: '';
 		top: 0px;
 		left: 0px;
 		height: 100%;
@@ -222,5 +224,4 @@
 		top: 0px;
 		left: 0px;
 	}
- 	
 </style>

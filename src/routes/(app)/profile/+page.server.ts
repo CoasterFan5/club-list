@@ -17,7 +17,7 @@ export const actions = {
 		}),
 		async ({ firstName, lastName, email }, { cookies }) => {
 			const user = await verifySession(cookies.get('session'));
-			
+
 			await prisma.user.updateMany({
 				where: {
 					id: user.id

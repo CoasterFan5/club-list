@@ -28,7 +28,11 @@
 		</p>
 	{/if}
 	<div class="editor">
-		<MdEditor content={announcement.description || 'No Announcement'} editable={false} saveable={false} />
+		<MdEditor
+			content={announcement.description || 'No Announcement'}
+			editable={false}
+			saveable={false}
+		/>
 	</div>
 </div>
 
