@@ -1,8 +1,7 @@
-import { prisma } from '$lib/prismaConnection';
+import { prisma } from '$lib/server/prismaConnection';
 import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ parent }) => {
+export const load = async ({ parent }) => {
 	const parentData = await parent();
 
 	const club = await prisma.club.findUnique({
@@ -12,7 +11,12 @@ export const load: PageServerLoad = async ({ parent }) => {
 		include: {
 			announcements: {
 				include: {
-					author: true
+					author: {
+						select: {
+							firstName: true,
+							lastName: true
+						}
+					}
 				},
 				orderBy: {
 					createdAt: 'desc'
@@ -26,14 +30,6 @@ export const load: PageServerLoad = async ({ parent }) => {
 	}
 
 	return {
-		announcements: club.announcements.map((announcement) => ({
-			...announcement,
-			author: announcement.author
-				? {
-						firstName: announcement.author.firstName,
-						lastName: announcement.author.lastName
-				  }
-				: null
-		}))
+		announcements: club.announcements
 	};
 };

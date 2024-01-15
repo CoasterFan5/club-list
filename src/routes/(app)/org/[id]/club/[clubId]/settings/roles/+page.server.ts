@@ -1,4 +1,4 @@
-import { prisma } from '$lib/prismaConnection.js';
+import { prisma } from '$lib/server/prismaConnection.js';
 import { error, redirect } from '@sveltejs/kit';
 import {
 	createPermissionsCheck,

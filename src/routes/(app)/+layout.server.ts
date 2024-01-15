@@ -1,4 +1,4 @@
-import { verifySession } from '$lib/verifySession.js';
+import { verifySession } from '$lib/server/verifySession.js';
 
 export const load = async ({ cookies, url }) => {
 	// if the user isn't logged in, we need to redirect them to the login page

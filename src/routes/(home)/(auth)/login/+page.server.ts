@@ -1,4 +1,4 @@
-import { prisma } from '$lib/prismaConnection.js';
+import { prisma } from '$lib/server/prismaConnection.js';
 import { redirect } from '@sveltejs/kit';
 import { promisify } from 'util';
 import crypto from 'crypto';
@@ -15,11 +15,9 @@ export const actions = {
 		}),
 		async ({ email, password }, { cookies }) => {
 			// pull the user from the database
-			const newEmail = email.toLowerCase();
-
 			const user = await prisma.user.findFirst({
 				where: {
-					email: newEmail
+					email: email.toLowerCase()
 				}
 			});
 
@@ -42,7 +40,6 @@ export const actions = {
 			}
 
 			// generate a new session for the user
-
 			const session = crypto.randomBytes(32).toString('hex');
 			await prisma.session.create({
 				data: {

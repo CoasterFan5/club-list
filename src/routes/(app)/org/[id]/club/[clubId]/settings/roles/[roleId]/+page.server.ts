@@ -1,7 +1,7 @@
 import { formHandler } from '$lib/bodyguard.js';
 import { createPermissionsCheck } from '$lib/permissions.js';
-import { prisma } from '$lib/prismaConnection.js';
-import { verifySession } from '$lib/verifySession.js';
+import { prisma } from '$lib/server/prismaConnection.js';
+import { verifySession } from '$lib/server/verifySession.js';
 import { redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 

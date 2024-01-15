@@ -1,35 +1,35 @@
 <script lang="ts">
-    import MdEditor from '$lib/components/editor/MdEditor.svelte';
+	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 
-    interface Announcement {
-        title: string;
-        description: string | null;
-        createdAt: Date | null;
-        author: {
-            firstName: string;
-            lastName: string;
-        } | null;
-    }
+	interface Announcement {
+		title: string;
+		description: string | null;
+		createdAt: Date | null;
+		author: {
+			firstName: string;
+			lastName: string;
+		} | null;
+	}
 
-    export let announcement: Announcement;
+	export let announcement: Announcement;
 </script>
 
 <div class="announcement">
-    <h2>{announcement.title}</h2>
-    {#if announcement.createdAt}
-        <p class="info">
-            {new Intl.DateTimeFormat('en-US', {
-                dateStyle: 'long',
-                timeStyle: 'short'
-            }).format(announcement.createdAt)}
-            {#if announcement.author}
-                <span>by {announcement.author?.firstName} {announcement.author?.lastName}</span>
-            {/if}
-        </p>
-    {/if}
-    <div class="editor">
-        <MdEditor content={announcement.description || 'No Announcement'} editable={false} />
-    </div>
+	<h2>{announcement.title}</h2>
+	{#if announcement.createdAt}
+		<p class="info">
+			{new Intl.DateTimeFormat('en-US', {
+				dateStyle: 'long',
+				timeStyle: 'short'
+			}).format(announcement.createdAt)}
+			{#if announcement.author}
+				<span>by {announcement.author?.firstName} {announcement.author?.lastName}</span>
+			{/if}
+		</p>
+	{/if}
+	<div class="editor">
+		<MdEditor content={announcement.description || 'No Announcement'} editable={false} saveable={false} />
+	</div>
 </div>
 
 <style lang="scss">

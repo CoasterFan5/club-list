@@ -1,4 +1,4 @@
-import { prisma } from '$lib/prismaConnection';
+import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ parent }) => {
 	const { user } = await parent();
@@ -14,11 +14,7 @@ export const load = async ({ parent }) => {
 
 	return {
 		user: {
-			id: user.id,
-			email: user.email,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			pfp: user.pfp,
+			...user,
 			orgUsers
 		}
 	};

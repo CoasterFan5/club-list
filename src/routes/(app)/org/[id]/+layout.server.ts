@@ -1,8 +1,7 @@
-import { prisma } from '$lib/prismaConnection';
+import { prisma } from '$lib/server/prismaConnection';
 import { error } from '@sveltejs/kit';
-import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ params, parent }) => {
+export const load = async ({ params, parent }) => {
 	const orgId = parseInt(params.id);
 	const { user } = await parent();
 

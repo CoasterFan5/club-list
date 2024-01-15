@@ -1,4 +1,4 @@
-import { S3 } from '$lib/s3';
+import { S3 } from '$lib/server/s3';
 import { bucket } from '$env/static/private';
 import { ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { RetryAfterRateLimiter } from 'sveltekit-rate-limiter/server';

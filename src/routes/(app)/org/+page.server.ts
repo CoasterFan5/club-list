@@ -1,6 +1,6 @@
 import { formHandler } from '$lib/bodyguard.js';
-import { prisma } from '$lib/prismaConnection';
-import { verifySession } from '$lib/verifySession';
+import { prisma } from '$lib/server/prismaConnection';
+import { verifySession } from '$lib/server/verifySession';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { z } from 'zod';
 
@@ -23,6 +23,7 @@ export const actions = {
 
 			// make a join code
 			// generates a random code and then appends the org id so its always unique
+			// TODO: better join code generation
 			const random = Math.round(Math.random() * 324000 + 36000).toString(36);
 			const joinString = (orgAmount + 1).toString(36) + random;
 
