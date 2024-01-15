@@ -35,22 +35,24 @@ model User {
 }
 
 model OrgUser {
-	id 	           Int          @id @default(autoincrement())
 	role           String
 	organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 	organizationId Int
 	user 	       User         @relation(fields: [userId], references: [id])
 	userId 	       Int
+
+	@@id([organizationId, userId])
 }
 
 model ClubUser {
-	id             Int       @id @default(autoincrement())
 	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	clubId         Int
 	user 	       User      @relation(fields: [userId], references: [id])
 	userId 	       Int
 	roleId         Int?
 	role           ClubRole? @relation(fields: [roleId], references: [id])
+
+	@@id([clubId, userId])
 }
 
 model Organization {
