@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { promisify } from 'util';
 import crypto from 'crypto';
-import { names } from './names';
+import { faker } from '@faker-js/faker';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
 
@@ -134,8 +134,8 @@ async function main() {
 			},
 			update: {},
 			create: {
-				firstName: names[Math.floor(Math.random() * names.length)],
-				lastName: names[Math.floor(Math.random() * names.length)],
+				firstName: faker.person.firstName(),
+				lastName: faker.person.lastName(),
 				email: `${i}.test.user@clubsaur.us`,
 				...(await makePassword('password')),
 				orgUsers: {
