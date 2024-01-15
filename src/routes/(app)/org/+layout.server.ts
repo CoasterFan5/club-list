@@ -14,11 +14,7 @@ export const load = async ({ parent }) => {
 
 	return {
 		user: {
-			id: user.id,
-			email: user.email,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			pfp: user.pfp,
+			...user,
 			orgUsers
 		}
 	};

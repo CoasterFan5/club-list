@@ -1,11 +1,11 @@
 import { redirect } from '@sveltejs/kit';
-import type { PageParentData, PageServerLoad } from './$types';
+import type { PageParentData } from './$types';
 import { prisma } from '$lib/server/prismaConnection';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { formHandler } from '$lib/bodyguard';
 import { z } from 'zod';
 
-export const load: PageServerLoad = async ({ params, parent }) => {
+export const load = async ({ params, parent }) => {
 	const parentData: PageParentData = await parent();
 	const clubId = params.clubId;
 	const orgId = params.id;

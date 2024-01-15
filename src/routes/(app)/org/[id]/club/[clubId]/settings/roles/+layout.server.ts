@@ -1,7 +1,6 @@
 import { prisma } from '$lib/server/prismaConnection';
-import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ parent }) => {
+export const load = async ({ parent }) => {
 	const parentData = await parent();
 
 	const roles = await prisma.clubRole.findMany({

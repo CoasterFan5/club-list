@@ -13,7 +13,17 @@ export const verifyOptionalSession = async (session: string | undefined) => {
 			sessionToken: session
 		},
 		include: {
-			user: true
+			user: {
+				select: {
+					id: true,
+					firstName: true,
+					lastName: true,
+					email: true,
+					createdAt: true,
+					updatedAt: true,
+					pfp: true,
+				}
+			}
 		}
 	});
 
