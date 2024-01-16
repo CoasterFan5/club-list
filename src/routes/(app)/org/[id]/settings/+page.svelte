@@ -38,9 +38,7 @@
 		<div class="itemSpacer">
 			<Input name="name" label="Name" value={data.org.name} />
 		</div>
-		<div class="itemSpacer">
-			<Input name="slug" label="Slug" value={data.org.slug?.slug ?? ''} />
-		</div>
+		
 		<div class="itemSpacer">
 			<Button value="Update" />
 		</div>

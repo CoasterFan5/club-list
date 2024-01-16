@@ -9,8 +9,14 @@
 		<div class="top">
 			<h6>Primary Settings</h6>
 			<a href="/org/{data.org.id}/settings">General</a>
+			<a href="/org/{data.org.id}/settings">Danger</a>
+			<hr>
+			<h6>Member Settings</h6>
+			<a href="/org/{data.org.id}/settings">Members</a>
+			<a href="/org/{data.org.id}/settings">Visibility</a>
 			<hr>
 		</div>
+
 		
 		<a href="/org/{data.org.id}">Done</a>
 	</div>
@@ -104,6 +110,7 @@
 	}
 	hr {
 		all: unset;
+		margin: 5px 0px;
 		width: calc(100% - 10px);
 		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 		box-sizing: border-box;
