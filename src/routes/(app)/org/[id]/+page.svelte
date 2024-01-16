@@ -42,6 +42,12 @@
 		});
 	};
 
+	const startInvite = () => {
+		pushState('', {
+			showingModal: 'inviteUser'
+		})
+	}
+
 	$: if (form) {
 		history.back();
 		if (form.success) {
@@ -59,6 +65,30 @@
 		}
 	}
 </script>
+
+{#if $page.state.showingModal == 'inviteUser'}
+	<Modal on:close={() => {
+		history.back();
+	}}>
+		<div class="joinCode">
+			<p>
+				Join Code (Click to copy): <button
+					on:click={() => {
+						navigator.clipboard.writeText(data.org.joinCode);
+						addToast({
+							type: 'success',
+							message: 'Copied to clipboard!',
+							life: 3000
+						});
+					}}>{data.org.joinCode}</button
+				>
+			</p>
+		</div>
+		<Button value="Done" on:click={() => {
+			history.back()
+		}}/>
+	</Modal>
+{/if}
 
 {#if $page.state.showingModal == 'leaveOrg'}
 	<Modal
@@ -98,21 +128,11 @@
 		<button on:click={startLeaveOrg}>
 			<img class="icon" alt="leave" src="/icons/leave.svg" />
 		</button>
+		<button on:click={startInvite}>
+			<img class="icon" alt="invite" src="/icons/addUser.svg" />
+		</button>
 	</div>
-	<div class="joinCode">
-		<p>
-			Join Code (Click to copy): <button
-				on:click={() => {
-					navigator.clipboard.writeText(data.org.joinCode);
-					addToast({
-						type: 'success',
-						message: 'Copied to clipboard!',
-						life: 3000
-					});
-				}}>{data.org.joinCode}</button
-			>
-		</p>
-	</div>
+	
 </header>
 
 <div class="wrap">
@@ -122,7 +142,7 @@
 				No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
 						class="textButton"
 						on:click={showModal}>Create One?</button
-					>{/if}
+				>{/if}
 			</h2>
 		{:else}
 			<div class="clubs">
@@ -179,6 +199,24 @@
 		align-items: start;
 		justify-content: center;
 	}
+	.joinCode {
+			width: 100%;
+			text-align: center;
+			font-size: 1.2rem;
+			color: var(--textLow);
+
+			button {
+				all: unset;
+				display: inline-block;
+				font-weight: 500;
+				background: var(--textLow);
+
+				&:hover {
+					cursor: pointer;
+					background: var(--text);
+				}
+			}
+		}
 	header {
 		background: var(--bgMid);
 		width: 100%;
@@ -198,24 +236,7 @@
 			width: 100%;
 		}
 
-		.joinCode {
-			width: 100%;
-			text-align: center;
-			font-size: 1.2rem;
-			color: var(--textLow);
-
-			button {
-				all: unset;
-				display: inline-block;
-				font-weight: 500;
-				background: var(--textLow);
-
-				&:hover {
-					cursor: pointer;
-					background: var(--text);
-				}
-			}
-		}
+		
 
 		a {
 			all: unset;
