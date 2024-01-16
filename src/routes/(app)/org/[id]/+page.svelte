@@ -64,6 +64,8 @@
 			});
 		}
 	}
+
+	let confirmedOrgName = '';
 </script>
 
 {#if $page.state.showingModal == 'inviteUser'}
@@ -105,7 +107,13 @@
 			<h2>Hold Up!</h2>
 			<p>Are you sure you want to leave this organization?</p>
 			<p>All your data and permissions will be lost forever</p>
-			<Button value="Leave {data.org.name}" />
+			<p>Type the name of the organization, <br/><b>{data.org.name}</b>, to confirm</p>
+			<div class="formItem">
+				<Input bg="white" bind:value={confirmedOrgName} label="Organization Name"></Input>
+			</div>
+			<div class="formItem">
+				<Button disabled={confirmedOrgName != data.org.name} value="Leave {data.org.name}" />
+			</div>
 		</form>
 	</Modal>
 {/if}
