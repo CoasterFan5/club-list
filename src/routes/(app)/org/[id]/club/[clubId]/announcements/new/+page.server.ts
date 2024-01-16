@@ -64,7 +64,7 @@ export const actions = {
 
 			const club = sessionCheck.user.clubs[0];
 			const clubUser = sessionCheck.user.clubUsers[0];
-			
+
 			// check permissions
 			if (club.ownerId != sessionCheck.userId) {
 				if (!clubUser) {

@@ -159,13 +159,13 @@ export const actions = {
 			where: {
 				id: clubId
 			}
-		})
+		});
 
-		if(!club?.openToJoin) {
+		if (!club?.openToJoin) {
 			return {
 				success: false,
 				message: "you can't join this club!"
-			}
+			};
 		}
 
 		// now we can create the club user

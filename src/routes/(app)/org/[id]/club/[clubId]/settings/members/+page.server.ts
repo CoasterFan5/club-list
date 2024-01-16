@@ -68,7 +68,7 @@ export const load = async ({ cookies, params }) => {
 					pfp: true,
 					id: true
 				}
-			},
+			}
 		},
 		orderBy: {
 			createdAt: 'asc'

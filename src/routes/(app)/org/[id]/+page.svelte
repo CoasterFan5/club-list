@@ -107,9 +107,9 @@
 			<h2>Hold Up!</h2>
 			<p>Are you sure you want to leave this organization?</p>
 			<p>All your data and permissions will be lost forever</p>
-			<p>Type the name of the organization, <br/><b>{data.org.name}</b>, to confirm</p>
+			<p>Type the name of the organization, <br /><b>{data.org.name}</b>, to confirm</p>
 			<div class="formItem">
-				<Input bg="white" bind:value={confirmedOrgName} label="Organization Name"></Input>
+				<Input bg="white" label="Organization Name" bind:value={confirmedOrgName} />
 			</div>
 			<div class="formItem">
 				<Button disabled={confirmedOrgName != data.org.name} value="Leave {data.org.name}" />
