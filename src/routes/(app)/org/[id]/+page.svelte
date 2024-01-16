@@ -199,6 +199,7 @@
 		align-items: start;
 		justify-content: center;
 	}
+
 	.joinCode {
 			width: 100%;
 			text-align: center;
@@ -217,6 +218,18 @@
 				}
 			}
 		}
+	
+	.textButton {
+		all: unset;
+		display: inline-block;
+		color: var(--accent);
+		font-weight: 500;
+
+		&:hover {
+			cursor: pointer;
+			background: var(--text);
+		}
+	}
 	header {
 		background: var(--bgMid);
 		width: 100%;
