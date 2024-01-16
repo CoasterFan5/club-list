@@ -94,8 +94,9 @@ export const actions = {
 
 			await prisma.clubUser.update({
 				where: {
-					clubId_userId: {
+					clubId_userId_organizationId: {
 						clubId: parseInt(params.clubId),
+						organizationId: parseInt(params.id),
 						userId
 					}
 				},
