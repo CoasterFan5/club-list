@@ -59,7 +59,7 @@
 				<input name="userId" style="display: none" bind:value={selectedUserId} />
 				<input name="roleId" style="display: none" bind:value={role.id} />
 
-				<button style="--color: {role.color}" class="rollButton">
+				<button style="--color: {role.color}" class="roleButton">
 					<div class="color" />
 					{role.name}
 				</button>
@@ -70,7 +70,7 @@
 		<input name="userId" style="display: none" bind:value={selectedUserId} />
 		<input name="roleId" style="display: none" value="0" />
 
-		<button style="--color: white" class="noRoll"> No Roll </button>
+		<button style="--color: white" class="noRole"> No role </button>
 	</form>
 </div>
 <main>
@@ -193,7 +193,7 @@
 		border-radius: 3px;
 		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
 	}
-	.roleSelector .rollButton {
+	.roleSelector .roleButton {
 		position: relative;
 		all: unset;
 		cursor: pointer;
@@ -208,7 +208,7 @@
 		border-radius: 3px;
 		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
 	}
-	.roleSelector .rollButton:hover {
+	.roleSelector .roleButton:hover {
 		background: rgba(0, 0, 0, 0.15);
 	}
 
@@ -228,7 +228,7 @@
 		top: 0px;
 		left: 0px;
 	}
-	.noRoll {
+	.noRole {
 		position: relative;
 		all: unset;
 		background: rgba(0, 0, 0, 0.1);
@@ -243,7 +243,7 @@
 		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
 		text-align: center;
 	}
-	.noRoll:hover {
+	.noRole:hover {
 		background: rgba(0, 0, 0, 0.15);
 	}
 </style>
