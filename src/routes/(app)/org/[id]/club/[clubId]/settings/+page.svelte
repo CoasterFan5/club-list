@@ -44,7 +44,7 @@
 			<Input name="imgURL" bg="white" label="Image Url" value={imgURL} />
 		</div>
 		<div class="formItem">
-			<Checkbox label="Allow Joining" />
+			<Checkbox name="joinable" label="Allow Joining" checked={data.club.openToJoin} />
 		</div>
 
 		<div class="formItem">

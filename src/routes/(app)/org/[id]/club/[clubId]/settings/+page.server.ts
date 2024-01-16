@@ -6,22 +6,18 @@ import {
 } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession';
+import { formHandler } from '$lib/bodyguard.js';
+import { z } from 'zod';
 
 export const actions = {
-	updateClub: async ({ cookies, params, request }) => {
+	updateClub: formHandler(z.object({
+		clubName: z.string().min(1),
+		imgURL: z.string().min(1),
+		joinable: z.coerce.boolean()
+
+	}), async ({clubName, imgURL, joinable}, { cookies, params }) => {
+		
 		const user = await verifySession(cookies.get('session'));
-
-		const formData = await request.formData();
-
-		const clubName = formData.get('clubName')?.toString();
-		const imgURL = formData.get('imgURL')?.toString();
-
-		if (!clubName) {
-			return {
-				success: false,
-				message: 'Must specify a club name'
-			};
-		}
 
 		const club = await prisma.club.findFirst({
 			where: {
@@ -70,12 +66,14 @@ export const actions = {
 		}
 
 		type ClubDataObject = {
-			name: string;
-			imageURL?: string;
+			name: string,
+			imageURL?: string,
+			openToJoin: boolean
 		};
 
 		const dataObject: ClubDataObject = {
-			name: clubName
+			name: clubName,
+			openToJoin: joinable
 		};
 
 		if (imgURL) {
@@ -94,5 +92,5 @@ export const actions = {
 			success: true,
 			message: 'success!'
 		};
-	}
+	})
 };
