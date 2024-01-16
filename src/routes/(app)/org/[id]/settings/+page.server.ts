@@ -7,7 +7,12 @@ export const actions = {
 	updateOrg: formHandler(
 		z.object({
 			name: z.string().min(1),
-			slug: z.string().min(1).max(20).regex(/^[a-z0-9-]+$/i).toLowerCase()
+			slug: z
+				.string()
+				.min(1)
+				.max(20)
+				.regex(/^[a-z0-9-]+$/i)
+				.toLowerCase()
 		}),
 		async ({ name, slug }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));

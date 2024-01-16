@@ -3,7 +3,7 @@
 	import Announcement from '$lib/components/Announcement.svelte';
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
-	
+
 	export let data;
 	export let form;
 
