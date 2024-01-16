@@ -1,12 +1,11 @@
 <script lang="ts">
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import { addToast } from '$lib/components/toaster';
+	import { enhance } from '$app/forms';
 
 	export let data;
 	export let form;
-
-	import { enhance } from '$app/forms';
-	import { addToast } from '$lib/components/toaster';
 
 	$: if (form) {
 		if (form.success) {

@@ -119,9 +119,6 @@ devDependencies:
   sass:
     specifier: ^1.69.5
     version: 1.69.5
-  surrealdb.js:
-    specifier: ^0.9.1
-    version: 0.9.1
   svelte:
     specifier: ^4.2.7
     version: 4.2.8
@@ -4590,16 +4587,6 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /surrealdb.js@0.9.1:
-    resolution: {integrity: sha512-Lw7gds+u5966ng00/yOOkeW90VFj2tI5YNZ1cY7t9fyl9yEEcrFOkR5djqXwuJ1V3ORVORP5l+Hv2N6Sfgh5PQ==}
-    dependencies:
-      unws: 0.2.4(ws@8.15.0)
-      ws: 8.15.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: true
-
   /svelte-check@3.6.2(postcss@8.4.32)(sass@1.69.5)(svelte@4.2.8):
     resolution: {integrity: sha512-E6iFh4aUCGJLRz6QZXH3gcN/VFfkzwtruWSRmlKrLWQTiO6VzLsivR6q02WYLGNAGecV3EocqZuCDrC2uttZ0g==}
     hasBin: true
@@ -4886,15 +4873,6 @@ packages:
   /universalify@0.2.0:
     resolution: {integrity: sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==}
     engines: {node: '>= 4.0.0'}
-    dev: true
-
-  /unws@0.2.4(ws@8.15.0):
-    resolution: {integrity: sha512-/N1ajiqrSp0A/26/LBg7r10fOcPtGXCqJRJ61sijUFoGZMr6ESWGYn7i0cwr7fR7eEECY5HsitqtjGHDZLAu2w==}
-    engines: {node: '>=16.14.0'}
-    peerDependencies:
-      ws: '*'
-    dependencies:
-      ws: 8.15.0
     dev: true
 
   /uri-js@4.4.1:
