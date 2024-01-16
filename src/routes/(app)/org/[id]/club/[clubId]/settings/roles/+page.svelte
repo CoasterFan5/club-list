@@ -215,7 +215,7 @@
 		box-sizing: border-box;
 	}
 
-	/*Don't change this, scss breaks it */
+	// Don't change this, scss breaks it
 	input[type='color']::-moz-color-swatch {
 		border: none;
 	}
