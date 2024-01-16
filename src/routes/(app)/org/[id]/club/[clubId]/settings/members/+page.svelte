@@ -1,8 +1,7 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 
-	export let data: PageData;
+	export let data;
 
 	let showRoleSelector = false;
 	let roleSelectorHTML: HTMLDivElement;
@@ -87,19 +86,19 @@
 				<tr>
 					<td>
 						<div class="member tdInner">
-							<img class="pfp" alt="profile" src={member.pfp || '/defaultPFP.png'} />
-							{member.firstName}
-							{member.lastName}
+							<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
+							{member.user.firstName}
+							{member.user.lastName}
 						</div>
 					</td>
-					<td style="--color: {member.role.color}" class="role">
+					<td style="--color: {member.role?.color}" class="role">
 						<button
 							class="changeRole"
 							on:click|self={(e) => {
 								roleHelper(e, member.userId);
 							}}
 						>
-							{member.role.name || 'None'}
+							{member.role?.name || 'None'}
 						</button>
 					</td>
 				</tr>

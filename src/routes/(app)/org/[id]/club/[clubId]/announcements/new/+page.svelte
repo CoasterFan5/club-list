@@ -25,7 +25,7 @@
 			</div>
 			<MdEditor editable saveable={false} bind:content />
 			<hr />
-			<input name="desc" style="display: none" bind:value={content} />
+			<input name="description" style="display: none" bind:value={content} />
 			<Button type="submit" value="Create" />
 		</div>
 	</form>

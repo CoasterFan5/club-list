@@ -55,26 +55,24 @@ export const load = async ({ cookies, params }) => {
 			clubId: parseInt(params.clubId)
 		},
 		include: {
-			role: true,
-			user: true
+			role: {
+				select: {
+					name: true,
+					color: true
+				}
+			},
+			user: {
+				select: {
+					firstName: true,
+					lastName: true,
+					pfp: true,
+					id: true
+				}
+			},
 		},
 		orderBy: {
 			createdAt: 'asc'
 		}
-	});
-
-	const filteredMemberData = memberData.map((item) => {
-		return {
-			userId: item.userId,
-			firstName: item.user.firstName,
-			lastName: item.user.lastName,
-			pfp: item.user.pfp,
-			role: {
-				hasRole: item.role != null,
-				name: item.role?.name,
-				color: item.role?.color
-			}
-		};
 	});
 
 	const roles = await prisma.clubRole.findMany({
@@ -84,7 +82,7 @@ export const load = async ({ cookies, params }) => {
 	});
 
 	return {
-		memberData: filteredMemberData,
+		memberData,
 		roles
 	};
 };
@@ -99,7 +97,7 @@ export const actions = {
 		async ({ userId, roleId }, { cookies, params }) => {
 			const { club } = await validateUser(cookies.get('session'), params as RouteParams);
 
-			const role = await prisma.clubRole.findFirst({
+			const role = await prisma.clubRole.findFirstOrThrow({
 				where: {
 					AND: {
 						id: roleId,
@@ -108,38 +106,18 @@ export const actions = {
 				}
 			});
 
-			if (roleId == 0) {
-				await prisma.clubUser.update({
-					where: {
-						clubId_userId_organizationId: {
-							clubId: parseInt(params.clubId),
-							organizationId: parseInt(params.id),
-							userId
-						}
-					},
-					data: {
-						roleId: null
+			await prisma.clubUser.update({
+				where: {
+					clubId_userId_organizationId: {
+						clubId: parseInt(params.clubId),
+						organizationId: parseInt(params.id),
+						userId
 					}
-				});
-			} else if (role) {
-				await prisma.clubUser.update({
-					where: {
-						clubId_userId_organizationId: {
-							clubId: parseInt(params.clubId),
-							organizationId: parseInt(params.id),
-							userId
-						}
-					},
-					data: {
-						roleId: roleId
-					}
-				});
-			} else {
-				return {
-					success: false,
-					message: 'How did we get here?'
-				};
-			}
+				},
+				data: {
+					roleId: role.id == 0 ? null : role.id
+				}
+			});
 
 			return {
 				success: true,

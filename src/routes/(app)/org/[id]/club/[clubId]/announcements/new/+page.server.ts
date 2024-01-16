@@ -1,12 +1,11 @@
 import { redirect } from '@sveltejs/kit';
-import type { PageParentData } from './$types';
 import { prisma } from '$lib/server/prismaConnection';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { formHandler } from '$lib/bodyguard';
 import { z } from 'zod';
 
 export const load = async ({ params, parent }) => {
-	const parentData: PageParentData = await parent();
+	const parentData = await parent();
 	const clubId = params.clubId;
 	const orgId = params.id;
 	const baseUrl = `/org/${orgId}/club/${clubId}`;
@@ -24,9 +23,9 @@ export const actions = {
 	createAnnouncement: formHandler(
 		z.object({
 			title: z.string().max(100).min(1),
-			desc: z.string()
+			description: z.string()
 		}),
-		async ({ title, desc }, { cookies, params }) => {
+		async ({ title, description }, { cookies, params }) => {
 			const clubId = params.clubId;
 			const orgId = params.id;
 			const baseUrl = `/org/${orgId}/club/${clubId}`;
@@ -65,8 +64,8 @@ export const actions = {
 
 			const club = sessionCheck.user.clubs[0];
 			const clubUser = sessionCheck.user.clubUsers[0];
+			
 			// check permissions
-
 			if (club.ownerId != sessionCheck.userId) {
 				if (!clubUser) {
 					redirect(303, '/login');
@@ -76,12 +75,12 @@ export const actions = {
 					redirect(303, '/login');
 				}
 			}
-			// Valid!
 
+			// Valid!
 			await prisma.announcement.create({
 				data: {
 					title,
-					description: desc,
+					description,
 					clubId: club.id,
 					authorId: sessionCheck.userId
 				}
