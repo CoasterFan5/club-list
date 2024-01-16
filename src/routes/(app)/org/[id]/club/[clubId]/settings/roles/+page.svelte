@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { LayoutData, ActionData } from './$types';
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
@@ -10,8 +9,8 @@
 	import { page } from '$app/stores';
 	import Modal from '$lib/modules/Modal.svelte';
 
-	export let data: LayoutData;
-	export let form: ActionData;
+	export let data;
+	export let form;
 
 	let forms: Array<HTMLButtonElement | undefined> = [];
 

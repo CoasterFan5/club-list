@@ -4,10 +4,9 @@
 	import Input from '$lib/components/Input.svelte';
 	import PfpUpload from '$lib/components/PfpUpload.svelte';
 	import { addToast } from '$lib/components/toaster';
-	import type { ActionData, PageData } from './$types';
 
-	export let data: PageData;
-	export let form: ActionData;
+	export let data;
+	export let form;
 
 	let firstName = data.user.firstName;
 	let lastName = data.user.lastName;

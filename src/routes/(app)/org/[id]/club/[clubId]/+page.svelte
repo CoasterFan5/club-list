@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { PageData, ActionData } from './$types';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import Announcement from '$lib/components/Announcement.svelte';
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
-	export let data: PageData;
-	export let form: ActionData;
+	
+	export let data;
+	export let form;
 
 	let clubDescription = data.club.description || `<h1>${data.club.name}</h1>`;
 	let saveMdButton: HTMLButtonElement;

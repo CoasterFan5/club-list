@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { ActionData, PageData } from './$types';
 	import {
 		createPermissionsCheck,
 		permissionObjectDescriptions,
@@ -19,8 +18,8 @@
 	let submitButton: HTMLButtonElement;
 	let permissionIntBox: HTMLInputElement;
 
-	export let data: PageData;
-	export let form: ActionData;
+	export let data;
+	export let form;
 
 	$: permissions = createPermissionsCheck(data.role.permissionInt);
 

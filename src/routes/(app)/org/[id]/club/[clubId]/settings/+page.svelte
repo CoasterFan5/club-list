@@ -3,10 +3,9 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import { addToast } from '$lib/components/toaster';
-	import type { ActionData, PageData } from './$types';
 
-	export let data: PageData;
-	export let form: ActionData;
+	export let data;
+	export let form;
 
 	let name = data.club.name || '';
 	let imgURL = data.club.imageURL || '';

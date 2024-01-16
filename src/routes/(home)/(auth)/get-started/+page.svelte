@@ -1,11 +1,10 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
 	import Link from '$lib/components/Link.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
 
-	export let form: ActionData;
+	export let form;
 </script>
 
 <div class="wrap">

@@ -4,8 +4,6 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	import type { ActionData, PageData } from './$types';
-
 	import Button from '$lib/components/Button.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import Input from '$lib/components/Input.svelte';
@@ -14,8 +12,8 @@
 
 	let searchTerm = '';
 
-	export let data: PageData;
-	export let form: ActionData;
+	export let data;
+	export let form;
 
 	let searchBox: HTMLInputElement;
 

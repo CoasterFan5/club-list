@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { ActionData, PageData } from './$types';
 	import Modal from '$lib/modules/Modal.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -22,8 +21,8 @@
 		});
 	}
 
-	export let data: PageData;
-	export let form: ActionData;
+	export let data;
+	export let form;
 
 	$: if (form) {
 		addToast({
