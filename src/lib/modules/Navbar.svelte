@@ -36,8 +36,20 @@
 				in:fly={inTransition}
 				out:fly={outTransition}
 			>
-				<Link --marginLeft={"15px"} --fontSize={"1.2rem"} textColor="white" href="/login" on:click={closeClick}>Log In</Link>
-				<Link --marginLeft={"15px"} --fontSize={"1.2rem"} textColor="white" href="/get-started" on:click={closeClick}>Get Started</Link>
+				<Link
+					--fontSize="1.2rem"
+					--marginLeft="15px"
+					href="/login"
+					textColor="white"
+					on:click={closeClick}>Log In</Link
+				>
+				<Link
+					--fontSize="1.2rem"
+					--marginLeft="15px"
+					href="/get-started"
+					textColor="white"
+					on:click={closeClick}>Get Started</Link
+				>
 			</div>
 		{/if}
 	</div>
