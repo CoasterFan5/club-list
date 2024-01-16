@@ -2,17 +2,23 @@
 	export let name: string | null = 'checkbox';
 	export let checked = false;
 	export let disabled = false;
+	export let label = ""
 </script>
 
-<div class="wrap">
-	<input {name} class="checkbox" {disabled} type="checkbox" bind:checked on:click on:input />
-	<div class="customBox" />
-	<div class="check">
-		<svg style="fill: rgb(0, 0, 0)" height="24" viewBox="0 0 24 24" width="24"
-			><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z" /></svg
-		>
+<label>
+	<div class="wrap">
+		<input {name} class="checkbox" {disabled} type="checkbox" bind:checked on:click on:input />
+		<div class="customBox" />
+		<div class="check">
+			<svg style="fill: rgb(0, 0, 0)" height="24" viewBox="0 0 24 24" width="24"
+				><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z" /></svg
+			>
+		</div>
 	</div>
-</div>
+	{label}
+	
+</label>
+
 
 <style lang="scss">
 	.wrap {
@@ -20,6 +26,7 @@
 		position: relative;
 		padding: 10px;
 		cursor: pointer;
+		margin: 7px;
 	}
 	.checkbox {
 		z-index: 50;
@@ -70,5 +77,12 @@
 		box-sizing: border-box;
 		padding: 5px;
 		opacity: 0;
+	}
+	label {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
 	}
 </style>

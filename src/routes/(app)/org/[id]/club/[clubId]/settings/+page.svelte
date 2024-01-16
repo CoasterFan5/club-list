@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import { addToast } from '$lib/components/toaster';
 
@@ -43,6 +44,10 @@
 			<Input name="imgURL" bg="white" label="Image Url" value={imgURL} />
 		</div>
 		<div class="formItem">
+			<Checkbox label="Allow Joining"/>
+		</div>
+		
+		<div class="formItem">
 			<Button type="submit" value="Save" />
 		</div>
 	</form>
@@ -59,6 +64,7 @@
 	.formItem {
 		width: 100%;
 		margin: 7px 0px;
+		display: flex;
 	}
 	form {
 		padding: 50px;
