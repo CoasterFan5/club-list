@@ -1,24 +1,22 @@
-<script>
-	import Button from "$lib/components/Button.svelte";
-
+<script lang="ts">
+	import Button from '$lib/components/Button.svelte';
 </script>
 
 <main>
 	<h2>Danger Zone</h2>
 
 	<form>
-		<Button value="Refresh Join Code"/>
+		<Button value="Refresh Join Code" />
 	</form>
 	<form>
-		<Button value="Transfer Ownership"/>
+		<Button value="Transfer Ownership" />
 	</form>
 	<form>
-		<Button value="Delete Organization"/>
+		<Button value="Delete Organization" />
 	</form>
-	
 </main>
 
-<style>
+<style lang="scss">
 	main {
 		display: flex;
 		flex-direction: column;

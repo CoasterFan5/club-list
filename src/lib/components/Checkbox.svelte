@@ -2,7 +2,7 @@
 	export let name: string | null = 'checkbox';
 	export let checked = false;
 	export let disabled = false;
-	export let label = ""
+	export let label = '';
 </script>
 
 <label>
@@ -16,9 +16,7 @@
 		</div>
 	</div>
 	{label}
-	
 </label>
-
 
 <style lang="scss">
 	.wrap {

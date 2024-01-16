@@ -6,7 +6,7 @@ import { z } from 'zod';
 export const actions = {
 	updateOrg: formHandler(
 		z.object({
-			name: z.string().min(1),
+			name: z.string().min(1)
 		}),
 		async ({ name }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
@@ -39,7 +39,7 @@ export const actions = {
 					id: orgUser.organizationId
 				},
 				data: {
-					name,
+					name
 				}
 			});
 

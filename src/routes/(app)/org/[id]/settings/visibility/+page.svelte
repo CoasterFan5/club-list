@@ -1,11 +1,10 @@
-<script>
-	import Input from "$lib/components/Input.svelte";
-	import Checkbox from "$lib/components/Checkbox.svelte"
-	import Button from "$lib/components/Button.svelte"
-	import { enhance } from "$app/forms";
-	import { addToast } from "$lib/components/toaster";
+<script lang="ts">
+	import Input from '$lib/components/Input.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import { enhance } from '$app/forms';
+	import { addToast } from '$lib/components/toaster';
 
-	export let data;
 	export let form;
 
 	$: if (form) {
@@ -23,25 +22,28 @@
 			});
 		}
 	}
-
 </script>
+
 <main>
 	<h2>Visibility</h2>
 
-	<form method="post" action="?/updateVisibility" use:enhance>
-		<Input name="slug" label="Slug"/>
-		<p>Slugs are another way to access an organization. Organizations with slugs will be visible at <span>https://clubsaur.us/org/(slug)</span></p>
-		<Checkbox name="public" label="Public Organization"/>
+	<form action="?/updateVisibility" method="post" use:enhance>
+		<Input name="slug" label="Slug" />
+		<p>
+			Slugs are another way to access an organization. Organizations with slugs will be visible at <span
+				>https://clubsaur.us/org/(slug)</span
+			>
+		</p>
+		<Checkbox name="public" label="Public Organization" />
 		<p>Public organizations can be accessed by anyone, even if they don't have a join code.</p>
-		<Checkbox name="discoverable" label="Discoverable Organization"/>
+		<Checkbox name="discoverable" label="Discoverable Organization" />
 		<p>Discoverable organizations will show up on the organization discovery page</p>
-		<br/>
-		<Button value="Save"/>
+		<br />
+		<Button value="Save" />
 	</form>
-	
 </main>
 
-<style>
+<style lang="scss">
 	main {
 		display: flex;
 		flex-direction: column;
@@ -61,9 +63,5 @@
 		margin: 0px;
 		opacity: 0.8;
 		font-size: 0.8rem;
-	}
-	hr {
-		width: 100%;
-		opacity: 0.5;
 	}
 </style>

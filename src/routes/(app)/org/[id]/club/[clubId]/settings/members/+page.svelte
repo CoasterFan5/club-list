@@ -59,21 +59,18 @@
 				<input name="userId" style="display: none" bind:value={selectedUserId} />
 				<input name="roleId" style="display: none" bind:value={role.id} />
 
-				<button class="rollButton" style="--color: {role.color}">
+				<button style="--color: {role.color}" class="rollButton">
 					<div class="color" />
 					{role.name}
 				</button>
 			</form>
 		{/if}
-			
 	{/each}
 	<form action="?/updateMemberRole" method="post" use:enhance>
 		<input name="userId" style="display: none" bind:value={selectedUserId} />
 		<input name="roleId" style="display: none" value="0" />
 
-		<button class="noRoll" style="--color: white">
-			No Roll
-		</button>
+		<button style="--color: white" class="noRoll"> No Roll </button>
 	</form>
 </div>
 <main>

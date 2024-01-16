@@ -45,7 +45,7 @@ const validateUser = async (session: string | undefined, params: RouteParams) =>
 		club,
 		user,
 		clubUser
-	}
+	};
 };
 
 export const load = async ({ cookies, params }) => {
@@ -96,9 +96,8 @@ export const actions = {
 			roleId: z.coerce.number()
 		}),
 
-
 		async ({ userId, roleId }, { cookies, params }) => {
-			const {club} = await validateUser(cookies.get('session'), params as RouteParams);
+			const { club } = await validateUser(cookies.get('session'), params as RouteParams);
 
 			const role = await prisma.clubRole.findFirst({
 				where: {
@@ -107,9 +106,9 @@ export const actions = {
 						clubId: club?.id
 					}
 				}
-			})
+			});
 
-			if(roleId == 0) {
+			if (roleId == 0) {
 				await prisma.clubUser.update({
 					where: {
 						clubId_userId_organizationId: {
@@ -138,10 +137,9 @@ export const actions = {
 			} else {
 				return {
 					success: false,
-					message: "How did we get here?"
-				}
+					message: 'How did we get here?'
+				};
 			}
-
 
 			return {
 				success: true,

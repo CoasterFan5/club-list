@@ -148,13 +148,13 @@ async function main() {
 								firstName: 'Animal',
 								lastName: 'Bird',
 								email: 'abird@hybrid.org',
-								...(await makePassword('password')),
-							},
-						},
-					},
+								...(await makePassword('password'))
+							}
+						}
+					}
 				]
 			}
-		},
+		}
 	});
 
 	console.log('Generating test users...');
@@ -180,7 +180,7 @@ async function main() {
 					create: {
 						// TODO: don't hardcode this
 						clubId: Math.ceil(Math.random() * 4),
-						organizationId: 1,
+						organizationId: 1
 					}
 				}
 			}

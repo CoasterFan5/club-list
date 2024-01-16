@@ -45,8 +45,8 @@
 	const startInvite = () => {
 		pushState('', {
 			showingModal: 'inviteUser'
-		})
-	}
+		});
+	};
 
 	$: if (form) {
 		history.back();
@@ -67,9 +67,11 @@
 </script>
 
 {#if $page.state.showingModal == 'inviteUser'}
-	<Modal on:close={() => {
-		history.back();
-	}}>
+	<Modal
+		on:close={() => {
+			history.back();
+		}}
+	>
 		<div class="joinCode">
 			<p>
 				Join Code (Click to copy): <button
@@ -84,9 +86,12 @@
 				>
 			</p>
 		</div>
-		<Button value="Done" on:click={() => {
-			history.back()
-		}}/>
+		<Button
+			value="Done"
+			on:click={() => {
+				history.back();
+			}}
+		/>
 	</Modal>
 {/if}
 
@@ -132,7 +137,6 @@
 			<img class="icon" alt="invite" src="/icons/addUser.svg" />
 		</button>
 	</div>
-	
 </header>
 
 <div class="wrap">
@@ -142,7 +146,7 @@
 				No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
 						class="textButton"
 						on:click={showModal}>Create One?</button
-				>{/if}
+					>{/if}
 			</h2>
 		{:else}
 			<div class="clubs">
@@ -201,24 +205,24 @@
 	}
 
 	.joinCode {
-			width: 100%;
-			text-align: center;
-			font-size: 1.2rem;
-			color: var(--textLow);
+		width: 100%;
+		text-align: center;
+		font-size: 1.2rem;
+		color: var(--textLow);
 
-			button {
-				all: unset;
-				display: inline-block;
-				font-weight: 500;
-				background: var(--textLow);
+		button {
+			all: unset;
+			display: inline-block;
+			font-weight: 500;
+			background: var(--textLow);
 
-				&:hover {
-					cursor: pointer;
-					background: var(--text);
-				}
+			&:hover {
+				cursor: pointer;
+				background: var(--text);
 			}
 		}
-	
+	}
+
 	.textButton {
 		all: unset;
 		display: inline-block;
@@ -248,8 +252,6 @@
 			justify-content: center;
 			width: 100%;
 		}
-
-		
 
 		a {
 			all: unset;

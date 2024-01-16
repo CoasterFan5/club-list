@@ -10,14 +10,13 @@
 			<h6>Primary Settings</h6>
 			<a href="/org/{data.org.id}/settings">General</a>
 			<a href="/org/{data.org.id}/settings/danger">Danger</a>
-			<hr>
+			<hr />
 			<h6>Member Settings</h6>
 			<a href="/org/{data.org.id}/settings/members">Members</a>
 			<a href="/org/{data.org.id}/settings/visibility">Visibility</a>
-			<hr>
+			<hr />
 		</div>
 
-		
 		<a href="/org/{data.org.id}">Done</a>
 	</div>
 	<div class="inner">
@@ -29,7 +28,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		height: 100vh;
 		width: 100%;

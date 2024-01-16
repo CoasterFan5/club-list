@@ -38,14 +38,14 @@
 		<div class="itemSpacer">
 			<Input name="name" label="Name" value={data.org.name} />
 		</div>
-		
+
 		<div class="itemSpacer">
 			<Button value="Update" />
 		</div>
 	</form>
 </main>
 
-<style>
+<style lang="scss">
 	main {
 		display: flex;
 		flex-direction: column;
@@ -61,10 +61,6 @@
 	h2 {
 		margin: 0;
 		margin-bottom: 2rem;
-
-		&.secondary {
-			margin-top: 2rem;
-		}
 	}
 
 	.itemSpacer {
