@@ -65,6 +65,17 @@ model Organization {
 	orgUsers   OrgUser[]
 	clubs      Club[]
 	joinCode   String	 @unique
+	// TODO: this can't be String? @unique https://github.com/prisma/prisma/issues/3387
+	slug       Slug?
+}
+
+model Slug {
+	id 	           Int          @id @default(autoincrement())
+	createdAt      DateTime?    @default(now())
+	updatedAt      DateTime?    @updatedAt
+	slug 	       String       @unique
+	organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+	organizationId Int          @unique
 }
 
 model Club {
