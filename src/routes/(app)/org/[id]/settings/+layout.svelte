@@ -9,11 +9,11 @@
 		<div class="top">
 			<h6>Primary Settings</h6>
 			<a href="/org/{data.org.id}/settings">General</a>
-			<a href="/org/{data.org.id}/settings">Danger</a>
+			<a href="/org/{data.org.id}/settings/danger">Danger</a>
 			<hr>
 			<h6>Member Settings</h6>
-			<a href="/org/{data.org.id}/settings">Members</a>
-			<a href="/org/{data.org.id}/settings">Visibility</a>
+			<a href="/org/{data.org.id}/settings/members">Members</a>
+			<a href="/org/{data.org.id}/settings/visibility">Visibility</a>
 			<hr>
 		</div>
 

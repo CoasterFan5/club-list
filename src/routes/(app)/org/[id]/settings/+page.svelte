@@ -43,9 +43,6 @@
 			<Button value="Update" />
 		</div>
 	</form>
-
-	<h2 class="secondary">Dangerous Actions</h2>
-	<Button type="button" value="Refresh Join Code" />
 </main>
 
 <style>
