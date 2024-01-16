@@ -256,7 +256,6 @@ export const actions = {
 			}
 
 			if (role.name != roleName) {
-				console.log(role.name, roleName);
 				return {
 					success: false,
 					message: 'Role name typed wrong'

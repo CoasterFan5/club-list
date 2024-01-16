@@ -44,8 +44,6 @@
 					showOnlyWhenEditable: true,
 					includeChildren: true,
 					placeholder: ({ node }) => {
-						console.log(node.type.name);
-
 						if (node.type.name === 'heading') {
 							return 'Write something big...';
 						}

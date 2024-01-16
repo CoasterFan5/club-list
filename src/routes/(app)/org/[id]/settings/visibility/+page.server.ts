@@ -33,8 +33,6 @@ export const actions = {
 				}
 			});
 
-			console.log(orgUser);
-
 			if (orgUser?.role != 'ADMIN' && orgUser?.role != 'OWNER') {
 				return {
 					success: false,

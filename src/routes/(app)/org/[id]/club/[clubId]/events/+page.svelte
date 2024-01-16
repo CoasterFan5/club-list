@@ -23,8 +23,6 @@
 	);
 
 	$: flattenedDaysActive = daysActive.flatMap(([, days]) => days);
-	console.log(data.events);
-
 	let day = dayjs();
 
 	const safeNumber = (num: string): number | null => {
