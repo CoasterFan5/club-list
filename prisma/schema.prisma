@@ -50,14 +50,14 @@ model ClubUser {
 	createdAt      DateTime  @default(now())
 	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	clubId         Int
-	orgUser		   OrgUser?  @relation(fields: [userId, organizationId], references: [userId, organizationId])
-	organizationId Int       @default(0)
+	orgUser		   OrgUser?  @relation(fields: [userId, organizationId], references: [userId, organizationId], onDelete: Cascade)
+	organizationId Int
 	user 	       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 	userId 	       Int
 	roleId         Int?
 	role           ClubRole? @relation(fields: [roleId], references: [id])
 
-	@@id([clubId, userId])
+	@@id([clubId, userId, organizationId])
 }
 
 model Organization {
