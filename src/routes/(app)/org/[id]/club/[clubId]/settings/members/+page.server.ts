@@ -40,6 +40,12 @@ const validateUser = async (session: string | undefined, params: RouteParams) =>
 			throw redirect(303, `/org/${params.id}/club/${params.clubId}`);
 		}
 	}
+
+	return {
+		club,
+		user,
+		clubUser
+	}
 };
 
 export const load = async ({ cookies, params }) => {
@@ -89,21 +95,53 @@ export const actions = {
 			userId: z.coerce.number(),
 			roleId: z.coerce.number()
 		}),
-		async ({ userId, roleId }, { cookies, params }) => {
-			await validateUser(cookies.get('session'), params as RouteParams);
 
-			await prisma.clubUser.update({
+
+		async ({ userId, roleId }, { cookies, params }) => {
+			const {club} = await validateUser(cookies.get('session'), params as RouteParams);
+
+			const role = await prisma.clubRole.findFirst({
 				where: {
-					clubId_userId_organizationId: {
-						clubId: parseInt(params.clubId),
-						organizationId: parseInt(params.id),
-						userId
+					AND: {
+						id: roleId,
+						clubId: club?.id
 					}
-				},
-				data: {
-					roleId: roleId
 				}
-			});
+			})
+
+			if(roleId == 0) {
+				await prisma.clubUser.update({
+					where: {
+						clubId_userId_organizationId: {
+							clubId: parseInt(params.clubId),
+							organizationId: parseInt(params.id),
+							userId
+						}
+					},
+					data: {
+						roleId: null
+					}
+				});
+			} else if (role) {
+				await prisma.clubUser.update({
+					where: {
+						clubId_userId_organizationId: {
+							clubId: parseInt(params.clubId),
+							organizationId: parseInt(params.id),
+							userId
+						}
+					},
+					data: {
+						roleId: roleId
+					}
+				});
+			} else {
+				return {
+					success: false,
+					message: "How did we get here?"
+				}
+			}
+
 
 			return {
 				success: true,

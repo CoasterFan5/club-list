@@ -59,13 +59,22 @@
 				<input name="userId" style="display: none" bind:value={selectedUserId} />
 				<input name="roleId" style="display: none" bind:value={role.id} />
 
-				<button style="--color: {role.color}">
+				<button class="rollButton" style="--color: {role.color}">
 					<div class="color" />
 					{role.name}
 				</button>
 			</form>
 		{/if}
+			
 	{/each}
+	<form action="?/updateMemberRole" method="post" use:enhance>
+		<input name="userId" style="display: none" bind:value={selectedUserId} />
+		<input name="roleId" style="display: none" value="0" />
+
+		<button class="noRoll" style="--color: white">
+			No Roll
+		</button>
+	</form>
 </div>
 <main>
 	<table>
@@ -187,7 +196,7 @@
 		border-radius: 3px;
 		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
 	}
-	.roleSelector button {
+	.roleSelector .rollButton {
 		position: relative;
 		all: unset;
 		cursor: pointer;
@@ -202,7 +211,7 @@
 		border-radius: 3px;
 		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
 	}
-	.roleSelector button:hover {
+	.roleSelector .rollButton:hover {
 		background: rgba(0, 0, 0, 0.15);
 	}
 
@@ -221,5 +230,23 @@
 		z-index: 49;
 		top: 0px;
 		left: 0px;
+	}
+	.noRoll {
+		position: relative;
+		all: unset;
+		background: rgba(0, 0, 0, 0.1);
+		text-align: left;
+		width: 100%;
+		padding: 7px 10px;
+		margin-top: 5px;
+		box-sizing: border-box;
+		cursor: pointer;
+		width: 100%;
+		border-radius: 3px;
+		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
+		text-align: center;
+	}
+	.noRoll:hover {
+		background: rgba(0, 0, 0, 0.15);
 	}
 </style>
