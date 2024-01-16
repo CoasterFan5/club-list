@@ -125,6 +125,38 @@ async function main() {
 		}
 	});
 
+	await prisma.organization.upsert({
+		where: { id: 2, name: 'Hybrid' },
+		update: {},
+		create: {
+			name: 'Hybrid',
+			joinCode: '234567',
+			owner: {
+				create: {
+					firstName: 'Hy',
+					lastName: 'Brid',
+					email: 'hbrid@hybrid.org',
+					...(await makePassword('password'))
+				}
+			},
+			orgUsers: {
+				create: [
+					{
+						role: 'ADMIN',
+						user: {
+							create: {
+								firstName: 'Animal',
+								lastName: 'Bird',
+								email: 'abird@hybrid.org',
+								...(await makePassword('password')),
+							},
+						},
+					},
+				]
+			}
+		},
+	});
+
 	console.log('Generating test users...');
 
 	for (let i = 0; i < 100; i++) {
@@ -147,7 +179,8 @@ async function main() {
 				clubUsers: {
 					create: {
 						// TODO: don't hardcode this
-						clubId: Math.ceil(Math.random() * 4)
+						clubId: Math.ceil(Math.random() * 4),
+						organizationId: 1,
 					}
 				}
 			}

@@ -41,6 +41,7 @@ model OrgUser {
 	organizationId Int
 	user 	       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 	userId 	       Int
+	clubUsers      ClubUser[]
 
 	@@id([organizationId, userId])
 }
@@ -49,6 +50,8 @@ model ClubUser {
 	createdAt      DateTime  @default(now())
 	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	clubId         Int
+	orgUser		   OrgUser?  @relation(fields: [userId, organizationId], references: [userId, organizationId])
+	organizationId Int       @default(0)
 	user 	       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 	userId 	       Int
 	roleId         Int?
