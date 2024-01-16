@@ -6,9 +6,10 @@ import { z } from 'zod';
 export const actions = {
 	updateOrg: formHandler(
 		z.object({
-			name: z.string().min(1)
+			name: z.string().min(1),
+			slug: z.string().min(1).max(20).regex(/^[a-z0-9-]+$/i).toLowerCase()
 		}),
-		async ({ name }, { cookies, params }) => {
+		async ({ name, slug }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
 
 			const orgUser = await prisma.orgUser.findFirst({
@@ -39,7 +40,20 @@ export const actions = {
 					id: orgUser.organizationId
 				},
 				data: {
-					name
+					name,
+					slug: {
+						upsert: {
+							where: {
+								slug
+							},
+							update: {
+								slug
+							},
+							create: {
+								slug
+							}
+						}
+					}
 				}
 			});
 

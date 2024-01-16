@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import type { PageData, ActionData } from './$types';
 
-	export let data: PageData;
-	export let form: ActionData;
+	export let data;
+	export let form;
 
 	import { enhance } from '$app/forms';
 	import { addToast } from '$lib/components/toaster';
@@ -26,37 +25,48 @@
 	}
 </script>
 
-<form
-	action="?/updateOrg"
-	method="POST"
-	use:enhance={() => {
-		return async ({ update }) => {
-			update({ reset: false });
-		};
-	}}
->
-	<h2>Settings</h2>
-	<div class="itemSpacer">
-		<Input name="name" label="Name" bind:value={data.org.name} />
-	</div>
-	<div class="itemSpacer">
-		<Button value="Update" />
-	</div>
-</form>
+<main>
+	<form
+		action="?/updateOrg"
+		method="POST"
+		use:enhance={() => {
+			return async ({ update }) => {
+				update({ reset: false });
+			};
+		}}
+	>
+		<h2>Display Info</h2>
+		<div class="itemSpacer">
+			<Input name="name" label="Name" value={data.org.name} />
+		</div>
+		<div class="itemSpacer">
+			<Input name="slug" label="Slug" value={data.org.slug?.slug ?? ""} />
+		</div>
+		<div class="itemSpacer">
+			<Button value="Update" />
+		</div>
+	</form>
+
+	<h2 class="secondary">Dangerous Actions</h2>
+	<Button type="button" value="Refresh Join Code" />
+</main>
 
 <style>
-	form {
+	main {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		width: 100%;
 		max-width: 500px;
 	}
 
 	h2 {
 		margin: 0;
 		margin-bottom: 2rem;
+
+		&.secondary {
+			margin-top: 2rem;
+		}
 	}
 
 	.itemSpacer {

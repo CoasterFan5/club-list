@@ -15,7 +15,8 @@ export const load = async ({ params, parent }) => {
 				where: {
 					userId: user.id
 				}
-			}
+			},
+			slug: true
 		}
 	});
 
