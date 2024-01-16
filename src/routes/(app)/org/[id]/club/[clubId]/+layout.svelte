@@ -21,7 +21,7 @@
 
 				<h2 class="clubName">{data.club.name}</h2>
 				<form class="buttonWrap" action="{baseURL}?/joinClub" method="post">
-					{#if !data.clubUser && data.club.ownerId != data.user.id}
+					{#if !data.clubUser && data.club.ownerId != data.user.id && data.club.openToJoin}
 						<Button value="Join Club" />
 					{/if}
 				</form>

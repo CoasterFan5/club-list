@@ -155,10 +155,23 @@ export const actions = {
 			};
 		}
 
+		const club = await prisma.club.findUnique({
+			where: {
+				id: clubId
+			}
+		})
+
+		if(!club?.openToJoin) {
+			return {
+				success: false,
+				message: "you can't join this club!"
+			}
+		}
+
 		// now we can create the club user
 		await prisma.clubUser.create({
 			data: {
-				clubId: clubId,
+				clubId: club.id,
 				organizationId: parseInt(params.id),
 				userId: sessionCheck.user.id
 			}
