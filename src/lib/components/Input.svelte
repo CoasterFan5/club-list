@@ -20,7 +20,7 @@
 	let active = true;
 	let ready = false;
 
-	$: derivedActive = type === "date" ? true : active
+	$: derivedActive = (type === "date" || type === "time") ? true : active
 
 	onMount(() => {
 		enableJS = true;
