@@ -67,14 +67,23 @@
 
 	let repeats = false;
 	let repeatType = "amount";
+	let interval = "1";
+	$: parsedInterval = parseInt(interval);
 	let count = "1";
 	$: parsedCount = parseInt(count);
 	let inputFrequency = "daily";
 	$: derivedFrequency = freqMapping[inputFrequency];
+	let upTo = new Date().toString();
 	$: rrule = new RRule({
 		freq: derivedFrequency,
-		count: parsedCount,
-		dtstart: new Date(formDate)
+		interval: parsedInterval,
+		dtstart: new Date(formDate),
+		...(repeatType === "amount" ? {
+			count: parsedCount
+		} : {}),
+		...(repeatType === "upTo" && upTo ? {
+			until: new Date(upTo)
+		} : {})
 	})
 </script>
 
@@ -181,7 +190,7 @@
 						<label for="repeat">Repeats every</label>
 						<!-- TODO: custom number input -->
 						<div class="input">
-							<Input name="repeatEvery" bind:value={count} bg="white" label="Count" type="number" />
+							<Input name="repeatEvery" bind:value={interval} bg="white" label="Count" type="number" />
 							<select id="repeat" name="repeat" bind:value={inputFrequency}>
 								<option value="daily">Days</option>
 								<option value="weekly">Weeks</option>
@@ -197,11 +206,11 @@
 							</select>
 							{#if repeatType == "amount"}
 								<div class="input">
-									<Input name="repeatEvery" bg="white" label="Amount of times" type="number" />
+									<Input bind:value={count} name="repeatEvery" bg="white" label="Amount of times" type="number" />
 								</div>
 							{:else if repeatType == "upTo"}
 								<div class="input">
-									<Input name="upTo" bg="white" label="End Date" type="date" />
+									<Input bind:value={upTo} name="upTo" bg="white" label="End Date" type="date" />
 								</div>
 							{/if}
 						</div>
