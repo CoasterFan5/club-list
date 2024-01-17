@@ -73,38 +73,42 @@
 	</form>
 </div>
 <main>
-	<table>
-		<thead>
-			<tr>
-				<th>Member</th>
-				<th>Role</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{#each data.memberData as member}
+	{#if data.memberData.length > 0}
+		<table>
+			<thead>
 				<tr>
-					<td>
-						<div class="member tdInner">
-							<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
-							{member.user.firstName}
-							{member.user.lastName}
-						</div>
-					</td>
-					<td style="--color: {member.role?.color}" class="role">
-						<button
-							class="changeRole"
-							on:click|self={(e) => {
-								roleHelper(e, member.userId);
-							}}
-						>
-							{member.role?.name || 'None'}
-						</button>
-					</td>
+					<th>Member</th>
+					<th>Role</th>
+					<th>Actions</th>
 				</tr>
-			{/each}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{#each data.memberData as member}
+					<tr>
+						<td>
+							<div class="member tdInner">
+								<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
+								{member.user.firstName}
+								{member.user.lastName}
+							</div>
+						</td>
+						<td style="--color: {member.role?.color}" class="role">
+							<button
+								class="changeRole"
+								on:click|self={(e) => {
+									roleHelper(e, member.userId);
+								}}
+							>
+								{member.role?.name || 'None'}
+							</button>
+						</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	{:else}
+		<p><i>No members to manage yet.</i></p>
+	{/if}
 </main>
 
 <style lang="scss">
