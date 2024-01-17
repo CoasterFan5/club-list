@@ -10,6 +10,13 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 
+	const freqMapping: Record<string, RRule.Frequency> = {
+		daily: RRule.DAILY,
+		weekly: RRule.WEEKLY,
+		monthly: RRule.MONTHLY,
+		yearly: RRule.YEARLY
+	}
+
 	export let data;
 
 	dayjs.extend(dayOfYear);
@@ -60,6 +67,15 @@
 
 	let repeats = false;
 	let repeatType = "amount";
+	let count = "1";
+	$: parsedCount = parseInt(count);
+	let inputFrequency = "daily";
+	$: derivedFrequency = freqMapping[inputFrequency];
+	$: rrule = new RRule({
+		freq: derivedFrequency,
+		count: parsedCount,
+		dtstart: new Date(formDate)
+	})
 </script>
 
 <div class="wrap">
@@ -134,59 +150,65 @@
 	<Modal on:close={() => history.back()}>
 		<form method="POST">
 			<h1>Add Event</h1>
-
-			<div class="input"><Input name="title" bg="white" label="Event Title" required /></div>
-			<div class="input"><Input name="description" bg="white" label="Event Description" /></div>
-			<input name="date" type="hidden" value={calculatedFormDate} />
-			<div class="input">
-				<Input
-					bg="white"
-					label={repeats ? 'Starts On' : 'Event Date'}
-					required
-					type="date"
-					bind:value={formDate}
-				/>
-			</div>
-			<div class="input">
-				<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
-			</div>
-
-			<hr />
-
-			<div class="input checkbox">
-				Repeats?
-				<Checkbox bind:checked={repeats} />
-			</div>
-
-			{#if repeats}
-				<div class="input">
-					<label for="repeat">Repeats every</label>
-					<!-- TODO: custom number input -->
+			<div class="formBody">
+				<div class="formBodyChild">
+					<div class="input"><Input name="title" bg="white" label="Event Title" required /></div>
+					<div class="input"><Input name="description" bg="white" label="Event Description" /></div>
+					<input name="date" type="hidden" value={calculatedFormDate} />
 					<div class="input">
-						<Input name="repeatEvery" bg="white" label="Count" type="number" />
+						<Input
+							bg="white"
+							label={repeats ? 'Starts On' : 'Event Date'}
+							required
+							type="date"
+							bind:value={formDate}
+						/>
 					</div>
-					<select id="repeat" name="repeat">
-						<option value="daily">Days</option>
-						<option value="weekly">Weeks</option>
-						<option value="monthly">Months</option>
-						<option value="yearly">Years</option>
-					</select>
-					<select id="repeatType" name="repeatType" bind:value={repeatType}>
-						<option value="amount">Amount</option>
-						<option value="upTo">Up To</option>
-						<option value="indefinetly">Indefinetly</option>
-					</select>
-					{#if repeatType == "amount"}
-						<div class="input">
-							<Input name="repeatEvery" bg="white" label="Amount of times" type="number" />
-						</div>
-					{:else if repeatType == "upTo"}
-						<div class="input">
-							<Input name="upTo" bg="white" label="End Date" type="date" />
-						</div>
-					{/if}
+					<div class="input">
+						<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
+					</div>
+
+					<hr />
+
+					<div class="input checkbox">
+						Repeats?
+						<Checkbox bind:checked={repeats} />
+					</div>
 				</div>
-			{/if}
+
+				{#if repeats}
+					<div class="formBodyChild">
+						<label for="repeat">Repeats every</label>
+						<!-- TODO: custom number input -->
+						<div class="input">
+							<Input name="repeatEvery" bind:value={count} bg="white" label="Count" type="number" />
+							<select id="repeat" name="repeat" bind:value={inputFrequency}>
+								<option value="daily">Days</option>
+								<option value="weekly">Weeks</option>
+								<option value="monthly">Months</option>
+								<option value="yearly">Years</option>
+							</select>
+						</div>
+						<div class="input">
+							<select id="repeatType" name="repeatType" bind:value={repeatType}>
+								<option value="amount">Amount</option>
+								<option value="upTo">Up To</option>
+								<option value="indefinetly">Indefinetly</option>
+							</select>
+							{#if repeatType == "amount"}
+								<div class="input">
+									<Input name="repeatEvery" bg="white" label="Amount of times" type="number" />
+								</div>
+							{:else if repeatType == "upTo"}
+								<div class="input">
+									<Input name="upTo" bg="white" label="End Date" type="date" />
+								</div>
+							{/if}
+						</div>
+						<p>{rrule.toText()}</p>
+					</div>
+				{/if}
+			</div>
 
 			<div class="submitButton">
 				<Button type="submit" value="Add Event" />
@@ -201,6 +223,14 @@
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
+	}
+	.formBody {
+		display: flex;
+		gap: 1rem;
+
+		.formBodyChild {
+			width: 100%;
+		}
 	}
 	.dateBar {
 		display: flex;
@@ -285,7 +315,11 @@
 
 	.input {
 		margin: 1rem 0;
+		gap: 0.5rem;
 		width: 100%;
+		display: flex;
+		flex-direction: row;
+		height: min-content;
 
 		&.checkbox {
 			display: flex;
