@@ -67,7 +67,7 @@
 	{/each}
 	<form action="?/updateMemberRole" method="post" use:enhance>
 		<input name="userId" style="display: none" bind:value={selectedUserId} />
-		<input name="roleId" style="display: none" value="0" />
+		<input name="roleId" style="display: none" value="-1" />
 
 		<button style="--color: white" class="noRole"> No role </button>
 	</form>

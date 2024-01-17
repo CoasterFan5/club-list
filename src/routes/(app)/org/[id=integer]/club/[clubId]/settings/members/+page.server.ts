@@ -97,7 +97,7 @@ export const actions = {
 		async ({ userId, roleId }, { cookies, params }) => {
 			const { club } = await validateUser(cookies.get('session'), params as RouteParams);
 
-			const role = await prisma.clubRole.findFirstOrThrow({
+			const role = await prisma.clubRole.findFirst({
 				where: {
 					AND: {
 						id: roleId,
@@ -115,7 +115,7 @@ export const actions = {
 					}
 				},
 				data: {
-					roleId: role.id == 0 ? null : role.id
+					roleId: roleId == -1 ? null : role?.id
 				}
 			});
 
