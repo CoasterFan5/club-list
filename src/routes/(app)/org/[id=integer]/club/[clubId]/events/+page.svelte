@@ -84,7 +84,16 @@
 		...(repeatType === "upTo" && upTo ? {
 			until: new Date(upTo)
 		} : {})
-	})
+	});
+
+	const weekdays: string[] = [
+		"Monday",
+		"Tuesday",
+		"Wednesday",
+		"Thursday",
+		"Friday",
+		"Saturday",
+	]
 </script>
 
 <div class="wrap">
@@ -198,6 +207,22 @@
 								<option value="yearly">Years</option>
 							</select>
 						</div>
+						<!-- 
+							we skip daily; we don't care about every n hour;
+							this isn't a cron job
+						-->
+						{#if inputFrequency === "weekly"}
+							{#each weekdays as weekday}
+								<div class="weekdayInput">
+									<Checkbox name="weekday" />
+									<label for={weekday}>{weekday}</label>
+								</div>
+							{/each}
+						{:else if inputFrequency === "monthly"}
+							<p>monthly</p>
+						{:else if inputFrequency === "yearly"}
+							<p>yearly</p>
+						{/if}
 						<div class="input">
 							<select id="repeatType" name="repeatType" bind:value={repeatType}>
 								<option value="amount">Amount</option>
@@ -266,6 +291,13 @@
 		grid-gap: 1rem;
 		width: calc(100% - 2rem);
 		height: calc(100% - 2rem - (3rem + 2rem));
+	}
+
+	.weekdayInput {
+		display: flex;
+		justify-content: start;
+		align-items: center;
+		flex-direction: row;
 	}
 
 	.event {
