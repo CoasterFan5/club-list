@@ -12,6 +12,8 @@ export const actions = {
 						.string()
 						.min(1)
 						.max(20)
+						// ensure there is at least one letter
+						.regex(/[a-z]/i)
 						.regex(/^[a-z0-9-]+$/i)
 						.toLowerCase(),
 					z.string().length(0)
