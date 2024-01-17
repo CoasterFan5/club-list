@@ -20,6 +20,8 @@
 	let active = true;
 	let ready = false;
 
+	$: derivedActive = type === "date" ? true : active
+
 	onMount(() => {
 		enableJS = true;
 		active = !!value;
@@ -31,7 +33,7 @@
 </script>
 
 <label style="--background: {bg}">
-	<span class:active class:inactive={!active} class:ready>{label}</span>
+	<span class:active={derivedActive} class:inactive={!derivedActive} class:ready>{label}</span>
 	<input
 		{name}
 		class:doPlaceholder={!enableJS}

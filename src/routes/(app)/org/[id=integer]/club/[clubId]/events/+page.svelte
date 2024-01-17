@@ -59,6 +59,7 @@
 	let selectedDay: dayjs.Dayjs | null = null;
 
 	let repeats = false;
+	let repeatType = "amount";
 </script>
 
 <div class="wrap">
@@ -170,9 +171,20 @@
 						<option value="monthly">Months</option>
 						<option value="yearly">Years</option>
 					</select>
-					<div class="input">
-						<Input name="repeatEvery" bg="white" label="Amount of times" type="number" />
-					</div>
+					<select id="repeatType" name="repeatType" bind:value={repeatType}>
+						<option value="amount">Amount</option>
+						<option value="upTo">Up To</option>
+						<option value="indefinetly">Indefinetly</option>
+					</select>
+					{#if repeatType == "amount"}
+						<div class="input">
+							<Input name="repeatEvery" bg="white" label="Amount of times" type="number" />
+						</div>
+					{:else if repeatType == "upTo"}
+						<div class="input">
+							<Input name="upTo" bg="white" label="End Date" type="date" />
+						</div>
+					{/if}
 				</div>
 			{/if}
 
