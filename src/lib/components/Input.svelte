@@ -43,6 +43,13 @@
 		bind:value
 		on:focus={focusHandle}
 		on:blur={blurHandle}
+		on:change={() => {
+			if (value) {
+				active = true;
+			} else {
+				active = false;
+			}
+		}}
 	/>
 </label>
 
