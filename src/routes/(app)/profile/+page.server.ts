@@ -7,6 +7,9 @@ import crypto from 'crypto';
 import { verifySession } from '$lib/server/verifySession';
 import { formHandler } from '$lib/bodyguard';
 import { z } from 'zod';
+import { promisify } from 'util';
+
+const pbkdf2 = promisify(crypto.pbkdf2);
 
 export const actions = {
 	updateProfile: formHandler(
@@ -26,6 +29,40 @@ export const actions = {
 					firstName,
 					lastName,
 					email
+				}
+			});
+
+			return { success: true };
+		}
+	),
+
+	changePassword: formHandler(
+		z.object({
+			oldPassword: z.string(),
+			newPassword: z.string(),
+			confirmPassword: z.string()
+		}),
+		async ({ oldPassword, newPassword, confirmPassword }, { cookies }) => {
+			const user = await verifySession(cookies.get('session'), { salt: true, hash: true });
+
+			if (newPassword !== confirmPassword) {
+				fail(400, { message: 'Passwords do not match' });
+			}
+
+			const hash = (await pbkdf2(oldPassword, user.salt, 1000, 100, 'sha512')).toString('hex');
+
+			if (hash !== user.hash) {
+				fail(400, { message: 'Incorrect Password' });
+			}
+
+			const newHash = (await pbkdf2(newPassword, user.salt, 1000, 100, 'sha512')).toString('hex');
+
+			await prisma.user.updateMany({
+				where: {
+					id: user.id
+				},
+				data: {
+					hash: newHash
 				}
 			});
 

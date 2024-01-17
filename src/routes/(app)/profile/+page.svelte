@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import PfpUpload from '$lib/components/PfpUpload.svelte';
 	import { addToast } from '$lib/components/toaster';
+	import Modal from '$lib/modules/Modal.svelte';
 
 	export let data;
 	export let form;
@@ -31,7 +34,37 @@
 
 <h1>Profile</h1>
 
-<div class="wrap">
+{#if $page.state.showingModal === 'changePassword'}
+	<Modal on:close={() => history.back()}>
+		<form
+			action="?/changePassword"
+			method="post"
+			use:enhance={() => {
+				return async ({ update }) => {
+					update({ reset: false });
+				};
+			}}
+		>
+			<h2>Change Password</h2>
+
+			<div class="formInput">
+				<Input bg="white" name="oldPassword" label="Old Password" type="password" />
+			</div>
+
+			<div class="formInput">
+				<Input bg="white" name="newPassword" label="New Password" type="password" />
+			</div>
+
+			<div class="formInput">
+				<Input bg="white" name="confirmPassword" label="Confirm Password" type="password" />
+			</div>
+
+			<Button type="submit" value="Change Password" />
+		</form>
+	</Modal>
+{/if}
+
+<main>
 	<div class="left">
 		<form
 			action="?/updateProfile"
@@ -58,9 +91,21 @@
 
 			<Button type="submit" value="Save" />
 
-			<form class="logOut" action="/logout" method="post" use:enhance>
-				<Button type="submit" value="Log Out" />
-			</form>
+			<h2>Actions</h2>
+
+			<div class="formInput">
+				<form class="logOut" action="/logout" method="post" use:enhance>
+					<Button type="submit" value="Log Out" />
+				</form>
+			</div>
+
+			<div class="formInput">
+				<Button type={"button"} on:click={() => {
+					pushState('', {
+						showingModal: 'changePassword'
+					})
+				}} value="Change Password" />
+			</div>
 		</form>
 	</div>
 
@@ -68,10 +113,10 @@
 		<h2>Profile Picture</h2>
 		<PfpUpload pfpUrl={data.user.pfp} />
 	</div>
-</div>
+</main>
 
 <style lang="scss">
-	.wrap {
+	main {
 		display: flex;
 		flex-direction: row;
 		width: 80%;
