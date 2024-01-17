@@ -29,6 +29,7 @@
 
 	<form action="?/updateVisibility" method="post" use:enhance>
 		<Input name="slug" label="Slug" />
+		<div class="spacer-small" />
 		<p>
 			Slugs are another way to access an organization. Organizations with slugs will be visible at <span
 				>https://clubsaur.us/org/(slug)</span
@@ -38,12 +39,20 @@
 		<p>Public organizations can be accessed by anyone, even if they don't have a join code.</p>
 		<Checkbox name="discoverable" label="Discoverable Organization" />
 		<p>Discoverable organizations will show up on the organization discovery page</p>
-		<br />
+		<div class="spacer" />
 		<Button value="Save" />
 	</form>
 </main>
 
 <style lang="scss">
+	div.spacer {
+		margin-bottom: 1rem;
+	}
+
+	div.spacer-small {
+		margin-bottom: 0.5rem;
+	}
+
 	main {
 		display: flex;
 		flex-direction: column;
