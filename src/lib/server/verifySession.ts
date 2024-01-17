@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { prisma } from './prismaConnection';
-import type { Prisma } from '@prisma/client'
+import type { Prisma } from '@prisma/client';
 
 const THIRTY_DAYS = 1000 * 60 * 60 * 24 * 30;
 
@@ -43,7 +43,10 @@ export const verifyOptionalSession = async (
 	return sessionCheck.user;
 };
 
-export const verifySession = async (session: string | undefined, extraFields?: Prisma.UserSelect) => {
+export const verifySession = async (
+	session: string | undefined,
+	extraFields?: Prisma.UserSelect
+) => {
 	const sessionCheck = await verifyOptionalSession(session, extraFields);
 
 	if (!sessionCheck) {

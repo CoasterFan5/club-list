@@ -85,7 +85,7 @@
 			<p>
 				Not what you want? <Link on:click={showJoinModal}>Join</Link>
 				or
-				<Link on:click={showCreateModal}>Create</Link> a new organization
+				<Link on:click={showCreateModal}>Create</Link> a new organization.
 			</p>
 		</div>
 	{/if}

@@ -48,15 +48,15 @@
 			<h2>Change Password</h2>
 
 			<div class="formInput">
-				<Input bg="white" name="oldPassword" label="Old Password" type="password" />
+				<Input name="oldPassword" bg="white" label="Old Password" type="password" />
 			</div>
 
 			<div class="formInput">
-				<Input bg="white" name="newPassword" label="New Password" type="password" />
+				<Input name="newPassword" bg="white" label="New Password" type="password" />
 			</div>
 
 			<div class="formInput">
-				<Input bg="white" name="confirmPassword" label="Confirm Password" type="password" />
+				<Input name="confirmPassword" bg="white" label="Confirm Password" type="password" />
 			</div>
 
 			<Button type="submit" value="Change Password" />
@@ -100,11 +100,15 @@
 			</div>
 
 			<div class="formInput">
-				<Button type={"button"} on:click={() => {
-					pushState('', {
-						showingModal: 'changePassword'
-					})
-				}} value="Change Password" />
+				<Button
+					type="button"
+					value="Change Password"
+					on:click={() => {
+						pushState('', {
+							showingModal: 'changePassword'
+						});
+					}}
+				/>
 			</div>
 		</form>
 	</div>

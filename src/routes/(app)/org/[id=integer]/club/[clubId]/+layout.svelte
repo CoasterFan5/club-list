@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
-	import type { PageData } from './$types';
 	import Button from '$lib/components/Button.svelte';
-	export let data: PageData;
+	import Link from '$lib/components/Link.svelte';
+
+	export let data;
 
 	let route = get(page).route;
 	page.subscribe((page) => (route = page.route));
@@ -27,20 +28,22 @@
 				</form>
 			</div>
 			<div class="nav">
-				<a class:selected={route.id == '/(app)/org/[id]/club/[clubId]'} href={baseURL}>Home</a>
-				<a
+				<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]'}>
+					<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href={baseURL}>Home</Link>
+				</div>
+				<div
+					class="link"
 					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/announcements'}
-					href="{baseURL}/announcements">Announcements</a
 				>
-				<a
-					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/events'}
-					href="{baseURL}/events">Events</a
-				>
+					<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href="{baseURL}/announcements">Announcements</Link>
+				</div>
+				<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/events'}>
+					<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href="{baseURL}/events">Events</Link>
+				</div>
 				{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
-					<a
-						class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}
-						href="{baseURL}/settings">Settings</a
-					>
+					<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}>
+						<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href="{baseURL}/settings">Settings</Link>
+					</div>
 				{/if}
 			</div>
 		</div>
@@ -104,43 +107,15 @@
 		align-items: center;
 		flex-direction: row;
 
-		a {
-			margin-right: 20px;
+		.link {
 			padding: 5px 0px;
-			font-size: 1.1rem;
-			text-decoration: none;
-			color: var(--textColor);
-			opacity: 0.9;
-			position: relative;
-			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
 
-			&::after {
-				content: '';
-				bottom: 0px;
-				left: 0px;
-				position: absolute;
-				width: 100%;
-				height: 2px;
-				background: var(--accent);
-				transition: transform cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-				transform: scaleX(0);
-			}
-
-			&:hover {
-				color: var(--accent);
-
-				&::after {
-					transform: scaleX(1);
-				}
+			:global(a:hover) {
+				color: var(--accent) !important;
 			}
 
 			&.selected {
 				color: var(--accent50);
-
-				&::after {
-					transform: scaleX(1);
-					background: var(--accent50);
-				}
 			}
 		}
 	}

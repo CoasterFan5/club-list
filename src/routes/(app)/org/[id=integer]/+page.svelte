@@ -175,7 +175,11 @@
 								{#if club.imageURL}
 									<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
 								{:else}
-								<img class="clubImage" alt="{club.name} background image" src="/defaultClubImage.svg" />
+									<img
+										class="clubImage"
+										alt="{club.name} background image"
+										src="/defaultClubImage.svg"
+									/>
 								{/if}
 								<div class="clubText">
 									<h2>{club.name}</h2>

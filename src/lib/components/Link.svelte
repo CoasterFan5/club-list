@@ -19,10 +19,16 @@
 		cursor: pointer;
 		padding: 0;
 		text-decoration: none;
+
 		margin-left: var(--marginLeft, 0px);
 		margin-right: var(--marginRight, 0px);
 		margin-top: var(--marginTop, 2px);
 		margin-bottom: var(--marginBottom, 2px);
+
+		padding: var(--padding, 0);
+
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+
 		position: relative;
 		font-size: var(--fontSize, inherit);
 
