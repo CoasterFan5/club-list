@@ -68,7 +68,7 @@ model Organization {
 	ownerId     Int
 	isPublic Boolean @default(false)
 	discoverable Boolean @default(false)
-	hideSensitive Boolean @default(false)
+	hideSensitive Boolean @default(true)
 	orgUsers    OrgUser[]
 	clubs       Club[]
 	joinCode    String	 @unique

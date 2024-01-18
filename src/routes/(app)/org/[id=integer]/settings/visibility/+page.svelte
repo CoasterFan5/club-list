@@ -47,7 +47,7 @@
 				>https://clubsaur.us/org/(slug)</span
 			>
 		</p>
-		<Checkbox name="publicOrg" checked={data.org.isPublic} label="Public Organization" />
+		<Checkbox name="isPublic" checked={data.org.isPublic} label="Public Organization" />
 		<p>Public organizations can be accessed by anyone, even if they don't have a join code.</p>
 		<Checkbox
 			name="discoverable"
