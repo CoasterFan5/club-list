@@ -9,6 +9,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/modules/Modal.svelte';
 	import { addToast } from '$lib/components/toaster';
+	import { qr } from '@svelte-put/qr/img';
 
 	let searchTerm = '';
 
@@ -66,6 +67,7 @@
 	}
 
 	let confirmedOrgName = '';
+	let inviteMethod = 'code';
 </script>
 
 {#if $page.state.showingModal == 'inviteUser'}
@@ -74,19 +76,50 @@
 			history.back();
 		}}
 	>
-		<div class="joinCode">
-			<p>
-				Join Code (Click to copy): <button
-					on:click={() => {
+		<div class="invite">
+			<h2>Invite</h2>
+			<div class="inviteNav">
+				<button on:click={() => {inviteMethod ="code"}} class:active={inviteMethod == "code"} class="inviteMethodButton">Code</button>
+				<button on:click={() => {inviteMethod ="link"}} class:active={inviteMethod == "link"} class="inviteMethodButton">Link</button>
+				<button on:click={() => {inviteMethod ="qr"}} class:active={inviteMethod == "qr"} class="inviteMethodButton">QR</button>
+			</div>
+			<div class="joinContent">
+				{#if inviteMethod == "code"}
+					<p>Join Code (Click to copy):</p>
+					<button class="hiddenButton" on:click={() => {
 						navigator.clipboard.writeText(data.org.joinCode);
 						addToast({
 							type: 'success',
 							message: 'Copied to clipboard!',
 							life: 3000
+						})
+					}}>{data.org.joinCode}</button>
+				{/if}
+				{#if inviteMethod == "link"}
+					<p>Join Link (Click to copy):</p>
+					<button class="hiddenButton" on:click={() => {
+						navigator.clipboard.writeText(`${window.location.origin}/invite/${data.org.joinCode}`);
+						addToast({
+							type: 'success',
+							message: 'Copied to clipboard!',
+							life: 3000
 						});
-					}}>{data.org.joinCode}</button
-				>
-			</p>
+					}}>{window.location.origin}/invite/{data.org.joinCode}</button>
+				{/if}
+				{#if inviteMethod == "qr"}
+
+					<p>Join QR Code:</p>
+					<img use:qr={{
+						data: `${window.location.origin}/invite/${data.org.joinCode}`,
+						logo: `${window.location.origin}/logo.svg`,
+						shape: "circle",
+	
+					}}
+					alt="qr"
+					/>
+					
+				{/if}
+			</div>
 		</div>
 		<Button
 			value="Done"
@@ -221,22 +254,72 @@
 		justify-content: center;
 	}
 
-	.joinCode {
+	.invite {
 		width: 100%;
 		text-align: center;
 		font-size: 1.2rem;
 		color: var(--textLow);
+	}
 
-		button {
-			all: unset;
-			display: inline-block;
-			font-weight: 500;
-			background: var(--textLow);
+	.invite h2 {
+		margin: 0px;
+		color: var(--textDark)
+	}
 
-			&:hover {
-				cursor: pointer;
-				background: var(--text);
-			}
+	.inviteNav {
+		width: 100%;
+		background: var(--bg);
+		display: flex;
+		border-radius: 50px;
+		display: flex;
+		overflow: hidden;
+		flex-direction: row;
+		margin: 10px 0px;
+	}
+	.inviteNav button {
+		all: unset;
+		cursor: pointer;
+		color: var(--textDark);
+		padding: 10px 30px;
+		box-sizing: border-box;
+		width: calc(100%/3);
+		flex-grow: 1;
+		text-align: center;
+		margin: 0px;
+		font-size: 1.2rem;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
+	}
+
+	.inviteNav button.active {
+		background: var(--accent50);
+		opacity: 0.5;
+	}
+
+	.inviteNav button:hover {
+		background: var(--accent50)
+	}
+
+	.joinContent {
+		margin: 10px 0px;
+
+		p {
+			margin: 5px 0px;
+		}
+	}
+
+	.hiddenButton {
+		all: unset;
+		display: inline-block;
+		font-weight: 500;
+		padding: 5px 10px;
+		border-radius: 3px;
+		font-size: 1.2rem;
+		background: var(--textLow);
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+
+		&:hover {
+			cursor: pointer;
+			background: var(--text);
 		}
 	}
 

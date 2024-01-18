@@ -26,6 +26,9 @@ devDependencies:
   '@prisma/client':
     specifier: ^5.8.1
     version: 5.8.1(prisma@5.8.1)
+  '@svelte-put/qr':
+    specifier: ^1.0.3
+    version: 1.0.3
   '@sveltejs/adapter-auto':
     specifier: ^3.1.0
     version: 3.1.0(@sveltejs/kit@2.3.2)
@@ -1837,6 +1840,12 @@ packages:
 
   /@streamparser/json@0.0.18:
     resolution: {integrity: sha512-El/ocRiqntVr8mbQPuRK8NvBbMe+r4e5S8AzbR58rl5nimBeKzPBj2P4ykNlwbaMV+dqGPhzyGEaNm9pAPkTxQ==}
+    dev: true
+
+  /@svelte-put/qr@1.0.3:
+    resolution: {integrity: sha512-KaqcWqVLBGWMDCmxX7pWYX75iVzyUE2rJoO+ne3gu4P0nJXb0ETvBw6lj4Lu6xfGp5M40iiOTYjcCEQ2JPJUag==}
+    dependencies:
+      qrcode-generator: 1.4.4
     dev: true
 
   /@sveltejs/adapter-auto@3.1.0(@sveltejs/kit@2.3.2):
@@ -4133,6 +4142,10 @@ packages:
   /punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
+    dev: true
+
+  /qrcode-generator@1.4.4:
+    resolution: {integrity: sha512-HM7yY8O2ilqhmULxGMpcHSF1EhJJ9yBj8gvDEuZ6M+KGJ0YY2hKpnXvRD+hZPLrDVck3ExIGhmPtSdcjC+guuw==}
     dev: true
 
   /querystringify@2.2.0:
