@@ -5,17 +5,21 @@ export const load = async ({ params }) => {
 	const org = await prisma.organization.findFirst({
 		where: {
 			slug: {
-				slug: params.id
+				slug: params.id.toLowerCase()
 			}
 		}
 	});
 
 	if (!org) {
+		console.log("org not found")
 		return {
 			status: 404,
 			error: 'Organization not found'
 		};
 	}
 
-	redirect(303, `/org/${org.id}`);
+
+	console.log("redirecting")
+
+	throw redirect(303, `/org/${org.id}`);
 };

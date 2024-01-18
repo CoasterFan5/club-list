@@ -21,29 +21,41 @@
 				</a>
 
 				<h2 class="clubName">{data.club.name}</h2>
-				<form class="buttonWrap" action="{baseURL}?/joinClub" method="post">
-					{#if !data.clubUser && data.club.ownerId != data.user.id && data.club.openToJoin}
-						<Button value="Join Club" />
+				
+					{#if !data.clubUser && data.club.ownerId != data.user?.id && data.club.openToJoin}
+						{#if data.user}
+						<form class="buttonWrap" action="{baseURL}?/joinClub" method="post">
+							<Button value="Join Club" />
+						</form>
+							
+						{:else}
+						<a href="/login" class="buttonWrap">
+							<Button value="Login to join"/>
+						</a>
+							
+						{/if}
+						
 					{/if}
-				</form>
 			</div>
 			<div class="nav">
 				<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]'}>
 					<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href={baseURL}>Home</Link>
 				</div>
-				<div
-					class="link"
-					class:selected={route.id == '/(app)/org/[id]/club/[clubId]/announcements'}
-				>
-					<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href="{baseURL}/announcements">Announcements</Link>
-				</div>
-				<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/events'}>
-					<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href="{baseURL}/events">Events</Link>
-				</div>
-				{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
-					<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}>
-						<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href="{baseURL}/settings">Settings</Link>
+				{#if data.user || !data.org.hideSensitive}
+					<div
+						class="link"
+						class:selected={route.id == '/(app)/org/[id]/club/[clubId]/announcements'}
+					>
+						<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href="{baseURL}/announcements">Announcements</Link>
 					</div>
+					<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/events'}>
+						<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href="{baseURL}/events">Events</Link>
+					</div>
+					{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
+						<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}>
+							<Link textColor="black" --fontSize="1.1rem" --marginRight="20px" --padding="5px 0px" href="{baseURL}/settings">Settings</Link>
+						</div>
+					{/if}
 				{/if}
 			</div>
 		</div>
@@ -134,6 +146,7 @@
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 	.buttonWrap {
+		text-decoration: none;
 		padding: 0px 10px;
 	}
 </style>

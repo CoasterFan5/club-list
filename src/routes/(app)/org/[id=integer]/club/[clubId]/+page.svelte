@@ -32,6 +32,7 @@
 		<div class="editor">
 			<MdEditor
 				editable={data.clubPerms.admin || data.clubPerms.updateDescription}
+				saveable={data.clubPerms.admin || data.clubPerms.updateDescription}
 				bind:content={clubDescription}
 				on:saveRequest={() => {
 					saveMdButton.click();

@@ -35,24 +35,30 @@ export const load = async ({ params, parent }) => {
 		error(404, 'Club Not Found');
 	}
 
-	const clubUser = await prisma.clubUser.findFirst({
-		where: {
-			AND: {
-				userId: user.id,
-				clubId: club.id
+	let clubUser;
+
+
+	if(user != null) {
+		clubUser = await prisma.clubUser.findFirst({
+			where: {
+				AND: {
+					userId: user.id,
+					clubId: club.id
+				}
+			},
+			include: {
+				role: true
 			}
-		},
-		include: {
-			role: true
-		}
-	});
+		});
+	}
+	
 
 	const clubPerms: PermissionObject = {
 		...defaultClubPermissionObject,
 		...createPermissionsCheck(clubUser?.role?.permissionInt ?? 0)
 	};
 
-	if (club.ownerId == user.id) {
+	if (club.ownerId == user?.id) {
 		for (const key of permissionKeys) {
 			clubPerms[key] = true;
 		}

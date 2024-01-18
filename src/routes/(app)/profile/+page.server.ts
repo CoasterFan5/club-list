@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/prismaConnection';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { S3 } from '$lib/server/s3.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { bucket, mediaurl } from '$env/static/private';
@@ -10,6 +10,18 @@ import { z } from 'zod';
 import { promisify } from 'util';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
+
+export const load = async ({parent}) => {
+	const {user} = await parent();
+
+	if(user == null) {
+		throw redirect(303, "/login")
+	}
+
+	return {
+		user
+	}
+}
 
 export const actions = {
 	updateProfile: formHandler(

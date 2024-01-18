@@ -135,21 +135,29 @@
 <header>
 	<div class="main">
 		<h1>{data.org.name}</h1>
-		<a href="/org/{data.org.id}/settings">
-			<img class="icon" alt="settings" src="/icons/settings.svg" />
-		</a>
-		<button on:click={startLeaveOrg}>
-			<img class="icon" alt="leave" src="/icons/leave.svg" />
-		</button>
-		<button on:click={startInvite}>
-			<img class="icon" alt="invite" src="/icons/addUser.svg" />
-		</button>
+		{#if data.orgUser?.role == "ADMIN" || data.orgUser?.role == "OWNER"}
+			<a href="/org/{data.org.id}/settings">
+				<img class="icon" alt="settings" src="/icons/settings.svg" />
+			</a>
+			<button on:click={startInvite}>
+				<img class="icon" alt="invite" src="/icons/addUser.svg" />
+			</button>
+		{/if}
+		
+		
+		
+		
+		{#if data.orgUser}
+			<button on:click={startLeaveOrg}>
+				<img class="icon" alt="leave" src="/icons/leave.svg" />
+			</button>
+		{/if}
 	</div>
 </header>
 
 <div class="wrap">
 	<div class="content">
-		{#if data.clubs.length < 1}
+		{#if data.clubs.length < 1 && data.orgUser}
 			<h2>
 				No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
 						class="textButton"
@@ -170,7 +178,7 @@
 				</button>
 				{#if sortedClubs.length > 0}
 					{#each sortedClubs as club (club.id)}
-						<a class="club" href="/org/{data.orgUser.organizationId}/club/{club.id}">
+						<a class="club" href="/org/{data.org.id}/club/{club.id}">
 							<div class="clubInner">
 								{#if club.imageURL}
 									<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
@@ -192,7 +200,7 @@
 				{/if}
 			</div>
 
-			{#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}
+			{#if data.orgUser && (data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER')}
 				<p>
 					Looking for more? <Link on:click={showModal}>Create a club!</Link>
 				</p>
