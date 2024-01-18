@@ -10,6 +10,7 @@
 	import Modal from '$lib/modules/Modal.svelte';
 	import { addToast } from '$lib/components/toaster';
 	import { qr } from '@svelte-put/qr/img';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	let searchTerm = '';
 
@@ -49,22 +50,11 @@
 		});
 	};
 
-	$: if (form) {
-		history.back();
-		if (form.success) {
-			addToast({
-				type: 'success',
-				message: 'Club Updated!',
-				life: 3000
-			});
-		} else {
-			addToast({
-				type: 'error',
-				message: form.message || 'An error occurred!',
-				life: 3000
-			});
+	$: handleForm(form, 'Success!', {
+		callback: () => {
+			history.back();
 		}
-	}
+	});
 
 	let confirmedOrgName = '';
 	let inviteMethod = 'code';
@@ -79,45 +69,69 @@
 		<div class="invite">
 			<h2>Invite</h2>
 			<div class="inviteNav">
-				<button on:click={() => {inviteMethod ="code"}} class:active={inviteMethod == "code"} class="inviteMethodButton">Code</button>
-				<button on:click={() => {inviteMethod ="link"}} class:active={inviteMethod == "link"} class="inviteMethodButton">Link</button>
-				<button on:click={() => {inviteMethod ="qr"}} class:active={inviteMethod == "qr"} class="inviteMethodButton">QR</button>
+				<button
+					class="inviteMethodButton"
+					class:active={inviteMethod == 'code'}
+					on:click={() => {
+						inviteMethod = 'code';
+					}}>Code</button
+				>
+				<button
+					class="inviteMethodButton"
+					class:active={inviteMethod == 'link'}
+					on:click={() => {
+						inviteMethod = 'link';
+					}}>Link</button
+				>
+				<button
+					class="inviteMethodButton"
+					class:active={inviteMethod == 'qr'}
+					on:click={() => {
+						inviteMethod = 'qr';
+					}}>QR</button
+				>
 			</div>
 			<div class="joinContent">
-				{#if inviteMethod == "code"}
+				{#if inviteMethod == 'code'}
 					<p>Join Code (Click to copy):</p>
-					<button class="hiddenButton" on:click={() => {
-						navigator.clipboard.writeText(data.org.joinCode);
-						addToast({
-							type: 'success',
-							message: 'Copied to clipboard!',
-							life: 3000
-						})
-					}}>{data.org.joinCode}</button>
+					<button
+						class="hiddenButton"
+						on:click={() => {
+							navigator.clipboard.writeText(data.org.joinCode);
+							addToast({
+								type: 'success',
+								message: 'Copied to clipboard!',
+								life: 3000
+							});
+						}}>{data.org.joinCode}</button
+					>
 				{/if}
-				{#if inviteMethod == "link"}
+				{#if inviteMethod == 'link'}
 					<p>Join Link (Click to copy):</p>
-					<button class="hiddenButton" on:click={() => {
-						navigator.clipboard.writeText(`${window.location.origin}/invite/${data.org.joinCode}`);
-						addToast({
-							type: 'success',
-							message: 'Copied to clipboard!',
-							life: 3000
-						});
-					}}>{window.location.origin}/invite/{data.org.joinCode}</button>
+					<button
+						class="hiddenButton"
+						on:click={() => {
+							navigator.clipboard.writeText(
+								`${window.location.origin}/invite/${data.org.joinCode}`
+							);
+							addToast({
+								type: 'success',
+								message: 'Copied to clipboard!',
+								life: 3000
+							});
+						}}>{window.location.origin}/invite/{data.org.joinCode}</button
+					>
 				{/if}
-				{#if inviteMethod == "qr"}
-
+				{#if inviteMethod == 'qr'}
 					<p>Join QR Code:</p>
-					<img use:qr={{
-						data: `${window.location.origin}/invite/${data.org.joinCode}`,
-						logo: `${window.location.origin}/logo.svg`,
-						shape: "circle",
-	
-					}}
-					alt="qr"
+					<img
+						alt="qr"
+						use:qr={{
+							data: `${window.location.origin}/invite/${data.org.joinCode}`,
+							logo: `${window.location.origin}/logo.svg`,
+							shape: 'circle'
+						}}
 					/>
-					
 				{/if}
 			</div>
 		</div>
@@ -263,7 +277,7 @@
 
 	.invite h2 {
 		margin: 0px;
-		color: var(--textDark)
+		color: var(--textDark);
 	}
 
 	.inviteNav {
@@ -282,7 +296,7 @@
 		color: var(--textDark);
 		padding: 10px 30px;
 		box-sizing: border-box;
-		width: calc(100%/3);
+		width: calc(100% / 3);
 		flex-grow: 1;
 		text-align: center;
 		margin: 0px;
@@ -296,7 +310,7 @@
 	}
 
 	.inviteNav button:hover {
-		background: var(--accent50)
+		background: var(--accent50);
 	}
 
 	.joinContent {

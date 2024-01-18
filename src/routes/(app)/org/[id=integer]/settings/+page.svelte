@@ -1,27 +1,13 @@
 <script lang="ts">
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { addToast } from '$lib/components/toaster';
 	import { enhance } from '$app/forms';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
 	export let form;
 
-	$: if (form) {
-		if (form.success) {
-			addToast({
-				type: 'success',
-				message: 'Club Updated!',
-				life: 3000
-			});
-		} else {
-			addToast({
-				type: 'error',
-				message: form.message || 'An error occurred!',
-				life: 3000
-			});
-		}
-	}
+	$: handleForm(form, 'Organization Updated!');
 </script>
 
 <main>

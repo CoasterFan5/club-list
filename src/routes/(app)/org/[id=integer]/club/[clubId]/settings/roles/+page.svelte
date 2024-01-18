@@ -1,34 +1,20 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
-	import { addToast } from '$lib/components/toaster';
 	import Input from '$lib/components/Input.svelte';
 	import { closeModal } from '$lib/closeModalEnhance';
 	import { flip } from 'svelte/animate';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Modal from '$lib/modules/Modal.svelte';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
 	export let form;
 
 	let forms: Array<HTMLButtonElement | undefined> = [];
 
-	$: if (form) {
-		if (form.success) {
-			addToast({
-				type: 'success',
-				message: form.message || 'Success!',
-				life: 3000
-			});
-		} else {
-			addToast({
-				type: 'error',
-				message: form.message || 'Failed!',
-				life: 3000
-			});
-		}
-	}
+	$: handleForm(form, 'Success!');
 
 	let selectedRoleName = '';
 	let inputtedRoleName = '';

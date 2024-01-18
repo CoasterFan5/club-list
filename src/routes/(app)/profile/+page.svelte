@@ -5,8 +5,8 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import PfpUpload from '$lib/components/PfpUpload.svelte';
-	import { addToast } from '$lib/components/toaster';
 	import Modal from '$lib/modules/Modal.svelte';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
 	export let form;
@@ -15,21 +15,7 @@
 	let lastName = data.user.lastName;
 	let email = data.user.email;
 
-	$: if (form) {
-		if (form.success) {
-			addToast({
-				message: 'Data Saved!',
-				type: 'success',
-				life: 3000
-			});
-		} else {
-			addToast({
-				message: form.message || 'An Error Occurred',
-				type: 'error',
-				life: 5000
-			});
-		}
-	}
+	$: handleForm(form, 'Profile Updated!');
 </script>
 
 <h1>Profile</h1>

@@ -3,7 +3,7 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
-	import { addToast } from '$lib/components/toaster';
+	import { handleForm } from '$lib/utils/formToaster';
 
 	export let form;
 	export let data;
@@ -11,21 +11,7 @@
 	let slug: string | undefined;
 	$: slug = data.org.slug?.slug;
 
-	$: if (form) {
-		if (form.success) {
-			addToast({
-				type: 'success',
-				message: 'Club Updated!',
-				life: 3000
-			});
-		} else {
-			addToast({
-				type: 'error',
-				message: form.message || 'An error occurred!',
-				life: 3000
-			});
-		}
-	}
+	$: handleForm(form, 'Club Updated!');
 </script>
 
 <main>

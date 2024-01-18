@@ -2,7 +2,7 @@
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import Announcement from '$lib/components/Announcement.svelte';
 	import { enhance } from '$app/forms';
-	import { addToast } from '$lib/components/toaster';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
 	export let form;
@@ -10,21 +10,7 @@
 	let clubDescription = data.club.description || `<h1>${data.club.name}</h1>`;
 	let saveMdButton: HTMLButtonElement;
 
-	$: if (form) {
-		if (form.success) {
-			addToast({
-				type: 'success',
-				message: 'Club Updated!',
-				life: 3000
-			});
-		} else {
-			addToast({
-				type: 'error',
-				message: form.message || 'An error occurred!',
-				life: 3000
-			});
-		}
-	}
+	$: handleForm(form, 'Club Updated!');
 </script>
 
 <div class="wrap">

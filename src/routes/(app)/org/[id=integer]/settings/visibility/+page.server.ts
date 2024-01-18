@@ -20,7 +20,7 @@ export const actions = {
 				])
 				.optional()
 				.transform((e) => (e === '' ? undefined : e)),
-				isPublic: z.coerce.boolean(),
+			isPublic: z.coerce.boolean(),
 			discoverable: z.coerce.boolean(),
 			hideSensitive: z.coerce.boolean()
 		}),

@@ -7,7 +7,7 @@
 	} from '$lib/permissions';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-	import { addToast } from '$lib/components/toaster';
+	import { handleForm } from '$lib/utils/formToaster';
 
 	// https://stackoverflow.com/a/7225450/7589775
 	function toTitleCase(str: string) {
@@ -34,21 +34,7 @@
 		submitButton.click();
 	};
 
-	$: if (form) {
-		if (form.success) {
-			addToast({
-				type: 'success',
-				message: form.message || 'Success!',
-				life: 3000
-			});
-		} else {
-			addToast({
-				type: 'error',
-				message: form.message || 'Failed!',
-				life: 3000
-			});
-		}
-	}
+	$: handleForm(form, 'Role Updated!');
 </script>
 
 <main>
