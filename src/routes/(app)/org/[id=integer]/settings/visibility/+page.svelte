@@ -6,6 +6,10 @@
 	import { addToast } from '$lib/components/toaster';
 
 	export let form;
+	export let data;
+
+	let slug: string | undefined;
+	$: slug = data.org.slug?.slug
 
 	$: if (form) {
 		if (form.success) {
@@ -27,8 +31,12 @@
 <main>
 	<h2>Visibility</h2>
 
-	<form action="?/updateVisibility" method="post" use:enhance>
-		<Input name="slug" label="Slug" />
+	<form action="?/updateVisibility" method="post" use:enhance={() => {
+		return async({update}) => {
+			return update({reset: false})
+		} 
+	}}>
+		<Input name="slug" label="Slug" value={slug}/>
 		<div class="spacer-small" />
 		<p>
 			Slugs are another way to access an organization. Organizations with slugs will be visible at <span
