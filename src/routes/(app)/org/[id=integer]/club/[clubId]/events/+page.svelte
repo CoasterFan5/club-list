@@ -228,10 +228,10 @@
 							bind:value={formDate}
 						/>
 					</div>
-					<div class="input">
+					<div class="input no-bottom-margin">
 						<Input disabled={allDay} bg="white" label="Start Time" required type="time" bind:value={formTime} />
 					</div>
-					<div class="input checkbox">
+					<div class="input checkbox no-top-margin">
 						<p>All Day?</p>
 						<Checkbox bind:checked={allDay} />
 					</div>
@@ -254,7 +254,7 @@
 				{#if repeats}
 					<div class="formBodyChild">
 						<!-- TODO: custom number input -->
-						<div class="input">
+						<div class="input no-top-margin">
 							<div class="input">
 								<Select --background="white" label="Repeats Every" id="repeat" name="repeat" bind:value={inputFrequency}>
 									<option value="daily">Days</option>
@@ -436,5 +436,13 @@
 	.submitButton {
 		margin-top: 2rem;
 		width: 100%;
+	}
+
+	.no-top-margin {
+		margin-top: 0;
+	}
+
+	.no-bottom-margin {
+		margin-bottom: 0;
 	}
 </style>
