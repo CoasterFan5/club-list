@@ -13,6 +13,7 @@
 	import { page } from '$app/stores';
 	import timezones from 'timezones-list';
 	import Select from '$lib/components/Select.svelte';
+	import { onMount } from 'svelte';
 
 	const freqMapping: Record<string, Frequency> = {
 		daily: RRule.DAILY,
@@ -74,6 +75,7 @@
 	let allDay = false;
 	let repeatType = "amount";
 	let interval = "1";
+	let timeZone = "America/Los_Angeles";
 	$: parsedInterval = parseInt(interval);
 	let count = "1";
 	$: parsedCount = parseInt(count);
@@ -140,6 +142,10 @@
 	]
 
 	$: enabledWeekdays = weekdays.filter(weekday => weekday.enabled).map(weekday => weekday.binding);
+
+	onMount(() => {
+		timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+	})
 </script>
 
 <div class="wrap">
@@ -236,9 +242,9 @@
 						<Checkbox bind:checked={allDay} />
 					</div>
 					<div class="input">
-						<Select id="timezone" name="timezone" label="Event Timezone" --background="white" value={timezones[0].name}>
+						<Select id="timezone" name="timezone" label="Event Timezone" --background="white" bind:value={timeZone}>
 							{#each timezones as timezone}
-								<option value={timezone.name}>{timezone.label}</option>
+								<option value={timezone.tzCode}>{timezone.name}</option>
 							{/each}
 						</Select>
 					</div>
