@@ -71,6 +71,7 @@
 	let selectedDay: dayjs.Dayjs | null = null;
 
 	let repeats = false;
+	let allDay = false;
 	let repeatType = "amount";
 	let interval = "1";
 	$: parsedInterval = parseInt(interval);
@@ -78,7 +79,7 @@
 	$: parsedCount = parseInt(count);
 	let inputFrequency = "daily";
 	$: derivedFrequency = freqMapping[inputFrequency];
-	let upTo = new Date().toString();
+	let upTo = new Date().toISOString().split('T')[0];
 	$: rrule = new RRule({
 		freq: derivedFrequency,
 		interval: parsedInterval,
@@ -228,10 +229,14 @@
 						/>
 					</div>
 					<div class="input">
-						<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
+						<Input disabled={allDay} bg="white" label="Start Time" required type="time" bind:value={formTime} />
+					</div>
+					<div class="input checkbox">
+						<p>All Day?</p>
+						<Checkbox bind:checked={allDay} />
 					</div>
 					<div class="input">
-						<Select id="timezone" name="timezone" label="Event Timezone" --background="white" value={timezones[0].value}>
+						<Select id="timezone" name="timezone" label="Event Timezone" --background="white" value={timezones[0].name}>
 							{#each timezones as timezone}
 								<option value={timezone.name}>{timezone.label}</option>
 							{/each}
@@ -248,16 +253,19 @@
 
 				{#if repeats}
 					<div class="formBodyChild">
-						<label for="repeat">Repeats every</label>
 						<!-- TODO: custom number input -->
 						<div class="input">
-							<Input name="repeatEvery" bind:value={interval} bg="white" label="Count" type="number" />
-							<select id="repeat" name="repeat" bind:value={inputFrequency}>
-								<option value="daily">Days</option>
-								<option value="weekly">Weeks</option>
-								<option value="monthly">Months</option>
-								<option value="yearly">Years</option>
-							</select>
+							<div class="input">
+								<Select --background="white" label="Repeats Every" id="repeat" name="repeat" bind:value={inputFrequency}>
+									<option value="daily">Days</option>
+									<option value="weekly">Weeks</option>
+									<option value="monthly">Months</option>
+									<option value="yearly">Years</option>
+								</Select>
+							</div>
+							<div class="input">
+								<Input name="repeatEvery" bind:value={interval} bg="white" label="Count" type="number" />
+							</div>
 						</div>
 						<!-- 
 							we skip daily; we don't care about every n hour;
@@ -278,11 +286,13 @@
 							<p>yearly</p>
 						{/if}
 						<div class="input">
-							<select id="repeatType" name="repeatType" bind:value={repeatType}>
-								<option value="amount">Amount</option>
-								<option value="upTo">Up To</option>
-								<option value="indefinetly">Indefinetly</option>
-							</select>
+							<div class="input">
+								<Select --background="white" label="Repeat Type" id="repeatType" name="repeatType" bind:value={repeatType}>
+									<option value="amount">Amount</option>
+									<option value="upTo">Up To</option>
+									<option value="indefinetly">Indefinetly</option>
+								</Select>
+							</div>
 							{#if repeatType == "amount"}
 								<div class="input">
 									<Input bind:value={count} name="repeatEvery" bg="white" label="Amount of times" type="number" />

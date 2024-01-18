@@ -28,10 +28,11 @@
 <style>
     .wrap {
         position: relative;
+        width: 100%;
     }
     select {
         position: relative;
-        color: var(--textDark);
+        color: black;
         cursor: pointer;
 		background: transparent;
 		border-radius: 3px;

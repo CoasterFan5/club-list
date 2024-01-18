@@ -8,6 +8,7 @@
 	export let required = false;
 	export let autocomplete: HTMLInputElement['autocomplete'] | null = null;
 	export let pattern: string = '.*';
+	export let disabled = false;
 
 	export let bg = 'var(--bg)';
 
@@ -33,9 +34,10 @@
 </script>
 
 <label style="--background: {bg}">
-	<span class:active={derivedActive} class:inactive={!derivedActive} class:ready>{label}</span>
+	<span class:active={derivedActive} class:disabled class:inactive={!derivedActive} class:ready>{label}</span>
 	<input
 		{name}
+		{disabled}
 		class:doPlaceholder={!enableJS}
 		{autocomplete}
 		{pattern}
@@ -80,6 +82,13 @@
 		color: #0e0e0e;
 	}
 
+	.disabled {
+		pointer-events: none;
+		cursor: not-allowed;
+		z-index: 1;
+		color: gray;
+	}
+
 	.inactive {
 		display: none;
 		height: 100%;
@@ -110,6 +119,11 @@
 		&:focus {
 			border: 1px solid var(--accent);
 			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
 		}
 
 		&::placeholder {
