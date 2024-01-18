@@ -21,7 +21,7 @@
 	let active = true;
 	let ready = false;
 
-	$: derivedActive = (type === "date" || type === "time") ? true : active
+	$: derivedActive = type === 'date' || type === 'time' ? true : active;
 
 	onMount(() => {
 		enableJS = true;
@@ -34,12 +34,14 @@
 </script>
 
 <label style="--background: {bg}">
-	<span class:active={derivedActive} class:disabled class:inactive={!derivedActive} class:ready>{label}</span>
+	<span class:active={derivedActive} class:disabled class:inactive={!derivedActive} class:ready
+		>{label}</span
+	>
 	<input
 		{name}
-		{disabled}
 		class:doPlaceholder={!enableJS}
 		{autocomplete}
+		{disabled}
 		{pattern}
 		{required}
 		{...{ type }}

@@ -135,7 +135,7 @@
 <header>
 	<div class="main">
 		<h1>{data.org.name}</h1>
-		{#if data.orgUser?.role == "ADMIN" || data.orgUser?.role == "OWNER"}
+		{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
 			<a href="/org/{data.org.id}/settings">
 				<img class="icon" alt="settings" src="/icons/settings.svg" />
 			</a>
@@ -143,10 +143,7 @@
 				<img class="icon" alt="invite" src="/icons/addUser.svg" />
 			</button>
 		{/if}
-		
-		
-		
-		
+
 		{#if data.orgUser}
 			<button on:click={startLeaveOrg}>
 				<img class="icon" alt="leave" src="/icons/leave.svg" />

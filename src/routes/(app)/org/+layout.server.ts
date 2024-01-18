@@ -5,7 +5,7 @@ export const load = async ({ parent }) => {
 
 	let orgUsers;
 
-	if(user != null) {
+	if (user != null) {
 		orgUsers = await prisma.orgUser.findMany({
 			where: {
 				userId: user?.id
@@ -22,8 +22,6 @@ export const load = async ({ parent }) => {
 			}
 		};
 	} else {
-		return {}
+		return {};
 	}
-	
-
 };

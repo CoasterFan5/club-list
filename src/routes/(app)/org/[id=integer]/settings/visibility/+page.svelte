@@ -9,7 +9,7 @@
 	export let data;
 
 	let slug: string | undefined;
-	$: slug = data.org.slug?.slug
+	$: slug = data.org.slug?.slug;
 
 	$: if (form) {
 		if (form.success) {
@@ -31,23 +31,31 @@
 <main>
 	<h2>Visibility</h2>
 
-	<form action="?/updateVisibility" method="post" use:enhance={() => {
-		return async({update}) => {
-			return update({reset: false})
-		} 
-	}}>
-		<Input name="slug" label="Slug" value={slug}/>
+	<form
+		action="?/updateVisibility"
+		method="post"
+		use:enhance={() => {
+			return async ({ update }) => {
+				return update({ reset: false });
+			};
+		}}
+	>
+		<Input name="slug" label="Slug" value={slug} />
 		<div class="spacer-small" />
 		<p>
 			Slugs are another way to access an organization. Organizations with slugs will be visible at <span
 				>https://clubsaur.us/org/(slug)</span
 			>
 		</p>
-		<Checkbox name="publicOrg" label="Public Organization" checked={data.org.isPublic}/>
+		<Checkbox name="publicOrg" checked={data.org.isPublic} label="Public Organization" />
 		<p>Public organizations can be accessed by anyone, even if they don't have a join code.</p>
-		<Checkbox name="discoverable" label="Discoverable Organization" checked={data.org.discoverable}/>
+		<Checkbox
+			name="discoverable"
+			checked={data.org.discoverable}
+			label="Discoverable Organization"
+		/>
 		<p>Discoverable organizations will show up on the organization discovery page</p>
-		<Checkbox name="hideSensitive" label="Hide Sensitive Info" checked={data.org.hideSensitive} />
+		<Checkbox name="hideSensitive" checked={data.org.hideSensitive} label="Hide Sensitive Info" />
 		<p>Hide names, events, and announcements to protect users information.</p>
 		<div class="spacer" />
 		<Button value="Save" />

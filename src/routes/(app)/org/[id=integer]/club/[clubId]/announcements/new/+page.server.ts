@@ -13,7 +13,7 @@ export const load = async ({ params, parent }) => {
 	if (
 		!parentData.clubPerms.admin &&
 		!parentData.clubPerms.manageAnnouncements &&
-		parentData.club.ownerId != parentData.user.id
+		parentData.club.ownerId != parentData.user?.id
 	) {
 		redirect(303, baseUrl);
 	}

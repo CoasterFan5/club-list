@@ -22,7 +22,7 @@ export const actions = {
 				.transform((e) => (e === '' ? undefined : e)),
 			publicOrg: z.coerce.boolean(),
 			discoverable: z.coerce.boolean(),
-			hideSensitive: z.coerce.boolean(),
+			hideSensitive: z.coerce.boolean()
 		}),
 		async ({ slug, publicOrg, discoverable, hideSensitive }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
@@ -44,7 +44,6 @@ export const actions = {
 			}
 
 			if (slug) {
-
 				try {
 					await prisma.organization.update({
 						where: {
@@ -62,14 +61,13 @@ export const actions = {
 								}
 							}
 						}
-					})
+					});
 				} catch (e) {
 					return {
 						success: false,
-						message: "Slug taken"
-					}
+						message: 'Slug taken'
+					};
 				}
-				
 			}
 
 			await prisma.organization.update({
@@ -79,9 +77,9 @@ export const actions = {
 				data: {
 					isPublic: publicOrg,
 					discoverable: discoverable,
-					hideSensitive: hideSensitive,
+					hideSensitive: hideSensitive
 				}
-			})
+			});
 
 			return {
 				success: true,

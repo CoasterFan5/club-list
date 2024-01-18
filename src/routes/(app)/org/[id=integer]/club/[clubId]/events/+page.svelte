@@ -5,7 +5,7 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import dayjs from 'dayjs';
 	import { RRule } from './rrule.js';
-	import type { Frequency, Weekday } from 'rrule'
+	import type { Frequency, Weekday } from 'rrule';
 	import dayOfYear from 'dayjs/plugin/dayOfYear';
 	import utc from 'dayjs/plugin/utc';
 	import timezone from 'dayjs/plugin/timezone';
@@ -20,7 +20,7 @@
 		weekly: RRule.WEEKLY,
 		monthly: RRule.MONTHLY,
 		yearly: RRule.YEARLY
-	}
+	};
 
 	export let data;
 
@@ -73,28 +73,34 @@
 
 	let repeats = false;
 	let allDay = false;
-	let repeatType = "amount";
-	let interval = "1";
-	let timeZone = "America/Los_Angeles";
+	let repeatType = 'amount';
+	let interval = '1';
+	let timeZone = 'America/Los_Angeles';
 	$: parsedInterval = parseInt(interval);
-	let count = "1";
+	let count = '1';
 	$: parsedCount = parseInt(count);
-	let inputFrequency = "daily";
+	let inputFrequency = 'daily';
 	$: derivedFrequency = freqMapping[inputFrequency];
 	let upTo = new Date().toISOString().split('T')[0];
 	$: rrule = new RRule({
 		freq: derivedFrequency,
 		interval: parsedInterval,
 		dtstart: new Date(formDate),
-		...(repeatType === "amount" ? {
-			count: parsedCount
-		} : {}),
-		...(repeatType === "upTo" && upTo ? {
-			until: new Date(upTo)
-		} : {}),
-		...(enabledWeekdays.length > 0 && inputFrequency !== "daily" ? {
-			byweekday: enabledWeekdays
-		} : {})
+		...(repeatType === 'amount'
+			? {
+					count: parsedCount
+				}
+			: {}),
+		...(repeatType === 'upTo' && upTo
+			? {
+					until: new Date(upTo)
+				}
+			: {}),
+		...(enabledWeekdays.length > 0 && inputFrequency !== 'daily'
+			? {
+					byweekday: enabledWeekdays
+				}
+			: {})
 	});
 
 	interface CalendarWeekday {
@@ -105,47 +111,49 @@
 
 	const weekdays: CalendarWeekday[] = [
 		{
-			name: "Monday",
+			name: 'Monday',
 			enabled: false,
 			binding: RRule.MO
 		},
 		{
-			name: "Tuesday",
+			name: 'Tuesday',
 			enabled: false,
 			binding: RRule.TU
 		},
 		{
-			name: "Wednesday",
+			name: 'Wednesday',
 			enabled: false,
 			binding: RRule.WE
 		},
 		{
-			name: "Thursday",
+			name: 'Thursday',
 			enabled: false,
 			binding: RRule.TH
 		},
 		{
-			name: "Friday",
+			name: 'Friday',
 			enabled: false,
 			binding: RRule.FR
 		},
 		{
-			name: "Saturday",
+			name: 'Saturday',
 			enabled: false,
 			binding: RRule.SA
 		},
 		{
-			name: "Sunday",
+			name: 'Sunday',
 			enabled: false,
 			binding: RRule.SU
 		}
-	]
+	];
 
-	$: enabledWeekdays = weekdays.filter(weekday => weekday.enabled).map(weekday => weekday.binding);
+	$: enabledWeekdays = weekdays
+		.filter((weekday) => weekday.enabled)
+		.map((weekday) => weekday.binding);
 
 	onMount(() => {
 		timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-	})
+	});
 </script>
 
 <div class="wrap">
@@ -235,14 +243,27 @@
 						/>
 					</div>
 					<div class="input no-bottom-margin">
-						<Input disabled={allDay} bg="white" label="Start Time" required type="time" bind:value={formTime} />
+						<Input
+							bg="white"
+							disabled={allDay}
+							label="Start Time"
+							required
+							type="time"
+							bind:value={formTime}
+						/>
 					</div>
 					<div class="input checkbox no-top-margin">
 						<p>All Day?</p>
 						<Checkbox bind:checked={allDay} />
 					</div>
 					<div class="input">
-						<Select id="timezone" name="timezone" label="Event Timezone" --background="white" bind:value={timeZone}>
+						<Select
+							id="timezone"
+							name="timezone"
+							--background="white"
+							label="Event Timezone"
+							bind:value={timeZone}
+						>
 							{#each timezones as timezone}
 								<option value={timezone.tzCode}>{timezone.name}</option>
 							{/each}
@@ -262,7 +283,13 @@
 						<!-- TODO: custom number input -->
 						<div class="input no-top-margin">
 							<div class="input">
-								<Select --background="white" label="Repeats Every" id="repeat" name="repeat" bind:value={inputFrequency}>
+								<Select
+									id="repeat"
+									name="repeat"
+									--background="white"
+									label="Repeats Every"
+									bind:value={inputFrequency}
+								>
 									<option value="daily">Days</option>
 									<option value="weekly">Weeks</option>
 									<option value="monthly">Months</option>
@@ -270,14 +297,20 @@
 								</Select>
 							</div>
 							<div class="input">
-								<Input name="repeatEvery" bind:value={interval} bg="white" label="Count" type="number" />
+								<Input
+									name="repeatEvery"
+									bg="white"
+									label="Count"
+									type="number"
+									bind:value={interval}
+								/>
 							</div>
 						</div>
 						<!-- 
 							we skip daily; we don't care about every n hour;
 							this isn't a cron job
 						-->
-						{#if inputFrequency !== "daily"}
+						{#if inputFrequency !== 'daily'}
 							{#each weekdays as weekday}
 								<div class="weekdayInput">
 									<Checkbox name="weekday" bind:checked={weekday.enabled} />
@@ -285,27 +318,39 @@
 								</div>
 							{/each}
 						{/if}
-						
-						{#if inputFrequency === "monthly"}
+
+						{#if inputFrequency === 'monthly'}
 							<p>monthly</p>
-						{:else if inputFrequency === "yearly"}
+						{:else if inputFrequency === 'yearly'}
 							<p>yearly</p>
 						{/if}
 						<div class="input">
 							<div class="input">
-								<Select --background="white" label="Repeat Type" id="repeatType" name="repeatType" bind:value={repeatType}>
+								<Select
+									id="repeatType"
+									name="repeatType"
+									--background="white"
+									label="Repeat Type"
+									bind:value={repeatType}
+								>
 									<option value="amount">Amount</option>
 									<option value="upTo">Up To</option>
 									<option value="indefinetly">Indefinetly</option>
 								</Select>
 							</div>
-							{#if repeatType == "amount"}
+							{#if repeatType == 'amount'}
 								<div class="input">
-									<Input bind:value={count} name="repeatEvery" bg="white" label="Amount of times" type="number" />
+									<Input
+										name="repeatEvery"
+										bg="white"
+										label="Amount of times"
+										type="number"
+										bind:value={count}
+									/>
 								</div>
-							{:else if repeatType == "upTo"}
+							{:else if repeatType == 'upTo'}
 								<div class="input">
-									<Input bind:value={upTo} name="upTo" bg="white" label="End Date" type="date" />
+									<Input name="upTo" bg="white" label="End Date" type="date" bind:value={upTo} />
 								</div>
 							{/if}
 						</div>

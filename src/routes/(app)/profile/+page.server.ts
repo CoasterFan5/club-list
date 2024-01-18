@@ -11,17 +11,17 @@ import { promisify } from 'util';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
 
-export const load = async ({parent}) => {
-	const {user} = await parent();
+export const load = async ({ parent }) => {
+	const { user } = await parent();
 
-	if(user == null) {
-		throw redirect(303, "/login")
+	if (user == null) {
+		throw redirect(303, '/login');
 	}
 
 	return {
 		user
-	}
-}
+	};
+};
 
 export const actions = {
 	updateProfile: formHandler(

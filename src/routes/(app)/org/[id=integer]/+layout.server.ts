@@ -18,17 +18,16 @@ export const load = async ({ params, parent }) => {
 	if (!org) {
 		throw error(400, 'Organization not found');
 	}
-	
 
 	let orgUser;
 
-	if(!org.isPublic) {
-		if(user == null) {
-			throw redirect(303, "/login")
+	if (!org.isPublic) {
+		if (user == null) {
+			throw redirect(303, '/login');
 		}
 	}
 
-	if(user) {
+	if (user) {
 		orgUser = await prisma.orgUser.findFirst({
 			where: {
 				AND: {
@@ -36,16 +35,12 @@ export const load = async ({ params, parent }) => {
 					organizationId: org.id
 				}
 			}
-		})
+		});
 	}
-	
 
-	
 	return {
 		org,
 		clubs: org.clubs,
 		orgUser: orgUser || undefined
 	};
-}
-
-	
+};

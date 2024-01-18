@@ -1,12 +1,11 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
-
 </script>
 
 <nav class="sidebar">
 	<a class="pfp" href="/profile">
-		<img class="pfpImage" alt="profile" src={data.user?.pfp || "/defaultPFP.png"} />
+		<img class="pfpImage" alt="profile" src={data.user?.pfp || '/defaultPFP.png'} />
 	</a>
 	<a class="button" href="/dashboard">
 		<img alt="home" src="/icons/home.svg" />

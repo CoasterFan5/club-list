@@ -37,8 +37,7 @@ export const load = async ({ params, parent }) => {
 
 	let clubUser;
 
-
-	if(user != null) {
+	if (user != null) {
 		clubUser = await prisma.clubUser.findFirst({
 			where: {
 				AND: {
@@ -51,7 +50,6 @@ export const load = async ({ params, parent }) => {
 			}
 		});
 	}
-	
 
 	const clubPerms: PermissionObject = {
 		...defaultClubPermissionObject,
