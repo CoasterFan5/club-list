@@ -134,6 +134,9 @@ devDependencies:
   sveltekit-rate-limiter:
     specifier: ^0.4.2
     version: 0.4.2(@sveltejs/kit@2.3.2)
+  timezones-list:
+    specifier: ^3.0.3
+    version: 3.0.3
   tslib:
     specifier: ^2.6.2
     version: 2.6.2
@@ -4561,6 +4564,10 @@ packages:
   /throttle-debounce@3.0.1:
     resolution: {integrity: sha512-dTEWWNu6JmeVXY0ZYoPuH5cRIwc0MeGbJwah9KUNYSJwommQpCzTySTpEe8Gs1J23aeWEuAobe4Ag7EHVt/LOg==}
     engines: {node: '>=10'}
+    dev: true
+
+  /timezones-list@3.0.3:
+    resolution: {integrity: sha512-C+Vdvvj2c1xB6pu81pOX8geo6mrk/QsudFVlTVQET7QQwu8WAIyhDNeCrK5grU7EMzmbKLWqz7uU6dN8fvQvPQ==}
     dev: true
 
   /tiny-glob@0.2.9:

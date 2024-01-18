@@ -5,12 +5,15 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import dayjs from 'dayjs';
 	import { RRule } from './rrule.js';
+	import type { Frequency, Weekday } from 'rrule'
 	import dayOfYear from 'dayjs/plugin/dayOfYear';
 	import utc from 'dayjs/plugin/utc';
+	import timezone from 'dayjs/plugin/timezone';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
+	import timezones from 'timezones-list';
 
-	const freqMapping: Record<string, RRule.Frequency> = {
+	const freqMapping: Record<string, Frequency> = {
 		daily: RRule.DAILY,
 		weekly: RRule.WEEKLY,
 		monthly: RRule.MONTHLY,
@@ -21,6 +24,7 @@
 
 	dayjs.extend(dayOfYear);
 	dayjs.extend(utc);
+	dayjs.extend(timezone);
 
 	const datesOnSameDay = (date1: dayjs.Dayjs) => (date2: dayjs.Dayjs) =>
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
@@ -83,17 +87,57 @@
 		} : {}),
 		...(repeatType === "upTo" && upTo ? {
 			until: new Date(upTo)
+		} : {}),
+		...(enabledWeekdays.length > 0 && inputFrequency !== "daily" ? {
+			byweekday: enabledWeekdays
 		} : {})
 	});
 
-	const weekdays: string[] = [
-		"Monday",
-		"Tuesday",
-		"Wednesday",
-		"Thursday",
-		"Friday",
-		"Saturday",
+	interface CalendarWeekday {
+		name: string;
+		enabled: boolean;
+		binding: Weekday;
+	}
+
+	const weekdays: CalendarWeekday[] = [
+		{
+			name: "Monday",
+			enabled: false,
+			binding: RRule.MO
+		},
+		{
+			name: "Tuesday",
+			enabled: false,
+			binding: RRule.TU
+		},
+		{
+			name: "Wednesday",
+			enabled: false,
+			binding: RRule.WE
+		},
+		{
+			name: "Thursday",
+			enabled: false,
+			binding: RRule.TH
+		},
+		{
+			name: "Friday",
+			enabled: false,
+			binding: RRule.FR
+		},
+		{
+			name: "Saturday",
+			enabled: false,
+			binding: RRule.SA
+		},
+		{
+			name: "Sunday",
+			enabled: false,
+			binding: RRule.SU
+		}
 	]
+
+	$: enabledWeekdays = weekdays.filter(weekday => weekday.enabled).map(weekday => weekday.binding);
 </script>
 
 <div class="wrap">
@@ -185,6 +229,13 @@
 					<div class="input">
 						<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
 					</div>
+					<div class="input">
+						<select id="timezone" name="timezone">
+							{#each timezones as timezone}
+								<option value={timezone.value}>{timezone.label}</option>
+							{/each}
+						</select>
+					</div>
 
 					<hr />
 
@@ -211,14 +262,16 @@
 							we skip daily; we don't care about every n hour;
 							this isn't a cron job
 						-->
-						{#if inputFrequency === "weekly"}
+						{#if inputFrequency !== "daily"}
 							{#each weekdays as weekday}
 								<div class="weekdayInput">
-									<Checkbox name="weekday" />
-									<label for={weekday}>{weekday}</label>
+									<Checkbox name="weekday" bind:checked={weekday.enabled} />
+									<label for={weekday.name}>{weekday.name}</label>
 								</div>
 							{/each}
-						{:else if inputFrequency === "monthly"}
+						{/if}
+						
+						{#if inputFrequency === "monthly"}
 							<p>monthly</p>
 						{:else if inputFrequency === "yearly"}
 							<p>yearly</p>
@@ -239,7 +292,7 @@
 								</div>
 							{/if}
 						</div>
-						<p>{rrule.toText()}</p>
+						<p>Occurs {rrule.toText()}.</p>
 					</div>
 				{/if}
 			</div>

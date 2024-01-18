@@ -62,6 +62,7 @@
 		"svelte-hamburgers": "^4.2.0",
 		"svelte-inview": "^4.0.2",
 		"sveltekit-rate-limiter": "^0.4.2",
+		"timezones-list": "^3.0.3",
 		"tslib": "^2.6.2",
 		"tsx": "^4.7.0",
 		"typescript": "^5.3.3",
