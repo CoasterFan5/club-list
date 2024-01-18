@@ -20,10 +20,11 @@ export const actions = {
 				])
 				.optional()
 				.transform((e) => (e === '' ? undefined : e)),
-			public: z.coerce.boolean(),
-			discoverable: z.coerce.boolean()
+			publicOrg: z.coerce.boolean(),
+			discoverable: z.coerce.boolean(),
+			hideSensitive: z.coerce.boolean(),
 		}),
-		async ({ slug }, { cookies, params }) => {
+		async ({ slug, publicOrg, discoverable, hideSensitive }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
 
 			const orgUser = await prisma.orgUser.findFirst({
@@ -70,6 +71,17 @@ export const actions = {
 				}
 				
 			}
+
+			await prisma.organization.update({
+				where: {
+					id: orgUser.organizationId
+				},
+				data: {
+					isPublic: publicOrg,
+					discoverable: discoverable,
+					hideSensitive: hideSensitive,
+				}
+			})
 
 			return {
 				success: true,

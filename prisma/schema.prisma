@@ -66,6 +66,9 @@ model Organization {
 	name 	    String    @db.VarChar(255)
 	owner 	    User      @relation(fields: [ownerId], references: [id])
 	ownerId     Int
+	isPublic Boolean @default(false)
+	discoverable Boolean @default(false)
+	hideSensitive Boolean @default(false)
 	orgUsers    OrgUser[]
 	clubs       Club[]
 	joinCode    String	 @unique

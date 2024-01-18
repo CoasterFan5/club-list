@@ -43,10 +43,12 @@
 				>https://clubsaur.us/org/(slug)</span
 			>
 		</p>
-		<Checkbox name="public" label="Public Organization" />
+		<Checkbox name="publicOrg" label="Public Organization" checked={data.org.isPublic}/>
 		<p>Public organizations can be accessed by anyone, even if they don't have a join code.</p>
-		<Checkbox name="discoverable" label="Discoverable Organization" />
+		<Checkbox name="discoverable" label="Discoverable Organization" checked={data.org.discoverable}/>
 		<p>Discoverable organizations will show up on the organization discovery page</p>
+		<Checkbox name="hideSensitive" label="Hide Sensitive Info" checked={data.org.hideSensitive} />
+		<p>Hide names, events, and announcements to protect users information.</p>
 		<div class="spacer" />
 		<Button value="Save" />
 	</form>
