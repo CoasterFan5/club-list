@@ -43,26 +43,32 @@ export const actions = {
 			}
 
 			if (slug) {
-				await prisma.organization.update({
-					where: {
-						id: orgUser.organizationId
-					},
-					data: {
-						slug: {
-							upsert: {
-								where: {
-									slug
-								},
-								update: {
-									slug
-								},
-								create: {
-									slug
+
+				try {
+					await prisma.organization.update({
+						where: {
+							id: orgUser.organizationId
+						},
+						data: {
+							slug: {
+								upsert: {
+									update: {
+										slug
+									},
+									create: {
+										slug
+									}
 								}
 							}
 						}
+					})
+				} catch (e) {
+					return {
+						success: false,
+						message: "Slug taken"
 					}
-				});
+				}
+				
 			}
 
 			return {
