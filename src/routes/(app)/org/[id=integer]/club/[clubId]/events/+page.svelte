@@ -12,6 +12,7 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import timezones from 'timezones-list';
+	import Select from '$lib/components/Select.svelte';
 
 	const freqMapping: Record<string, Frequency> = {
 		daily: RRule.DAILY,
@@ -214,8 +215,8 @@
 			<h1>Add Event</h1>
 			<div class="formBody">
 				<div class="formBodyChild">
-					<div class="input"><Input name="title" bg="white" label="Event Title" required /></div>
-					<div class="input"><Input name="description" bg="white" label="Event Description" /></div>
+					<div class="input"><Input name="title" bg="white" label="Title" required /></div>
+					<div class="input"><Input name="description" bg="white" label="Description" /></div>
 					<input name="date" type="hidden" value={calculatedFormDate} />
 					<div class="input">
 						<Input
@@ -230,11 +231,11 @@
 						<Input bg="white" label="Event Time" required type="time" bind:value={formTime} />
 					</div>
 					<div class="input">
-						<select id="timezone" name="timezone">
+						<Select id="timezone" name="timezone" label="Event Timezone" --background="white" value={timezones[0].value}>
 							{#each timezones as timezone}
-								<option value={timezone.value}>{timezone.label}</option>
+								<option value={timezone.name}>{timezone.label}</option>
 							{/each}
-						</select>
+						</Select>
 					</div>
 
 					<hr />
