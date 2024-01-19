@@ -51,8 +51,10 @@
 	};
 
 	$: handleForm(form, 'Success!', {
-		callback: () => {
-			history.back();
+		callback: form => {
+			if (form && "history" in globalThis) {
+				history.back();
+			}
 		}
 	});
 
