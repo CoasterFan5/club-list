@@ -1,78 +1,33 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
+	import SearchBox from '$lib/components/SearchBox.svelte';
 
+	let searchBox: SearchBox<typeof data["roles"][number]>;
+	let selectedId: number | null = null;
 	export let data;
-
-	let showRoleSelector = false;
-	let roleSelectorHTML: HTMLDivElement;
-	let roleSearchElement: HTMLInputElement;
-
-	let roleSelectorPos = {
-		x: 0,
-		y: 0
-	};
-
-	let roleSearch = '';
-
-	let selectedUserId = 0;
-
-	const roleHelper = async (e: MouseEvent, id: number) => {
-		selectedUserId = id;
-
-		if (showRoleSelector) {
-			showRoleSelector = false;
-			roleSelectorHTML.hidden = !showRoleSelector;
-		} else {
-			showRoleSelector = true;
-
-			roleSelectorPos = {
-				x: e.clientX,
-				y: e.clientY
-			};
-			// Use this so we can focus the role search element
-			roleSelectorHTML.hidden = !showRoleSelector;
-			roleSearchElement.focus();
-		}
-	};
 </script>
 
-{#if showRoleSelector}
-	<button
-		class="clickInterceptor"
-		on:click|self={(e) => {
-			roleHelper(e, 0);
-		}}
-	/>
-{/if}
+<SearchBox bind:this={searchBox} data={[data.roles, role => role.id, role => role.name]} let:filteredData>
+	{#each filteredData as role}
+		<form action="?/updateMemberRole" method="post" use:enhance>
+			<input name="userId" style="display: none" value={selectedId} />
+			<input name="roleId" style="display: none" value={role.id} />
 
-<div
-	bind:this={roleSelectorHTML}
-	style="top: {roleSelectorPos.y}px; left: {roleSelectorPos.x}px"
-	class="roleSelector"
-	hidden={true}
->
-	<input bind:this={roleSearchElement} placeholder="Search" bind:value={roleSearch} />
-	{#each data.roles as role}
-		{#if role.name.toLowerCase().includes(roleSearch.toLowerCase())}
-			<form action="?/updateMemberRole" method="post" use:enhance>
-				<input name="userId" style="display: none" bind:value={selectedUserId} />
-				<input name="roleId" style="display: none" bind:value={role.id} />
-
-				<button style="--color: {role.color}" class="roleButton">
-					<div class="color" />
-					{role.name}
-				</button>
-			</form>
-		{/if}
+			<button style="--color: {role.color}" class="roleButton">
+				<div class="color" />
+				{role.name}
+			</button>
+		</form>
 	{/each}
 	<form action="?/updateMemberRole" method="post" use:enhance>
-		<input name="userId" style="display: none" bind:value={selectedUserId} />
+		<input name="userId" style="display: none" bind:value={selectedId} />
 		<input name="roleId" style="display: none" value="-1" />
 
 		<button style="--color: white" class="noRole"> No role </button>
 	</form>
-</div>
+</SearchBox>
+
 <main>
 	{#if data.memberData.length > 0}
 		<table>
@@ -99,7 +54,8 @@
 							<button
 								class="changeRole"
 								on:click|self={(e) => {
-									roleHelper(e, member.userId);
+									selectedId = member.userId;
+									searchBox.propagateClick(e);
 								}}
 							>
 								{member.role?.name || 'None'}
@@ -184,32 +140,12 @@
 		opacity: 0.5;
 		background: var(--color);
 	}
-	.roleSelector {
-		position: fixed;
-		border-radius: 5px;
-		box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
-		background: var(--bgMid);
-		width: 250px;
-		max-height: 400px;
-		padding: 10px;
-		box-sizing: border-box;
-		z-index: 50;
+
+	.actionButton {
+		margin: 0.5rem 1rem;
 	}
-	.roleSelector input {
-		position: relative;
-		all: unset;
-		background: rgba(0, 0, 0, 0.1);
-		text-align: left;
-		cursor: text;
-		width: 100%;
-		padding: 7px 10px;
-		margin-bottom: 5px;
-		box-sizing: border-box;
-		width: 100%;
-		border-radius: 3px;
-		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
-	}
-	.roleSelector .roleButton {
+
+	.roleButton {
 		position: relative;
 		all: unset;
 		cursor: pointer;
@@ -224,25 +160,16 @@
 		border-radius: 3px;
 		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
 	}
-	.roleSelector .roleButton:hover {
+	.roleButton:hover {
 		background: rgba(0, 0, 0, 0.15);
 	}
 
-	.color {
+    .color {
 		background: var(--color);
 		height: 12px;
 		aspect-ratio: 1/1;
 		border-radius: 50%;
 		margin-right: 10px;
-	}
-	.clickInterceptor {
-		all: unset;
-		position: fixed;
-		height: 100%;
-		width: 100%;
-		z-index: 49;
-		top: 0px;
-		left: 0px;
 	}
 	.noRole {
 		position: relative;
@@ -261,9 +188,5 @@
 	}
 	.noRole:hover {
 		background: rgba(0, 0, 0, 0.15);
-	}
-
-	.actionButton {
-		margin: 0.5rem 1rem;
 	}
 </style>
