@@ -19,9 +19,13 @@ export const load = async ({ parent }) => {
 		throw redirect(303, '/login');
 	}
 
-	const sessions = prisma.session.findMany({
+	const sessions = await prisma.session.findMany({
 		where: {
 			userId: user.id
+		},
+		select: {
+			source: true,
+			createdAt: true,
 		}
 	})
 

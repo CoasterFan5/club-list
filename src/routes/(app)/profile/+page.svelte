@@ -55,8 +55,8 @@
 		<h2>Manage Sessions</h2>
 		{#each data.sessions as session}
 			<p>Created at {session.createdAt}</p>
-			{#if session.origin}
-				<p>{session.origin}</p>
+			{#if session.source}
+				<p>{session.source}</p>
 			{:else}
 				<p>Unknown Origin</p>
 			{/if}
