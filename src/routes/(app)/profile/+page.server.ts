@@ -19,8 +19,15 @@ export const load = async ({ parent }) => {
 		throw redirect(303, '/login');
 	}
 
+	const sessions = prisma.session.findMany({
+		where: {
+			userId: user.id
+		}
+	})
+
 	return {
-		user
+		user,
+		sessions
 	};
 };
 

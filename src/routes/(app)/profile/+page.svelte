@@ -50,6 +50,20 @@
 	</Modal>
 {/if}
 
+{#if $page.state.showingModal === 'manageSessions'}
+	<Modal on:close={() => history.back()}>
+		<h2>Manage Sessions</h2>
+		{#each data.sessions as session}
+			<p>Created at {session.createdAt}</p>
+			{#if session.origin}
+				<p>{session.origin}</p>
+			{:else}
+				<p>Unknown Origin</p>
+			{/if}
+		{/each}
+	</Modal>
+{/if}
+
 <main>
 	<div class="left">
 		<form
@@ -92,6 +106,18 @@
 					on:click={() => {
 						pushState('', {
 							showingModal: 'changePassword'
+						});
+					}}
+				/>
+			</div>
+
+			<div class="formInput">
+				<Button
+					type="button"
+					value="Manage Sessions"
+					on:click={() => {
+						pushState('', {
+							showingModal: 'manageSessions'
 						});
 					}}
 				/>

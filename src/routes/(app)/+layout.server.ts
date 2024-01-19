@@ -8,7 +8,7 @@ export const load = async ({ cookies, url }) => {
 	const pathType = isInClub ? '__club__' : url.pathname;
 
 	return {
-		user: user,
+		user,
 		pathType
 	};
 };

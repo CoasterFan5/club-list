@@ -61,14 +61,7 @@ export const actions = {
 			});
 
 			// Generate a new session for the user]
-			await createSession(newUser.id, getClientAddress, request);
-
-			cookies.set('session', session, {
-				secure: true,
-				sameSite: 'strict',
-				expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-				path: '/'
-			});
+			await createSession(newUser.id, getClientAddress, request, cookies);
 
 			redirect(303, '/dashboard');
 		}
