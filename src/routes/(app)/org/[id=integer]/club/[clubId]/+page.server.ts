@@ -2,7 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard';
-import { createPermissionsCheck } from '$lib/permissions.js';
+import { createPermissionsFromUser } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 
 type DataUpdateObject = {
@@ -46,6 +46,14 @@ export const actions = {
 								where: {
 									id: parseInt(params.clubId)
 								}
+							},
+							clubUsers: {
+								where: {
+									clubId: parseInt(params.clubId)
+								},
+								include: {
+									role: true
+								}
 							}
 						}
 					}
@@ -84,23 +92,13 @@ export const actions = {
 				};
 			}
 
-			if (club.ownerId != sessionCheck.user.id) {
-				// Check if the user has permissions
-				if (!club.clubUsers) {
-					return {
-						success: false,
-						message: 'No Permissions'
-					};
-				}
+			const permissionObject = createPermissionsFromUser(sessionCheck.user, club);
 
-				const permissionObject = createPermissionsCheck(club.clubUsers[0].role?.permissionInt ?? 0);
-
-				if (!permissionObject.admin && !permissionObject.updateAppearance) {
-					return {
-						success: false,
-						message: 'No Permissions'
-					};
-				}
+			if (!permissionObject.admin && !permissionObject.updateAppearance) {
+				return {
+					success: false,
+					message: 'No Permissions'
+				};
 			}
 
 			// Update the club

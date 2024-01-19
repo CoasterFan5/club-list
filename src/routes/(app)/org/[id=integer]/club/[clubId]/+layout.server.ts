@@ -45,8 +45,8 @@ export const load = async ({ params, parent }) => {
 			})
 		: null;
 
-	const clubPerms = user && clubUser
-		? createPermissionsFromUser({ ...user, clubUsers: [clubUser] }, club)
+	const clubPerms = user
+		? createPermissionsFromUser({ ...user, clubUsers: clubUser ? [clubUser] : [] }, club)
 		: defaultClubPermissionObject;
 
 	return {
