@@ -56,22 +56,24 @@
 	<Modal on:close={() => history.back()}>
 		<h2>Manage Sessions</h2>
 		{#each data.sessions as session}
-			<p>Created at {session.createdAt.toLocaleString()}</p>
-			{#if session.ip}
-				<p>{session.ip}</p>
-			{:else}
-				<p>Unknown IP</p>
-			{/if}
-			{#if session.userAgent}
-				{@const ua = new UAParser(session.userAgent)}
-				{@const result = ua.getResult()}
-				{result.browser.name} {result.browser.version}
-				{#if result.os.name}
-					on {result.os.name} {result.os.version}
+			<div class="session">
+				<p>Created at {session.createdAt.toLocaleString()}</p>
+				{#if session.ip}
+					<p>{session.ip}</p>
+				{:else}
+					<p>Unknown IP</p>
 				{/if}
-			{:else}
-				<p>Unknown User Agent</p>
-			{/if}
+				{#if session.userAgent}
+					{@const ua = new UAParser(session.userAgent)}
+					{@const result = ua.getResult()}
+					{result.browser.name} {result.browser.version}
+					{#if result.os.name}
+						on {result.os.name} {result.os.version}
+					{/if}
+				{:else}
+					<p>Unknown User Agent</p>
+				{/if}
+			</div>
 		{/each}
 	</Modal>
 {/if}
@@ -178,5 +180,12 @@
 
 	.logOut {
 		margin-top: 2rem;
+	}
+
+	.session {
+		padding: 1rem;
+		border-radius: 1rem;
+		margin: 0.5rem;
+		background-color: rgba(0, 0, 0, 0.1);
 	}
 </style>
