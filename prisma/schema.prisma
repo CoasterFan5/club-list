@@ -32,7 +32,7 @@ model User {
 	clubUsers     ClubUser[]
 	announcements Announcement[]
 	events        Event[]
-	punishment    Punishment[]
+	bans          Ban[]
 }
 
 model OrgUser {
@@ -62,19 +62,19 @@ model ClubUser {
 }
 
 model Organization {
-	id 	        Int       @id @default(autoincrement())
-	name 	    String    @db.VarChar(255)
-	owner 	    User      @relation(fields: [ownerId], references: [id])
-	ownerId     Int
-	isPublic Boolean @default(false)
-	discoverable Boolean @default(false)
+	id 	          Int       @id @default(autoincrement())
+	name 	      String    @db.VarChar(255)
+	owner 	      User      @relation(fields: [ownerId], references: [id])
+	ownerId       Int
+	isPublic      Boolean @default(false)
+	discoverable  Boolean @default(false)
 	hideSensitive Boolean @default(true)
-	orgUsers    OrgUser[]
-	clubs       Club[]
-	joinCode    String	 @unique
-	punishments Punishment[]
+	orgUsers      OrgUser[]
+	clubs         Club[]
+	joinCode      String	 @unique
+	bans          Ban[]
 	// TODO: this can't be String? @unique https://github.com/prisma/prisma/issues/3387
-	slug        Slug?
+	slug          Slug?
 }
 
 model Slug {
@@ -101,11 +101,11 @@ model Club {
 	announcements  Announcement[]
 	events         Event[]
 	roles          ClubRole[]
-	punishments    Punishment[]
+	bans           Ban[]
 	openToJoin     Boolean       @default(true)
 }
 
-model Punishment {
+model Ban {
 	id           Int          @id @default(autoincrement())
 	createdAt    DateTime?    @default(now())
 	updatedAt    DateTime?    @updatedAt
