@@ -2,6 +2,7 @@
 	import dayjs from 'dayjs';
 	import dayOfYear from 'dayjs/plugin/dayOfYear';
 	import timezone from 'dayjs/plugin/timezone';
+	import advancedFormat from 'dayjs/plugin/advancedFormat';
 	import utc from 'dayjs/plugin/utc';
 	import type { Frequency, Weekday } from 'rrule';
 	import { onMount } from 'svelte';
@@ -29,6 +30,7 @@
 	dayjs.extend(dayOfYear);
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
+	dayjs.extend(advancedFormat);
 
 	const datesOnSameDay = (date1: dayjs.Dayjs) => (date2: dayjs.Dayjs) =>
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
@@ -75,13 +77,13 @@
 
 	let repeats = false;
 	let allDay = false;
-	let repeatType = 'amount';
+	let repeatType = 'indefinetly';
 	let interval = '1';
 	let timeZone = 'America/Los_Angeles';
 	$: parsedInterval = parseInt(interval);
 	let count = '1';
 	$: parsedCount = parseInt(count);
-	let inputFrequency = 'daily';
+	let inputFrequency = 'weekly';
 	$: derivedFrequency = freqMapping[inputFrequency];
 	let upTo = new Date().toISOString().split('T')[0];
 	$: rrule = new RRule({
@@ -356,7 +358,17 @@
 								</div>
 							{/if}
 						</div>
-						<p>Occurs {rrule.toText()}.</p>
+						{#if enabledWeekdays.length > 0}
+							<p>Occurs {rrule.toText()} starting on {formDate}.</p>
+						{:else if inputFrequency === 'daily'}
+							<p>Occurs {rrule.toText()}.</p>
+						{:else if inputFrequency === 'weekly'}
+							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('dddd')}.</p>
+						{:else if inputFrequency === 'monthly'}
+							<p>Occurs {rrule.toText()} on the {dayjs(formDate).format('Do')}.</p>
+						{:else if inputFrequency === 'yearly'}
+							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('MMMM Do')}.</p>
+						{/if}
 					</div>
 				{/if}
 			</div>
