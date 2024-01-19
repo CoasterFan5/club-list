@@ -387,14 +387,6 @@
 			width: 100%;
 		}
 	}
-	.dateBar {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		width: calc(100% - 2rem);
-		height: 3rem;
-		margin: 1rem;
-	}
 
 	.top {
 		width: 100%;
@@ -517,10 +509,6 @@
 
 	.button {
 		width: 25%;
-
-		&.big {
-			width: 40%;
-		}
 	}
 
 	.input {
