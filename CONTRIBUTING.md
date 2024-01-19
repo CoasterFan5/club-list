@@ -2,6 +2,8 @@
 
 ## Development Server
 
+First, copy `.env.test` to `.env` to allow running local commands (e.g. `pnpm run studio` or `npx prisma migrate dev`). Make sure to replace `@db` with `@localhost` to ensure these commands work correctly.
+
 Ensure you have [docker](https://www.docker.com/) installed, and run `docker compose up` in the project's root directory. This will start a variety of services:
 
 - The frontend server hosts the web app on port `3000`.

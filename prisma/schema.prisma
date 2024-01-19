@@ -13,6 +13,8 @@ model Session {
 	sessionToken String   @unique
 	userId       Int
 	user         User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	// This is some source, formatted as IP:UserAgent
+	source       String?
 }
 
 model User {
