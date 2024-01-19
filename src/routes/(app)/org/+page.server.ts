@@ -5,7 +5,6 @@ import { redirect, type Actions } from '@sveltejs/kit';
 import { z } from 'zod';
 
 export const load = async ({ parent }) => {
-	console.log(await parent());
 	const { user } = await parent();
 
 	if (user == null) {
