@@ -152,6 +152,9 @@ devDependencies:
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
+  ua-parser-js:
+    specifier: ^1.0.37
+    version: 1.0.37
   vite:
     specifier: ^5.0.11
     version: 5.0.11(@types/node@20.11.3)(sass@1.69.7)
@@ -4704,6 +4707,10 @@ packages:
     resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
     engines: {node: '>=14.17'}
     hasBin: true
+    dev: true
+
+  /ua-parser-js@1.0.37:
+    resolution: {integrity: sha512-bhTyI94tZofjo+Dn8SN6Zv8nBDvyXTymAdM3LDI/0IboIUwTu1rEhW7v2TfiVsoYWgkQ4kOVqnI8APUFbIQIFQ==}
     dev: true
 
   /uc.micro@2.0.0:

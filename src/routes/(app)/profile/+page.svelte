@@ -8,6 +8,8 @@
 	import Modal from '$lib/modules/Modal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
+	import UAParser from 'ua-parser-js';
+
 	export let data;
 	export let form;
 
@@ -61,7 +63,12 @@
 				<p>Unknown IP</p>
 			{/if}
 			{#if session.userAgent}
-				<p>{session.userAgent}</p>
+				{@const ua = new UAParser(session.userAgent)}
+				{@const result = ua.getResult()}
+				{result.browser.name} {result.browser.version}
+				{#if result.os.name}
+					on {result.os.name} {result.os.version}
+				{/if}
 			{:else}
 				<p>Unknown User Agent</p>
 			{/if}
