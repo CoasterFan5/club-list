@@ -27,7 +27,7 @@
 </script>
 
 <div
-	style="z-index: {100000 - data.id ?? 0};"
+	style="z-index: {100000 - data.id};"
 	class="wrap"
 	transition:fly={{ duration: 500, x: 500, opacity: 0.5, easing: quintInOut }}
 >

@@ -42,6 +42,9 @@ module.exports = defineConfig({
 		'no-template-curly-in-string': 'error',
 		'require-atomic-updates': 'error',
 		'capitalized-comments': 'error',
+		'require-await': 'error',
+		'no-constant-binary-expression': 'error',
+		'no-new-native-nonconstructor': 'error',
 		'simple-import-sort/imports': 'error',
 		'simple-import-sort/exports': 'error'
 	},

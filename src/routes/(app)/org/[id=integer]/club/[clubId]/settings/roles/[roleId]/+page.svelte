@@ -25,7 +25,7 @@
 
 	let permissionInt: number;
 
-	const updatePermissionInt = async (key: string) => {
+	const updatePermissionInt = (key: string) => {
 		(permissions as { [key: string]: boolean })[key] = !(permissions as { [key: string]: boolean })[
 			key
 		];
@@ -42,8 +42,8 @@
 		action="?/updateFullRole"
 		method="POST"
 		use:enhance={() => {
-			return async ({ update }) => {
-				update({ reset: false });
+			return ({ update }) => {
+				return update({ reset: false });
 			};
 		}}
 	>

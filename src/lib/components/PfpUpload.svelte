@@ -13,7 +13,7 @@
 
 	let startUpload = () => fileSelector.click();
 
-	let inputHandler = async () => {
+	let inputHandler = () => {
 		if (fileSelector.files && fileSelector.files?.length > 0) {
 			submitButton.click();
 		}

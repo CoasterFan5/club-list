@@ -1,5 +1,5 @@
 <script generics="K" lang="ts">
-	import { clickOutside } from "$lib/actions/clickOutside";
+	import { clickOutside } from '$lib/actions/clickOutside';
 
 	export let showSelector = false;
 	let searchPos = {
@@ -27,7 +27,7 @@
 </script>
 
 {#if showSelector}
-	<div 
+	<div
 		style="top: {searchPos.y}px; left: {searchPos.x}px"
 		class="selector"
 		use:clickOutside={() => {

@@ -15,8 +15,8 @@
 		action="?/updateOrg"
 		method="POST"
 		use:enhance={() => {
-			return async ({ update }) => {
-				update({ reset: false });
+			return ({ update }) => {
+				return update({ reset: false });
 			};
 		}}
 	>

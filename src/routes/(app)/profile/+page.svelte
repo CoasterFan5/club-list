@@ -26,8 +26,8 @@
 			action="?/changePassword"
 			method="post"
 			use:enhance={() => {
-				return async ({ update }) => {
-					update({ reset: false });
+				return ({ update }) => {
+					return update({ reset: false });
 				};
 			}}
 		>
@@ -56,8 +56,8 @@
 			action="?/updateProfile"
 			method="post"
 			use:enhance={() => {
-				return async ({ update }) => {
-					update({ reset: false });
+				return ({ update }) => {
+					return update({ reset: false });
 				};
 			}}
 		>

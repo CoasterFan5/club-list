@@ -21,7 +21,7 @@
 		action="?/updateVisibility"
 		method="post"
 		use:enhance={() => {
-			return async ({ update }) => {
+			return ({ update }) => {
 				return update({ reset: false });
 			};
 		}}
