@@ -1,8 +1,9 @@
+import { fail, redirect } from '@sveltejs/kit';
+import { z } from 'zod';
+
 import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
-import { fail, redirect } from '@sveltejs/kit';
-import { z } from 'zod';
 
 export const actions = {
 	createClub: formHandler(
@@ -18,7 +19,7 @@ export const actions = {
 
 			const user = await verifySession(cookies.get('session'));
 
-			// get the org user
+			// Get the org user
 			const orgUser = await prisma.orgUser.findFirst({
 				where: {
 					userId: user.id,
@@ -36,7 +37,7 @@ export const actions = {
 				});
 			}
 
-			// create the club
+			// Create the club
 			const club = await prisma.club.create({
 				data: {
 					name: clubName,

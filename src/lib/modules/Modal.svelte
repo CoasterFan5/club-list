@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { fade, fly } from 'svelte/transition';
-	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher<{
 		close: undefined;

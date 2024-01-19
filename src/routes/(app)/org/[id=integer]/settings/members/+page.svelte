@@ -1,5 +1,15 @@
 <script lang="ts">
 	export let data;
+
+	function transformRole(role: string) {
+		return role
+			.split('')
+			.map((letter, i) => {
+				if (i === 0) return letter.toUpperCase();
+				return letter.toLowerCase();
+			})
+			.join('');
+	}
 </script>
 
 <main>
@@ -24,7 +34,7 @@
 						</td>
 						<td style="--color: {member.role}" class="role">
 							<button class="changeRole">
-								{member.user.role || 'None'}
+								{transformRole(member.user.role) || 'None'}
 							</button>
 						</td>
 					</tr>

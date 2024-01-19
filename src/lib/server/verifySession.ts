@@ -1,6 +1,7 @@
-import { redirect } from '@sveltejs/kit';
-import { prisma } from './prismaConnection';
 import type { Prisma } from '@prisma/client';
+import { redirect } from '@sveltejs/kit';
+
+import { prisma } from './prismaConnection';
 
 const THIRTY_DAYS = 1000 * 60 * 60 * 24 * 30;
 

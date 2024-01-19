@@ -1,8 +1,9 @@
 import { redirect } from '@sveltejs/kit';
-import { prisma } from '$lib/server/prismaConnection';
-import { createPermissionsCheck } from '$lib/permissions.js';
-import { formHandler } from '$lib/bodyguard';
 import { z } from 'zod';
+
+import { formHandler } from '$lib/bodyguard';
+import { createPermissionsCheck } from '$lib/permissions.js';
+import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {
 	const parentData = await parent();
@@ -30,7 +31,7 @@ export const actions = {
 			const orgId = params.id;
 			const baseUrl = `/org/${orgId}/club/${clubId}`;
 
-			// now the long task of validating data
+			// Now the long task of validating data
 			const session = cookies.get('session');
 
 			const sessionCheck = await prisma.session.findUnique({
@@ -65,7 +66,7 @@ export const actions = {
 			const club = sessionCheck.user.clubs[0];
 			const clubUser = sessionCheck.user.clubUsers[0];
 
-			// check permissions
+			// Check permissions
 			if (club.ownerId != sessionCheck.userId) {
 				if (!clubUser) {
 					redirect(303, '/login');

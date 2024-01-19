@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
 
 	export let data;
 
@@ -79,7 +80,9 @@
 				<tr>
 					<th>Member</th>
 					<th>Role</th>
-					<th>Actions</th>
+					{#if data.clubPerms.manageMembers || data.clubPerms.admin}
+						<th>Actions</th>
+					{/if}
 				</tr>
 			</thead>
 			<tbody>
@@ -102,6 +105,16 @@
 								{member.role?.name || 'None'}
 							</button>
 						</td>
+						{#if data.clubPerms.manageMembers || data.clubPerms.admin}
+							<td>
+								<form action="?/kickMember" method="post" use:enhance>
+									<input name="userId" style="display: none" bind:value={member.userId} />
+									<div class="actionButton">
+										<Button value="Kick" />
+									</div>
+								</form>
+							</td>
+						{/if}
 					</tr>
 				{/each}
 			</tbody>
@@ -248,5 +261,9 @@
 	}
 	.noRole:hover {
 		background: rgba(0, 0, 0, 0.15);
+	}
+
+	.actionButton {
+		margin: 0.5rem 1rem;
 	}
 </style>

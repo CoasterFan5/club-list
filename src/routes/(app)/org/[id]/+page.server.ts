@@ -1,5 +1,6 @@
-import { prisma } from '$lib/server/prismaConnection';
 import { redirect } from '@sveltejs/kit';
+
+import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params }) => {
 	const org = await prisma.organization.findFirst({
@@ -11,14 +12,11 @@ export const load = async ({ params }) => {
 	});
 
 	if (!org) {
-		console.log('org not found');
 		return {
 			status: 404,
 			error: 'Organization not found'
 		};
 	}
-
-	console.log('redirecting');
 
 	throw redirect(303, `/org/${org.id}`);
 };

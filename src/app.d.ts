@@ -1,5 +1,5 @@
 // See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
+// For information about these interfaces
 declare global {
 	namespace App {
 		interface PageState {

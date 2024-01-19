@@ -1,8 +1,9 @@
-import { prisma } from '$lib/server/prismaConnection';
-import { createPermissionsCheck } from '$lib/permissions.js';
 import { error, redirect } from '@sveltejs/kit';
-import { formHandler } from '$lib/bodyguard';
 import { z } from 'zod';
+
+import { formHandler } from '$lib/bodyguard';
+import { createPermissionsCheck } from '$lib/permissions.js';
+import { prisma } from '$lib/server/prismaConnection';
 
 type DataUpdateObject = {
 	imageURL?: string;
@@ -29,7 +30,7 @@ export const actions = {
 				dataUpdateObject.description = clubDescription;
 			}
 
-			// ensure the user is actually allowed to edit this thing
+			// Ensure the user is actually allowed to edit this thing
 			const session = cookies.get('session');
 			if (!session) {
 				redirect(303, '/login');
@@ -59,7 +60,7 @@ export const actions = {
 				error(500, 'Invalid Club Id');
 			}
 
-			// check for permissions
+			// Check for permissions
 			const club = await prisma.club.findFirst({
 				where: {
 					id: id
@@ -79,12 +80,12 @@ export const actions = {
 			if (!club) {
 				return {
 					success: false,
-					message: 'How did we get here?'
+					message: 'Club not found'
 				};
 			}
 
 			if (club.ownerId != sessionCheck.user.id) {
-				// check if the user has permissions
+				// Check if the user has permissions
 				if (!club.clubUsers) {
 					return {
 						success: false,
@@ -102,7 +103,7 @@ export const actions = {
 				}
 			}
 
-			// update the club
+			// Update the club
 			await prisma.club.update({
 				where: {
 					id: parseInt(params.clubId)
@@ -168,7 +169,7 @@ export const actions = {
 			};
 		}
 
-		// now we can create the club user
+		// Now we can create the club user
 		await prisma.clubUser.create({
 			data: {
 				clubId: club.id,

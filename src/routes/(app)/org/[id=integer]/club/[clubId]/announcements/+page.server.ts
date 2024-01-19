@@ -1,5 +1,6 @@
-import { prisma } from '$lib/server/prismaConnection';
 import { error } from '@sveltejs/kit';
+
+import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ parent }) => {
 	const parentData = await parent();

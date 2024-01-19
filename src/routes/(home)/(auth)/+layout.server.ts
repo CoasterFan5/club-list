@@ -1,8 +1,9 @@
-import { prisma } from '$lib/server/prismaConnection';
 import { redirect } from '@sveltejs/kit';
 
+import { prisma } from '$lib/server/prismaConnection';
+
 export const load = async ({ cookies }) => {
-	// if the user is logged in, we need to redirect them to the dashboard
+	// If the user is logged in, we need to redirect them to the dashboard
 	const session = cookies.get('session');
 
 	if (!session) {

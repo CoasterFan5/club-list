@@ -1,11 +1,11 @@
+import { type Actions, redirect } from '@sveltejs/kit';
+import { z } from 'zod';
+
 import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession';
-import { redirect, type Actions } from '@sveltejs/kit';
-import { z } from 'zod';
 
 export const load = async ({ parent }) => {
-	console.log(await parent());
 	const { user } = await parent();
 
 	if (user == null) {
@@ -23,24 +23,24 @@ export const actions = {
 			name: z.string().max(50).min(1)
 		}),
 		async ({ name }, { cookies }) => {
-			// get some basic data
+			// Get some basic data
 			if (!cookies.get('session')) {
 				redirect(303, '/login');
 			}
 
-			// find the user
+			// Find the user
 			const user = await verifySession(cookies.get('session'));
 
-			// we need to know the number of orgs created currently
+			// We need to know the number of orgs created currently
 			const orgAmount = await prisma.organization.count();
 
-			// make a join code
-			// generates a random code and then appends the org id so its always unique
+			// Make a join code
+			// Generates a random code and then appends the org id so its always unique
 			// TODO: better join code generation
 			const random = Math.round(Math.random() * 324000 + 36000).toString(36);
 			const joinString = (orgAmount + 1).toString(36) + random;
 
-			// make the org
+			// Make the org
 			const org = await prisma.organization.create({
 				data: {
 					name,
@@ -49,7 +49,7 @@ export const actions = {
 				}
 			});
 
-			// also make the user an org user
+			// Also make the user an org user
 			await prisma.orgUser.create({
 				data: {
 					userId: user.id,
@@ -71,7 +71,7 @@ export const actions = {
 		async ({ joinCode }, { cookies }) => {
 			const user = await verifySession(cookies.get('session'));
 
-			// search the join code
+			// Search the join code
 			const joinCheck = await prisma.organization.findFirst({
 				where: {
 					joinCode: joinCode
@@ -99,7 +99,7 @@ export const actions = {
 				};
 			}
 
-			// create an org user
+			// Create an org user
 			await prisma.orgUser.create({
 				data: {
 					role: 'member',

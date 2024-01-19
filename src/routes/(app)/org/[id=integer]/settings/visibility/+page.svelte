@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Input from '$lib/components/Input.svelte';
-	import Checkbox from '$lib/components/Checkbox.svelte';
-	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
-	import { addToast } from '$lib/components/toaster';
+	import Button from '$lib/components/Button.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import { handleForm } from '$lib/utils/formToaster';
 
 	export let form;
 	export let data;
@@ -11,21 +11,7 @@
 	let slug: string | undefined;
 	$: slug = data.org.slug?.slug;
 
-	$: if (form) {
-		if (form.success) {
-			addToast({
-				type: 'success',
-				message: 'Club Updated!',
-				life: 3000
-			});
-		} else {
-			addToast({
-				type: 'error',
-				message: form.message || 'An error occurred!',
-				life: 3000
-			});
-		}
-	}
+	$: handleForm(form, 'Club Updated!');
 </script>
 
 <main>
@@ -47,7 +33,7 @@
 				>https://clubsaur.us/org/(slug)</span
 			>
 		</p>
-		<Checkbox name="publicOrg" checked={data.org.isPublic} label="Public Organization" />
+		<Checkbox name="isPublic" checked={data.org.isPublic} label="Public Organization" />
 		<p>Public organizations can be accessed by anyone, even if they don't have a join code.</p>
 		<Checkbox
 			name="discoverable"
@@ -56,7 +42,10 @@
 		/>
 		<p>Discoverable organizations will show up on the organization discovery page</p>
 		<Checkbox name="hideSensitive" checked={data.org.hideSensitive} label="Hide Sensitive Info" />
-		<p>Hide names, events, and announcements to protect users information.</p>
+		<p>
+			Hide names, events, and announcements to protect users information.
+			<b>Highly</b> recommended if this organization has information pertaining to minors.
+		</p>
 		<div class="spacer" />
 		<Button value="Save" />
 	</form>

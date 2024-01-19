@@ -1,13 +1,13 @@
 <script lang="ts">
-	import Modal from '$lib/modules/Modal.svelte';
-	import Input from '$lib/components/Input.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import { addToast } from '$lib/components/toaster';
 	import { enhance } from '$app/forms';
-	import { closeModal } from '$lib/closeModalEnhance';
-	import { page } from '$app/stores';
 	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { closeModal } from '$lib/closeModalEnhance';
+	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import Link from '$lib/components/Link.svelte';
+	import Modal from '$lib/modules/Modal.svelte';
+	import { handleForm } from '$lib/utils/formToaster';
 
 	function showCreateModal() {
 		pushState('', {
@@ -24,13 +24,7 @@
 	export let data;
 	export let form;
 
-	$: if (form) {
-		addToast({
-			type: form.success ? 'success' : 'error',
-			life: 3000,
-			message: form.message
-		});
-	}
+	$: handleForm(form);
 </script>
 
 {#if $page.state.showingModal == 'createOrg'}

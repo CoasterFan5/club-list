@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { cubicIn, cubicOut } from 'svelte/easing';
+	import { fade } from 'svelte/transition';
+
 	import type { LayoutData } from './$types';
 	import Sidebar from './Sidebar.svelte';
-	import { fade } from 'svelte/transition';
-	import { cubicIn, cubicOut } from 'svelte/easing';
 
 	export let data: LayoutData;
 

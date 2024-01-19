@@ -1,11 +1,12 @@
-import { prisma } from '$lib/server/prismaConnection';
+import { error } from '@sveltejs/kit';
+
 import {
 	createPermissionsCheck,
-	type PermissionObject,
 	defaultClubPermissionObject,
-	permissionKeys
+	permissionKeys,
+	type PermissionObject
 } from '$lib/permissions.js';
-import { error } from '@sveltejs/kit';
+import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {
 	const { user } = await parent();

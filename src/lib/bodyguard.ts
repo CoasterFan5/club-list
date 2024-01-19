@@ -1,5 +1,5 @@
 import { Bodyguard, type BodyguardConfig } from '@auth70/bodyguard';
-import { fail, type ActionFailure, type RequestEvent } from '@sveltejs/kit';
+import { type ActionFailure, fail, type RequestEvent } from '@sveltejs/kit';
 import { type ZodObject, type ZodRawShape } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 

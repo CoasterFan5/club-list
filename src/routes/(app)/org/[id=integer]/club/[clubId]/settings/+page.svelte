@@ -3,7 +3,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import { addToast } from '$lib/components/toaster';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
 	export let form;
@@ -11,21 +11,7 @@
 	let name = data.club.name || '';
 	let imgURL = data.club.imageURL || '';
 
-	$: if (form) {
-		if (form.success) {
-			addToast({
-				type: 'success',
-				message: 'Club Updated!',
-				life: 3000
-			});
-		} else {
-			addToast({
-				type: 'error',
-				message: form.message || 'An error occurred!',
-				life: 3000
-			});
-		}
-	}
+	$: handleForm(form, 'Club Updated!');
 </script>
 
 <div class="wrap">

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Link from '$lib/components/Link.svelte';
-	import Input from '$lib/components/Input.svelte';
-	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import Link from '$lib/components/Link.svelte';
 
 	export let form;
 </script>

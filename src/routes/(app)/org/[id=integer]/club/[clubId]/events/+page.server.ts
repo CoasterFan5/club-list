@@ -1,8 +1,10 @@
-import { prisma } from '$lib/server/prismaConnection';
 import { error, redirect } from '@sveltejs/kit';
-import { formHandler } from '$lib/bodyguard.js';
 import { z } from 'zod';
+
+import { formHandler } from '$lib/bodyguard.js';
 import { createPermissionsCheck } from '$lib/permissions.js';
+import { prisma } from '$lib/server/prismaConnection';
+
 import { RRule } from './rrule';
 
 export const load = async ({ parent }) => {
@@ -78,7 +80,7 @@ export const actions = {
 			});
 
 			if (!club) {
-				error(400, 'How did we get here?');
+				error(400, 'Invalid club ID');
 			}
 
 			// Make sure the user has permissions to create an event

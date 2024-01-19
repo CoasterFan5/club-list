@@ -1,19 +1,20 @@
+import { z } from 'zod';
+
+import { formHandler } from '$lib/bodyguard.js';
 import {
 	createPermissionsCheck,
-	type PermissionObject,
 	defaultClubPermissionObject,
-	permissionKeys
+	permissionKeys,
+	type PermissionObject
 } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession';
-import { formHandler } from '$lib/bodyguard.js';
-import { z } from 'zod';
 
 export const actions = {
 	updateClub: formHandler(
 		z.object({
 			clubName: z.string().min(1),
-			imgURL: z.string().min(1),
+			imgURL: z.string(),
 			joinable: z.coerce.boolean()
 		}),
 		async ({ clubName, imgURL, joinable }, { cookies, params }) => {
@@ -28,7 +29,7 @@ export const actions = {
 			if (!club) {
 				return {
 					success: false,
-					message: 'how did we get here'
+					message: 'Club not found'
 				};
 			}
 
@@ -90,7 +91,7 @@ export const actions = {
 
 			return {
 				success: true,
-				message: 'success!'
+				message: 'Club Settings Updated!'
 			};
 		}
 	)

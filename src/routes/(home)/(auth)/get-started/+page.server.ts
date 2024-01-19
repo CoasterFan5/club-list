@@ -1,9 +1,10 @@
-import { prisma } from '$lib/server/prismaConnection.js';
 import { redirect } from '@sveltejs/kit';
-import { promisify } from 'util';
 import crypto from 'crypto';
-import { formHandler } from '$lib/bodyguard.js';
+import { promisify } from 'util';
 import { z } from 'zod';
+
+import { formHandler } from '$lib/bodyguard.js';
+import { prisma } from '$lib/server/prismaConnection.js';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
 
@@ -24,10 +25,10 @@ export const actions = {
 				};
 			}
 
-			// pull the user from the database
+			// Pull the user from the database
 			const newEmail = email.toLowerCase();
 
-			// make sure no user exists with this email
+			// Make sure no user exists with this email
 			const userCheck = await prisma.user.findFirst({
 				where: {
 					email: newEmail
@@ -55,7 +56,7 @@ export const actions = {
 				}
 			});
 
-			// generate a new session for the user
+			// Generate a new session for the user
 
 			const session = crypto.randomBytes(32).toString('hex');
 			await prisma.session.create({

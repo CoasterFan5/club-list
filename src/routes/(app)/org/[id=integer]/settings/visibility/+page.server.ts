@@ -1,7 +1,8 @@
+import { z } from 'zod';
+
 import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
-import { z } from 'zod';
 
 export const actions = {
 	updateVisibility: formHandler(
@@ -12,7 +13,7 @@ export const actions = {
 						.string()
 						.min(1)
 						.max(20)
-						// ensure there is at least one letter
+						// Ensure there is at least one letter
 						.regex(/[a-z]/i)
 						.regex(/^[a-z0-9-]+$/i)
 						.toLowerCase(),
@@ -20,11 +21,11 @@ export const actions = {
 				])
 				.optional()
 				.transform((e) => (e === '' ? undefined : e)),
-			publicOrg: z.coerce.boolean(),
+			isPublic: z.coerce.boolean(),
 			discoverable: z.coerce.boolean(),
 			hideSensitive: z.coerce.boolean()
 		}),
-		async ({ slug, publicOrg, discoverable, hideSensitive }, { cookies, params }) => {
+		async ({ slug, isPublic, discoverable, hideSensitive }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
 
 			const orgUser = await prisma.orgUser.findFirst({
@@ -75,9 +76,9 @@ export const actions = {
 					id: orgUser.organizationId
 				},
 				data: {
-					isPublic: publicOrg,
-					discoverable: discoverable,
-					hideSensitive: hideSensitive
+					isPublic,
+					discoverable,
+					hideSensitive
 				}
 			});
 

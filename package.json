@@ -16,7 +16,8 @@
 		"db:deploy": "prisma migrate deploy",
 		"seed": "dotenv tsx scripts/seed.ts",
 		"s3devdata": "tsx scripts/s3devdata.ts",
-		"deploy": "pnpm install && prisma migrate deploy && prisma generate && pnpm run build"
+		"deploy": "pnpm install && prisma migrate deploy && prisma generate && pnpm run build",
+		"studio": "prisma studio"
 	},
 	"devDependencies": {
 		"@auth70/bodyguard": "^1.3.2",
@@ -49,6 +50,7 @@
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-define-config": "^2.1.0",
+		"eslint-plugin-simple-import-sort": "^10.0.0",
 		"eslint-plugin-svelte": "^2.35.1",
 		"fuse.js": "^7.0.0",
 		"isomorphic-dompurify": "^2.2.0",

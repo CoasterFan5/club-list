@@ -1,9 +1,11 @@
+import { redirect } from '@sveltejs/kit';
+import { z } from 'zod';
+
 import { formHandler } from '$lib/bodyguard';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
-import { redirect } from '@sveltejs/kit';
-import { z } from 'zod';
+
 import type { RouteParams } from './$types.js';
 
 const validateUser = async (session: string | undefined, params: RouteParams) => {

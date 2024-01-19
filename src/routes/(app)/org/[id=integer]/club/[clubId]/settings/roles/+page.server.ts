@@ -1,13 +1,14 @@
-import { prisma } from '$lib/server/prismaConnection.js';
 import { error, redirect } from '@sveltejs/kit';
+import { z } from 'zod';
+
+import { formHandler } from '$lib/bodyguard.js';
 import {
 	createPermissionsCheck,
-	type PermissionObject,
 	defaultClubPermissionObject,
-	permissionKeys
+	permissionKeys,
+	type PermissionObject
 } from '$lib/permissions.js';
-import { formHandler } from '$lib/bodyguard.js';
-import { z } from 'zod';
+import { prisma } from '$lib/server/prismaConnection.js';
 
 export const actions = {
 	makeRole: async ({ params, cookies }) => {
@@ -69,7 +70,7 @@ export const actions = {
 			error(401, 'No Permissions');
 		}
 
-		// actually make the role
+		// Actually make the role
 		await prisma.clubRole.create({
 			data: {
 				name: 'New Role',
@@ -120,14 +121,14 @@ export const actions = {
 			});
 
 			if (!club) {
-				error(400, 'How did we get here?');
+				error(400, 'Club not found');
 			}
 
 			if (!sessionCheck || !sessionCheck.user) {
 				redirect(303, '/login');
 			}
 
-			// make sure the user has the proper perms
+			// Make sure the user has the proper perms
 
 			let userPerms: PermissionObject = { ...defaultClubPermissionObject };
 
@@ -157,7 +158,7 @@ export const actions = {
 			});
 
 			if (!role || role?.clubId != club.id) {
-				error(400, 'How did we get here?');
+				error(400, 'Role not found, or not in this club');
 			}
 
 			// Update the role
@@ -215,14 +216,14 @@ export const actions = {
 			});
 
 			if (!club) {
-				error(400, 'How did we get here?');
+				error(400, 'Club not found');
 			}
 
 			if (!sessionCheck || !sessionCheck.user) {
 				redirect(303, '/login');
 			}
 
-			// make sure the user has the proper perms
+			// Make sure the user has the proper perms
 
 			let userPerms: PermissionObject = { ...defaultClubPermissionObject };
 
@@ -244,7 +245,7 @@ export const actions = {
 				error(401, 'No Permissions');
 			}
 
-			// grab the role
+			// Grab the role
 			const role = await prisma.clubRole.findFirst({
 				where: {
 					id: parseInt(roleId)
@@ -252,7 +253,7 @@ export const actions = {
 			});
 
 			if (!role || role?.clubId != club.id) {
-				error(400, 'How did we get here?');
+				error(400, 'Role not found, or not in this club');
 			}
 
 			if (role.name != roleName) {
@@ -262,7 +263,7 @@ export const actions = {
 				};
 			}
 
-			// delete the role
+			// Delete the role
 			await prisma.clubUser.updateMany({
 				where: {
 					roleId: parseInt(roleId)
