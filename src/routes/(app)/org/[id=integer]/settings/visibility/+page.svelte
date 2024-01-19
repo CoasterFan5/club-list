@@ -42,7 +42,10 @@
 		/>
 		<p>Discoverable organizations will show up on the organization discovery page</p>
 		<Checkbox name="hideSensitive" checked={data.org.hideSensitive} label="Hide Sensitive Info" />
-		<p>Hide names, events, and announcements to protect users information.</p>
+		<p>
+			Hide names, events, and announcements to protect users information.
+			<b>Highly</b> recommended if this organization has information pertaining to minors.
+		</p>
 		<div class="spacer" />
 		<Button value="Save" />
 	</form>
