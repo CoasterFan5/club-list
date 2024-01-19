@@ -96,6 +96,10 @@
 		justify-content: start;
 	}
 
+	p {
+		text-align: center;
+	}
+
 	.noOrgs {
 		text-align: center;
 		font-size: 1.2rem;
@@ -145,9 +149,5 @@
 			margin-top: 10px;
 			font-size: 1.2rem;
 		}
-	}
-
-	p {
-		text-align: center;
 	}
 </style>

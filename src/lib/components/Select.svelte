@@ -33,7 +33,6 @@
 	select {
 		position: relative;
 		color: black;
-		cursor: pointer;
 		background: transparent;
 		border-radius: 3px;
 		padding: 10px;

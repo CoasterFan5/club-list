@@ -28,7 +28,7 @@
 		<input name="userId" style="display: none" bind:value={selectedId} />
 		<input name="roleId" style="display: none" value="-1" />
 
-		<button style="--color: white" class="noRole"> No role </button>
+		<button style="--color: #fff" class="noRole"> No role </button>
 	</form>
 </SearchBox>
 
@@ -154,7 +154,6 @@
 		all: unset;
 		cursor: pointer;
 		text-align: center;
-		width: 100%;
 		padding: 7px 10px;
 		box-sizing: border-box;
 		display: flex;
@@ -179,8 +178,6 @@
 		position: relative;
 		all: unset;
 		background: rgba(0, 0, 0, 0.1);
-		text-align: left;
-		width: 100%;
 		padding: 7px 10px;
 		margin-top: 5px;
 		box-sizing: border-box;

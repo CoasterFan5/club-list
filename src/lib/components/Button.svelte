@@ -34,7 +34,7 @@
 		&:focus,
 		&:hover,
 		&:active {
-			color: white;
+			color: #fff;
 			background: var(--accent);
 		}
 

@@ -17,7 +17,6 @@
 	.link {
 		all: unset;
 		cursor: pointer;
-		padding: 0;
 		text-decoration: none;
 
 		margin-left: var(--marginLeft, 0px);
@@ -32,10 +31,6 @@
 		position: relative;
 		font-size: var(--fontSize, inherit);
 
-		&:hover::after {
-			transform: scaleX(1);
-		}
-
 		&::after {
 			content: '';
 			position: absolute;
@@ -46,6 +41,10 @@
 			background: var(--accent);
 			transform: scaleX(0);
 			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+		}
+
+		&:hover::after {
+			transform: scaleX(1);
 		}
 	}
 </style>

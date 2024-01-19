@@ -272,10 +272,46 @@
 		color: var(--textDark);
 	}
 
+	header {
+		background: var(--bgMid);
+		width: 100%;
+		padding: 25px 0px;
+		box-sizing: border-box;
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+		justify-content: center;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		a {
+			all: unset;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+			padding: 0px 5px;
+		}
+		button {
+			all: unset;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+			padding: 0px 5px;
+		}
+		img {
+			height: 80%;
+		}
+		h1 {
+			margin: 0px 25px;
+			height: 100%;
+		}
+	}
+
 	.inviteNav {
 		width: 100%;
 		background: var(--bg);
-		display: flex;
 		border-radius: 50px;
 		display: flex;
 		overflow: hidden;
@@ -341,42 +377,6 @@
 			background: var(--text);
 		}
 	}
-	header {
-		background: var(--bgMid);
-		width: 100%;
-		padding: 25px 0px;
-		box-sizing: border-box;
-		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
-		justify-content: center;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		a {
-			all: unset;
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			height: 100%;
-			padding: 0px 5px;
-		}
-		button {
-			all: unset;
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			height: 100%;
-			padding: 0px 5px;
-		}
-		img {
-			height: 80%;
-		}
-		h1 {
-			margin: 0px 25px;
-			height: 100%;
-		}
-	}
 
 	.clubs {
 		width: 100%;
@@ -386,9 +386,20 @@
 		align-items: center;
 		justify-content: center;
 
-		.clubInner:hover {
-			box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
+		.clubInner {
+			position: relative;
+			display: flex;
+			background: var(--bgPure);
+			width: 100%;
+			height: 100%;
+			z-index: 0;
 			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+			border-radius: 3px;
+
+			&:hover {
+				box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
+				transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+			}
 		}
 	}
 	.club {
@@ -413,16 +424,6 @@
 		border-radius: 3px;
 	}
 
-	.clubInner {
-		position: relative;
-		display: flex;
-		background: var(--bgPure);
-		width: 100%;
-		height: 100%;
-		z-index: 0;
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-		border-radius: 3px;
-	}
 	.clubText {
 		position: absolute;
 		bottom: 0px;
@@ -445,7 +446,7 @@
 
 		& > h2 {
 			margin: 5px;
-			font-weight: 400;
+			font-weight: normal;
 		}
 	}
 
@@ -458,28 +459,20 @@
 		box-sizing: border-box;
 		margin: 10px 0px;
 		margin-bottom: 2rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		background: var(--bgPure);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
 		border: 0px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-radius: 3px;
 		overflow: hidden;
 		outline: 0px;
 		padding: 10px 10px 10px 40px;
 		border-radius: 5px;
 		font-size: 1.2rem;
 		background-image: url('/search.svg');
-		background-position: 10px 10px; 
+		background-position: 10px 10px;
 		background-repeat: no-repeat;
-
-		img {
-			padding: 0px 10px;
-		}
 
 		&:hover,
 		&:focus,

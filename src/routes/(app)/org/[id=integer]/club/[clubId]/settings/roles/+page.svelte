@@ -121,7 +121,7 @@
 
 <style lang="scss">
 	h2 {
-		font-weight: 400;
+		font-weight: normal;
 	}
 
 	.buttonHolder {
@@ -155,12 +155,11 @@
 	}
 
 	.nameWrap {
-		font-weight: 400;
+		font-weight: normal;
 		margin: 0px;
 		width: 100%;
 	}
 	.name {
-		border: 0px;
 		font-size: 1.3rem;
 		background: transparent;
 		border: 1px solid transparent;

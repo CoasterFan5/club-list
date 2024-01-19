@@ -26,8 +26,6 @@
 		z-index: 1000;
 	}
 	.pfp {
-		border-radius: 5px;
-		overflow: hidden;
 		display: flex;
 		width: 100%;
 		aspect-ratio: 1/1;

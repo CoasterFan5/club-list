@@ -57,7 +57,6 @@
 		flex-direction: column;
 		align-items: end;
 		justify-content: start;
-		padding: 5px;
 		min-width: 200px;
 		width: 40%;
 		padding: 50px 0px;

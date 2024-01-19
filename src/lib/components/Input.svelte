@@ -105,7 +105,6 @@
 
 	input {
 		all: unset;
-		border: 0px;
 		outline: 0px;
 		box-sizing: border-box;
 		padding: 10px;

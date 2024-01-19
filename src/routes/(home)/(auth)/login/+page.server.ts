@@ -4,8 +4,8 @@ import { promisify } from 'util';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
-import { prisma } from '$lib/server/prismaConnection.js';
 import { createSession } from '$lib/server/createSession';
+import { prisma } from '$lib/server/prismaConnection.js';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
 

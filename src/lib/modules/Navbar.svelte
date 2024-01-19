@@ -94,7 +94,7 @@
 				font-size: 2rem;
 				color: var(--text);
 				margin: 10px;
-				font-weight: 400;
+				font-weight: normal;
 
 				a {
 					text-decoration: none;
@@ -113,7 +113,6 @@
 	}
 
 	.hamburgerMenu {
-		display: block;
 		position: absolute;
 		padding: 10px;
 		box-sizing: border-box;

@@ -56,7 +56,7 @@
 
 	:global(html) {
 		height: 100%;
-		font-family: 'Work Sans', sans-serif;
+		font-family: Work Sans, sans-serif;
 		--text: #f1f1f1;
 		--textLight: #f1f1f1;
 		--textLow: #494949;
@@ -87,7 +87,7 @@
 	}
 
 	:global(.mono) {
-		font-family: 'Source Code Pro Variable', sans-serif;
+		font-family: Source Code Pro Variable, sans-serif;
 	}
 	.toaster {
 		position: fixed;

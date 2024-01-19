@@ -57,7 +57,6 @@
 		background: rgba(0, 0, 0, 0.1);
 		text-align: left;
 		cursor: text;
-		width: 100%;
 		padding: 7px 10px;
 		margin-bottom: 5px;
 		box-sizing: border-box;

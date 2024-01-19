@@ -17,7 +17,7 @@
 
 <style lang="scss">
 	h1 {
-		font-weight: 400;
+		font-weight: normal;
 
 		.bar {
 			font-weight: 100;

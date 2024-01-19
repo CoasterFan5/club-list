@@ -1,8 +1,8 @@
 <script lang="ts">
 	import dayjs from 'dayjs';
+	import advancedFormat from 'dayjs/plugin/advancedFormat';
 	import dayOfYear from 'dayjs/plugin/dayOfYear';
 	import timezone from 'dayjs/plugin/timezone';
-	import advancedFormat from 'dayjs/plugin/advancedFormat';
 	import utc from 'dayjs/plugin/utc';
 	import type { Frequency, Weekday } from 'rrule';
 	import { onMount } from 'svelte';
@@ -396,6 +396,10 @@
 		}
 	}
 
+	.button {
+		width: 25%;
+	}
+
 	.top {
 		width: 100%;
 		display: flex;
@@ -513,10 +517,6 @@
 			background-color: var(--accent);
 			color: #fff;
 		}
-	}
-
-	.button {
-		width: 25%;
 	}
 
 	.input {

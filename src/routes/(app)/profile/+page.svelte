@@ -1,4 +1,6 @@
 <script lang="ts">
+	import UAParser from 'ua-parser-js';
+
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -7,8 +9,6 @@
 	import PfpUpload from '$lib/components/PfpUpload.svelte';
 	import Modal from '$lib/modules/Modal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
-
-	import UAParser from 'ua-parser-js';
 
 	export let data;
 	export let form;
@@ -66,7 +66,8 @@
 				{#if session.userAgent}
 					{@const ua = new UAParser(session.userAgent)}
 					{@const result = ua.getResult()}
-					{result.browser.name} {result.browser.version}
+					{result.browser.name}
+					{result.browser.version}
 					{#if result.os.name}
 						on {result.os.name} {result.os.version}
 					{/if}
@@ -147,7 +148,6 @@
 
 <style lang="scss">
 	main {
-		display: flex;
 		flex-direction: row;
 		width: 80%;
 		box-sizing: border-box;
