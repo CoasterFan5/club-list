@@ -3,12 +3,16 @@
 	import Button from '$lib/components/Button.svelte';
 	import SearchBox from '$lib/components/SearchBox.svelte';
 
-	let searchBox: SearchBox<typeof data["roles"][number]>;
+	let searchBox: SearchBox<(typeof data)['roles'][number]>;
 	let selectedId: number | null = null;
 	export let data;
 </script>
 
-<SearchBox bind:this={searchBox} data={[data.roles, role => role.id, role => role.name]} let:filteredData>
+<SearchBox
+	bind:this={searchBox}
+	data={[data.roles, (role) => role.id, (role) => role.name]}
+	let:filteredData
+>
 	{#each filteredData as role}
 		<form action="?/updateMemberRole" method="post" use:enhance>
 			<input name="userId" style="display: none" value={selectedId} />
@@ -164,7 +168,7 @@
 		background: rgba(0, 0, 0, 0.15);
 	}
 
-    .color {
+	.color {
 		background: var(--color);
 		height: 12px;
 		aspect-ratio: 1/1;

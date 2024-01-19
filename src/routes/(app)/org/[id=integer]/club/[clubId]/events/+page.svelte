@@ -160,14 +160,13 @@
 
 <div class="wrap">
 	<div class="top">
-
 		<div class="info">
-			<button on:click={() => (day = day.subtract(1, 'month'))} >
-				<img src="/icons/chevronLeft.svg" alt="previous"/>
+			<button on:click={() => (day = day.subtract(1, 'month'))}>
+				<img alt="previous" src="/icons/chevronLeft.svg" />
 			</button>
 			<h1>{day.format('MMMM YYYY')}</h1>
 			<button on:click={() => (day = day.add(1, 'month'))}>
-				<img src="/icons/chevronRight.svg" alt="next"/>
+				<img alt="next" src="/icons/chevronRight.svg" />
 			</button>
 		</div>
 		<div class="rightButtonWrap">
@@ -181,11 +180,8 @@
 						pushState('', { showingModal: 'addEventModal' });
 					}}
 				/>
-				
 			</div>
 		</div>
-		
-		
 	</div>
 	<div class="calendar">
 		{#each calendarDays as loopDay (loopDay.toDate())}
@@ -416,7 +412,7 @@
 		box-sizing: border-box;
 		margin: 10px 0px;
 		height: 50px;
-	
+
 		h1 {
 			position: relative;
 			display: block;
