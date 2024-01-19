@@ -4,6 +4,7 @@ import { promisify } from 'util';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
+import { createSession } from '$lib/server/createSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
@@ -17,7 +18,10 @@ export const actions = {
 			firstName: z.string().min(1),
 			lastName: z.string().min(1)
 		}),
-		async ({ firstName, lastName, password, confirmPassword, email }, { cookies }) => {
+		async (
+			{ firstName, lastName, password, confirmPassword, email },
+			{ cookies, getClientAddress, request }
+		) => {
 			if (password != confirmPassword) {
 				return {
 					success: false,
@@ -56,15 +60,8 @@ export const actions = {
 				}
 			});
 
-			// Generate a new session for the user
-
-			const session = crypto.randomBytes(32).toString('hex');
-			await prisma.session.create({
-				data: {
-					sessionToken: session,
-					userId: newUser.id
-				}
-			});
+			// Generate a new session for the user]
+			await createSession(newUser.id, getClientAddress, request);
 
 			cookies.set('session', session, {
 				secure: true,

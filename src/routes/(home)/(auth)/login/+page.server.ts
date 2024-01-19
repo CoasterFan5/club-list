@@ -14,7 +14,7 @@ export const actions = {
 			email: z.string().email(),
 			password: z.string().min(1)
 		}),
-		async ({ email, password }, { cookies }) => {
+		async ({ email, password }, { cookies, getClientAddress, request }) => {
 			// Pull the user from the database
 			const user = await prisma.user.findFirst({
 				where: {
@@ -41,13 +41,7 @@ export const actions = {
 			}
 
 			// Generate a new session for the user
-			const session = crypto.randomBytes(32).toString('hex');
-			await prisma.session.create({
-				data: {
-					userId: user.id,
-					sessionToken: session
-				}
-			});
+			createSession(user.id, getClientAddress, request);
 
 			cookies.set('session', session, {
 				secure: true,
