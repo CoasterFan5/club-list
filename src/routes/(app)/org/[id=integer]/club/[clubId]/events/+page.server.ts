@@ -78,7 +78,7 @@ export const actions = {
 			});
 
 			if (!club) {
-				error(400, 'How did we get here?');
+				error(400, 'Invalid club ID');
 			}
 
 			// Make sure the user has permissions to create an event

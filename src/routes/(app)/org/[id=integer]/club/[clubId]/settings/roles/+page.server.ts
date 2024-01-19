@@ -120,7 +120,7 @@ export const actions = {
 			});
 
 			if (!club) {
-				error(400, 'How did we get here?');
+				error(400, 'Club not found');
 			}
 
 			if (!sessionCheck || !sessionCheck.user) {
@@ -157,7 +157,7 @@ export const actions = {
 			});
 
 			if (!role || role?.clubId != club.id) {
-				error(400, 'How did we get here?');
+				error(400, 'Role not found, or not in this club');
 			}
 
 			// Update the role
@@ -215,7 +215,7 @@ export const actions = {
 			});
 
 			if (!club) {
-				error(400, 'How did we get here?');
+				error(400, 'Club not found');
 			}
 
 			if (!sessionCheck || !sessionCheck.user) {
@@ -252,7 +252,7 @@ export const actions = {
 			});
 
 			if (!role || role?.clubId != club.id) {
-				error(400, 'How did we get here?');
+				error(400, 'Role not found, or not in this club');
 			}
 
 			if (role.name != roleName) {

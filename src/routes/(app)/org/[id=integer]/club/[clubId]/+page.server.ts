@@ -79,7 +79,7 @@ export const actions = {
 			if (!club) {
 				return {
 					success: false,
-					message: 'How did we get here?'
+					message: 'Club not found'
 				};
 			}
 
