@@ -1,3 +1,5 @@
+import { error } from '@sveltejs/kit';
+
 export const keys = [
 	'admin',
 	'updateAppearance',
@@ -56,4 +58,37 @@ export const createPermissionsCheck = (integer: number): PermissionObject => {
 			return [item, (int & integer) > 0];
 		})
 	) as unknown as PermissionObject;
+};
+
+interface UserLike {
+	id: number;
+	clubUsers: {
+		clubId: number;
+		role: {
+			permissionInt: number;
+		} | null;
+	}[];
+}
+
+interface ClubLike {
+	ownerId: number;
+	id: number;
+}
+
+export const createPermissionsFromUser = (
+	user?: UserLike | null,
+	club?: ClubLike | null
+): PermissionObject => {
+	if (user?.id == club?.ownerId) {
+		// Create a permission object with all permissions
+		return createPermissionsCheck(2 ** permissionKeys.length - 1);
+	} else {
+		const clubUser = user?.clubUsers.find((clubUser) => clubUser.clubId == club?.id);
+
+		if (!clubUser?.role) {
+			return defaultClubPermissionObject;
+		}
+
+		return createPermissionsCheck(clubUser.role.permissionInt);
+	}
 };

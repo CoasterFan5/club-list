@@ -2,12 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
-import {
-	createPermissionsCheck,
-	defaultClubPermissionObject,
-	permissionKeys,
-	type PermissionObject
-} from '$lib/permissions.js';
+import { createPermissionsFromUser } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 
 export const actions = {
@@ -49,22 +44,7 @@ export const actions = {
 		}
 
 		// Make sure the user has the proper perms
-
-		let userPermissions: PermissionObject = { ...defaultClubPermissionObject };
-
-		if (sessionCheck.user.id == club?.ownerId) {
-			for (const key of permissionKeys) {
-				userPermissions[key] = true;
-			}
-		} else {
-			if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
-				error(401, 'No Permissions');
-			}
-			userPermissions = {
-				...userPermissions,
-				...createPermissionsCheck(sessionCheck.user.clubUsers[0].role.permissionInt)
-			};
-		}
+		const userPermissions = createPermissionsFromUser(sessionCheck.user, club);
 
 		if (!userPermissions.admin && !userPermissions.manageRoles) {
 			error(401, 'No Permissions');
@@ -129,24 +109,9 @@ export const actions = {
 			}
 
 			// Make sure the user has the proper perms
+			const userPermissions = createPermissionsFromUser(sessionCheck.user, club);
 
-			let userPerms: PermissionObject = { ...defaultClubPermissionObject };
-
-			if (sessionCheck.user.id == club?.ownerId) {
-				for (const key of permissionKeys) {
-					userPerms[key] = true;
-				}
-			} else {
-				if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
-					error(401, 'No Permissions');
-				}
-				userPerms = {
-					...userPerms,
-					...createPermissionsCheck(sessionCheck.user.clubUsers[0].role.permissionInt)
-				};
-			}
-
-			if (!userPerms.admin && !userPerms.manageRoles) {
+			if (!userPermissions.admin && !userPermissions.manageRoles) {
 				error(401, 'No Permissions');
 			}
 
@@ -224,24 +189,9 @@ export const actions = {
 			}
 
 			// Make sure the user has the proper perms
+			const userPermissions = createPermissionsFromUser(sessionCheck.user, club);
 
-			let userPerms: PermissionObject = { ...defaultClubPermissionObject };
-
-			if (sessionCheck.user.id == club?.ownerId) {
-				for (const key of permissionKeys) {
-					userPerms[key] = true;
-				}
-			} else {
-				if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
-					error(401, 'No Permissions');
-				}
-				userPerms = {
-					...userPerms,
-					...createPermissionsCheck(sessionCheck.user.clubUsers[0].role.permissionInt)
-				};
-			}
-
-			if (!userPerms.admin && !userPerms.manageRoles) {
+			if (!userPermissions.admin && !userPermissions.manageRoles) {
 				error(401, 'No Permissions');
 			}
 

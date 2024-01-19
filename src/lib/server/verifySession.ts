@@ -5,10 +5,33 @@ import { prisma } from './prismaConnection';
 
 const THIRTY_DAYS = 1000 * 60 * 60 * 24 * 30;
 
-export const verifyOptionalSession = async (
+interface PropertyShortlist {
+	id: true;
+	firstName: true;
+	lastName: true;
+	email: true;
+	createdAt: true;
+	updatedAt: true;
+	pfp: true;
+}
+
+type SessionReturnType<T extends Prisma.UserSelect | undefined> = NonNullable<
+	Prisma.SessionGetPayload<{
+		where: {
+			sessionToken: string;
+		};
+		include: {
+			user: {
+				select: T extends undefined ? PropertyShortlist : PropertyShortlist & NonNullable<T>;
+			};
+		};
+	}>
+>['user'];
+
+export async function verifyOptionalSession<T extends Prisma.UserSelect | undefined>(
 	session: string | undefined,
-	extraFields?: Prisma.UserSelect
-) => {
+	extraFields?: T
+): Promise<SessionReturnType<T> | null> {
 	if (!session) {
 		return null;
 	}
@@ -27,7 +50,7 @@ export const verifyOptionalSession = async (
 					createdAt: true,
 					updatedAt: true,
 					pfp: true,
-					...extraFields
+					...(extraFields === undefined ? {} : extraFields)
 				}
 			}
 		}
@@ -41,13 +64,14 @@ export const verifyOptionalSession = async (
 		return null;
 	}
 
-	return sessionCheck.user;
-};
+	// TODO: fix typing
+	return sessionCheck.user as SessionReturnType<T>;
+}
 
-export const verifySession = async (
+export async function verifySession<T extends Prisma.UserSelect | undefined>(
 	session: string | undefined,
-	extraFields?: Prisma.UserSelect
-) => {
+	extraFields?: T
+): Promise<SessionReturnType<T>> {
 	const sessionCheck = await verifyOptionalSession(session, extraFields);
 
 	if (!sessionCheck) {
@@ -55,4 +79,4 @@ export const verifySession = async (
 	}
 
 	return sessionCheck;
-};
+}

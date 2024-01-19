@@ -10,9 +10,12 @@
 		"unit-disallowed-list": [],
 		"no-duplicate-selectors": true,
 		"font-family-no-missing-generic-family-keyword": null,
-        "selector-pseudo-class-no-unknown": [true, {
-            "ignorePseudoClasses": ["global"]
-        }]
+		"selector-pseudo-class-no-unknown": [
+			true,
+			{
+				"ignorePseudoClasses": ["global"]
+			}
+		]
 	},
 	"ignoreFiles": ["node_modules/*", "src/assets/**", "build/**", "src/lib/styles/normalise.css"],
 	"defaultSeverity": "error",

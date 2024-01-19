@@ -1,12 +1,7 @@
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
-import {
-	createPermissionsCheck,
-	defaultClubPermissionObject,
-	permissionKeys,
-	type PermissionObject
-} from '$lib/permissions.js';
+import { createPermissionsFromUser } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession';
 
@@ -18,7 +13,18 @@ export const actions = {
 			joinable: z.coerce.boolean()
 		}),
 		async ({ clubName, imgURL, joinable }, { cookies, params }) => {
-			const user = await verifySession(cookies.get('session'));
+			const user = await verifySession(cookies.get('session'), {
+				clubUsers: {
+					select: {
+						clubId: true,
+						role: {
+							select: {
+								permissionInt: true
+							}
+						}
+					}
+				}
+			});
 
 			const club = await prisma.club.findFirst({
 				where: {
@@ -33,31 +39,7 @@ export const actions = {
 				};
 			}
 
-			const clubUser = await prisma.clubUser.findFirst({
-				where: {
-					AND: {
-						clubId: parseInt(params.clubId),
-						userId: user.id
-					}
-				},
-				include: {
-					role: true
-				}
-			});
-
-			// Make sure this user is signed in
-			let userPermission: PermissionObject = { ...defaultClubPermissionObject };
-
-			if (clubUser) {
-				userPermission = {
-					...defaultClubPermissionObject,
-					...createPermissionsCheck(clubUser.role?.permissionInt ?? 0)
-				};
-			} else if (club.ownerId == user.id) {
-				for (const key of permissionKeys) {
-					userPermission[key] = true;
-				}
-			}
+			const userPermission = createPermissionsFromUser(user, club);
 
 			if (!userPermission.admin && !userPermission.updateAppearance) {
 				return {

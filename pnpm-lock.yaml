@@ -161,6 +161,9 @@ devDependencies:
   tsx:
     specifier: ^4.7.0
     version: 4.7.0
+  type-fest:
+    specifier: ^4.9.0
+    version: 4.9.0
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
@@ -5255,6 +5258,11 @@ packages:
   /type-fest@2.19.0:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
+    dev: true
+
+  /type-fest@4.9.0:
+    resolution: {integrity: sha512-KS/6lh/ynPGiHD/LnAobrEFq3Ad4pBzOlJ1wAnJx9N4EYoqFhMfLIBjUT2UEx4wg5ZE+cC1ob6DCSpppVo+rtg==}
+    engines: {node: '>=16'}
     dev: true
 
   /typescript@5.3.3:

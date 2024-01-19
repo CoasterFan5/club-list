@@ -1,11 +1,6 @@
 import { error } from '@sveltejs/kit';
 
-import {
-	createPermissionsCheck,
-	defaultClubPermissionObject,
-	permissionKeys,
-	type PermissionObject
-} from '$lib/permissions.js';
+import { createPermissionsFromUser, defaultClubPermissionObject } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {
@@ -36,32 +31,23 @@ export const load = async ({ params, parent }) => {
 		error(404, 'Club Not Found');
 	}
 
-	let clubUser;
-
-	if (user != null) {
-		clubUser = await prisma.clubUser.findFirst({
-			where: {
-				AND: {
-					userId: user.id,
-					clubId: club.id
+	const clubUser = user
+		? await prisma.clubUser.findFirst({
+				where: {
+					AND: {
+						userId: user.id,
+						clubId: club.id
+					}
+				},
+				include: {
+					role: true
 				}
-			},
-			include: {
-				role: true
-			}
-		});
-	}
+			})
+		: null;
 
-	const clubPerms: PermissionObject = {
-		...defaultClubPermissionObject,
-		...createPermissionsCheck(clubUser?.role?.permissionInt ?? 0)
-	};
-
-	if (club.ownerId == user?.id) {
-		for (const key of permissionKeys) {
-			clubPerms[key] = true;
-		}
-	}
+	const clubPerms = user && clubUser
+		? createPermissionsFromUser({ ...user, clubUsers: [clubUser] }, club)
+		: defaultClubPermissionObject;
 
 	return {
 		club,
