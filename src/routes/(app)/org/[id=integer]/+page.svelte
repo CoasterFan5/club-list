@@ -18,15 +18,11 @@
 	export let data;
 	export let form;
 
-	let searchBox: HTMLInputElement;
-
 	let showModal = () => {
 		pushState('', {
 			showingModal: 'createClub'
 		});
 	};
-
-	let focusSearch = () => searchBox.focus();
 
 	const fuse = new Fuse(data.clubs, {
 		keys: ['name', 'description']
@@ -183,92 +179,85 @@
 {/if}
 
 <header>
-	<div class="main">
-		<h1>{data.org.name}</h1>
-		{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
-			<a href="/org/{data.org.id}/settings">
-				<img class="icon" alt="settings" src="/icons/settings.svg" />
-			</a>
-			<button on:click={startInvite}>
-				<img class="icon" alt="invite" src="/icons/addUser.svg" />
-			</button>
-		{/if}
+	<h1>{data.org.name}</h1>
+	{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
+		<a href="/org/{data.org.id}/settings">
+			<img class="icon" alt="settings" src="/icons/settings.svg" />
+		</a>
+		<button on:click={startInvite}>
+			<img class="icon" alt="invite" src="/icons/addUser.svg" />
+		</button>
+	{/if}
 
-		{#if data.orgUser}
-			<button on:click={startLeaveOrg}>
-				<img class="icon" alt="leave" src="/icons/leave.svg" />
-			</button>
-		{/if}
-	</div>
+	{#if data.orgUser}
+		<button on:click={startLeaveOrg}>
+			<img class="icon" alt="leave" src="/icons/leave.svg" />
+		</button>
+	{/if}
 </header>
 
-<div class="wrap">
-	<div class="content">
-		{#if data.clubs.length < 1 && data.orgUser}
-			<h2>
-				No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
-						class="textButton"
-						on:click={showModal}>Create One?</button
-					>{/if}
-			</h2>
-		{:else}
-			<div class="clubs">
-				<button class="searchWrap" on:click={focusSearch}>
-					<img alt="search" src="/search.svg" />
-					<input
-						bind:this={searchBox}
-						class="search"
-						placeholder="Search for clubs..."
-						tabindex="-1"
-						bind:value={searchTerm}
-					/>
-				</button>
-				{#if sortedClubs.length > 0}
-					{#each sortedClubs as club (club.id)}
-						<a class="club" href="/org/{data.org.id}/club/{club.id}">
-							<div class="clubInner">
-								{#if club.imageURL}
-									<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
-								{:else}
-									<img
-										class="clubImage"
-										alt="{club.name} background image"
-										src="/defaultClubImage.svg"
-									/>
-								{/if}
-								<div class="clubText">
-									<h2>{club.name}</h2>
-								</div>
+<main>
+	{#if data.clubs.length < 1 && data.orgUser}
+		<h2>
+			No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
+					class="textButton"
+					on:click={showModal}>Create One?</button
+				>{/if}
+		</h2>
+	{:else}
+		<div class="clubs">
+			<input
+				class="search"
+				placeholder="Search for clubs..."
+				tabindex="-1"
+				bind:value={searchTerm}
+			/>
+			{#if sortedClubs.length > 0}
+				{#each sortedClubs as club (club.id)}
+					<a class="club" href="/org/{data.org.id}/club/{club.id}">
+						<div class="clubInner">
+							{#if club.imageURL}
+								<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
+							{:else}
+								<img
+									class="clubImage"
+									alt="{club.name} background image"
+									src="/defaultClubImage.svg"
+								/>
+							{/if}
+							<div class="clubText">
+								<h2>{club.name}</h2>
 							</div>
-						</a>
-					{/each}
-				{:else}
-					<h2>No clubs found. Try searching for something else.</h2>
-				{/if}
-			</div>
-
-			{#if data.orgUser && (data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER')}
-				<p>
-					Looking for more? <Link on:click={showModal}>Create a club!</Link>
-				</p>
+						</div>
+					</a>
+				{/each}
+			{:else}
+				<h2>No clubs found. Try searching for something else.</h2>
 			{/if}
+		</div>
+
+		{#if data.orgUser && (data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER')}
+			<p>
+				Looking for more? <Link on:click={showModal}>Create a club!</Link>
+			</p>
 		{/if}
-	</div>
-</div>
+	{/if}
+</main>
 
 <style lang="scss">
 	.icon:hover {
 		filter: var(--redIconFilter);
 	}
-	.wrap {
-		height: 100%;
-		width: 100%;
+
+	main {
+		width: calc(100% - 10rem);
 		box-sizing: border-box;
-		padding: 1rem 5rem;
+		height: 100%;
 		display: flex;
-		flex-direction: row;
-		align-items: start;
-		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+		margin: 1rem 5rem;
 	}
 
 	.invite {
@@ -292,28 +281,29 @@
 		overflow: hidden;
 		flex-direction: row;
 		margin: 10px 0px;
-	}
-	.inviteNav button {
-		all: unset;
-		cursor: pointer;
-		color: var(--textDark);
-		padding: 10px 30px;
-		box-sizing: border-box;
-		width: calc(100% / 3);
-		flex-grow: 1;
-		text-align: center;
-		margin: 0px;
-		font-size: 1.2rem;
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
-	}
 
-	.inviteNav button.active {
-		background: var(--accent50);
-		opacity: 0.5;
-	}
+		button {
+			all: unset;
+			cursor: pointer;
+			color: var(--textDark);
+			padding: 10px 30px;
+			box-sizing: border-box;
+			width: calc(100% / 3);
+			flex-grow: 1;
+			text-align: center;
+			margin: 0px;
+			font-size: 1.2rem;
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
 
-	.inviteNav button:hover {
-		background: var(--accent50);
+			&.active {
+				background: var(--accent50);
+				opacity: 0.5;
+			}
+
+			&:hover {
+				background: var(--accent50);
+			}
+		}
 	}
 
 	.joinContent {
@@ -357,19 +347,10 @@
 		padding: 25px 0px;
 		box-sizing: border-box;
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
 		justify-content: center;
-
-		.main {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-		}
-
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 		a {
 			all: unset;
 			cursor: pointer;
@@ -395,16 +376,6 @@
 			margin: 0px 25px;
 			height: 100%;
 		}
-	}
-
-	.content {
-		width: 100%;
-		box-sizing: border-box;
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: start;
 	}
 
 	.clubs {
@@ -482,7 +453,7 @@
 		margin: 7px;
 	}
 
-	.searchWrap {
+	input {
 		width: 100%;
 		box-sizing: border-box;
 		margin: 10px 0px;
@@ -498,7 +469,13 @@
 		justify-content: center;
 		border-radius: 3px;
 		overflow: hidden;
-		border: 1px solid transparent;
+		outline: 0px;
+		padding: 10px 10px 10px 40px;
+		border-radius: 5px;
+		font-size: 1.2rem;
+		background-image: url('/search.svg');
+		background-position: 10px 10px; 
+		background-repeat: no-repeat;
 
 		img {
 			padding: 0px 10px;
@@ -510,16 +487,5 @@
 			outline: 1px solid var(--accent);
 			cursor: text;
 		}
-	}
-
-	.search {
-		width: 100%;
-		outline: 0px;
-		padding: 10px;
-		border-radius: 5px;
-		overflow: hidden;
-		border: 0px;
-		font-size: 1.2rem;
-		height: 100%;
 	}
 </style>
