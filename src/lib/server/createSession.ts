@@ -14,7 +14,8 @@ export async function createSession(
 		data: {
 			sessionToken: session,
 			userId,
-			source: getClientAddress() + ':' + request.headers.get('user-agent')
+			ip: getClientAddress(),
+			userAgent: request.headers.get('user-agent')
 		}
 	});
 

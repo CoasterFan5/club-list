@@ -24,7 +24,8 @@ export const load = async ({ parent }) => {
 			userId: user.id
 		},
 		select: {
-			source: true,
+			ip: true,
+			userAgent: true,
 			createdAt: true,
 		}
 	})

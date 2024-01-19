@@ -54,11 +54,16 @@
 	<Modal on:close={() => history.back()}>
 		<h2>Manage Sessions</h2>
 		{#each data.sessions as session}
-			<p>Created at {session.createdAt}</p>
-			{#if session.source}
-				<p>{session.source}</p>
+			<p>Created at {session.createdAt.toLocaleString()}</p>
+			{#if session.ip}
+				<p>{session.ip}</p>
 			{:else}
-				<p>Unknown Origin</p>
+				<p>Unknown IP</p>
+			{/if}
+			{#if session.userAgent}
+				<p>{session.userAgent}</p>
+			{:else}
+				<p>Unknown User Agent</p>
 			{/if}
 		{/each}
 	</Modal>
