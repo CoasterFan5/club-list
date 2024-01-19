@@ -157,29 +157,33 @@
 </script>
 
 <div class="wrap">
-	<div class="info">
-		<h1>{day.format('MMMM YYYY')}</h1>
-	</div>
+	<div class="top">
 
-	<div class="button big">
-		<Button
-			value="Add Event"
-			on:click={() => {
-				pushState('', { showingModal: 'addEventModal' });
-			}}
-		/>
-	</div>
-
-	<div class="dateBar">
-		<div class="button">
-			<Button value="Previous" on:click={() => (day = day.subtract(1, 'month'))} />
+		<div class="info">
+			<button on:click={() => (day = day.subtract(1, 'month'))} >
+				<img src="/icons/chevronLeft.svg" alt="previous"/>
+			</button>
+			<h1>{day.format('MMMM YYYY')}</h1>
+			<button on:click={() => (day = day.add(1, 'month'))}>
+				<img src="/icons/chevronRight.svg" alt="next"/>
+			</button>
 		</div>
-		<div class="button">
-			<Button value="Today" on:click={() => (day = dayjs())} />
+		<div class="rightButtonWrap">
+			<div class="button">
+				<Button value="Today" on:click={() => (day = dayjs())} />
+			</div>
+			<div class="button">
+				<Button
+					value="Add Event"
+					on:click={() => {
+						pushState('', { showingModal: 'addEventModal' });
+					}}
+				/>
+				
+			</div>
 		</div>
-		<div class="button">
-			<Button value="Next" on:click={() => (day = day.add(1, 'month'))} />
-		</div>
+		
+		
 	</div>
 	<div class="calendar">
 		{#each calendarDays as loopDay (loopDay.toDate())}
@@ -390,13 +394,61 @@
 		margin: 1rem;
 	}
 
+	.top {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+
+		.rightButtonWrap {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			width: 100%;
+			justify-content: end;
+
+			.button {
+				padding-left: 20px;
+			}
+		}
+	}
+
 	.info {
 		display: flex;
-		justify-content: space-around;
+		justify-content: center;
 		align-items: center;
 		width: calc(100% - 2rem);
-		height: 2rem;
-		margin: 1rem;
+		box-sizing: border-box;
+		margin: 10px 0px;
+		height: 50px;
+	
+		h1 {
+			position: relative;
+			display: block;
+			margin: 0px;
+		}
+
+		button {
+			all: unset;
+			cursor: pointer;
+			height: 100%;
+			aspect-ratio: 1/1;
+			padding: 5px;
+			box-sizing: border-box;
+			border-radius: 50%;
+			margin: 0px 10px;
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+
+			&:hover {
+				background: var(--accent50);
+			}
+
+			img {
+				height: 100%;
+				aspect-ratio: 1/1;
+			}
+		}
 	}
 
 	.calendar {
