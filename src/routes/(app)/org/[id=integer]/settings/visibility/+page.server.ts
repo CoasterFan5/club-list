@@ -1,7 +1,8 @@
+import { z } from 'zod';
+
 import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
-import { z } from 'zod';
 
 export const actions = {
 	updateVisibility: formHandler(
@@ -12,7 +13,7 @@ export const actions = {
 						.string()
 						.min(1)
 						.max(20)
-						// ensure there is at least one letter
+						// Ensure there is at least one letter
 						.regex(/[a-z]/i)
 						.regex(/^[a-z0-9-]+$/i)
 						.toLowerCase(),

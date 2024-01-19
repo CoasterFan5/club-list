@@ -1,7 +1,7 @@
 <script lang="ts">
-	import MdEditor from '$lib/components/editor/MdEditor.svelte';
-	import Announcement from '$lib/components/Announcement.svelte';
 	import { enhance } from '$app/forms';
+	import Announcement from '$lib/components/Announcement.svelte';
+	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;

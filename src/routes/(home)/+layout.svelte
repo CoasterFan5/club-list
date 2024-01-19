@@ -9,6 +9,7 @@
 	import '@fontsource/work-sans/800.css';
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
+
 	import Footer from '$lib/modules/Footer.svelte';
 	import Navbar from '$lib/modules/Navbar.svelte';
 </script>

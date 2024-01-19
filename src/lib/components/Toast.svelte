@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
-	import { removeToast, type Toast } from './toaster';
-	import { quintInOut } from 'svelte/easing';
-	import { onMount } from 'svelte';
 	import sanitizeHtml from 'sanitize-html';
+	import { onMount } from 'svelte';
+	import { quintInOut } from 'svelte/easing';
+	import { fly } from 'svelte/transition';
+
+	import { removeToast, type Toast } from './toaster';
 
 	export let data: Toast;
 	let showTimer = false;

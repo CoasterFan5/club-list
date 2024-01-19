@@ -1,5 +1,6 @@
-import { prisma } from '$lib/server/prismaConnection';
 import { error, redirect } from '@sveltejs/kit';
+
+import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {
 	const orgId = parseInt(params.id);

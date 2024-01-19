@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
-import { promisify } from 'util';
-import crypto from 'crypto';
 import { faker } from '@faker-js/faker';
+import { PrismaClient } from '@prisma/client';
+import crypto from 'crypto';
+import { promisify } from 'util';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
 

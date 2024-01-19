@@ -1,17 +1,16 @@
 <script lang="ts">
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-
 	import { Editor } from '@tiptap/core';
-	import StarterKit from '@tiptap/starter-kit';
-	import Typography from '@tiptap/extension-typography';
-	import { Color } from '@tiptap/extension-color';
-	import TextStyle from '@tiptap/extension-text-style';
 	import BubbleMenu from '@tiptap/extension-bubble-menu';
+	import { Color } from '@tiptap/extension-color';
 	import FloatingMenu from '@tiptap/extension-floating-menu';
 	import Placeholder from '@tiptap/extension-placeholder';
+	import TextStyle from '@tiptap/extension-text-style';
+	import Typography from '@tiptap/extension-typography';
+	import StarterKit from '@tiptap/starter-kit';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
-	import FloatingMenuElement from './FloatingMenuElement.svelte';
 	import BubbleMenuElement from './BubbleMenuElement.svelte';
+	import FloatingMenuElement from './FloatingMenuElement.svelte';
 
 	export let content: string | null = '<h1>wow! what a club</h1>';
 	export let editable: boolean;
@@ -61,7 +60,7 @@
 			],
 			content: content,
 			onTransaction: () => {
-				// force re-render so `editor.isActive` works as expected
+				// Force re-render so `editor.isActive` works as expected
 				editor = editor;
 			},
 			onUpdate() {

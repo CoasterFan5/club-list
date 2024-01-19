@@ -9,10 +9,13 @@
 	import '@fontsource/work-sans/800.css';
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
-	import type { LayoutData } from './$types';
-	import Toaster from '$lib/components/Toaster.svelte';
-	import { addToast, resetToasts } from '$lib/components/toaster';
+
 	import { onMount } from 'svelte';
+
+	import { addToast, resetToasts } from '$lib/components/toaster';
+	import Toaster from '$lib/components/Toaster.svelte';
+
+	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 
 	let sent = false;

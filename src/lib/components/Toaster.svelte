@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { flip } from 'svelte/animate';
+	import { cubicInOut } from 'svelte/easing';
+
 	import Toast from './Toast.svelte';
 	import { toasts } from './toaster';
-	import { cubicInOut } from 'svelte/easing';
 </script>
 
 <div class="wrap">

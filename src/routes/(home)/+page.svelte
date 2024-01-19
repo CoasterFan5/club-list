@@ -1,8 +1,9 @@
 <script lang="ts">
-	import Simplify from './Simplify.svelte';
-	import Connect from './Connect.svelte';
-	import You from './You.svelte';
 	import Button from '$lib/components/Button.svelte';
+
+	import Connect from './Connect.svelte';
+	import Simplify from './Simplify.svelte';
+	import You from './You.svelte';
 </script>
 
 <div class="wrap">

@@ -1,11 +1,12 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
-	import { enhance } from '$app/forms';
-	import Input from '$lib/components/Input.svelte';
-	import { closeModal } from '$lib/closeModalEnhance';
 	import { flip } from 'svelte/animate';
+
+	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { closeModal } from '$lib/closeModalEnhance';
+	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/modules/Modal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
 

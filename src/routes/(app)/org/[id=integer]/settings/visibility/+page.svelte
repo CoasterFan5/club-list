@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Input from '$lib/components/Input.svelte';
-	import Checkbox from '$lib/components/Checkbox.svelte';
-	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import { handleForm } from '$lib/utils/formToaster';
 
 	export let form;

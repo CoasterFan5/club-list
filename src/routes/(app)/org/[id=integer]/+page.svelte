@@ -1,15 +1,16 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { qr } from '@svelte-put/qr/img';
 	import Fuse from 'fuse.js';
+
+	import { browser } from '$app/environment';
+	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
-
 	import Button from '$lib/components/Button.svelte';
-	import Link from '$lib/components/Link.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import Modal from '$lib/modules/Modal.svelte';
+	import Link from '$lib/components/Link.svelte';
 	import { addToast } from '$lib/components/toaster';
-	import { qr } from '@svelte-put/qr/img';
+	import Modal from '$lib/modules/Modal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	let searchTerm = '';
@@ -51,8 +52,8 @@
 	};
 
 	$: handleForm(form, 'Success!', {
-		callback: form => {
-			if (form && "history" in globalThis) {
+		callback: (form) => {
+			if (form && browser) {
 				history.back();
 			}
 		}

@@ -1,19 +1,21 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
-	import Input from '$lib/components/Input.svelte';
-	import Modal from '$lib/modules/Modal.svelte';
-	import Checkbox from '$lib/components/Checkbox.svelte';
 	import dayjs from 'dayjs';
-	import { RRule } from './rrule.js';
-	import type { Frequency, Weekday } from 'rrule';
 	import dayOfYear from 'dayjs/plugin/dayOfYear';
-	import utc from 'dayjs/plugin/utc';
 	import timezone from 'dayjs/plugin/timezone';
+	import utc from 'dayjs/plugin/utc';
+	import type { Frequency, Weekday } from 'rrule';
+	import { onMount } from 'svelte';
+	import timezones from 'timezones-list';
+
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
-	import timezones from 'timezones-list';
+	import Button from '$lib/components/Button.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import Select from '$lib/components/Select.svelte';
-	import { onMount } from 'svelte';
+	import Modal from '$lib/modules/Modal.svelte';
+
+	import { RRule } from './rrule.js';
 
 	const freqMapping: Record<string, Frequency> = {
 		daily: RRule.DAILY,

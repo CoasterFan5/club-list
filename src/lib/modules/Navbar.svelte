@@ -2,6 +2,7 @@
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import { fly, type FlyParams } from 'svelte/transition';
 	import { Hamburger } from 'svelte-hamburgers';
+
 	import Link from '$lib/components/Link.svelte';
 
 	let innerWidth = 0;

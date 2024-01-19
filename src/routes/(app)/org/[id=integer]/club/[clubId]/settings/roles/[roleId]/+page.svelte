@@ -1,12 +1,12 @@
 <script lang="ts">
-	import {
-		createPermissionsCheck,
-		permissionObjectDescriptions,
-		keys,
-		createPermissionNumber
-	} from '$lib/permissions';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
+	import {
+		createPermissionNumber,
+		createPermissionsCheck,
+		keys,
+		permissionObjectDescriptions
+	} from '$lib/permissions';
 	import { handleForm } from '$lib/utils/formToaster';
 
 	// https://stackoverflow.com/a/7225450/7589775

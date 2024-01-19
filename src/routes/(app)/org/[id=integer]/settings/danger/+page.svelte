@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
-
-	import Modal from '$lib/modules/Modal.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import Modal from '$lib/modules/Modal.svelte';
 </script>
 
 {#if $page.state.showingModal === 'refreshJoinCode'}

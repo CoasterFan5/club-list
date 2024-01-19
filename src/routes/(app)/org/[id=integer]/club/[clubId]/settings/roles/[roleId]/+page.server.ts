@@ -1,9 +1,10 @@
+import { redirect } from '@sveltejs/kit';
+import { z } from 'zod';
+
 import { formHandler } from '$lib/bodyguard.js';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
-import { redirect } from '@sveltejs/kit';
-import { z } from 'zod';
 
 export const actions = {
 	updateFullRole: formHandler(
@@ -49,7 +50,7 @@ export const actions = {
 				}
 			}
 
-			// do the update
+			// Do the update
 			await prisma.clubRole.update({
 				where: {
 					id: parseInt(params.roleId)

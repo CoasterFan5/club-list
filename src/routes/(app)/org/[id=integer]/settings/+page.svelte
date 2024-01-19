@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Input from '$lib/components/Input.svelte';
-	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;

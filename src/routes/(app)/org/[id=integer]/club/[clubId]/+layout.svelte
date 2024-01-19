@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
+
+	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Link from '$lib/components/Link.svelte';
 

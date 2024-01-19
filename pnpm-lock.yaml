@@ -95,6 +95,9 @@ devDependencies:
   eslint-define-config:
     specifier: ^2.1.0
     version: 2.1.0
+  eslint-plugin-simple-import-sort:
+    specifier: ^10.0.0
+    version: 10.0.0(eslint@8.56.0)
   eslint-plugin-svelte:
     specifier: ^2.35.1
     version: 2.35.1(eslint@8.56.0)(svelte@4.2.8)
@@ -2908,6 +2911,14 @@ packages:
   /eslint-define-config@2.1.0:
     resolution: {integrity: sha512-QUp6pM9pjKEVannNAbSJNeRuYwW3LshejfyBBpjeMGaJjaDUpVps4C6KVR8R7dWZnD3i0synmrE36znjTkJvdQ==}
     engines: {node: '>=18.0.0', npm: '>=9.0.0', pnpm: '>=8.6.0'}
+    dev: true
+
+  /eslint-plugin-simple-import-sort@10.0.0(eslint@8.56.0):
+    resolution: {integrity: sha512-AeTvO9UCMSNzIHRkg8S6c3RPy5YEwKWSQPx3DYghLedo2ZQxowPFLGDN1AZ2evfg6r6mjBSZSLxLFsWSu3acsw==}
+    peerDependencies:
+      eslint: '>=5.0.0'
+    dependencies:
+      eslint: 8.56.0
     dev: true
 
   /eslint-plugin-svelte@2.35.1(eslint@8.56.0)(svelte@4.2.8):

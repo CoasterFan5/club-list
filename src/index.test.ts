@@ -1,9 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import {
 	createPermissionNumber,
 	createPermissionsCheck,
 	defaultClubPermissionObject
 } from '$lib/permissions';
-import { describe, it, expect } from 'vitest';
 
 describe('permission system', () => {
 	const permissionAmount = Object.keys(defaultClubPermissionObject).length;
