@@ -101,6 +101,7 @@ model Club {
 	announcements  Announcement[]
 	events         Event[]
 	roles          ClubRole[]
+	punishments    Punishment[]
 	openToJoin     Boolean       @default(true)
 }
 
@@ -110,8 +111,11 @@ model Punishment {
 	updatedAt    DateTime?    @updatedAt
 	user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 	userId       Int
+	club         Club? 	      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	clubId       Int?
 	organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 	orgId        Int
+	reason       String?
 }
 
 model Event {
