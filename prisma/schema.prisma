@@ -8,7 +8,7 @@ generator client {
 }
 
 model Session {
-	id 	         Int      @id @default(autoincrement())
+	id           Int      @id @default(autoincrement())
 	createdAt    DateTime @default(now())
 	sessionToken String   @unique
 	userId       Int
@@ -16,7 +16,7 @@ model Session {
 }
 
 model User {
-	id 	          Int      @id @default(autoincrement())
+	id            Int      @id @default(autoincrement())
 	createdAt     DateTime @default(now())
 	updatedAt     DateTime @updatedAt
 	email         String   @db.VarChar(255) @unique
@@ -24,10 +24,10 @@ model User {
 	salt          String   @db.VarChar(255)
 	firstName     String   @db.VarChar(255)
 	lastName      String   @db.VarChar(255)
-	pfp			  String?  @db.VarChar(255)
+	pfp           String?  @db.VarChar(255)
 	organization  Organization[]
 	orgUsers      OrgUser[]
-	clubs 	      Club[]
+	clubs         Club[]
 	sessions      Session[]
 	clubUsers     ClubUser[]
 	announcements Announcement[]
@@ -51,10 +51,10 @@ model ClubUser {
 	createdAt      DateTime  @default(now())
 	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	clubId         Int
-	orgUser		   OrgUser?  @relation(fields: [userId, organizationId], references: [userId, organizationId], onDelete: Cascade)
+	orgUser        OrgUser?  @relation(fields: [userId, organizationId], references: [userId, organizationId], onDelete: Cascade)
 	organizationId Int
-	user 	       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-	userId 	       Int
+	user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId         Int
 	roleId         Int?
 	role           ClubRole? @relation(fields: [roleId], references: [id])
 
@@ -62,38 +62,38 @@ model ClubUser {
 }
 
 model Organization {
-	id 	          Int       @id @default(autoincrement())
-	name 	      String    @db.VarChar(255)
-	owner 	      User      @relation(fields: [ownerId], references: [id])
+	id            Int       @id @default(autoincrement())
+	name          String    @db.VarChar(255)
+	owner         User      @relation(fields: [ownerId], references: [id])
 	ownerId       Int
-	isPublic      Boolean @default(false)
-	discoverable  Boolean @default(false)
-	hideSensitive Boolean @default(true)
+	isPublic      Boolean   @default(false)
+	discoverable  Boolean   @default(false)
+	hideSensitive Boolean   @default(true)
 	orgUsers      OrgUser[]
 	clubs         Club[]
-	joinCode      String	 @unique
+	joinCode      String    @unique
 	bans          Ban[]
 	// TODO: this can't be String? @unique https://github.com/prisma/prisma/issues/3387
 	slug          Slug?
 }
 
 model Slug {
-	id 	           Int          @id @default(autoincrement())
+	id             Int          @id @default(autoincrement())
 	createdAt      DateTime?    @default(now())
 	updatedAt      DateTime?    @updatedAt
-	slug 	       String       @unique
+	slug           String       @unique
 	organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 	organizationId Int          @unique
 }
 
 model Club {
-	id 	           Int           @id @default(autoincrement())
+	id             Int           @id @default(autoincrement())
 	createdAt      DateTime?     @default(now())
 	updatedAt      DateTime?     @updatedAt
-	name 	       String        @db.VarChar(255)
+	name           String        @db.VarChar(255)
 	description    String?
 	imageURL       String?
-	owner 	       User          @relation(fields: [ownerId], references: [id])
+	owner          User          @relation(fields: [ownerId], references: [id])
 	ownerId        Int
 	organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 	organizationId Int
@@ -111,11 +111,12 @@ model Ban {
 	updatedAt    DateTime?    @updatedAt
 	user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 	userId       Int
-	club         Club? 	      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	club         Club?        @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	clubId       Int?
 	organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 	orgId        Int
 	reason       String?
+	expiryDate   DateTime?
 }
 
 model Event {
