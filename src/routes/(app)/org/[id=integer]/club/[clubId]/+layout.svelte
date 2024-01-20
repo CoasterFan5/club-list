@@ -138,11 +138,21 @@
 	.nav {
 		width: 100%;
 		display: flex;
-		align-items: center;
 		flex-direction: row;
+		justify-content: start;
+		align-items: start;
+		overflow-x: auto;
+		scrollbar-width: none;
+		
+		::-webkit-scrollbar {
+			display: none;
+		}
 
 		.link {
-			padding: 5px 0px;
+			padding: 5px 5px;
+			box-sizing: border-box;
+			
+			width: max-content;
 
 			:global(a:hover) {
 				color: var(--accent) !important;
