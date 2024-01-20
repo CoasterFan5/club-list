@@ -67,13 +67,13 @@
 	const transitionOut = { easing: cubicIn, y: -y, duration };
 </script>
 
-<svelte:window bind:innerWidth={pageWidth} on:touchmove={touchMoveHelper} on:touchend={touchEnd}/>
+<svelte:window bind:innerWidth={pageWidth} on:touchmove={touchMoveHelper} on:touchend={touchEnd} on:touchstart={touchDownDragTab}/>
 <div class="wrap">
 	<div class="sidebar" style="left: {sidebarPos - 75}px">
 		<Sidebar {data} />
 
 		{#if miniSidebar}
-			<button class="dragTab" on:touchstart={touchDownDragTab}>
+			<button class="dragTab" >
 				<hr>
 				<hr>
 			</button>
@@ -111,13 +111,13 @@
 		position: fixed;
 		display: flex;
 		flex-direction: row;
-		align-items: center;
+		align-items: end;
 	}
 
 	.dragTab {
 		all: unset;
-		height: 150px;
-		width: 40px;
+		height: 75px;
+		width: 25px;
 		background: var(--bgPure);
 		z-index: 1001;
 		border-radius: 0px 5px 5px 0px;
