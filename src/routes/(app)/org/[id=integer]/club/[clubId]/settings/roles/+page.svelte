@@ -49,7 +49,7 @@
 	</Modal>
 {/if}
 
-<div class="rolesHolder">
+<main>
 	{#if data.roles.length < 1}
 		<h2>No roles yet</h2>
 	{/if}
@@ -117,7 +117,7 @@
 	<form class="buttonHolder" action="?/makeRole" method="post" use:enhance>
 		<Button value="Add Role" />
 	</form>
-</div>
+</main>
 
 <style lang="scss">
 	h2 {
@@ -170,7 +170,7 @@
 		}
 	}
 
-	.rolesHolder {
+	main {
 		width: 100%;
 		height: 100%;
 		padding: 0px 10px;
@@ -201,9 +201,9 @@
 		box-sizing: border-box;
 	}
 
-	// Don't change this, scss breaks it
 	input[type='color']::-moz-color-swatch {
 		border: none;
+		border-radius: 100%;
 	}
 
 	input[type='color']::-webkit-color-swatch {
