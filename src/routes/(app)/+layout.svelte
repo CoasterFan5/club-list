@@ -26,7 +26,7 @@
 	const touchMoveHelper = (e: TouchEvent) => {
 			if(activeDrag && e.touches.length > 0) {
 				console.log(e.touches[0].clientX)
-				let tempDragDistance = e.touches[0].clientX - dragX;
+				let tempDragDistance = (e.touches[0].clientX - dragX)/(pageWidth /1.5) * 75;
 				
 				let dragDistance = Math.max(0, Math.min(tempDragDistance, 75))
 				sidebarPos = dragDistance
@@ -48,7 +48,7 @@
 
 	const touchDownDragTab = (e: TouchEvent) => {
 		if(e.touches[0]) {
-			dragX = e.touches[0].clientX - sidebarPos
+			dragX = e.touches[0].clientX - ((sidebarPos / 75) * (pageWidth /1.5))
 			activeDrag = true
 		}
 	}
