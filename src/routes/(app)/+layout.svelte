@@ -7,6 +7,8 @@
 
 	export let data: LayoutData;
 
+	let requiredScreenWidth = 50; //the percent of the screen the user needs to swipe
+
 	let sidebarPos = 75;
 	let pageWidth: number;
 	let miniSidebar = false;
@@ -26,7 +28,7 @@
 	const touchMoveHelper = (e: TouchEvent) => {
 			if(activeDrag && e.touches.length > 0) {
 				console.log(e.touches[0].clientX)
-				let tempDragDistance = (e.touches[0].clientX - dragX)/(pageWidth /1.5) * 75;
+				let tempDragDistance = (e.touches[0].clientX - dragX)/(pageWidth * (requiredScreenWidth/100)) * 75;
 				
 				let dragDistance = Math.max(0, Math.min(tempDragDistance, 75))
 				sidebarPos = dragDistance
@@ -48,16 +50,16 @@
 
 	const touchDownDragTab = (e: TouchEvent) => {
 		if(e.touches[0]) {
-			dragX = e.touches[0].clientX - ((sidebarPos / 75) * (pageWidth /1.5))
+			dragX = e.touches[0].clientX - ((sidebarPos / 75) * (pageWidth * (requiredScreenWidth/100)))
 			activeDrag = true
 		}
 	}
 
-	const mouseDownDragTab = (e: MouseEvent) => {
-			dragX = e.clientX
-			activeDrag = true
-			e.preventDefault()
-	};
+
+
+	const closeSidebar = (e: MouseEvent) => {
+		sidebarPos = 0;
+	}
 
 	const duration = 200;
 	const delay = duration + 75;
@@ -80,6 +82,11 @@
 		{/if}
 	</div>
 	
+	{#if sidebarPos == 75 || activeDrag}
+		<button class="quickClose" on:click={closeSidebar}>
+		</button>
+	{/if}
+
 	{#key data.pathType}
 		<div class="content" in:fade={transitionIn} out:fade={transitionOut}>
 			<slot />
@@ -137,5 +144,16 @@
 			width: 100%;
 			margin: 0px;
 		}
+	}
+
+	.quickClose {
+		all: unset;
+		position: fixed;
+		top: 0px;
+		right: 0px;
+		width: calc(100%);
+		height: 100%;
+		z-index: 999;
+		
 	}
 </style>
