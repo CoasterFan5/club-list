@@ -11,8 +11,8 @@
 	$: handleForm(form);
 </script>
 
-<div class="wrap">
-	<form class="editor" action="?/createAnnouncement" method="post" use:enhance>
+<main>
+	<form action="?/createAnnouncement" method="post" use:enhance>
 		<div>
 			<div class="input">
 				<Input name="title" label="Title" />
@@ -23,10 +23,10 @@
 			<Button type="submit" value="Create" />
 		</div>
 	</form>
-</div>
+</main>
 
 <style lang="scss">
-	.wrap {
+	main {
 		display: flex;
 		width: 100%;
 		padding: 50px 0px;
@@ -35,7 +35,7 @@
 		justify-content: start;
 	}
 
-	.editor {
+	form {
 		width: 90%;
 		max-width: 500px;
 	}

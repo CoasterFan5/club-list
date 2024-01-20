@@ -25,10 +25,8 @@
 
 	let permissionInt: number;
 
-	const updatePermissionInt = (key: string) => {
-		(permissions as { [key: string]: boolean })[key] = !(permissions as { [key: string]: boolean })[
-			key
-		];
+	const updatePermissionInt = (key: typeof keys[number]) => {
+		permissions[key] = !permissions[key];
 		permissionInt = createPermissionNumber(permissions);
 		permissionIntBox.value = permissionInt.toString();
 		submitButton.click();

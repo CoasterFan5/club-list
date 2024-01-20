@@ -63,8 +63,8 @@ export const actions = {
 				redirect(303, '/login');
 			}
 
-			const club = sessionCheck.user.clubs[0];
-			const clubUser = sessionCheck.user.clubUsers[0];
+			const [club] = sessionCheck.user.clubs;
+			const [clubUser] = sessionCheck.user.clubUsers;
 
 			// Check permissions
 			if (club.ownerId != sessionCheck.userId) {

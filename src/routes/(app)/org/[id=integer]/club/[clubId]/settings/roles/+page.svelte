@@ -13,7 +13,7 @@
 	export let data;
 	export let form;
 
-	let forms: Array<HTMLButtonElement | undefined> = [];
+	let forms: HTMLButtonElement[] = [];
 
 	$: handleForm(form, 'Success!');
 
@@ -34,7 +34,7 @@
 		>
 			<h1>Are you sure?</h1>
 			<p>Type <b>{selectedRoleName}</b> to confirm</p>
-			<input name="roleId" hidden bind:value={selectedRoleId} />
+			<input name="roleId" hidden value={selectedRoleId} />
 			<div class="formItem">
 				<Input name="roleName" bg="white" label="Type Role Name" bind:value={inputtedRoleName} />
 			</div>

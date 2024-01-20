@@ -5,22 +5,22 @@
 	export let data;
 </script>
 
-<div class="wrap">
+<main>
 	{#if data.clubPerms.admin || data.clubPerms.manageAnnouncements}
-		<div class="buttonWrap">
+		<div>
 			<Button href="./announcements/new" value="New Announcement" />
 		</div>
 	{/if}
 
-	<div class="announcementList">
+	<div class="list">
 		{#each data.announcements as announcement}
 			<Announcement {announcement} />
 		{/each}
 	</div>
-</div>
+</main>
 
 <style lang="scss">
-	.wrap {
+	main {
 		width: 100%;
 		height: 100%;
 		padding: 50px 0px;
@@ -30,7 +30,7 @@
 		justify-content: start;
 	}
 
-	.announcementList {
+	.list {
 		width: 90%;
 		max-width: 600px;
 		padding-top: 25px;

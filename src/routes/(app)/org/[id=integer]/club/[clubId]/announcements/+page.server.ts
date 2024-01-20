@@ -6,7 +6,7 @@ export const load = async ({ parent }) => {
 	const parentData = await parent();
 
 	if (!parentData.orgUser && parentData.org.hideSensitive) {
-		throw error(404, 'Page disabled');
+		throw error(404);
 	}
 
 	const club = await prisma.club.findUnique({
