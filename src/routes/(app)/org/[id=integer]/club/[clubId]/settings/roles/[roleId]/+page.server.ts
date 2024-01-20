@@ -10,9 +10,10 @@ export const actions = {
 	updateFullRole: formHandler(
 		z.object({
 			permissionInt: z.coerce.number(),
-			name: z.string()
+			name: z.string(),
+			color: z.string()
 		}),
-		async ({ permissionInt, name }, { cookies, params }) => {
+		async ({ permissionInt, name, color }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
 			if (!user) {
 				throw redirect(303, '/login');
@@ -50,14 +51,14 @@ export const actions = {
 				}
 			}
 
-			// Do the update
 			await prisma.clubRole.update({
 				where: {
 					id: parseInt(params.roleId)
 				},
 				data: {
-					permissionInt: permissionInt,
-					name
+					permissionInt,
+					name,
+					color,
 				}
 			});
 

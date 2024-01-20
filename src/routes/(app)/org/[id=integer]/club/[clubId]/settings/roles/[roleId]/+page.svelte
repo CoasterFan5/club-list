@@ -49,7 +49,10 @@
 		<button bind:this={submitButton} hidden type="submit" />
 		<!-- TODO: color input -->
 
-		<input name="name" value={data.role.name} on:change={() => submitButton.click()} />
+		<div class="title">
+			<input name="name" value={data.role.name} on:change={() => submitButton.click()} />
+			<input type="color" class="color" name="color" on:change={() => submitButton.click()} />
+		</div>
 		{#each keys as key}
 			<div class="role">
 				<div class="description">
@@ -81,6 +84,14 @@
 		box-sizing: border-box;
 	}
 
+	.title {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-around;
+	}
+
 	input[name='name'] {
 		background-color: transparent;
 		border: 0px;
@@ -88,8 +99,25 @@
 		font-family: inherit;
 		font-weight: 600;
 		text-align: center;
-		width: 100%;
 		padding: 0;
+	}
+
+	.color {
+		all: unset;
+		border: 0px;
+		outline: 0px;
+		cursor: pointer;
+		aspect-ratio: 1/1;
+		background: var(--color);
+		border-radius: 100%;
+		padding: 3px;
+		box-sizing: border-box;
+		height: 2rem;
+	}
+
+	input[type='color']::-moz-color-swatch {
+		border: none;
+		border-radius: 100%;
 	}
 
 	form {
