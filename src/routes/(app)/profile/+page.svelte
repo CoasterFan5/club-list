@@ -55,26 +55,42 @@
 {#if $page.state.showingModal === 'manageSessions'}
 	<Modal on:close={() => history.back()}>
 		<h2>Manage Sessions</h2>
+		{#if data.sessions.length > 1}
+			<form action="?/invalidateAllSessions" method="POST">
+				<Button value="Invalidate All Sessions" />
+				<p>This will log you out of all sessions except this one.</p>
+			</form>
+		{/if}
 		{#each data.sessions as session}
-			<div class="session">
+			<form class="session" action="?/invalidateSession" method="POST">
+				<input name="sessionId" hidden value={session.id} />
 				<p>Created at {session.createdAt.toLocaleString()}</p>
 				{#if session.ip}
-					<p>{session.ip}</p>
+					<p>
+						{session.ip}
+						{#if data.ip === session.ip}
+							(Your IP)
+						{/if}
+					</p>
 				{:else}
 					<p>Unknown IP</p>
 				{/if}
 				{#if session.userAgent}
 					{@const ua = new UAParser(session.userAgent)}
 					{@const result = ua.getResult()}
-					{result.browser.name}
-					{result.browser.version}
-					{#if result.os.name}
-						on {result.os.name} {result.os.version}
-					{/if}
+					<p>
+						{result.browser.name}
+						{result.browser.version}
+						{#if result.os.name}
+							on {result.os.name} {result.os.version}
+						{/if}
+					</p>
 				{:else}
 					<p>Unknown User Agent</p>
 				{/if}
-			</div>
+
+				<Button value="Invalidate" />
+			</form>
 		{/each}
 	</Modal>
 {/if}

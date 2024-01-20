@@ -12,7 +12,7 @@ import { verifySession } from '$lib/server/verifySession';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
 
-export const load = async ({ parent }) => {
+export const load = async ({ parent, getClientAddress }) => {
 	const { user } = await parent();
 
 	if (user == null) {
@@ -24,15 +24,17 @@ export const load = async ({ parent }) => {
 			userId: user.id
 		},
 		select: {
+			id: true,
 			ip: true,
 			userAgent: true,
-			createdAt: true
+			createdAt: true,
 		}
 	});
 
 	return {
 		user,
-		sessions
+		sessions,
+		ip: getClientAddress()
 	};
 };
 
@@ -61,6 +63,41 @@ export const actions = {
 		}
 	),
 
+	invalidateSession: formHandler(
+		z.object({
+			sessionId: z.coerce.number()
+		}),
+		async ({ sessionId }, { cookies }) => {
+			const user = await verifySession(cookies.get('session'));
+
+			await prisma.session.deleteMany({
+				where: {
+					AND: {
+						id: sessionId,
+						userId: user.id
+					}
+				}
+			});
+
+			return { success: true };
+		}
+	),
+
+	invalidateAllSessions: async ({ cookies }) => {
+		const user = await verifySession(cookies.get('session'));
+
+		await prisma.session.deleteMany({
+			where: {
+				userId: user.id,
+				NOT: {
+					sessionToken: cookies.get('session')
+				}
+			}
+		});
+
+		return { success: true };
+	},
+
 	changePassword: formHandler(
 		z.object({
 			oldPassword: z.string(),
@@ -88,6 +125,15 @@ export const actions = {
 				},
 				data: {
 					hash: newHash
+				}
+			});
+
+			await prisma.session.deleteMany({
+				where: {
+					userId: user.id,
+					NOT: {
+						sessionToken: cookies.get('session')
+					}
 				}
 			});
 

@@ -47,7 +47,6 @@
 	>
 		<input bind:this={permissionIntBox} name="permissionInt" hidden />
 		<button bind:this={submitButton} hidden type="submit" />
-		<!-- TODO: color input -->
 
 		<div class="title">
 			<input name="name" value={data.role.name} on:change={() => submitButton.click()} />
