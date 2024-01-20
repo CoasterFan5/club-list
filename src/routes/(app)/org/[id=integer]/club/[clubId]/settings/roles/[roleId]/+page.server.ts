@@ -58,7 +58,7 @@ export const actions = {
 				data: {
 					permissionInt,
 					name,
-					color,
+					color
 				}
 			});
 

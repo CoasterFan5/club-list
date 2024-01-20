@@ -27,7 +27,7 @@ export const load = async ({ parent, getClientAddress }) => {
 			id: true,
 			ip: true,
 			userAgent: true,
-			createdAt: true,
+			createdAt: true
 		}
 	});
 
