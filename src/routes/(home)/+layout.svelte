@@ -11,7 +11,7 @@
 	import '@fontsource-variable/source-code-pro';
 
 	import Footer from '$lib/components/home/Footer.svelte';
-	import Navbar from '$lib/modules/Navbar.svelte';
+	import Navbar from '$lib/components/home/Navbar.svelte';
 </script>
 
 <div class="wrap">
