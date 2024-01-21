@@ -77,7 +77,7 @@
 
 	let repeats = false;
 	let allDay = false;
-	let repeatType = 'indefinetly';
+	let repeatType = 'indefinitely';
 	let interval = '1';
 	let timeZone = 'America/Los_Angeles';
 	$: parsedInterval = parseInt(interval);
@@ -276,6 +276,7 @@
 					<input name="date" type="hidden" value={calculatedFormDate} />
 					<div class="input">
 						<Input
+							name={null}
 							bg="white"
 							label={repeats ? 'Starts On' : 'Event Date'}
 							required
@@ -285,6 +286,7 @@
 					</div>
 					<div class="input no-bottom-margin">
 						<Input
+							name={null}
 							bg="white"
 							disabled={allDay}
 							label="Start Time"
@@ -295,7 +297,7 @@
 					</div>
 					<div class="input checkbox no-top-margin">
 						<p>All Day?</p>
-						<Checkbox bind:checked={allDay} />
+						<Checkbox name="allDay" bind:checked={allDay} />
 					</div>
 					<div class="input">
 						<Select
@@ -315,7 +317,7 @@
 
 					<div class="input checkbox">
 						Repeats?
-						<Checkbox bind:checked={repeats} />
+						<Checkbox name={null} bind:checked={repeats} />
 					</div>
 				</div>
 
@@ -339,7 +341,7 @@
 							</div>
 							<div class="input">
 								<Input
-									name="repeatEvery"
+									name="repeatInterval"
 									bg="white"
 									label="Count"
 									type="number"
@@ -367,14 +369,20 @@
 								<!-- TODO: svelte 5 snippets -->
 								{#each weekdays as weekday}
 									<div class="weekdayInput">
-										<Checkbox name="weekday" bind:checked={weekday.enabled} />
+										<Checkbox
+											name="weekday{weekday.name}"
+											bind:checked={weekday.enabled}
+										/>
 										<label for={weekday.name}>{weekday.name}</label>
 									</div>
 								{/each}
 								<p>On the</p>
 								{#each weeks as week}
 									<div class="weekdayInput">
-										<Checkbox name="week" bind:checked={week.enabled} />
+										<Checkbox
+											name="week{week.name}"
+											bind:checked={week.enabled}
+										/>
 										<label for={week.name}>{week.name}</label>
 									</div>
 								{/each}
@@ -382,7 +390,10 @@
 						{:else if inputFrequency !== 'daily'}
 							{#each weekdays as weekday}
 								<div class="weekdayInput">
-									<Checkbox name="weekday" bind:checked={weekday.enabled} />
+									<Checkbox
+										name="weekday{weekday.name}"
+										bind:checked={weekday.enabled}
+									/>
 									<label for={weekday.name}>{weekday.name}</label>
 								</div>
 							{/each}
@@ -398,7 +409,7 @@
 								>
 									<option value="amount">Amount</option>
 									<option value="upTo">Up To</option>
-									<option value="indefinetly">Indefinetly</option>
+									<option value="indefinitely">Indefinetly</option>
 								</Select>
 							</div>
 							{#if repeatType == 'amount'}
@@ -420,13 +431,13 @@
 						{#if enabledWeekdays.length > 0}
 							<p>Occurs {rrule.toText()} starting on {formDate}.</p>
 						{:else if inputFrequency === 'daily'}
-							<p>Occurs {rrule.toText()}.</p>
+							<p>Occurs {rrule.toText()} starting on {formDate}.</p>
 						{:else if inputFrequency === 'weekly'}
-							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('dddd')}.</p>
+							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('dddd')} starting on {formDate}.</p>
 						{:else if inputFrequency === 'monthly'}
-							<p>Occurs {rrule.toText()}.</p>
+							<p>Occurs {rrule.toText()} starting on {formDate}.</p>
 						{:else if inputFrequency === 'yearly'}
-							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('MMMM Do')}.</p>
+							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('MMMM Do')} starting on {formDate}.</p>
 						{/if}
 					</div>
 				{/if}

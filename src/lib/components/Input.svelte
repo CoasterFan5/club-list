@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 
 	// Options
-	export let name = 'Input';
+	export let name: string | null = 'Input';
 	export let label = 'Input';
 	export let type: 'password' | 'email' | 'date' | 'time' | 'number' | undefined = undefined;
 	export let required = false;

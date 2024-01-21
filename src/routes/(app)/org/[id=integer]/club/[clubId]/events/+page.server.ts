@@ -37,14 +37,22 @@ export const actions = {
 		z.object({
 			title: z.string().min(1).max(100),
 			description: z.string().min(1).max(1000),
-			date: z.string().min(1).max(100)
+			date: z.string().min(1).max(100),
+			timezone: z.string().min(1).max(100),
+			repeat: z.coerce.boolean(),
+			repeatEvery: z.coerce.number().optional().nullable(),
+			repeatInterval: z.coerce.number(),
+			repeatType: z.enum(['indefinitely', 'amount', 'upTo'])
 		}),
-		async ({ title, description, date }, { params, cookies }) => {
+		async ({ title, description, date, repeatEvery, repeatInterval, repeatType }, { params, cookies }) => {
 			const parsedDate = new Date(date);
 			const rrule = new RRule({
 				freq: RRule.DAILY,
 				dtstart: parsedDate,
-				count: 1
+				wkst: RRule.SU,
+				interval: repeatInterval,
+				count: repeatType === 'amount' ? (repeatEvery ?? undefined) : undefined,
+				// until: repeatType === 'upTo' && upTo ? new Date(upTo) : undefined,
 			});
 
 			const session = cookies.get('session');
