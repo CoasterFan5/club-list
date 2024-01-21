@@ -330,7 +330,7 @@
 							<div class="input">
 								<Select
 									id="repeat"
-									name="repeat"
+									name="inputFrequency"
 									--background="white"
 									label="Repeats Every"
 									bind:value={inputFrequency}
@@ -360,7 +360,7 @@
 							{#if useMonthlyDay}
 								<p>
 									On the <input
-										name="monthlyDay"
+										name="dayOfTheMonth"
 										max="31"
 										min="1"
 										type="number"
@@ -371,10 +371,7 @@
 								<!-- TODO: svelte 5 snippets -->
 								{#each weekdays as weekday}
 									<div class="weekdayInput">
-										<Checkbox
-											name="weekday{weekday.name}"
-											bind:checked={weekday.enabled}
-										/>
+										<Checkbox name="weekday{weekday.name}" bind:checked={weekday.enabled} />
 										<label for={weekday.name}>{weekday.name}</label>
 									</div>
 								{/each}

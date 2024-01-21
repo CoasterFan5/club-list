@@ -32,7 +32,16 @@ export const load = async ({ parent }) => {
 	};
 };
 
-const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const typeSafeObjectFromEntries = <
+  const T extends ReadonlyArray<readonly [PropertyKey, unknown]>
+>(
+  entries: T
+): { [K in T[number] as K[0]]: K[1] } => {
+  return Object.fromEntries(entries) as { [K in T[number] as K[0]]: K[1] };
+};
+
+
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as const;
 
 export const actions = {
 	default: formHandler(
@@ -40,37 +49,83 @@ export const actions = {
 			title: z.string().min(1).max(100),
 			description: z.string().min(1).max(1000),
 			date: z.string().min(1).max(100),
-			repeat: z.coerce.boolean(),
+			inputFrequency: z.enum(['daily', 'weekly', 'monthly', 'yearly']).optional().nullable(),
 			repeatEvery: z.coerce.number().optional().nullable(),
-			repeatInterval: z.coerce.number(),
-			repeatType: z.enum(['indefinitely', 'amount', 'upTo']),
+			repeatInterval: z.coerce.number().optional().nullable(),
+			repeatType: z.enum(['indefinitely', 'amount', 'upTo']).optional().nullable(),
 			repeatUpTo: z.string().optional().nullable(),
+			monthlyDay: z.coerce.boolean().optional().nullable(),
+			dayOfTheMonth: z.coerce.number().optional().nullable(),
 
 			// Generates weekdaySunday...weekdaySaturday
-			...Object.fromEntries(
-				weekdays.map((day) => [`weekday${day}`, z.coerce.boolean().optional().nullable()])
+			...typeSafeObjectFromEntries(
+				weekdays.map((day) => [`weekday${day}` as const, z.coerce.boolean().optional().nullable()] as const)
 			),
 
 			// Generates weekN and week_N from (1,5) and (1,4) respectively
-			...Object.fromEntries(
-				[...Array(5).keys()].map((i) => [`week${i + 1}`, z.coerce.boolean().optional().nullable()])
+			...typeSafeObjectFromEntries(
+				([1, 2, 3, 4, 5] as const).map((i) => [`week${i}` as const, z.coerce.boolean().optional().nullable()] as const)
 			),
-			...Object.fromEntries(
-				[...Array(4).keys()].map((i) => [`week_${i + 1}`, z.coerce.boolean().optional().nullable()])
+			...typeSafeObjectFromEntries(
+				([1, 2, 3, 4] as const).map((i) => [`week_${i}` as const, z.coerce.boolean().optional().nullable()] as const)
 			)
 		}),
-		async (
-			{ title, description, date, repeatEvery, repeatInterval, repeatType, repeatUpTo },
-			{ params, cookies }
-		) => {
+		async (formData, { params, cookies }) => {
+			const {
+				title,
+				description,
+				date,
+				repeatEvery,
+				repeatInterval,
+				repeatType,
+				repeatUpTo,
+				inputFrequency,
+				monthlyDay,
+				dayOfTheMonth
+			} = formData;
+
+			const enabledWeekdays = [
+				...(formData.weekdaySunday ? [RRule.SU] : []),
+				...(formData.weekdayMonday ? [RRule.MO] : []),
+				...(formData.weekdayTuesday ? [RRule.TU] : []),
+				...(formData.weekdayWednesday ? [RRule.WE] : []),
+				...(formData.weekdayThursday ? [RRule.TH] : []),
+				...(formData.weekdayFriday ? [RRule.FR] : []),
+				...(formData.weekdaySaturday ? [RRule.SA] : [])
+			]
+
+			const enabledWeeks = [
+				...(formData.week1 ? [1] : []),
+				...(formData.week2 ? [2] : []),
+				...(formData.week3 ? [3] : []),
+				...(formData.week4 ? [4] : []),
+				...(formData.week5 ? [5] : []),
+				...(formData.week_1 ? [-1] : []),
+				...(formData.week_2 ? [-2] : []),
+				...(formData.week_3 ? [-3] : []),
+				...(formData.week_4 ? [-4] : [])
+			]
+
 			const parsedDate = new Date(date);
 			const rrule = new RRule({
 				freq: RRule.DAILY,
 				dtstart: parsedDate,
 				wkst: RRule.SU,
-				interval: repeatInterval,
+				interval: repeatInterval ?? undefined,
 				count: repeatType === 'amount' ? repeatEvery ?? undefined : undefined,
-				until: repeatType === 'upTo' && repeatUpTo ? new Date(repeatUpTo) : undefined
+				until: repeatType === 'upTo' && repeatUpTo ? new Date(repeatUpTo) : undefined,
+				bymonthday: inputFrequency === 'monthly' && monthlyDay ? dayOfTheMonth : undefined,
+				byweekday:
+					enabledWeekdays.length > 0 && inputFrequency !== 'daily'
+						? inputFrequency === 'monthly' && !monthlyDay
+							? enabledWeekdays.flatMap((weekday) => {
+									if (enabledWeeks.length === 0) return [weekday];
+									return enabledWeeks.map((week) => weekday.nth(week));
+								})
+							: !monthlyDay
+								? enabledWeekdays
+								: undefined
+						: undefined
 			});
 
 			const session = cookies.get('session');
