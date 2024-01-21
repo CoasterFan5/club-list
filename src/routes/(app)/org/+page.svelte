@@ -6,7 +6,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Link from '$lib/components/Link.svelte';
-	import Modal from '$lib/modules/Modal.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import { handleForm } from '$lib/utils/formToaster';
 
 	function showCreateModal() {

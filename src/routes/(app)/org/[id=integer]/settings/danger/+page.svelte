@@ -2,7 +2,7 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
-	import Modal from '$lib/modules/Modal.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 </script>
 
 {#if $page.state.showingModal === 'refreshJoinCode'}

@@ -14,7 +14,7 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Select from '$lib/components/Select.svelte';
-	import Modal from '$lib/modules/Modal.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	import { RRule } from './rrule.js';
 

@@ -10,7 +10,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import { addToast } from '$lib/components/toaster';
-	import Modal from '$lib/modules/Modal.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	let searchTerm = '';
