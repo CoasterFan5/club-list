@@ -424,7 +424,8 @@
 								</div>
 							{:else if repeatType == 'upTo'}
 								<div class="input">
-									<Input name="upTo" bg="white" label="End Date" type="date" bind:value={upTo} />
+									<input name="repeatUpTo" type="hidden" value={dayjs(upTo).utc().format()} />
+									<Input name={null} bg="white" label="End Date" type="date" bind:value={upTo} />
 								</div>
 							{/if}
 						</div>

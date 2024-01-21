@@ -42,9 +42,10 @@ export const actions = {
 			repeat: z.coerce.boolean(),
 			repeatEvery: z.coerce.number().optional().nullable(),
 			repeatInterval: z.coerce.number(),
-			repeatType: z.enum(['indefinitely', 'amount', 'upTo'])
+			repeatType: z.enum(['indefinitely', 'amount', 'upTo']),
+			repeatUpTo: z.string().optional().nullable()
 		}),
-		async ({ title, description, date, repeatEvery, repeatInterval, repeatType }, { params, cookies }) => {
+		async ({ title, description, date, repeatEvery, repeatInterval, repeatType, repeatUpTo }, { params, cookies }) => {
 			const parsedDate = new Date(date);
 			const rrule = new RRule({
 				freq: RRule.DAILY,
@@ -52,7 +53,7 @@ export const actions = {
 				wkst: RRule.SU,
 				interval: repeatInterval,
 				count: repeatType === 'amount' ? (repeatEvery ?? undefined) : undefined,
-				// until: repeatType === 'upTo' && upTo ? new Date(upTo) : undefined,
+				until: repeatType === 'upTo' && repeatUpTo ? new Date(repeatUpTo) : undefined,
 			});
 
 			const session = cookies.get('session');
