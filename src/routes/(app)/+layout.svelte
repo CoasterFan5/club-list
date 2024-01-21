@@ -88,7 +88,7 @@
 	</div>
 
 	{#if (sidebarPos == 75 || activeDrag) && miniSidebar}
-		<button class="quickClose" on:click={closeSidebar}/>
+		<button class="quickClose" on:click={closeSidebar} />
 	{/if}
 
 	{#key data.pathType}

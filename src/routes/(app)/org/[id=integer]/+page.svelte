@@ -9,8 +9,8 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Link from '$lib/components/Link.svelte';
-	import { addToast } from '$lib/components/toaster';
 	import Modal from '$lib/components/Modal.svelte';
+	import { addToast } from '$lib/components/toaster';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	let searchTerm = '';
@@ -253,7 +253,7 @@
 				{/each}
 				{#if sudoPlaceholders > 0}
 					{#each { length: sudoPlaceholders } as i}
-						<a class="club" hidden href="/"/>
+						<a class="club" hidden href="/" />
 					{/each}
 				{/if}
 			{:else}

@@ -6,8 +6,8 @@
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import PfpUpload from '$lib/components/PfpUpload.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import PfpUpload from '$lib/components/PfpUpload.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;

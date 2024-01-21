@@ -13,8 +13,8 @@
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import Select from '$lib/components/Select.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import Select from '$lib/components/Select.svelte';
 
 	import { RRule } from './rrule.js';
 
@@ -120,7 +120,9 @@
 							if (enabledWeeks.length === 0) return [weekday];
 							return enabledWeeks.map((week) => weekday.nth(week));
 						})
-					: !useMonthlyDay ? enabledWeekdays : undefined
+					: !useMonthlyDay
+						? enabledWeekdays
+						: undefined
 				: undefined
 	});
 
@@ -302,7 +304,7 @@
 					<div class="input">
 						<Select
 							id="timezone"
-							name="timezone"
+							name={null}
 							--background="white"
 							label="Event Timezone"
 							bind:value={timeZone}
@@ -369,20 +371,14 @@
 								<!-- TODO: svelte 5 snippets -->
 								{#each weekdays as weekday}
 									<div class="weekdayInput">
-										<Checkbox
-											name="weekday{weekday.name}"
-											bind:checked={weekday.enabled}
-										/>
+										<Checkbox name="weekday{weekday.name}" bind:checked={weekday.enabled} />
 										<label for={weekday.name}>{weekday.name}</label>
 									</div>
 								{/each}
 								<p>On the</p>
 								{#each weeks as week}
 									<div class="weekdayInput">
-										<Checkbox
-											name="week{week.name}"
-											bind:checked={week.enabled}
-										/>
+										<Checkbox name="week{week.name}" bind:checked={week.enabled} />
 										<label for={week.name}>{week.name}</label>
 									</div>
 								{/each}
@@ -390,10 +386,7 @@
 						{:else if inputFrequency !== 'daily'}
 							{#each weekdays as weekday}
 								<div class="weekdayInput">
-									<Checkbox
-										name="weekday{weekday.name}"
-										bind:checked={weekday.enabled}
-									/>
+									<Checkbox name="weekday{weekday.name}" bind:checked={weekday.enabled} />
 									<label for={weekday.name}>{weekday.name}</label>
 								</div>
 							{/each}
@@ -434,11 +427,15 @@
 						{:else if inputFrequency === 'daily'}
 							<p>Occurs {rrule.toText()} starting on {formDate}.</p>
 						{:else if inputFrequency === 'weekly'}
-							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('dddd')} starting on {formDate}.</p>
+							<p>
+								Occurs {rrule.toText()} on {dayjs(formDate).format('dddd')} starting on {formDate}.
+							</p>
 						{:else if inputFrequency === 'monthly'}
 							<p>Occurs {rrule.toText()} starting on {formDate}.</p>
 						{:else if inputFrequency === 'yearly'}
-							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('MMMM Do')} starting on {formDate}.</p>
+							<p>
+								Occurs {rrule.toText()} on {dayjs(formDate).format('MMMM Do')} starting on {formDate}.
+							</p>
 						{/if}
 					</div>
 				{/if}
