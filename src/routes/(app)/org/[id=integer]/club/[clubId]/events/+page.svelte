@@ -137,7 +137,7 @@
 		tick().then(() => (weekdays = weekdays));
 	}
 	$: if (inputFrequency === 'monthly' && !useMonthlyDay) {
-		// wrap this in a function to make weekdays and week not reactive
+		// Wrap this in a function to make weekdays and week not reactive
 		updateMonthlyTimer();
 	}
 
@@ -354,9 +354,9 @@
 								<p>
 									On the <input
 										name="monthlyDay"
-										type="number"
-										min="1"
 										max="31"
+										min="1"
+										type="number"
 										bind:value={dayOfTheMonth}
 									/> day of the month.
 								</p>

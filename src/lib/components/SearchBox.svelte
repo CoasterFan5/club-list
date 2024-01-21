@@ -38,13 +38,13 @@
 </script>
 
 <div
+	bind:this={holder}
 	style="top: {searchPos.y}px; left: {searchPos.x}px"
 	class="selector"
-	bind:this={holder}
 	hidden={!showSelector}
 	use:clickOutside={close}
 >
-	<input placeholder="Search" bind:value={searchInput} bind:this={searchBox} />
+	<input bind:this={searchBox} placeholder="Search" bind:value={searchInput} />
 	<slot {filteredData} />
 </div>
 

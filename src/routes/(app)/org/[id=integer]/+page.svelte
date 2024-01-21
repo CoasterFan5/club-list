@@ -253,7 +253,7 @@
 				{/each}
 				{#if sudoPlaceholders > 0}
 					{#each { length: sudoPlaceholders } as i}
-						<a hidden class="club" href="/"> </a>
+						<a class="club" hidden href="/"/>
 					{/each}
 				{/if}
 			{:else}

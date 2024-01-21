@@ -7,7 +7,7 @@
 
 	export let data: LayoutData;
 
-	let requiredScreenWidth = 5; //the velocity required to swipe right in pixels/ms
+	let requiredScreenWidth = 5; //The velocity required to swipe right in pixels/ms
 
 	let sidebarPos = 75;
 	let pageWidth: number;
@@ -76,7 +76,7 @@
 	on:touchstart={touchDownDragTab}
 />
 <div class="wrap">
-	<div class="sidebar" style="left: {sidebarPos - 75}px">
+	<div style="left: {sidebarPos - 75}px" class="sidebar">
 		<Sidebar {data} />
 
 		{#if miniSidebar}
@@ -88,7 +88,7 @@
 	</div>
 
 	{#if (sidebarPos == 75 || activeDrag) && miniSidebar}
-		<button class="quickClose" on:click={closeSidebar}> </button>
+		<button class="quickClose" on:click={closeSidebar}/>
 	{/if}
 
 	{#key data.pathType}
