@@ -503,8 +503,7 @@
 		width: 100%;
 		flex-grow: 1;
 		box-sizing: border-box;
-		margin: 10px 0px;
-		margin-bottom: 2rem;
+		margin: 2rem 0px;
 		background: var(--bgPure);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
 		border: 0px;
