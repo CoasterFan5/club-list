@@ -254,10 +254,13 @@
 						</div>
 					</a>
 				{/each}
-				{#each {length: sudoPlaceholders} as i}
-					<a  hidden class="club" href="/" >
-					</a>
-				{/each}
+				{#if sudoPlaceholders > 0}
+					{#each {length: sudoPlaceholders} as i}
+						<a  hidden class="club" href="/" >
+						</a>
+					{/each}
+				{/if}
+				
 			{:else}
 				<h2>No clubs found. Try searching for something else.</h2>
 			{/if}

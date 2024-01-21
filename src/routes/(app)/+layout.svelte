@@ -27,7 +27,6 @@
 
 	const touchMoveHelper = (e: TouchEvent) => {
 			if(activeDrag && e.touches.length > 0) {
-				console.log(e.touches[0].clientX)
 				let tempDragDistance = (e.touches[0].clientX - dragX)/(pageWidth * (requiredScreenWidth/100)) * 75;
 				
 				let dragDistance = Math.max(0, Math.min(tempDragDistance, 75))
@@ -36,11 +35,9 @@
 	};
 
 	const touchEnd = (e: TouchEvent) => {
-		console.log('touch end')
 		if(activeDrag) {
 			activeDrag = false,
 			sidebarPos = Math.round(sidebarPos/75) * 75 //makes it either 75 or 0
-			console.log(sidebarPos)
 		}
 	}
 
@@ -53,6 +50,11 @@
 			dragX = e.touches[0].clientX - ((sidebarPos / 75) * (pageWidth * (requiredScreenWidth/100)))
 			activeDrag = true
 		}
+	}
+
+	const scrollFixer = () => {
+		sidebarPos = 0;
+		activeDrag = false;
 	}
 
 
@@ -69,7 +71,7 @@
 	const transitionOut = { easing: cubicIn, y: -y, duration };
 </script>
 
-<svelte:window bind:innerWidth={pageWidth} on:touchmove={touchMoveHelper} on:touchend={touchEnd} on:touchstart={touchDownDragTab}/>
+<svelte:window bind:innerWidth={pageWidth} on:touchmove={touchMoveHelper} on:touchend={touchEnd} on:touchstart={touchDownDragTab} on:scroll={scrollFixer}/>
 <div class="wrap">
 	<div class="sidebar" style="left: {sidebarPos - 75}px">
 		<Sidebar {data} />
