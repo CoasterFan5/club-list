@@ -45,12 +45,6 @@
 			}
 	};
 
-	const touchEnd = (e: TouchEvent) => {
-		if(activeDrag) {
-			activeDrag = false;
-		}
-	}
-
 	const toggleSidebar = () => {
 		if(sidebarPos == 75) {
 			sidebarPos = 0
@@ -81,7 +75,7 @@
 	const transitionOut = { easing: cubicIn, y: -y, duration };
 </script>
 
-<svelte:window bind:innerWidth={pageWidth} on:touchmove={touchMoveHelper} on:touchend={touchEnd} on:touchstart={touchDownDragTab} />
+<svelte:window bind:innerWidth={pageWidth} on:touchmove={touchMoveHelper} on:touchstart={touchDownDragTab} />
 <div class="wrap">
 	<div class="sidebar" style="left: {sidebarPos - 75}px">
 		<Sidebar {data} />
