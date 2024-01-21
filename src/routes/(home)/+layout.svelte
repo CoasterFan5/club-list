@@ -10,7 +10,7 @@
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
 
-	import Footer from '$lib/modules/Footer.svelte';
+	import Footer from '$lib/components/home/Footer.svelte';
 	import Navbar from '$lib/modules/Navbar.svelte';
 </script>
 
