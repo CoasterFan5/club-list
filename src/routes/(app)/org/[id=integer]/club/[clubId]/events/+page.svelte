@@ -120,7 +120,7 @@
 							if (enabledWeeks.length === 0) return [weekday];
 							return enabledWeeks.map((week) => weekday.nth(week));
 						})
-					: enabledWeekdays
+					: !useMonthlyDay ? enabledWeekdays : undefined
 				: undefined
 	});
 
