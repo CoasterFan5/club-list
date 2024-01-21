@@ -143,7 +143,7 @@
 		align-items: start;
 		overflow-x: auto;
 		scrollbar-width: none;
-		
+
 		::-webkit-scrollbar {
 			display: none;
 		}
@@ -151,7 +151,7 @@
 		.link {
 			padding: 5px 5px;
 			box-sizing: border-box;
-			
+
 			width: max-content;
 
 			:global(a:hover) {

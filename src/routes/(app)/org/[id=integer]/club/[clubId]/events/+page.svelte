@@ -88,21 +88,22 @@
 	let upTo = new Date().toISOString().split('T')[0];
 	let useMonthlyDay = false;
 	let dayOfTheMonth = 0;
-	let weeks = 
-		[
-			...emptyArray(5).map((_, i) => i + 1)
-				.map((week) => ({
-					name: week.toString(),
-					ordinal: week,
-					enabled: false
-				})),
-			...emptyArray(4).map((_, i) => i + 1)
-				.map((week) => ({
-					name: `${week} to last`,
-					ordinal: -week,
-					enabled: false
-				}))
-		];
+	let weeks = [
+		...emptyArray(5)
+			.map((_, i) => i + 1)
+			.map((week) => ({
+				name: week.toString(),
+				ordinal: week,
+				enabled: false
+			})),
+		...emptyArray(4)
+			.map((_, i) => i + 1)
+			.map((week) => ({
+				name: `${week} to last`,
+				ordinal: -week,
+				enabled: false
+			}))
+	];
 	$: enabledWeeks = weeks.filter((week) => week.enabled).map((week) => week.ordinal);
 	$: rrule = new RRule({
 		freq: derivedFrequency,
@@ -112,16 +113,15 @@
 		count: repeatType === 'amount' ? parsedCount : undefined,
 		until: repeatType === 'upTo' && upTo ? new Date(upTo) : undefined,
 		bymonthday: inputFrequency === 'monthly' && useMonthlyDay ? dayOfTheMonth : undefined,
-		byweekday: enabledWeekdays.length > 0 && inputFrequency !== 'daily'
-			? (
-				inputFrequency === 'monthly' && !useMonthlyDay
-					? enabledWeekdays.flatMap(weekday => {
-						if (enabledWeeks.length === 0) return [weekday];
-						return enabledWeeks.map(week => weekday.nth(week));
-					})
+		byweekday:
+			enabledWeekdays.length > 0 && inputFrequency !== 'daily'
+				? inputFrequency === 'monthly' && !useMonthlyDay
+					? enabledWeekdays.flatMap((weekday) => {
+							if (enabledWeeks.length === 0) return [weekday];
+							return enabledWeeks.map((week) => weekday.nth(week));
+						})
 					: enabledWeekdays
-			)
-			: undefined
+				: undefined
 	});
 
 	$: dayOfTheMonth = dayjs(formDate).date();
@@ -134,11 +134,11 @@
 			...week,
 			enabled: Math.floor(dayjs(formDate).date() / 7) === week.ordinal - 1
 		}));
-		tick().then(() => weekdays = weekdays);
+		tick().then(() => (weekdays = weekdays));
 	}
 	$: if (inputFrequency === 'monthly' && !useMonthlyDay) {
 		// wrap this in a function to make weekdays and week not reactive
-		updateMonthlyTimer()
+		updateMonthlyTimer();
 	}
 
 	interface CalendarWeekday {
@@ -156,7 +156,7 @@
 		{
 			name: 'Monday',
 			enabled: false,
-			binding: RRule.MO,
+			binding: RRule.MO
 		},
 		{
 			name: 'Tuesday',
@@ -351,7 +351,15 @@
 						{#if inputFrequency === 'monthly'}
 							<p>Specific Day <Checkbox name="monthlyDay" bind:checked={useMonthlyDay} /></p>
 							{#if useMonthlyDay}
-								<p>On the <input name="monthlyDay" type="number" min="1" max="31" bind:value={dayOfTheMonth}/> day of the month.</p>
+								<p>
+									On the <input
+										name="monthlyDay"
+										type="number"
+										min="1"
+										max="31"
+										bind:value={dayOfTheMonth}
+									/> day of the month.
+								</p>
 							{:else}
 								<!-- TODO: svelte 5 snippets -->
 								{#each weekdays as weekday}

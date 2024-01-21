@@ -62,21 +62,19 @@
 	let clubCount;
 	let clubsPerRow;
 	let sudoPlaceholders = 0;
-	$: if(clubContainerWidth) {
+	$: if (clubContainerWidth) {
 		clubCount = data.clubs.length;
-		clubsPerRow = Math.floor(clubContainerWidth/280)
+		clubsPerRow = Math.floor(clubContainerWidth / 280);
 
-		console.log(clubCount % clubsPerRow)
-		if(clubCount % clubsPerRow != 0 && clubCount > clubsPerRow) {
-			sudoPlaceholders = clubsPerRow - (clubCount % clubsPerRow)
+		console.log(clubCount % clubsPerRow);
+		if (clubCount % clubsPerRow != 0 && clubCount > clubsPerRow) {
+			sudoPlaceholders = clubsPerRow - (clubCount % clubsPerRow);
 		} else {
 			sudoPlaceholders = 0;
 		}
 
-		console.log(`Done, added ${sudoPlaceholders} placeholders`)
+		console.log(`Done, added ${sudoPlaceholders} placeholders`);
 	}
-
-
 </script>
 
 {#if $page.state.showingModal == 'inviteUser'}
@@ -216,7 +214,6 @@
 			</button>
 		{/if}
 	</div>
-	
 </header>
 
 <main>
@@ -255,12 +252,10 @@
 					</a>
 				{/each}
 				{#if sudoPlaceholders > 0}
-					{#each {length: sudoPlaceholders} as i}
-						<a  hidden class="club" href="/" >
-						</a>
+					{#each { length: sudoPlaceholders } as i}
+						<a hidden class="club" href="/"> </a>
 					{/each}
 				{/if}
-				
 			{:else}
 				<h2>No clubs found. Try searching for something else.</h2>
 			{/if}
@@ -286,8 +281,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: start;
-		
-		
 	}
 
 	.invite {
@@ -387,7 +380,6 @@
 
 		p {
 			margin: 5px 0px;
-			
 		}
 	}
 
@@ -446,7 +438,7 @@
 	}
 	.club {
 		aspect-ratio: 5/2;
-		
+
 		width: calc(100% / 3);
 		padding: 0px 10px 20px 10px;
 		box-sizing: border-box;

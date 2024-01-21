@@ -3,7 +3,6 @@
 	export let data: LayoutData;
 </script>
 
-
 <nav class="sidebar">
 	<a class="pfp" href="/profile">
 		<img class="pfpImage" alt="profile" src={data.user?.pfp || '/defaultPFP.png'} />
@@ -17,8 +16,6 @@
 </nav>
 
 <style lang="scss">
-
-
 	.sidebar {
 		width: 75px;
 		padding: 12px;
@@ -80,6 +77,4 @@
 			height: 100%;
 		}
 	}
-
-	
 </style>

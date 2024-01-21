@@ -7,7 +7,6 @@
 		y: 0
 	};
 
-
 	let holder: HTMLDivElement;
 	let searchBox: HTMLInputElement;
 	let searchInput = '';
@@ -20,9 +19,9 @@
 		return data[2](item).toLowerCase().includes(searchInput.toLowerCase());
 	});
 
-	function close () {
+	function close() {
 		holder.hidden = true;
-		searchBox.value = ""
+		searchBox.value = '';
 	}
 
 	export function propagateClick(e: MouseEvent) {
@@ -31,26 +30,23 @@
 			y: e.clientY
 		};
 		holder.hidden = false;
-		if(searchBox) {
-			console.log("focusing Search Box")
-			searchBox.focus()
+		if (searchBox) {
+			console.log('focusing Search Box');
+			searchBox.focus();
 		}
-		
-		
 	}
-
 </script>
 
-	<div
-		style="top: {searchPos.y}px; left: {searchPos.x}px"
-		class="selector"
-		bind:this={holder}
-		hidden={!showSelector}
-		use:clickOutside={close}
-	>
-		<input placeholder="Search" bind:value={searchInput} bind:this={searchBox}/>
-		<slot {filteredData} />
-	</div>
+<div
+	style="top: {searchPos.y}px; left: {searchPos.x}px"
+	class="selector"
+	bind:this={holder}
+	hidden={!showSelector}
+	use:clickOutside={close}
+>
+	<input placeholder="Search" bind:value={searchInput} bind:this={searchBox} />
+	<slot {filteredData} />
+</div>
 
 <style lang="scss">
 	.selector {
