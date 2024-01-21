@@ -134,7 +134,10 @@
 			...week,
 			enabled: Math.floor(dayjs(formDate).date() / 7) === week.ordinal - 1
 		}));
-		tick().then(() => (weekdays = weekdays));
+		tick().then(() => {
+			weekdays = weekdays;
+			weeks = weeks;
+		});
 	}
 	$: if (inputFrequency === 'monthly' && !useMonthlyDay) {
 		// Wrap this in a function to make weekdays and week not reactive
