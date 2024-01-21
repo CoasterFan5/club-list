@@ -86,26 +86,62 @@
 	let inputFrequency = 'weekly';
 	$: derivedFrequency = freqMapping[inputFrequency];
 	let upTo = new Date().toISOString().split('T')[0];
+	let useMonthlyDay = false;
+	let dayOfTheMonth = 0;
+	let weeks = 
+		[
+			...emptyArray(5).map((_, i) => i + 1)
+				.map((week) => ({
+					name: week.toString(),
+					ordinal: week,
+					enabled: false
+				})),
+			...emptyArray(4).map((_, i) => i + 1)
+				.map((week) => ({
+					name: `${week} to last`,
+					ordinal: -week,
+					enabled: false
+				}))
+		];
+	$: enabledWeeks = weeks.filter((week) => week.enabled).map((week) => week.ordinal);
 	$: rrule = new RRule({
 		freq: derivedFrequency,
 		interval: parsedInterval,
 		dtstart: new Date(formDate),
-		...(repeatType === 'amount'
-			? {
-					count: parsedCount
-				}
-			: {}),
-		...(repeatType === 'upTo' && upTo
-			? {
-					until: new Date(upTo)
-				}
-			: {}),
+		wkst: RRule.SU,
+		count: repeatType === 'amount' ? parsedCount : undefined,
+		until: repeatType === 'upTo' && upTo ? new Date(upTo) : undefined,
 		...(enabledWeekdays.length > 0 && inputFrequency !== 'daily'
 			? {
 					byweekday: enabledWeekdays
 				}
+			: {}),
+		bymonthday: inputFrequency === 'monthly' && useMonthlyDay ? dayOfTheMonth : undefined,
+		...(inputFrequency === 'monthly' && !useMonthlyDay
+			? {
+					byweekday: enabledWeekdays.flatMap(weekday => {
+						if (enabledWeeks.length === 0) return [weekday];
+						return enabledWeeks.map(week => weekday.nth(week));
+					})
+				}
 			: {})
 	});
+
+	$: dayOfTheMonth = dayjs(formDate).date();
+	function updateMonthlyTimer() {
+		weekdays = weekdays.map((weekday, i) => ({
+			...weekday,
+			enabled: dayjs(formDate).day() === i
+		}));
+		weeks = weeks.map((week) => ({
+			...week,
+			enabled: Math.floor(dayjs(formDate).date() / 7) === week.ordinal - 1
+		}));
+	}
+	$: if (inputFrequency === 'monthly' && !useMonthlyDay) {
+		// wrap this in a function to make weekdays and week not reactive
+		updateMonthlyTimer()
+	}
 
 	interface CalendarWeekday {
 		name: string;
@@ -113,11 +149,16 @@
 		binding: Weekday;
 	}
 
-	const weekdays: CalendarWeekday[] = [
+	let weekdays: CalendarWeekday[] = [
+		{
+			name: 'Sunday',
+			enabled: false,
+			binding: RRule.SU
+		},
 		{
 			name: 'Monday',
 			enabled: false,
-			binding: RRule.MO
+			binding: RRule.MO,
 		},
 		{
 			name: 'Tuesday',
@@ -143,11 +184,6 @@
 			name: 'Saturday',
 			enabled: false,
 			binding: RRule.SA
-		},
-		{
-			name: 'Sunday',
-			enabled: false,
-			binding: RRule.SU
 		}
 	];
 
@@ -314,19 +350,33 @@
 							we skip daily; we don't care about every n hour;
 							this isn't a cron job
 						-->
-						{#if inputFrequency !== 'daily'}
+						{#if inputFrequency === 'monthly'}
+							<p>Specific Day <Checkbox name="monthlyDay" bind:checked={useMonthlyDay} /></p>
+							{#if useMonthlyDay}
+								<p>On the <input name="monthlyDay" type="number" min="1" max="31" bind:value={dayOfTheMonth}/> day of the month.</p>
+							{:else}
+								<!-- TODO: svelte 5 snippets -->
+								{#each weekdays as weekday}
+									<div class="weekdayInput">
+										<Checkbox name="weekday" bind:checked={weekday.enabled} />
+										<label for={weekday.name}>{weekday.name}</label>
+									</div>
+								{/each}
+								<p>On the</p>
+								{#each weeks as week}
+									<div class="weekdayInput">
+										<Checkbox name="week" bind:checked={week.enabled} />
+										<label for={week.name}>{week.name}</label>
+									</div>
+								{/each}
+							{/if}
+						{:else if inputFrequency !== 'daily'}
 							{#each weekdays as weekday}
 								<div class="weekdayInput">
 									<Checkbox name="weekday" bind:checked={weekday.enabled} />
 									<label for={weekday.name}>{weekday.name}</label>
 								</div>
 							{/each}
-						{/if}
-
-						{#if inputFrequency === 'monthly'}
-							<p>monthly</p>
-						{:else if inputFrequency === 'yearly'}
-							<p>yearly</p>
 						{/if}
 						<div class="input">
 							<div class="input">
@@ -365,7 +415,7 @@
 						{:else if inputFrequency === 'weekly'}
 							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('dddd')}.</p>
 						{:else if inputFrequency === 'monthly'}
-							<p>Occurs {rrule.toText()} on the {dayjs(formDate).format('Do')}.</p>
+							<p>Occurs {rrule.toText()}.</p>
 						{:else if inputFrequency === 'yearly'}
 							<p>Occurs {rrule.toText()} on {dayjs(formDate).format('MMMM Do')}.</p>
 						{/if}
