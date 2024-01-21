@@ -32,6 +32,8 @@ export const load = async ({ parent }) => {
 	};
 };
 
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 export const actions = {
 	default: formHandler(
 		z.object({
@@ -42,7 +44,20 @@ export const actions = {
 			repeatEvery: z.coerce.number().optional().nullable(),
 			repeatInterval: z.coerce.number(),
 			repeatType: z.enum(['indefinitely', 'amount', 'upTo']),
-			repeatUpTo: z.string().optional().nullable()
+			repeatUpTo: z.string().optional().nullable(),
+
+			// Generates weekdaySunday...weekdaySaturday
+			...Object.fromEntries(
+				weekdays.map((day) => [`weekday${day}`, z.coerce.boolean().optional().nullable()])
+			),
+
+			// Generates weekN and week_N from (1,5) and (1,4) respectively
+			...Object.fromEntries(
+				[...Array(5).keys()].map((i) => [`week${i + 1}`, z.coerce.boolean().optional().nullable()])
+			),
+			...Object.fromEntries(
+				[...Array(4).keys()].map((i) => [`week_${i + 1}`, z.coerce.boolean().optional().nullable()])
+			)
 		}),
 		async (
 			{ title, description, date, repeatEvery, repeatInterval, repeatType, repeatUpTo },

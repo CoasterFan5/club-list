@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let name: string;
+	export let name: string | null;
 	export let label: string;
 	export let value: string;
 	export let id: string | null = null;

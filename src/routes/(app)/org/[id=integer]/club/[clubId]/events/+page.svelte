@@ -371,14 +371,20 @@
 								<!-- TODO: svelte 5 snippets -->
 								{#each weekdays as weekday}
 									<div class="weekdayInput">
-										<Checkbox name="weekday{weekday.name}" bind:checked={weekday.enabled} />
+										<Checkbox
+											name="weekday{weekday.name}"
+											bind:checked={weekday.enabled}
+										/>
 										<label for={weekday.name}>{weekday.name}</label>
 									</div>
 								{/each}
 								<p>On the</p>
 								{#each weeks as week}
 									<div class="weekdayInput">
-										<Checkbox name="week{week.name}" bind:checked={week.enabled} />
+										<Checkbox
+											name="week{week.name.replace('-', '_')}"
+											bind:checked={week.enabled}
+										/>
 										<label for={week.name}>{week.name}</label>
 									</div>
 								{/each}
