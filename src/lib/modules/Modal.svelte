@@ -37,6 +37,7 @@
 	}
 
 	div {
+		box-sizing: border-box;
 		border-radius: 5px;
 		padding: 20px;
 		background: var(--bgPure);
@@ -44,5 +45,6 @@
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
+		max-width: calc(100% - 2rem);
 	}
 </style>
