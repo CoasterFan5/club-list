@@ -82,7 +82,7 @@
 		{/if}
 	</div>
 	
-	{#if sidebarPos == 75 || activeDrag}
+	{#if (sidebarPos == 75 || activeDrag) && miniSidebar}
 		<button class="quickClose" on:click={closeSidebar}>
 		</button>
 	{/if}

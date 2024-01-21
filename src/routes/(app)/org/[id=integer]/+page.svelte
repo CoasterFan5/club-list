@@ -57,6 +57,26 @@
 
 	let confirmedOrgName = '';
 	let inviteMethod = 'code';
+
+	let clubContainerWidth: number;
+	let clubCount;
+	let clubsPerRow;
+	let sudoPlaceholders = 0;
+	$: if(clubContainerWidth) {
+		clubCount = data.clubs.length;
+		clubsPerRow = Math.floor(clubContainerWidth/280)
+
+		console.log(clubCount % clubsPerRow)
+		if(clubCount % clubsPerRow != 0 && clubCount > clubsPerRow) {
+			sudoPlaceholders = clubsPerRow - (clubCount % clubsPerRow)
+		} else {
+			sudoPlaceholders = 0;
+		}
+
+		console.log(`Done, added ${sudoPlaceholders} placeholders`)
+	}
+
+
 </script>
 
 {#if $page.state.showingModal == 'inviteUser'}
@@ -180,20 +200,23 @@
 
 <header>
 	<h1>{data.org.name}</h1>
-	{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
-		<a href="/org/{data.org.id}/settings">
-			<img class="icon" alt="settings" src="/icons/settings.svg" />
-		</a>
-		<button on:click={startInvite}>
-			<img class="icon" alt="invite" src="/icons/addUser.svg" />
-		</button>
-	{/if}
+	<div class="orgButtons">
+		{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
+			<a href="/org/{data.org.id}/settings">
+				<img class="icon" alt="settings" src="/icons/settings.svg" />
+			</a>
+			<button on:click={startInvite}>
+				<img class="icon" alt="invite" src="/icons/addUser.svg" />
+			</button>
+		{/if}
 
-	{#if data.orgUser}
-		<button on:click={startLeaveOrg}>
-			<img class="icon" alt="leave" src="/icons/leave.svg" />
-		</button>
-	{/if}
+		{#if data.orgUser}
+			<button on:click={startLeaveOrg}>
+				<img class="icon" alt="leave" src="/icons/leave.svg" />
+			</button>
+		{/if}
+	</div>
+	
 </header>
 
 <main>
@@ -205,7 +228,7 @@
 				>{/if}
 		</h2>
 	{:else}
-		<div class="clubs">
+		<div class="clubs" bind:clientWidth={clubContainerWidth}>
 			<input
 				class="search"
 				placeholder="Search for clubs..."
@@ -231,13 +254,17 @@
 						</div>
 					</a>
 				{/each}
+				{#each {length: sudoPlaceholders} as i}
+					<a  hidden class="club" href="/" >
+					</a>
+				{/each}
 			{:else}
 				<h2>No clubs found. Try searching for something else.</h2>
 			{/if}
 		</div>
 
 		{#if data.orgUser && (data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER')}
-			<p>
+			<p class="createOrgLink">
 				Looking for more? <Link on:click={showModal}>Create a club!</Link>
 			</p>
 		{/if}
@@ -250,14 +277,14 @@
 	}
 
 	main {
-		width: calc(100% - 10rem);
+		width: calc(90%);
 		box-sizing: border-box;
-		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: start;
-		margin: 1rem 5rem;
+		
+		
 	}
 
 	.invite {
@@ -282,6 +309,8 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		max-width: 100%;
+		flex-wrap: wrap;
 		a {
 			all: unset;
 			cursor: pointer;
@@ -305,7 +334,15 @@
 		}
 		h1 {
 			margin: 0px 25px;
-			height: 100%;
+		}
+
+		.orgButtons {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			padding: 10px 0px;
+			box-sizing: border-box;
 		}
 	}
 
@@ -347,6 +384,7 @@
 
 		p {
 			margin: 5px 0px;
+			
 		}
 	}
 
@@ -380,6 +418,7 @@
 
 	.clubs {
 		width: 100%;
+		flex-grow: 1;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -404,13 +443,16 @@
 	}
 	.club {
 		aspect-ratio: 5/2;
+		
 		width: calc(100% / 3);
 		padding: 0px 10px 20px 10px;
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 320px;
+		min-width: 280px;
+		flex: 1 1 0;
+		width: 0px;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 
@@ -456,6 +498,7 @@
 
 	input {
 		width: 100%;
+		flex-grow: 1;
 		box-sizing: border-box;
 		margin: 10px 0px;
 		margin-bottom: 2rem;
@@ -480,5 +523,9 @@
 			outline: 1px solid var(--accent);
 			cursor: text;
 		}
+	}
+
+	.createOrgLink {
+		text-align: center;
 	}
 </style>
