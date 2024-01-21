@@ -5,7 +5,7 @@
 	import timezone from 'dayjs/plugin/timezone';
 	import utc from 'dayjs/plugin/utc';
 	import type { Frequency, Weekday } from 'rrule';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import timezones from 'timezones-list';
 
 	import { pushState } from '$app/navigation';
@@ -111,20 +111,17 @@
 		wkst: RRule.SU,
 		count: repeatType === 'amount' ? parsedCount : undefined,
 		until: repeatType === 'upTo' && upTo ? new Date(upTo) : undefined,
-		...(enabledWeekdays.length > 0 && inputFrequency !== 'daily'
-			? {
-					byweekday: enabledWeekdays
-				}
-			: {}),
 		bymonthday: inputFrequency === 'monthly' && useMonthlyDay ? dayOfTheMonth : undefined,
-		...(inputFrequency === 'monthly' && !useMonthlyDay
-			? {
-					byweekday: enabledWeekdays.flatMap(weekday => {
+		byweekday: enabledWeekdays.length > 0 && inputFrequency !== 'daily'
+			? (
+				inputFrequency === 'monthly' && !useMonthlyDay
+					? enabledWeekdays.flatMap(weekday => {
 						if (enabledWeeks.length === 0) return [weekday];
 						return enabledWeeks.map(week => weekday.nth(week));
 					})
-				}
-			: {})
+					: enabledWeekdays
+			)
+			: undefined
 	});
 
 	$: dayOfTheMonth = dayjs(formDate).date();
@@ -137,6 +134,7 @@
 			...week,
 			enabled: Math.floor(dayjs(formDate).date() / 7) === week.ordinal - 1
 		}));
+		tick().then(() => weekdays = weekdays);
 	}
 	$: if (inputFrequency === 'monthly' && !useMonthlyDay) {
 		// wrap this in a function to make weekdays and week not reactive
