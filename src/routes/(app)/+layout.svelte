@@ -7,7 +7,7 @@
 
 	export let data: LayoutData;
 
-	let requiredScreenWidth = 5; //The velocity required to swipe right in pixels/ms
+	let requiredScreenWidth = 10; //The velocity required to swipe right in pixels/ms
 
 	let sidebarPos = 75;
 	let pageWidth: number;
@@ -133,6 +133,8 @@
 		border-radius: 0px 5px 5px 0px;
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 		display: flex;
+		margin-bottom: 25px;
+	
 	}
 	.dragTab hr {
 		width: 3px;
