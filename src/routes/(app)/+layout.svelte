@@ -23,11 +23,10 @@
 		sidebarPos = 75;
 	}
 
-	let activeDrag = false;
 	let lastTime = Date.now();
 
 	const touchMoveHelper = (e: TouchEvent) => {
-		if (activeDrag && e.touches.length > 0) {
+		if (e.touches.length) {
 			let currentTime = Date.now();
 			let dragVelocity = (e.touches[0].clientX - dragX) / (currentTime - lastTime);
 			dragX = e.touches[0].clientX;
@@ -53,7 +52,6 @@
 	const touchDownDragTab = (e: TouchEvent) => {
 		if (e.touches[0]) {
 			dragX = e.touches[0].clientX - (sidebarPos / 75) * (pageWidth * (requiredScreenWidth / 100));
-			activeDrag = true;
 			lastTime = Date.now();
 		}
 	};
@@ -87,7 +85,7 @@
 		{/if}
 	</div>
 
-	{#if (sidebarPos == 75 || activeDrag) && miniSidebar}
+	{#if sidebarPos == 75 && miniSidebar}
 		<button class="quickClose" on:click={closeSidebar} />
 	{/if}
 
