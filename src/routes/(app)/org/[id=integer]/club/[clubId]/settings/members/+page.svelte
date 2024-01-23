@@ -69,9 +69,9 @@
 							<td>
 								<form action="?/kickMember" method="post" use:enhance>
 									<input name="userId" style="display: none" bind:value={member.userId} />
-									<div class="actionButton">
-										<Button value="Kick" />
-									</div>
+									<button class="actionButton">
+										<img src="/icons/kick.svg" alt="kick" class="icon">
+									</button>
 								</form>
 							</td>
 						{/if}
@@ -146,7 +146,22 @@
 	}
 
 	.actionButton {
-		margin: 0.5rem 1rem;
+		all: unset;
+		display: block;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0px 10px;
+		padding: 5px;
+		box-sizing: border-box;
+		cursor: pointer;
+		border-radius: 50%;
+		aspect-ratio: 1/1;
+	}
+
+	.actionButton:hover {
+		background: var(--accent50);
 	}
 
 	.roleButton {
