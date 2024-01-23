@@ -2,10 +2,29 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import SearchBox from '$lib/components/SearchBox.svelte';
+	import {addToast} from "$lib/components/toaster"
 
 	let searchBox: SearchBox<(typeof data)['roles'][number]>;
+
 	let selectedId: number | null = null;
 	export let data;
+	export let form;
+
+	$: if(form) {
+		if(form.success) {
+			addToast({
+				type: "success",
+				message: form.message || "success",
+				life: 3000
+			})
+		} else {
+			addToast({
+				type: "error",
+				message: form.message || "Error.",
+				life: 3000
+			})
+		}
+	}
 </script>
 
 <SearchBox
@@ -67,12 +86,15 @@
 						</td>
 						{#if data.clubPerms.manageMembers || data.clubPerms.admin}
 							<td>
-								<form action="?/kickMember" method="post" use:enhance>
-									<input name="userId" style="display: none" bind:value={member.userId} />
-									<button class="actionButton">
-										<img src="/icons/kick.svg" alt="kick" class="icon">
-									</button>
-								</form>
+								<div class="actions">
+									<form action="?/kickMember" method="post" use:enhance>
+										<input name="userId" style="display: none" bind:value={member.userId} />
+										<button class="actionButton">
+											<img src="/icons/kick.svg" alt="kick" class="icon">
+										</button>
+									</form>
+								</div>
+								
 							</td>
 						{/if}
 					</tr>
@@ -162,6 +184,13 @@
 
 	.actionButton:hover {
 		background: var(--accent50);
+	}
+	
+	.actions {
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.roleButton {
