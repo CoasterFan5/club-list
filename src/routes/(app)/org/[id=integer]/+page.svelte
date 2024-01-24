@@ -285,6 +285,7 @@
 
 	.invite {
 		width: 100%;
+		min-height: 450px;
 		text-align: center;
 		font-size: 1.2rem;
 		color: var(--textLow);
