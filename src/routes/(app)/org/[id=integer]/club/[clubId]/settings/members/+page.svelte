@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import SearchBox from '$lib/components/SearchBox.svelte';
 	import {addToast} from "$lib/components/toaster"
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+
 
 	let searchBox: SearchBox<(typeof data)['roles'][number]>;
 
@@ -25,7 +29,37 @@
 			})
 		}
 	}
+
+	let kickMember = {
+		id: 0,
+		firstName: "",
+		lastName: "",
+	}
+
+	const startKick = (id: number, firstName: string, lastName: string) => {
+		kickMember = {
+			id: id,
+			firstName,
+			lastName,
+		}
+		pushState("", {
+			showingModal: "kickMember"
+		})
+	}
+
+	let kickingMember = false
 </script>
+
+{#if $page.state.showingModal == "kickMember"}
+	<Modal on:close={() => {history.back()}}>
+		<h1>Kicking Member</h1>
+		<p>Are you sure you want to kick {kickMember.firstName} {kickMember.lastName}?</p>
+		<form method="post" action="?/kickMember" use:enhance>
+			<input name="userId" style="display: none" bind:value={kickMember.id} />
+			<Button type="submit" value="Kick Member"/>
+		</form>
+	</Modal>
+{/if}
 
 <SearchBox
 	bind:this={searchBox}
@@ -87,12 +121,9 @@
 						{#if data.clubPerms.manageMembers || data.clubPerms.admin}
 							<td>
 								<div class="actions">
-									<form action="?/kickMember" method="post" use:enhance>
-										<input name="userId" style="display: none" bind:value={member.userId} />
-										<button class="actionButton">
-											<img src="/icons/kick.svg" alt="kick" class="icon">
-										</button>
-									</form>
+									<button class="actionButton" on:click={() => {startKick(member.userId, member.user.firstName, member.user.lastName)}}>
+										<img src="/icons/kick.svg" alt="kick" class="icon">
+									</button>
 								</div>
 								
 							</td>
