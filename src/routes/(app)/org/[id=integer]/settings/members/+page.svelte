@@ -1,5 +1,14 @@
 <script lang="ts">
+
+	import {addToast} from "$lib/components/toaster"
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import Modal from '$lib/components/Modal.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import {enhance} from "$app/forms"
+
 	export let data;
+	export let form;
 
 	function transformRole(role: string) {
 		return role
@@ -10,7 +19,53 @@
 			})
 			.join('');
 	}
+
+	$: if(form) {
+		if(form.success) {
+			addToast({
+				type: "success",
+				message: form.message || "success",
+				life: 3000
+			})
+		} else {
+			addToast({
+				type: "error",
+				message: form.message || "Error.",
+				life: 3000
+			})
+		}
+	}
+
+	let kickMember = {
+		id: 0,
+		firstName: "",
+		lastName: ""
+	}
+
+	const startKick = (id: number, firstName: string, lastName: string) => {
+		kickMember = {
+			id: id,
+			firstName,
+			lastName,
+		}
+		pushState("", {
+			showingModal: "kickMember"
+		})
+	}
+
+	let kickingMember = false
 </script>
+
+{#if $page.state.showingModal == "kickMember"}
+	<Modal on:close={() => {history.back()}}>
+		<h1>Kicking Member</h1>
+		<p>Are you sure you want to kick {kickMember.firstName} {kickMember.lastName}?</p>
+		<form method="post" action="?/kickMember" use:enhance>
+			<input name="userId" style="display: none" bind:value={kickMember.id} />
+			<Button type="submit" value="Kick Member"/>
+		</form>
+	</Modal>
+{/if}
 
 <main>
 	{#if data.orgUserData.length > 0}
@@ -19,7 +74,10 @@
 				<tr>
 					<th>Member</th>
 					<th>Role</th>
-					<th>Actions</th>
+					{#if data.orgUser?.role == "OWNER" || data.orgUser?.role == "ADMIN"}
+						<th>Actions</th>
+					{/if}
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -32,11 +90,21 @@
 								{member.user.lastName}
 							</div>
 						</td>
-						<td style="--color: {member.role}" class="role">
-							<button class="changeRole">
-								{transformRole(member.user.role) || 'None'}
-							</button>
-						</td>
+						{#if data.orgUser?.role == "OWNER" || data.orgUser?.role == "ADMIN"}
+							<td style="--color: {member.role}" class="role">
+								<button class="changeRole">
+									{transformRole(member.user.role) || 'None'}
+								</button>
+							</td>
+							<td>
+								<div class="actions">
+									<button class="actionButton" on:click={() => {startKick(member.userId, member.user.firstName, member.user.lastName)}}>
+										<img src="/icons/kick.svg" alt="kick" class="icon">
+									</button>
+								</div>
+								
+							</td>
+						{/if}
 					</tr>
 				{/each}
 			</tbody>
@@ -107,5 +175,30 @@
 		z-index: -1;
 		opacity: 0.5;
 		background: var(--color);
+	}
+	.actionButton {
+		all: unset;
+		display: block;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0px 10px;
+		padding: 5px;
+		box-sizing: border-box;
+		cursor: pointer;
+		border-radius: 50%;
+		aspect-ratio: 1/1;
+	}
+
+	.actionButton:hover {
+		background: var(--accent50);
+	}
+	
+	.actions {
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 </style>
