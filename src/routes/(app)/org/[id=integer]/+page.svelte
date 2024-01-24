@@ -67,7 +67,7 @@
 		clubsPerRow = Math.floor(clubContainerWidth / 280);
 
 		console.log(clubCount % clubsPerRow);
-		if (clubCount % clubsPerRow != 0 && clubCount > clubsPerRow) {
+		if (clubCount % clubsPerRow != 0 ) {
 			sudoPlaceholders = clubsPerRow - (clubCount % clubsPerRow);
 		} else {
 			sudoPlaceholders = 0;
