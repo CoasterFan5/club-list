@@ -53,12 +53,17 @@ const weekdays = [
 	'Saturday'
 ] as const;
 
-let freqMapping: Record<string, pkg.Frequency> = {
-	daily: RRule.DAILY,
-	weekly: RRule.WEEKLY,
-	monthly: RRule.MONTHLY,
-	yearly: RRule.YEARLY,
-};
+let freqMapping: Record<string, pkg.Frequency>;
+
+// TODO: move RRULE to esm
+if (RRule) {
+	freqMapping = {
+		daily: RRule.DAILY,
+		weekly: RRule.WEEKLY,
+		monthly: RRule.MONTHLY,
+		yearly: RRule.YEARLY,
+	};
+}
 
 export const actions = {
 	default: formHandler(
