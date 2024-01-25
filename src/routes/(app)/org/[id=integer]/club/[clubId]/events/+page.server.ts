@@ -48,6 +48,13 @@ const weekdays = [
 	'Saturday'
 ] as const;
 
+const freqMapping: Record<string, Frequency> = {
+	daily: RRule.DAILY,
+	weekly: RRule.WEEKLY,
+	monthly: RRule.MONTHLY,
+	yearly: RRule.YEARLY
+};
+
 export const actions = {
 	default: formHandler(
 		z.object({
@@ -119,7 +126,7 @@ export const actions = {
 
 			const parsedDate = new Date(date);
 			const rrule = new RRule({
-				freq: RRule.DAILY,
+				freq: freqMapping[inputFrequency ?? 'daily'],
 				dtstart: parsedDate,
 				wkst: RRule.SU,
 				...(inputFrequency
@@ -195,6 +202,8 @@ export const actions = {
 					error(401, 'No Permissions');
 				}
 			}
+
+			console.log(rrule.toString())
 
 			await prisma.event.create({
 				data: {
