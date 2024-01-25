@@ -57,6 +57,9 @@
 <div class="wrap">
 	<div class="top">
 		<div class="info">
+			<div class="button">
+				<Button value="Today" on:click={() => (day = dayjs())} />
+			</div>
 			<div class="arrowWrap">
 				<button on:click={() => (day = day.subtract(1, 'month'))}>
 					<img alt="previous" src="/icons/chevronLeft.svg" />
@@ -67,23 +70,11 @@
 			</div>
 			<h1>{day.format('MMMM YYYY')}</h1>
 		</div>
-		<div class="rightButtonWrap">
-			<div class="button">
-				<Button value="Today" on:click={() => (day = dayjs())} />
-			</div>
-			<div class="button">
-				<Button
-					value="Add Event"
-					on:click={() => {
-						pushState('', { showingModal: 'addEventModal' });
-					}}
-				/>
-			</div>
-		</div>
 	</div>
 	<div class="calendar">
 		{#each calendarDays as loopDay (loopDay.toDate())}
 			{@const inMonth = day.month() === loopDay.month()}
+			{@const eventsOnThisDay = daysActive.filter(([, days]) => days.some(datesOnSameDay(loopDay)))}
 			<button
 				class="day"
 				class:hasEvent={flattenedDaysActive.some(datesOnSameDay(loopDay))}
@@ -91,9 +82,21 @@
 				on:click={() => {
 					selectedDay = loopDay;
 					pushState('', { showingModal: 'dayModal' });
+					
 				}}
 			>
-				{loopDay.format('D')}
+				<p>{loopDay.format('D')}</p>
+				
+				{#if eventsOnThisDay.length > 0}
+				{@const event = eventsOnThisDay[0]}
+					<div class="inDisplayEvent">
+						{event[0].title}
+					</div>
+					{#if eventsOnThisDay.length > 1}
+						+{eventsOnThisDay.length - 1} more
+					{/if}
+				{/if}
+
 			</button>
 		{/each}
 	</div>
@@ -124,6 +127,13 @@
 					</div>
 				{/each}
 			{/if}
+
+			<Button
+				value="Add Event"
+				on:click={() => {
+					pushState('', { showingModal: 'addEventModal' });
+				}}
+			/>
 		{/if}
 	</Modal>
 {/if}
@@ -142,52 +152,48 @@
 
 	.top {
 		width: 100%;
+		padding: 0px 20px;
+		box-sizing: border-box;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		justify-content: center;
 		justify-content: space-between;
-
-		.rightButtonWrap {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			width: 100%;
-			justify-content: end;
-
-			.button {
-				padding-left: 20px;
-			}
-		}
 	}
 
 	.info {
 		display: flex;
-		justify-content: space-between;
+		flex-direction: row;
+		justify-content: start;
 		align-items: center;
-		width: calc(100% - 2rem);
+		width: 100%;
 		box-sizing: border-box;
 		margin: 10px 0px;
 		height: 50px;
 
 		.arrowWrap {
 			height: 50px;
+			flex-grow: 1;
+			width: 100px;
+			display: flex;
+			padding: 0px 50px;
+			align-items: center;
 		}
 
 		h1 {
 			position: relative;
 			display: block;
 			margin: 0px;
+			width: 100%;
 		}
 
 		button {
 			all: unset;
 			cursor: pointer;
-			height: 100%;
+			height: 75%;
 			aspect-ratio: 1/1;
-			padding: 5px;
 			box-sizing: border-box;
 			border-radius: 50%;
-			margin: 0px 10px;
 			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 
 			&:hover {
@@ -201,8 +207,21 @@
 		}
 	}
 
+	.inDisplayEvent {
+		width: 100%;
+		background: var(--accent50);
+		padding: 5px;
+		box-sizing: border-box;
+		border-radius: 3px;
+		margin-bottom: 5px;
+		overflow: hidden;
+		
+	}
+
 	.calendar {
 		width: 100%;
+		flex-grow: 1;
+		height: 100%;
 		display: grid;
 		gap: 3px;
 		grid-template-columns: repeat(7, 1fr);
@@ -235,22 +254,25 @@
 
 	.day {
 		display: flex;
-		
-		justify-content: center;
-		align-items: start;
-		padding: 10px;
+		flex-direction: column;
+		justify-content: start;
+		align-items: center;
 		box-sizing: border-box;
 		width: 100%;
 		height: 100%;
 		aspect-ratio: 2/1;
 		background-color: #fff;
 		border: 0;
-		
 		cursor: pointer;
-
-		&.hasEvent {
-			background-color: #ffabab;
+		
+		p {
+			margin: 5px;
+			padding: 5px;
+			border-radius: 50%;
 		}
+		
+		
+
 
 		&:not(.inMonth) {
 			background-color: #ddd;
