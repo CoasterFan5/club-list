@@ -7,7 +7,9 @@ import { formHandler } from '$lib/bodyguard.js';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { RRule } from './rrule';
-import type { Frequency } from 'rrule/dist/esm/types';
+
+import * as pkg from 'rrule'
+
 dayjs.extend(utc);
 
 export const load = async ({ parent }) => {
@@ -51,7 +53,7 @@ const weekdays = [
 	'Saturday'
 ] as const;
 
-let freqMapping: Record<string, Frequency>;
+let freqMapping: Record<string, pkg.Frequency>;
 
 if(RRule) {
 	freqMapping = {
