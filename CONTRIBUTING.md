@@ -30,3 +30,7 @@ The frontend is created in [SvelteKit](https://kit.svelte.dev/). The start comma
 We use [playwright](https://playwright.dev/) and [vitest](https://vitest.dev/) for end to end and unit testing. For both of these, we have `test`, `test:integration`, and `test:unit`. Unit tests are located in the `src` folder, while e2e tests are in the `tests` folder.
 
 To debug e2e tests, run `pnpm run test:integration --debug`.
+
+## Updating the database
+
+Once you make changes to `prisma/schema.prisma`, you need to run `npx prisma migrate dev` to update the database. This will create a new migration file in `prisma/migrations` and update the database to match the schema. This may also require restarting your docker-compose instance, if you have one, to update the database.
