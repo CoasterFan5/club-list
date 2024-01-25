@@ -24,7 +24,15 @@
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
 
 	$: daysActive = data.events.map(
-		(event) => [event, RRule.fromString(event.date).all().map(dayjs)] as const
+		(event) => [
+			event,
+			RRule.fromString(event.date)
+				.between(
+					day.date(1).utc().subtract(1, 'week').toDate(),
+					day.date(day.daysInMonth()).utc().add(1, 'week').toDate()
+				)
+				.map(dayjs)
+		] as const
 	);
 
 	$: flattenedDaysActive = daysActive.flatMap(([, days]) => days);
