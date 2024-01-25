@@ -144,7 +144,7 @@ export const actions = {
 					? {
 							interval: repeatInterval ?? undefined,
 							count: repeatType === 'amount' ? repeatEvery ?? undefined : undefined,
-							until: repeatType === 'upTo' && repeatUpTo ? new Date(repeatUpTo) : undefined,
+							until: repeatType === 'upTo' && repeatUpTo ? dayjs(repeatUpTo).utcOffset(0).toDate() : undefined,
 							bymonthday: inputFrequency === 'monthly' && monthlyDay ? dayOfTheMonth : undefined,
 							byweekday:
 								enabledWeekdays.length > 0 && inputFrequency !== 'daily'
