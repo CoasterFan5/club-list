@@ -135,6 +135,7 @@ model Event {
 	date        String
 	// A list of RRULE strings
 	exclusions  String[]
+	room        String?
 }
 
 model Announcement {
