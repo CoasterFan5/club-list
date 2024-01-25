@@ -1,4 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
@@ -6,6 +8,8 @@ import { createPermissionsCheck } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 
 import { RRule } from './rrule';
+
+dayjs.extend(utc);
 
 export const load = async ({ parent }) => {
 	const parentData = await parent();
@@ -124,7 +128,8 @@ export const actions = {
 				...(formData.week_4 ? [-4] : [])
 			];
 
-			const parsedDate = new Date(date);
+			const parsedDate = dayjs(date).utcOffset(0).toDate();
+			console.log(parsedDate)
 			const rrule = new RRule({
 				freq: freqMapping[inputFrequency ?? 'daily'],
 				dtstart: parsedDate,
