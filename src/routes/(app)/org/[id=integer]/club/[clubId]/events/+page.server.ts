@@ -6,8 +6,8 @@ import { z } from 'zod';
 import { formHandler } from '$lib/bodyguard.js';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
-import type { Frequency } from 'rrule';
 import { RRule } from './rrule';
+import { Frequency } from "rrule"
 
 dayjs.extend(utc);
 
@@ -52,12 +52,17 @@ const weekdays = [
 	'Saturday'
 ] as const;
 
-const freqMapping: Record<string, Frequency> = {
-	daily: RRule["DAILY"],
-	weekly: RRule["WEEKLY"],
-	monthly: RRule["MONTHLY"],
-	yearly: RRule["YEARLY"]
-};
+let freqMapping: Record<string, Frequency>;
+
+if(RRule) {
+	freqMapping = {
+		daily: RRule.DAILY,
+		weekly: RRule.WEEKLY,
+		monthly: RRule.MONTHLY,
+		yearly: RRule.YEARLY,
+	};
+}
+
 
 export const actions = {
 	default: formHandler(
