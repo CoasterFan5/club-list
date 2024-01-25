@@ -53,10 +53,10 @@ const weekdays = [
 ] as const;
 
 const freqMapping: Record<string, Frequency> = {
-	daily: RRule.DAILY,
-	weekly: RRule.WEEKLY,
-	monthly: RRule.MONTHLY,
-	yearly: RRule.YEARLY
+	daily: RRule["DAILY"],
+	weekly: RRule["WEEKLY"],
+	monthly: RRule["MONTHLY"],
+	yearly: RRule["YEARLY"]
 };
 
 export const actions = {
