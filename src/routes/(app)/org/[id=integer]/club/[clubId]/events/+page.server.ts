@@ -69,7 +69,7 @@ export const actions = {
 	default: formHandler(
 		z.object({
 			title: z.string().min(1).max(100),
-			description: z.string().min(1).max(1000),
+			description: z.string().max(1000).optional().nullable(),
 			date: z.string().min(1).max(100),
 			inputFrequency: z.enum(['daily', 'weekly', 'monthly', 'yearly']).optional().nullable(),
 			repeatEvery: z.coerce.number().optional().nullable(),
@@ -219,7 +219,7 @@ export const actions = {
 			await prisma.event.create({
 				data: {
 					title,
-					description,
+					description: description ?? undefined,
 					date: rrule.toString(),
 					clubId: club.id
 				}
