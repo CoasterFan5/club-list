@@ -53,13 +53,15 @@
 <div class="wrap">
 	<div class="top">
 		<div class="info">
-			<button on:click={() => (day = day.subtract(1, 'month'))}>
-				<img alt="previous" src="/icons/chevronLeft.svg" />
-			</button>
+			<div class="arrowWrap">
+				<button on:click={() => (day = day.subtract(1, 'month'))}>
+					<img alt="previous" src="/icons/chevronLeft.svg" />
+				</button>
+				<button on:click={() => (day = day.add(1, 'month'))}>
+					<img alt="next" src="/icons/chevronRight.svg" />
+				</button>
+			</div>
 			<h1>{day.format('MMMM YYYY')}</h1>
-			<button on:click={() => (day = day.add(1, 'month'))}>
-				<img alt="next" src="/icons/chevronRight.svg" />
-			</button>
 		</div>
 		<div class="rightButtonWrap">
 			<div class="button">
@@ -139,7 +141,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-between;
 
 		.rightButtonWrap {
 			display: flex;
@@ -156,12 +158,16 @@
 
 	.info {
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 		width: calc(100% - 2rem);
 		box-sizing: border-box;
 		margin: 10px 0px;
 		height: 50px;
+
+		.arrowWrap {
+			height: 50px;
+		}
 
 		h1 {
 			position: relative;
