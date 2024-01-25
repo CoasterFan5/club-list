@@ -15,8 +15,8 @@
 		hamburgerShowing = false;
 	};
 
-	let inTransition: FlyParams = { easing: cubicOut, x: 10, duration: 300, delay: 400 };
-	let outTransition: FlyParams = { easing: cubicIn, x: -10, duration: 300 };
+	let inTransition: FlyParams = { easing: cubicOut, x: 0, duration: 200, delay: 300 };
+	let outTransition: FlyParams = { easing: cubicIn, x: 0, duration: 200 };
 </script>
 
 <svelte:window bind:innerWidth />
@@ -134,7 +134,6 @@
 			width: 100%;
 			height: 100%;
 			opacity: 0.9;
-			padding: 20px 0px;
 			top: 0px;
 			left: 0px;
 			z-index: -1;
