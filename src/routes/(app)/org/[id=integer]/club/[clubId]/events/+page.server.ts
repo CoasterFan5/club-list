@@ -7,8 +7,7 @@ import { formHandler } from '$lib/bodyguard.js';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { RRule } from './rrule';
-import { Frequency } from "rrule"
-
+import type { Frequency } from 'rrule/dist/esm/types';
 dayjs.extend(utc);
 
 export const load = async ({ parent }) => {
