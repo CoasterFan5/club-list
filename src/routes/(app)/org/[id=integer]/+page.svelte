@@ -64,7 +64,7 @@
 	let sudoPlaceholders = 0;
 	$: if (clubContainerWidth) {
 		clubCount = data.clubs.length;
-		clubsPerRow = Math.floor(clubContainerWidth / 280);
+		clubsPerRow = Math.floor(clubContainerWidth / 350);
 
 		console.log(clubCount % clubsPerRow);
 		if (clubCount % clubsPerRow != 0 ) {
@@ -253,6 +253,7 @@
 				{/each}
 				{#if sudoPlaceholders > 0}
 					{#each { length: sudoPlaceholders } as i}
+						<!-- svelte-ignore a11y-missing-content -->
 						<a class="club" hidden href="/" />
 					{/each}
 				{/if}
@@ -446,7 +447,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 280px;
+		min-width: 350px;
 		flex: 1 1 0;
 		width: 0px;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;

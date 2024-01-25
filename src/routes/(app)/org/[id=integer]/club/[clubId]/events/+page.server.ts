@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { formHandler } from '$lib/bodyguard.js';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
-
+import type { Frequency } from 'rrule';
 import { RRule } from './rrule';
 
 dayjs.extend(utc);

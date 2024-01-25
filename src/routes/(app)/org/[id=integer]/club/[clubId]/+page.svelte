@@ -44,7 +44,7 @@
 <style lang="scss">
 	.wrap {
 		height: 100%;
-		width: 100%;
+		width: 90%;
 		box-sizing: border-box;
 		padding-top: 1rem;
 		display: flex;

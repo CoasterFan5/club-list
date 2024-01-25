@@ -25,7 +25,7 @@
 		padding-top: 50px;
 		padding-bottom: 50px;
 		display: flex;
-		width: 100%;
+		width: 90%;
 		height: 100%;
 		flex-direction: row;
 		box-sizing: border-box;

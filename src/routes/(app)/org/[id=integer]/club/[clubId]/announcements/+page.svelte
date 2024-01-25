@@ -21,7 +21,7 @@
 
 <style lang="scss">
 	main {
-		width: 100%;
+		width: 90%;
 		height: 100%;
 		padding: 50px 0px;
 		display: flex;

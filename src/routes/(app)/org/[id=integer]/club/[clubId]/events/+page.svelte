@@ -48,6 +48,10 @@
 	$: calendarDays = [...startPaddingDays, ...daysInMonth, ...endPaddingDays];
 
 	let selectedDay: dayjs.Dayjs | null = null;
+
+	let formDate: string = ""
+	$: formDate = dayjs(selectedDay).format('YYYY-MM-DD')
+	
 </script>
 
 <div class="wrap">
@@ -96,7 +100,7 @@
 </div>
 
 {#if $page.state.showingModal === 'addEventModal'}
-	<AddEvent />
+	<AddEvent formDate={formDate}/>
 {/if}
 
 {#if $page.state.showingModal === 'dayModal'}
@@ -198,10 +202,11 @@
 	}
 
 	.calendar {
+		width: 100%;
 		display: grid;
+		gap: 3px;
 		grid-template-columns: repeat(7, 1fr);
 		grid-template-rows: repeat(5, 1fr);
-		grid-gap: 1rem;
 		width: calc(100% - 2rem);
 		height: calc(100% - 2rem - (3rem + 2rem));
 	}
@@ -216,6 +221,7 @@
 		background-color: #ddd;
 		border: 0;
 		border-radius: 0.5rem;
+		
 
 		.subDescription {
 			color: var(--textLow);
@@ -229,13 +235,17 @@
 
 	.day {
 		display: flex;
+		
 		justify-content: center;
-		align-items: center;
+		align-items: start;
+		padding: 10px;
+		box-sizing: border-box;
 		width: 100%;
 		height: 100%;
-		margin: 1rem;
+		aspect-ratio: 2/1;
 		background-color: #fff;
 		border: 0;
+		
 		cursor: pointer;
 
 		&.hasEvent {
@@ -244,6 +254,7 @@
 
 		&:not(.inMonth) {
 			background-color: #ddd;
+			opacity: 0.25;
 		}
 
 		&:hover {
