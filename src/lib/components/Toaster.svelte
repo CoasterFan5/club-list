@@ -23,5 +23,6 @@
 		flex-direction: column-reverse;
 		margin: 10px;
 		z-index: 999;
+		max-width: calc(100% - 10px * 2);
 	}
 </style>

@@ -78,7 +78,7 @@
 		align-items: start;
 		justify-content: center;
 		border-radius: 5px;
-		width: 400px;
+		max-width: 400px;
 	}
 
 	h3 {
@@ -87,6 +87,8 @@
 
 	p {
 		margin: 0px;
+		width: 100%;
+		word-break: normal;
 	}
 
 	.close {
