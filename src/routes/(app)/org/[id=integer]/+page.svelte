@@ -242,7 +242,7 @@
 								<img
 									class="clubImage"
 									alt="{club.name} background image"
-									src="/defaultClubImage.svg"
+									src="/dino"
 								/>
 							{/if}
 							<div class="clubText">
