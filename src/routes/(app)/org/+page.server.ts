@@ -85,11 +85,29 @@ export const actions = {
 				}
 			});
 
+			
+			
 			if (!joinCheck) {
 				return {
 					success: false,
 					message: `Invalid Join Code ${joinCode}`
 				};
+			}
+
+			const banCheck = await prisma.ban.findFirst({
+				where: {
+					AND: {
+						orgId: joinCheck?.id,
+						userId: user.id
+					}
+				}
+			})
+
+			if(banCheck) {
+				return {
+					success: false,
+					message: "You are banned from this org."
+				}
 			}
 
 			if (joinCheck.orgUsers.length > 0) {
