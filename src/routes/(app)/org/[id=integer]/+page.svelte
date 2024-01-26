@@ -12,7 +12,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { addToast } from '$lib/components/toaster';
 	import { handleForm } from '$lib/utils/formToaster.js';
-
+	import ClubList from "$lib/components/ClubList.svelte"
 	let searchTerm = '';
 
 	export let data;
@@ -57,24 +57,6 @@
 
 	let confirmedOrgName = '';
 	let inviteMethod = 'code';
-
-	let clubContainerWidth: number;
-	let clubCount;
-	let clubsPerRow;
-	let sudoPlaceholders = 0;
-	$: if (clubContainerWidth) {
-		clubCount = data.clubs.length;
-		clubsPerRow = Math.floor(clubContainerWidth / 350);
-
-		console.log(clubCount % clubsPerRow);
-		if (clubCount % clubsPerRow != 0) {
-			sudoPlaceholders = clubsPerRow - (clubCount % clubsPerRow);
-		} else {
-			sudoPlaceholders = 0;
-		}
-
-		console.log(`Done, added ${sudoPlaceholders} placeholders`);
-	}
 </script>
 
 {#if $page.state.showingModal == 'inviteUser'}
@@ -225,7 +207,7 @@
 				>{/if}
 		</h2>
 	{:else}
-		<div class="clubs" bind:clientWidth={clubContainerWidth}>
+		<div class="clubs">
 			<input
 				class="search"
 				placeholder="Search for clubs..."
@@ -233,30 +215,7 @@
 				bind:value={searchTerm}
 			/>
 			{#if sortedClubs.length > 0}
-				{#each sortedClubs as club (club.id)}
-					<a class="club" href="/org/{data.org.id}/club/{club.id}">
-						<div class="clubInner">
-							{#if club.imageURL}
-								<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
-							{:else}
-								<img
-									class="clubImage"
-									alt="{club.name} background image"
-									src="/dino"
-								/>
-							{/if}
-							<div class="clubText">
-								<h2>{club.name}</h2>
-							</div>
-						</div>
-					</a>
-				{/each}
-				{#if sudoPlaceholders > 0}
-					{#each { length: sudoPlaceholders } as i}
-						<!-- svelte-ignore a11y-missing-content -->
-						<a class="club" hidden href="/" />
-					{/each}
-				{/if}
+				<ClubList clubs={sortedClubs}/>
 			{:else}
 				<h2>No clubs found. Try searching for something else.</h2>
 			{/if}

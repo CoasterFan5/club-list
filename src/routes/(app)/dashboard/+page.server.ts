@@ -9,6 +9,24 @@ export const load = async ({ parent }) => {
 		redirect(303, '/login');
 	}
 
+	const orgs = await prisma.orgUser.findMany({
+		where: {
+			userId: user.id
+		}
+	})
+
+	const orgIds = orgs.map((item) => item.organizationId)
+
+	const allClubs = await prisma.club.findMany({
+		where: {
+			organizationId: {
+				in: orgIds
+			}
+		}
+	})
+
+	
+
 	const recentAnnouncements = await prisma.announcement.findMany({
 		where: {
 			club: {
@@ -43,6 +61,7 @@ export const load = async ({ parent }) => {
 	});
 
 	return {
+		allClubs,
 		recentAnnouncements
 	};
 };

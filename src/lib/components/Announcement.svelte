@@ -40,8 +40,8 @@
 	.announcement {
 		width: 100%;
 		background: var(--bgPure);
-		padding: 50px;
 		box-sizing: border-box;
+		padding: 20px;
 		border-radius: 5px;
 		margin-bottom: 50px;
 	}
