@@ -1,11 +1,10 @@
 <script lang="ts">
-
-	import {addToast} from "$lib/components/toaster"
+	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Modal from '$lib/components/Modal.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import {enhance} from "$app/forms"
+	import Modal from '$lib/components/Modal.svelte';
+	import { addToast } from '$lib/components/toaster';
 
 	export let data;
 	export let form;
@@ -20,49 +19,53 @@
 			.join('');
 	}
 
-	$: if(form) {
-		if(form.success) {
+	$: if (form) {
+		if (form.success) {
 			addToast({
-				type: "success",
-				message: form.message || "success",
+				type: 'success',
+				message: form.message || 'success',
 				life: 3000
-			})
+			});
 		} else {
 			addToast({
-				type: "error",
-				message: form.message || "Error.",
+				type: 'error',
+				message: form.message || 'Error.',
 				life: 3000
-			})
+			});
 		}
 	}
 
 	let kickMember = {
 		id: 0,
-		firstName: "",
-		lastName: ""
-	}
+		firstName: '',
+		lastName: ''
+	};
 
 	const startKick = (id: number, firstName: string, lastName: string) => {
 		kickMember = {
 			id: id,
 			firstName,
-			lastName,
-		}
-		pushState("", {
-			showingModal: "kickMember"
-		})
-	}
+			lastName
+		};
+		pushState('', {
+			showingModal: 'kickMember'
+		});
+	};
 
-	let kickingMember = false
+	let kickingMember = false;
 </script>
 
-{#if $page.state.showingModal == "kickMember"}
-	<Modal on:close={() => {history.back()}}>
+{#if $page.state.showingModal == 'kickMember'}
+	<Modal
+		on:close={() => {
+			history.back();
+		}}
+	>
 		<h1>Kicking Member</h1>
 		<p>Are you sure you want to kick {kickMember.firstName} {kickMember.lastName}?</p>
-		<form method="post" action="?/kickMember" use:enhance>
+		<form action="?/kickMember" method="post" use:enhance>
 			<input name="userId" style="display: none" bind:value={kickMember.id} />
-			<Button type="submit" value="Kick Member"/>
+			<Button type="submit" value="Kick Member" />
 		</form>
 	</Modal>
 {/if}
@@ -74,10 +77,9 @@
 				<tr>
 					<th>Member</th>
 					<th>Role</th>
-					{#if data.orgUser?.role == "OWNER" || data.orgUser?.role == "ADMIN"}
+					{#if data.orgUser?.role == 'OWNER' || data.orgUser?.role == 'ADMIN'}
 						<th>Actions</th>
 					{/if}
-					
 				</tr>
 			</thead>
 			<tbody>
@@ -90,7 +92,7 @@
 								{member.user.lastName}
 							</div>
 						</td>
-						{#if data.orgUser?.role == "OWNER" || data.orgUser?.role == "ADMIN"}
+						{#if data.orgUser?.role == 'OWNER' || data.orgUser?.role == 'ADMIN'}
 							<td style="--color: {member.role}" class="role">
 								<button class="changeRole">
 									{transformRole(member.user.role) || 'None'}
@@ -98,11 +100,15 @@
 							</td>
 							<td>
 								<div class="actions">
-									<button class="actionButton" on:click={() => {startKick(member.userId, member.user.firstName, member.user.lastName)}}>
-										<img src="/icons/kick.svg" alt="kick" class="icon">
+									<button
+										class="actionButton"
+										on:click={() => {
+											startKick(member.userId, member.user.firstName, member.user.lastName);
+										}}
+									>
+										<img class="icon" alt="kick" src="/icons/kick.svg" />
 									</button>
 								</div>
-								
 							</td>
 						{/if}
 					</tr>
@@ -194,7 +200,7 @@
 	.actionButton:hover {
 		background: var(--accent50);
 	}
-	
+
 	.actions {
 		text-align: center;
 		display: flex;

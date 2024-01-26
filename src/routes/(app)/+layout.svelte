@@ -134,7 +134,6 @@
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 		display: flex;
 		margin-bottom: 25px;
-	
 	}
 	.dragTab hr {
 		width: 3px;

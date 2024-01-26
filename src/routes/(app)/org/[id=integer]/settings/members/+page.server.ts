@@ -1,7 +1,8 @@
+import { z } from 'zod';
+
 import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
-import { z } from 'zod';
 
 export const load = async ({ params }) => {
 	const orgUserData = await prisma.orgUser.findMany({
@@ -32,70 +33,72 @@ export const load = async ({ params }) => {
 };
 
 export const actions = {
-	kickMember: formHandler(z.object({
-		userId: z.coerce.number()
-	}), async ({userId}, {cookies, params}) => {
-		const user = await verifySession(cookies.get("session"))
+	kickMember: formHandler(
+		z.object({
+			userId: z.coerce.number()
+		}),
+		async ({ userId }, { cookies, params }) => {
+			const user = await verifySession(cookies.get('session'));
 
-		const orgUser = await prisma.orgUser.findFirst({
-			where: {
-				AND: {
-					userId: user.id,
-					organizationId: parseInt(params.id)
+			const orgUser = await prisma.orgUser.findFirst({
+				where: {
+					AND: {
+						userId: user.id,
+						organizationId: parseInt(params.id)
+					}
 				}
+			});
+
+			if (orgUser?.role != 'OWNER' && orgUser?.role != 'ADMIN') {
+				return {
+					success: false,
+					message: 'No Perms'
+				};
 			}
-		})
 
-		if(orgUser?.role != "OWNER" && orgUser?.role != "ADMIN") {
-			return {
-				success: false,
-				message: "No Perms"
-			}
-		}
-
-
-		const toDelete = await prisma.orgUser.findUnique({
-			where: {
-				organizationId_userId: {
-					organizationId: parseInt(params.id),
-					userId: userId
+			const toDelete = await prisma.orgUser.findUnique({
+				where: {
+					organizationId_userId: {
+						organizationId: parseInt(params.id),
+						userId: userId
+					}
 				}
-			}
-		})
+			});
 
-		if(!toDelete) {
-			return {
-				success: false,
-				message: "No User Exists"
+			if (!toDelete) {
+				return {
+					success: false,
+					message: 'No User Exists'
+				};
 			}
-		}
 
-		if(toDelete.role == "ADMIN" || toDelete.role == "OWNER") {
-			return {
-				success: false,
-				message: "Can not kick admins or owners."
+			if (toDelete.role == 'ADMIN' || toDelete.role == 'OWNER') {
+				return {
+					success: false,
+					message: 'Can not kick admins or owners.'
+				};
 			}
-		}
 
-		const deletedUser = await prisma.orgUser.delete({
-			where: {
-				organizationId_userId: {
-					organizationId: parseInt(params.id),
-					userId: userId
+			const deletedUser = await prisma.orgUser.delete({
+				where: {
+					organizationId_userId: {
+						organizationId: parseInt(params.id),
+						userId: userId
+					}
 				}
-			}
-		})
+			});
 
-		if(!deletedUser) {
+			if (!deletedUser) {
+				return {
+					success: false,
+					message: 'Could not remove user.'
+				};
+			}
+
 			return {
-				success: false,
-				message: "Could not remove user."
-			}
+				success: true,
+				message: 'User removed'
+			};
 		}
-
-		return {
-			success: true,
-			message: "User removed"
-		}
-	})
-}
+	)
+};

@@ -24,15 +24,16 @@
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
 
 	$: daysActive = data.events.map(
-		(event) => [
-			event,
-			RRule.fromString(event.date)
-				.between(
-					day.date(1).utc().subtract(1, 'week').toDate(),
-					day.date(day.daysInMonth()).utc().add(1, 'week').toDate()
-				)
-				.map(dayjs)
-		] as const
+		(event) =>
+			[
+				event,
+				RRule.fromString(event.date)
+					.between(
+						day.date(1).utc().subtract(1, 'week').toDate(),
+						day.date(day.daysInMonth()).utc().add(1, 'week').toDate()
+					)
+					.map(dayjs)
+			] as const
 	);
 
 	$: flattenedDaysActive = daysActive.flatMap(([, days]) => days);
@@ -57,9 +58,8 @@
 
 	let selectedDay: dayjs.Dayjs | null = null;
 
-	let formDate: string = ""
-	$: formDate = dayjs(selectedDay).format('YYYY-MM-DD')
-	
+	let formDate: string = '';
+	$: formDate = dayjs(selectedDay).format('YYYY-MM-DD');
 </script>
 
 <div class="wrap">
@@ -90,13 +90,12 @@
 				on:click={() => {
 					selectedDay = loopDay;
 					pushState('', { showingModal: 'dayModal' });
-					
 				}}
 			>
 				<p>{loopDay.format('D')}</p>
-				
+
 				{#if eventsOnThisDay.length > 0}
-				{@const event = eventsOnThisDay[0]}
+					{@const event = eventsOnThisDay[0]}
 					<div class="inDisplayEvent">
 						{event[0].title}
 					</div>
@@ -104,14 +103,13 @@
 						+{eventsOnThisDay.length - 1} more
 					{/if}
 				{/if}
-
 			</button>
 		{/each}
 	</div>
 </div>
 
 {#if $page.state.showingModal === 'addEventModal'}
-	<AddEvent formDate={formDate}/>
+	<AddEvent {formDate} />
 {/if}
 
 {#if $page.state.showingModal === 'dayModal'}
@@ -223,7 +221,6 @@
 		border-radius: 3px;
 		margin-bottom: 5px;
 		overflow: hidden;
-		
 	}
 
 	.calendar {
@@ -248,7 +245,6 @@
 		background-color: #ddd;
 		border: 0;
 		border-radius: 0.5rem;
-		
 
 		.subDescription {
 			color: var(--textLow);
@@ -272,15 +268,12 @@
 		background-color: #fff;
 		border: 0;
 		cursor: pointer;
-		
+
 		p {
 			margin: 5px;
 			padding: 5px;
 			border-radius: 50%;
 		}
-		
-		
-
 
 		&:not(.inMonth) {
 			background-color: #ddd;
