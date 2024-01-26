@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 devDependencies:
-  '@auth70/bodyguard':
-    specifier: ^1.3.2
-    version: 1.3.2
   '@aws-sdk/client-s3':
     specifier: ^3.496.0
     version: 3.496.0
@@ -20,6 +17,9 @@ devDependencies:
   '@fontsource/work-sans':
     specifier: ^5.0.16
     version: 5.0.16
+  '@leodog896/bodyguard':
+    specifier: ^1.3.2
+    version: 1.3.2
   '@playwright/test':
     specifier: ^1.41.0
     version: 1.41.0
@@ -204,13 +204,6 @@ packages:
       bidi-js: 1.0.3
       css-tree: 2.3.1
       is-potential-custom-element-name: 1.0.1
-    dev: true
-
-  /@auth70/bodyguard@1.3.2:
-    resolution: {integrity: sha512-SNzWjPxDUacK4A0cjaobGUQkgm87hVYmB0gzx7oAgeUR6TItlBIFxkW+7Xgco5uWmNIjauLhLaP1TgPEE+rvWw==}
-    dependencies:
-      '@exact-realty/multipart-parser': 1.0.10
-      '@streamparser/json': 0.0.18
     dev: true
 
   /@aws-crypto/crc32@3.0.0:
@@ -1188,6 +1181,13 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
+  /@leodog896/bodyguard@1.3.2:
+    resolution: {integrity: sha512-Wlvcc2y0gXB9VrnuP68hSUw+gG8S6OWVaiYT6eWDblumeD6a7jT3PtoBQoc5Gdyf2Ri7CtxMzs8YjsX+Px8uOg==}
+    dependencies:
+      '@exact-realty/multipart-parser': 1.0.10
+      '@streamparser/json': 0.0.18
     dev: true
 
   /@nodelib/fs.scandir@2.1.5:

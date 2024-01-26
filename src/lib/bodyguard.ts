@@ -1,4 +1,4 @@
-import { Bodyguard, type BodyguardConfig } from '@auth70/bodyguard';
+import { Bodyguard, type BodyguardConfig } from '@leodog896/bodyguard';
 import { type ActionFailure, fail, type RequestEvent } from '@sveltejs/kit';
 import { type ZodObject, type ZodRawShape } from 'zod';
 import { fromZodError } from 'zod-validation-error';
