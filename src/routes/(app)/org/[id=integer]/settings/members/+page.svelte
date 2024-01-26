@@ -6,6 +6,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import {enhance} from "$app/forms"
+	import Input from "$lib/components/Input.svelte"
 
 	export let data;
 	export let form;
@@ -53,6 +54,17 @@
 		})
 	}
 
+	const startBan = (id: number, firstName: string, lastName: string) => {
+		kickMember = {
+			id: id,
+			firstName,
+			lastName,
+		}
+		pushState("", {
+			showingModal: "banMember"
+		})
+	}
+
 	let kickingMember = false
 </script>
 
@@ -64,6 +76,25 @@
 			<input name="userId" style="display: none" bind:value={kickMember.id} />
 			<Button type="submit" value="Kick Member"/>
 		</form>
+	</Modal>
+{/if}
+
+{#if $page.state.showingModal == "banMember"}
+	<Modal on:close={() => {history.back()}}>
+		<div class="modalInner">
+			<h1>Banning Member</h1>
+			<form method="post" action="?/banMember" use:enhance>
+				<input name="userId" style="display: none" bind:value={kickMember.id} />
+				<div class="itemSpacer">
+					<Input name="reason" label="Ban Reason" bg="var(--bgPure)"/>
+				</div>
+				<div class="itemSpacer">
+					<Button type="submit" value="Ban Member"/>
+				</div>
+				
+			</form>
+		</div>
+		
 	</Modal>
 {/if}
 
@@ -88,6 +119,9 @@
 								<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
 								{member.user.firstName}
 								{member.user.lastName}
+								{#if member.userId == data.org.ownerId || member.role == "ADMIN"}
+									<img class="crown" alt="owner" src="/icons/crown.svg">
+								{/if}
 							</div>
 						</td>
 						{#if data.orgUser?.role == "OWNER" || data.orgUser?.role == "ADMIN"}
@@ -100,6 +134,9 @@
 								<div class="actions">
 									<button class="actionButton" on:click={() => {startKick(member.userId, member.user.firstName, member.user.lastName)}}>
 										<img src="/icons/kick.svg" alt="kick" class="icon">
+									</button>
+									<button class="actionButton" on:click={() => {startBan(member.userId, member.user.firstName, member.user.lastName)}}>
+										<img src="/icons/banUser.svg" alt="ban" class="icon">
 									</button>
 								</div>
 								
@@ -200,5 +237,19 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+	.modalInner {
+		.itemSpacer {
+			padding: 7px 0px;
+		}
+	}
+	.crown {
+		height: 20px;
+		border-radius: 50%;
+		padding-left: 5px;
+		margin-right: 10px;
+		aspect-ratio: 1/1;
+		object-fit: cover;
+		filter: var(--redIconFilter);
 	}
 </style>

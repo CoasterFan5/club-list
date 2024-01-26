@@ -7,6 +7,9 @@ export const load = async ({ params }) => {
 	const orgUserData = await prisma.orgUser.findMany({
 		where: {
 			organizationId: parseInt(params.id)
+
+			
+
 		},
 		include: {
 			user: true
@@ -34,6 +37,7 @@ export const load = async ({ params }) => {
 export const actions = {
 	kickMember: formHandler(z.object({
 		userId: z.coerce.number()
+		
 	}), async ({userId}, {cookies, params}) => {
 		const user = await verifySession(cookies.get("session"))
 
@@ -96,6 +100,81 @@ export const actions = {
 		return {
 			success: true,
 			message: "User removed"
+		}
+	}),
+	banMember: formHandler(z.object({
+		userId: z.coerce.number(),
+		reason: z.string().optional()
+	}), async ({userId, reason}, {cookies, params}) => {
+		const user = await verifySession(cookies.get("session"))
+
+		const orgUser = await prisma.orgUser.findFirst({
+			where: {
+				AND: {
+					userId: user.id,
+					organizationId: parseInt(params.id)
+				}
+			}
+		})
+
+		if(orgUser?.role != "OWNER" && orgUser?.role != "ADMIN") {
+			return {
+				success: false,
+				message: "No Perms"
+			}
+		}
+
+
+		const toBan = await prisma.orgUser.findUnique({
+			where: {
+				organizationId_userId: {
+					organizationId: parseInt(params.id),
+					userId: userId
+				}
+			}
+		})
+
+		if(!toBan) {
+			return {
+				success: false,
+				message: "No User Exists"
+			}
+		}
+
+		if(toBan.role == "ADMIN" || toBan.role == "OWNER") {
+			return {
+				success: false,
+				message: "Can not ban admins or owners."
+			}
+		}
+
+		const ban = await prisma.ban.create({
+			data: {
+				userId: toBan.userId,
+				orgId: toBan.organizationId,
+				reason
+			}
+		})
+
+		await prisma.orgUser.delete({
+			where: {
+				organizationId_userId: {
+					organizationId: toBan.organizationId,
+					userId: toBan.userId
+				}
+			}
+		})
+
+		if(!ban) {
+			return {
+				success: false,
+				message: "Could not remove user."
+			}
+		}
+
+		return {
+			success: true,
+			message: "User banned."
 		}
 	})
 }
