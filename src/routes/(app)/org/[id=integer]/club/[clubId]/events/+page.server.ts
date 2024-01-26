@@ -1,14 +1,14 @@
 import { error, redirect } from '@sveltejs/kit';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import * as pkg from 'rrule';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
-import { RRule } from './rrule';
 
-import * as pkg from 'rrule'
+import { RRule } from './rrule';
 
 dayjs.extend(utc);
 
@@ -61,7 +61,7 @@ if (RRule) {
 		daily: RRule.DAILY,
 		weekly: RRule.WEEKLY,
 		monthly: RRule.MONTHLY,
-		yearly: RRule.YEARLY,
+		yearly: RRule.YEARLY
 	};
 }
 
@@ -135,7 +135,7 @@ export const actions = {
 			];
 
 			const parsedDate = dayjs(date).utcOffset(0).toDate();
-			console.log(parsedDate)
+			console.log(parsedDate);
 			const rrule = new RRule({
 				freq: freqMapping[inputFrequency ?? 'daily'],
 				dtstart: parsedDate,
@@ -144,7 +144,10 @@ export const actions = {
 					? {
 							interval: repeatInterval ?? undefined,
 							count: repeatType === 'amount' ? repeatEvery ?? undefined : undefined,
-							until: repeatType === 'upTo' && repeatUpTo ? dayjs(repeatUpTo).utcOffset(0).toDate() : undefined,
+							until:
+								repeatType === 'upTo' && repeatUpTo
+									? dayjs(repeatUpTo).utcOffset(0).toDate()
+									: undefined,
 							bymonthday: inputFrequency === 'monthly' && monthlyDay ? dayOfTheMonth : undefined,
 							byweekday:
 								enabledWeekdays.length > 0 && inputFrequency !== 'daily'
@@ -214,7 +217,7 @@ export const actions = {
 				}
 			}
 
-			console.log(rrule.toString())
+			console.log(rrule.toString());
 
 			await prisma.event.create({
 				data: {

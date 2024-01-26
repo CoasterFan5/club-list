@@ -20,7 +20,7 @@
 
 	let sent = false;
 	resetToasts();
-	if(!sent) {
+	if (!sent) {
 		addToast({
 			message:
 				'Clubsaurus is in early access! <a href="https://github.com/coasterfan5/clubsaurus/issues">Report Bugs.</a>',
@@ -32,10 +32,9 @@
 					'You are on a beta version. <a href="https://clubsaur.us">Click here to go to the main site.</a>',
 				type: 'warn'
 			});
-			
 		}
 		sent = true;
-	};
+	}
 	onMount(() => {
 		document.body.classList.add('started');
 	});
