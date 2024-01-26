@@ -42,6 +42,13 @@ export const actions = {
 	}), async ({userId}, {cookies, params}) => {
 		const user = await verifySession(cookies.get("session"))
 
+			if(!params.id) {
+				return {
+					success: false,
+					message: "No Org."
+				}
+			}
+
 			const orgUser = await prisma.orgUser.findFirst({
 				where: {
 					AND: {
@@ -101,8 +108,8 @@ export const actions = {
 				success: true,
 				message: 'User removed'
 			};
-		}
-	}),
+		},
+	),
 	banMember: formHandler(z.object({
 		userId: z.coerce.number(),
 		reason: z.string().optional()

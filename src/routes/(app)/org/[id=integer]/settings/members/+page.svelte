@@ -3,8 +3,9 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
-	import {enhance} from "$app/forms"
 	import Input from "$lib/components/Input.svelte"
+	import Modal from '$lib/components/Modal.svelte';
+	import { addToast } from '$lib/components/toaster.js';
 
 	export let data;
 	export let form;
@@ -61,12 +62,6 @@
 		pushState("", {
 			showingModal: "banMember"
 		})
-	}
-			lastName
-		};
-		pushState('', {
-			showingModal: 'kickMember'
-		});
 	};
 
 	let kickingMember = false;
@@ -146,9 +141,6 @@
 										}}
 									>
 										<img class="icon" alt="kick" src="/icons/kick.svg" />
-									</button>
-									<button class="actionButton" on:click={() => {startBan(member.userId, member.user.firstName, member.user.lastName)}}>
-										<img src="/icons/banUser.svg" alt="ban" class="icon">
 									</button>
 									<button class="actionButton" on:click={() => {startBan(member.userId, member.user.firstName, member.user.lastName)}}>
 										<img src="/icons/banUser.svg" alt="ban" class="icon">
