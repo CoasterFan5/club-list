@@ -7,8 +7,8 @@
 
 	export let data: LayoutData;
 
-	let requiredScreenWidth = 50; // the percent of the screen the user must swipe across 
-	let requiredSwipeVelocity = 20; //the percent of the screen per 100 ms
+	let requiredScreenWidth = 33; // the percent of the screen the user must swipe across 
+	let requiredSwipeVelocity = 10; //the percent of the screen per 100 ms
 
 	let sidebarPos = 75;
 	let pageWidth: number;
@@ -44,7 +44,7 @@
 	const touchEndHelper = (e: TouchEvent) => {
 		console.log("touch ended")
 		const moved = lastTouch.clientX - dragX;
-		const percentMoved = moved/pageWidth
+		const percentMoved = (moved)/(pageWidth - (sidebarPos * 3))
 		const timeDif = Date.now() - lastTime
 		if(Math.abs(percentMoved * 100) > requiredScreenWidth) {
 			const percentDifPer100ms = (percentMoved * 100)/(timeDif/100);
@@ -147,7 +147,7 @@
 		border-radius: 0px 5px 5px 0px;
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 		display: flex;
-		margin-bottom: 25px;
+		margin-bottom: 100px;
 	}
 	.dragTab hr {
 		width: 3px;

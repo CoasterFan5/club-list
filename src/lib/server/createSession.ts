@@ -20,7 +20,7 @@ export async function createSession(
 	});
 
 	cookies.set('session', session, {
-		secure: true,
+		secure: false,
 		sameSite: 'strict',
 		expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
 		path: '/'
