@@ -29,7 +29,7 @@
 
 <style lang="scss">
 	.wrap {
-		min-height: 100vh;
+		min-height: 100%;
 		height: 100%;
 		width: 100%;
 		display: flex;
@@ -39,7 +39,7 @@
 	.content {
 		position: relative;
 		width: 100%;
-		min-height: calc(100vh - 120px);
+		min-height: calc(100% - 120px);
 		height: 100%;
 		padding-bottom: 120px;
 		display: flex;

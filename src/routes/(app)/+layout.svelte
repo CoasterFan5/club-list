@@ -70,7 +70,7 @@
 		display: flex;
 		flex-direction: row;
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 	}
 
 	.content {
@@ -81,7 +81,7 @@
 		align-items: center;
 		justify-content: start;
 		flex-direction: column;
-		height: 100vh;
+		height: 100%;
 		overflow: auto;
 	}
 	.sidebar {

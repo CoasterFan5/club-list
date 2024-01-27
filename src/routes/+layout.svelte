@@ -54,7 +54,7 @@
 
 <style lang="scss">
 	.wrap {
-		min-height: calc(100vh);
+		min-height: calc(100%);
 		width: 100%;
 		display: flex;
 		flex-direction: column;
