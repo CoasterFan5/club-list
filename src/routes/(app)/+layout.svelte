@@ -8,7 +8,7 @@
 	export let data: LayoutData;
 
 	let requiredScreenWidth = 50; // the percent of the screen the user must swipe across 
-	let requiredSwipeVelocity = 35; //the percent of the screen per 100 ms
+	let requiredSwipeVelocity = 20; //the percent of the screen per 100 ms
 
 	let sidebarPos = 75;
 	let pageWidth: number;
