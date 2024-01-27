@@ -1,7 +1,16 @@
 import type { Cookies } from '@sveltejs/kit';
 import crypto from 'crypto';
-
 import { prisma } from './prismaConnection';
+import { DISABLESECURECOOKIES } from '$env/static/private';
+
+let secureCookies = true
+
+if(DISABLESECURECOOKIES?.toLowerCase() == "true" ) {
+	secureCookies = false
+}
+
+
+
 
 export async function createSession(
 	userId: number,
@@ -20,7 +29,7 @@ export async function createSession(
 	});
 
 	cookies.set('session', session, {
-		secure: false,
+		secure: secureCookies,
 		sameSite: 'strict',
 		expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
 		path: '/'
