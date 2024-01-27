@@ -100,14 +100,15 @@
 	</div>
 
 	{#if sidebarPos == 75 && miniSidebar}
+		<p>Quick Close</p>
 		<button class="quickClose" on:click={closeSidebar} />
 	{/if}
 
-	{#key data.pathType}
-		<div class="content" in:fade={transitionIn} out:fade={transitionOut}>
-			<slot />
-		</div>
-	{/key}
+	
+	<div class="content" in:fade={transitionIn} out:fade={transitionOut}>
+		<slot />
+	</div>
+	
 </div>
 
 <style lang="scss">
@@ -133,6 +134,7 @@
 		z-index: 1000;
 		position: fixed;
 		display: flex;
+		width: 75px;
 		flex-direction: row;
 		align-items: end;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
@@ -140,14 +142,16 @@
 
 	.dragTab {
 		all: unset;
+		position: absolute;
 		height: 75px;
+		left: 75px;
 		width: 25px;
 		background: var(--bgPure);
 		z-index: 1001;
 		border-radius: 0px 5px 5px 0px;
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 		display: flex;
-		margin-bottom: 100px;
+		bottom: 100px;
 	}
 	.dragTab hr {
 		width: 3px;

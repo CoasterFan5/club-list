@@ -83,15 +83,16 @@
 		{#each calendarDays as loopDay (loopDay.toDate())}
 			{@const inMonth = day.month() === loopDay.month()}
 			{@const eventsOnThisDay = daysActive.filter(([, days]) => days.some(datesOnSameDay(loopDay)))}
-			<button
-				class="day"
-				class:hasEvent={flattenedDaysActive.some(datesOnSameDay(loopDay))}
-				class:inMonth
-				on:click={() => {
-					selectedDay = loopDay;
-					pushState('', { showingModal: 'dayModal' });
-				}}
-			>
+			<div class="dayWrap">
+				<button
+					class="day"
+					class:hasEvent={flattenedDaysActive.some(datesOnSameDay(loopDay))}
+					class:inMonth
+					on:click={() => {
+						selectedDay = loopDay;
+						pushState('', { showingModal: 'dayModal' });
+					}}
+				>
 				<p>{loopDay.format('D')}</p>
 
 				{#if eventsOnThisDay.length > 0}
@@ -104,6 +105,8 @@
 					{/if}
 				{/if}
 			</button>
+			</div>
+			
 		{/each}
 	</div>
 </div>
@@ -150,6 +153,8 @@
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
+		height: 100%;
+		max-width: 100%;
 	}
 
 	.button {
@@ -158,6 +163,7 @@
 
 	.top {
 		width: 100%;
+		max-width: 100%;
 		padding: 0px 20px;
 		box-sizing: border-box;
 		display: flex;
@@ -182,7 +188,6 @@
 			flex-grow: 1;
 			width: 100px;
 			display: flex;
-			padding: 0px 50px;
 			align-items: center;
 		}
 
@@ -224,15 +229,19 @@
 	}
 
 	.calendar {
-		width: 100%;
-		flex-grow: 1;
-		height: 100%;
+		
+		width: 100vw;
+		max-width: 100%;
+		padding: 10px;
+		max-height: 100%;
+		gap: 0px;
+		margin-top: 25px;
+		
 		display: grid;
-		gap: 3px;
 		grid-template-columns: repeat(7, 1fr);
 		grid-template-rows: repeat(5, 1fr);
-		width: calc(100% - 2rem);
-		height: calc(100% - 2rem - (3rem + 2rem));
+		box-sizing: border-box;
+		
 	}
 
 	.event {
@@ -256,25 +265,52 @@
 		}
 	}
 
+	.dayWrap {
+		box-sizing: border-box;
+		background: var(--background);
+		aspect-ratio: 3/2;
+		
+		
+		
+		
+	}
+
 	.day {
 		display: flex;
 		flex-direction: column;
 		justify-content: start;
 		align-items: center;
 		box-sizing: border-box;
-		width: 100%;
-		height: 100%;
-		aspect-ratio: 2/1;
+		flex-grow: 1;
+		height: calc(98%);
+		width: calc(98%);
+		color: var(--textDark);
+		
+		
 		background-color: #fff;
 		border: 0;
+		
 		cursor: pointer;
 
 		p {
 			margin: 5px;
-			padding: 5px;
+			padding: 3px;
+			box-sizing: border-box;
+			height: 20px;
+			width: 20px;
 			border-radius: 50%;
+			aspect-ratio: 1/1;
+		}
+		
+
+		&.hasEvent {
+			p {
+				background: var(--accent50);
+			}
 		}
 
+
+		
 		&:not(.inMonth) {
 			background-color: #ddd;
 			opacity: 0.25;
@@ -283,6 +319,22 @@
 		&:hover {
 			background-color: var(--accent);
 			color: #fff;
+		
+		
 		}
 	}
+
+	@media screen and (max-width: 500px) {
+			.inDisplayEvent {
+				display: none !important;
+			}
+			.day {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.button {
+				display: none;
+			}
+		}
 </style>
