@@ -1,5 +1,3 @@
-import { error } from '@sveltejs/kit';
-
 export const keys = [
 	'admin',
 	'updateAppearance',

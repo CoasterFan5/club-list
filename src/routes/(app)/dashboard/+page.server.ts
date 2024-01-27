@@ -13,9 +13,9 @@ export const load = async ({ parent }) => {
 		where: {
 			userId: user.id
 		}
-	})
+	});
 
-	const orgIds = orgs.map((item) => item.organizationId)
+	const orgIds = orgs.map((item) => item.organizationId);
 
 	const allClubs = await prisma.club.findMany({
 		where: {
@@ -23,9 +23,7 @@ export const load = async ({ parent }) => {
 				in: orgIds
 			}
 		}
-	})
-
-	
+	});
 
 	const recentAnnouncements = await prisma.announcement.findMany({
 		where: {

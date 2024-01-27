@@ -1,5 +1,4 @@
 <script lang="ts">
-
 	type club = {
 		id: number;
 		createdAt: Date | null;
@@ -10,10 +9,9 @@
 		ownerId: number;
 		organizationId: number;
 		openToJoin: boolean;
-	}
+	};
 
-	export let clubs: club[] = []
-
+	export let clubs: club[] = [];
 
 	let clubContainerWidth: number;
 	let clubCount;
@@ -32,8 +30,6 @@
 
 		console.log(`Done, added ${sudoPlaceholders} placeholders`);
 	}
-
-	
 </script>
 
 <div class="clubs" bind:clientWidth={clubContainerWidth}>
@@ -43,11 +39,7 @@
 				{#if club.imageURL}
 					<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />
 				{:else}
-					<img
-						class="clubImage"
-						alt="{club.name} background image"
-						src="/dino"
-					/>
+					<img class="clubImage" alt="{club.name} background image" src="/dino" />
 				{/if}
 				<div class="clubText">
 					<h2>{club.name}</h2>
@@ -59,13 +51,12 @@
 	{#if sudoPlaceholders > 0}
 		{#each { length: sudoPlaceholders } as i}
 			<!-- svelte-ignore a11y-missing-content -->
-			<a class="club" hidden href="/" />
+			<a class="club" hidden href="/{i}" />
 		{/each}
 	{/if}
 </div>
 
 <style lang="scss">
-	
 	.clubs {
 		width: 100%;
 		flex-grow: 1;

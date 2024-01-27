@@ -1,7 +1,8 @@
 <script lang="ts">
-	import Announcement from '$lib/components/Announcement.svelte';
 	import Fuse from 'fuse.js';
-	import ClubList from "$lib/components/ClubList.svelte"
+
+	import Announcement from '$lib/components/Announcement.svelte';
+	import ClubList from '$lib/components/ClubList.svelte';
 
 	export let data;
 
@@ -9,9 +10,7 @@
 		keys: ['name', 'description']
 	});
 
-
-	
-	let searchTerm = ""
+	let searchTerm = '';
 
 	let sortedClubs: typeof data.allClubs;
 	$: if (searchTerm.length > 0) {
@@ -25,7 +24,6 @@
 	<main class="content">
 		<h1>Welcome back {data.user?.firstName}</h1>
 
-
 		<div class="sections">
 			<div class="left">
 				<div class="clubs">
@@ -37,26 +35,22 @@
 							tabindex="-1"
 							bind:value={searchTerm}
 						/>
-						<ClubList clubs={sortedClubs}/>
+						<ClubList clubs={sortedClubs} />
 					</div>
 				</div>
-	
 			</div>
-	
+
 			<div class="right">
 				<div class="recentAnnounce">
 					<h2>Recent Announcements</h2>
 					{#each data.recentAnnouncements as announcement}
-						<Announcement announcement={announcement}/>
+						<Announcement {announcement} />
 					{/each}
 				</div>
 			</div>
 		</div>
-		
 	</main>
-	
 </div>
-
 
 <style lang="scss">
 	.wrap {

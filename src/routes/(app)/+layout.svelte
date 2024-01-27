@@ -56,7 +56,7 @@
 		}
 	};
 
-	const closeSidebar = (e: MouseEvent) => {
+	const closeSidebar = () => {
 		sidebarPos = 0;
 	};
 

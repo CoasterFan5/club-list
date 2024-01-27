@@ -85,8 +85,6 @@ export const actions = {
 				}
 			});
 
-			
-			
 			if (!joinCheck) {
 				return {
 					success: false,
@@ -101,13 +99,13 @@ export const actions = {
 						userId: user.id
 					}
 				}
-			})
+			});
 
-			if(banCheck) {
+			if (banCheck) {
 				return {
 					success: false,
-					message: "You are banned from this org."
-				}
+					message: 'You are banned from this org.'
+				};
 			}
 
 			if (joinCheck.orgUsers.length > 0) {

@@ -45,8 +45,6 @@
 			showingModal: 'kickMember'
 		});
 	};
-
-	let kickingMember = false;
 </script>
 
 {#if $page.state.showingModal == 'kickMember'}

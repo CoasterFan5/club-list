@@ -7,12 +7,12 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
+	import ClubList from '$lib/components/ClubList.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { addToast } from '$lib/components/toaster';
 	import { handleForm } from '$lib/utils/formToaster.js';
-	import ClubList from "$lib/components/ClubList.svelte"
 	let searchTerm = '';
 
 	export let data;
@@ -215,7 +215,7 @@
 				bind:value={searchTerm}
 			/>
 			{#if sortedClubs.length > 0}
-				<ClubList clubs={sortedClubs}/>
+				<ClubList clubs={sortedClubs} />
 			{:else}
 				<h2>No clubs found. Try searching for something else.</h2>
 			{/if}
@@ -369,82 +369,6 @@
 		&:hover {
 			cursor: pointer;
 			background: var(--text);
-		}
-	}
-
-	.clubs {
-		width: 100%;
-		flex-grow: 1;
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: center;
-
-		.clubInner {
-			position: relative;
-			display: flex;
-			background: var(--bgPure);
-			width: 100%;
-			height: 100%;
-			z-index: 0;
-			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-			border-radius: 3px;
-
-			&:hover {
-				box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.15);
-				transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-			}
-		}
-	}
-	.club {
-		aspect-ratio: 5/2;
-
-		width: calc(100% / 3);
-		padding: 0px 10px 20px 10px;
-		box-sizing: border-box;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 350px;
-		flex: 1 1 0;
-		width: 0px;
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	}
-
-	.clubImage {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		overflow: hidden;
-		object-fit: cover;
-		border-radius: 3px;
-	}
-
-	.clubText {
-		position: absolute;
-		bottom: 0px;
-		left: 0px;
-		width: 100%;
-		color: var(--textLight);
-		border-radius: 0px 0px 3px 3px;
-
-		&::after {
-			content: '';
-			position: absolute;
-			background: var(--mid);
-			bottom: 0px;
-			border-radius: 0px 0px 3px 3px;
-			opacity: 0.8;
-			z-index: -1;
-			width: 100%;
-			height: 100%;
-		}
-
-		& > h2 {
-			margin: 5px;
-			font-weight: normal;
 		}
 	}
 

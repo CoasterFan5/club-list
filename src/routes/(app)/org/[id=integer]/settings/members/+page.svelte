@@ -3,7 +3,7 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
-	import Input from "$lib/components/Input.svelte"
+	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { addToast } from '$lib/components/toaster.js';
 
@@ -46,25 +46,23 @@
 		kickMember = {
 			id: id,
 			firstName,
-			lastName,
-		}
-		pushState("", {
-			showingModal: "kickMember"
-		})
-	}
+			lastName
+		};
+		pushState('', {
+			showingModal: 'kickMember'
+		});
+	};
 
 	const startBan = (id: number, firstName: string, lastName: string) => {
 		kickMember = {
 			id: id,
 			firstName,
-			lastName,
-		}
-		pushState("", {
-			showingModal: "banMember"
-		})
+			lastName
+		};
+		pushState('', {
+			showingModal: 'banMember'
+		});
 	};
-
-	let kickingMember = false;
 </script>
 
 {#if $page.state.showingModal == 'kickMember'}
@@ -82,22 +80,24 @@
 	</Modal>
 {/if}
 
-{#if $page.state.showingModal == "banMember"}
-	<Modal on:close={() => {history.back()}}>
+{#if $page.state.showingModal == 'banMember'}
+	<Modal
+		on:close={() => {
+			history.back();
+		}}
+	>
 		<div class="modalInner">
 			<h1>Banning Member</h1>
-			<form method="post" action="?/banMember" use:enhance>
+			<form action="?/banMember" method="post" use:enhance>
 				<input name="userId" style="display: none" bind:value={kickMember.id} />
 				<div class="itemSpacer">
-					<Input name="reason" label="Ban Reason" bg="var(--bgPure)"/>
+					<Input name="reason" bg="var(--bgPure)" label="Ban Reason" />
 				</div>
 				<div class="itemSpacer">
-					<Button type="submit" value="Ban Member"/>
+					<Button type="submit" value="Ban Member" />
 				</div>
-				
 			</form>
 		</div>
-		
 	</Modal>
 {/if}
 
@@ -121,8 +121,8 @@
 								<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
 								{member.user.firstName}
 								{member.user.lastName}
-								{#if member.userId == data.org.ownerId || member.role == "ADMIN"}
-									<img class="crown" alt="owner" src="/icons/crown.svg">
+								{#if member.userId == data.org.ownerId || member.role == 'ADMIN'}
+									<img class="crown" alt="owner" src="/icons/crown.svg" />
 								{/if}
 							</div>
 						</td>
@@ -142,8 +142,13 @@
 									>
 										<img class="icon" alt="kick" src="/icons/kick.svg" />
 									</button>
-									<button class="actionButton" on:click={() => {startBan(member.userId, member.user.firstName, member.user.lastName)}}>
-										<img src="/icons/banUser.svg" alt="ban" class="icon">
+									<button
+										class="actionButton"
+										on:click={() => {
+											startBan(member.userId, member.user.firstName, member.user.lastName);
+										}}
+									>
+										<img class="icon" alt="ban" src="/icons/banUser.svg" />
 									</button>
 								</div>
 							</td>
