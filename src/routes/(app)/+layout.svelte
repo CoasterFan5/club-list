@@ -7,14 +7,10 @@
 
 	export let data: LayoutData;
 
-	let requiredScreenWidth = 33; // the percent of the screen the user must swipe across 
-	let requiredSwipeVelocity = 10; //the percent of the screen per 100 ms
-
 	let sidebarPos = 75;
 	let pageWidth: number;
 	let miniSidebar = false;
 
-	let dragX = 0;
 
 	$: miniSidebar = pageWidth <= 500;
 
@@ -24,10 +20,6 @@
 		sidebarPos = 75;
 	}
 
-	let lastTime = Date.now();
-	let lastTouch: Touch;
-	let activeTouchDetection = false;
-
 
 	const toggleSidebar = () => {
 		if (sidebarPos == 75) {
@@ -36,42 +28,9 @@
 			sidebarPos = 75;
 		}
 	};
-	const touchMoveHelper = (e: TouchEvent) => {
-		if(e.touches[0] && activeTouchDetection) {
-			lastTouch = e.touches[0];
-		}
-	}
-	const touchEndHelper = (e: TouchEvent) => {
-		console.log("touch ended")
-		const moved = lastTouch.clientX - dragX;
-		const percentMoved = (moved)/(pageWidth - (sidebarPos * 3))
-		const timeDif = Date.now() - lastTime
-		if(Math.abs(percentMoved * 100) > requiredScreenWidth) {
-			const percentDifPer100ms = (percentMoved * 100)/(timeDif/100);
-			if(Math.abs(percentDifPer100ms) > requiredSwipeVelocity) {
-				console.log('toggling sidebar')
-				if(moved > 0) {
-					sidebarPos = 75;
-				} else {
-					sidebarPos = 0;
-				}
-			}
-		}
-		activeTouchDetection = false;
-	}
 
-	const touchDownDragTab = (e: TouchEvent) => {
-		console.log("touch started")
-		if (e.touches[0]) {
-			dragX = e.touches[0].clientX - (sidebarPos / 75) * (pageWidth * (requiredScreenWidth / 100));
-			lastTime = Date.now();
-			activeTouchDetection = true;
-		}
-	};
 
-	const closeSidebar = (e: MouseEvent) => {
-		sidebarPos = 0;
-	};
+
 
 	const duration = 200;
 	const delay = duration + 75;
@@ -81,12 +40,7 @@
 	const transitionOut = { easing: cubicIn, y: -y, duration };
 </script>
 
-<svelte:window
-	bind:innerWidth={pageWidth}
-	on:touchstart={touchDownDragTab}
-	on:touchend={touchEndHelper}
-	on:touchmove={touchMoveHelper}
-/>
+<svelte:window bind:innerWidth={pageWidth}/>
 <div class="wrap">
 	<div style="left: {sidebarPos - 75}px" class="sidebar">
 		<Sidebar {data} />
@@ -101,7 +55,7 @@
 
 	{#if sidebarPos == 75 && miniSidebar}
 		<p>Quick Close</p>
-		<button class="quickClose" on:click={closeSidebar} />
+		<button class="quickClose" on:click={toggleSidebar} />
 	{/if}
 
 	
