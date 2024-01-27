@@ -1,4 +1,6 @@
+import sanitize from 'sanitize-html';
 import defaultClubImage from './defaultClubImage.svg?raw'
+
 
 const colors: Record<number, string> = {
   1: "#fff",
@@ -15,16 +17,16 @@ const colors: Record<number, string> = {
 
 export const GET = ({ url }) => {
   let image = defaultClubImage;
-
+  
   for (const key of url.searchParams.keys()) {
     if (colors[Number(key)]) {
-      const color = url.searchParams.get(key);
+      const color = sanitize(url.searchParams.get(key) || "");
       image = image.replace(`.cls-${key}{fill:}`, `.cls-${key}{fill:${color}}`);
     }
   }
   for (const key of Object.keys(colors)) {
     if (colors[Number(key)]) {
-      const color = colors[Number(key)];
+      const color = sanitize(colors[Number(key)]);
       image = image.replace(`.cls-${key}{fill:}`, `.cls-${key}{fill:${color}}`);
     }
   }
