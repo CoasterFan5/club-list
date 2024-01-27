@@ -7,7 +7,8 @@
 
 	export let data: LayoutData;
 
-	let requiredScreenWidth = 10; //The velocity required to swipe right in pixels/ms
+	let requiredScreenWidth = 50; // the percent of the screen the user must swipe across 
+	let requiredSwipeVelocity = 35; //the percent of the screen per 100 ms
 
 	let sidebarPos = 75;
 	let pageWidth: number;
@@ -24,22 +25,9 @@
 	}
 
 	let lastTime = Date.now();
+	let lastTouch: Touch;
+	let activeTouchDetection = false;
 
-	const touchMoveHelper = (e: TouchEvent) => {
-		if (e.touches.length) {
-			let currentTime = Date.now();
-			let dragVelocity = (e.touches[0].clientX - dragX) / (currentTime - lastTime);
-			dragX = e.touches[0].clientX;
-			lastTime = currentTime;
-			console.log(dragVelocity);
-
-			if (dragVelocity > requiredScreenWidth) {
-				sidebarPos = 75;
-			} else if (dragVelocity < -requiredScreenWidth / 2) {
-				sidebarPos = 0;
-			}
-		}
-	};
 
 	const toggleSidebar = () => {
 		if (sidebarPos == 75) {
@@ -48,15 +36,40 @@
 			sidebarPos = 75;
 		}
 	};
+	const touchMoveHelper = (e: TouchEvent) => {
+		if(e.touches[0] && activeTouchDetection) {
+			lastTouch = e.touches[0];
+		}
+	}
+	const touchEndHelper = (e: TouchEvent) => {
+		console.log("touch ended")
+		const moved = lastTouch.clientX - dragX;
+		const percentMoved = moved/pageWidth
+		const timeDif = Date.now() - lastTime
+		if(Math.abs(percentMoved * 100) > requiredScreenWidth) {
+			const percentDifPer100ms = (percentMoved * 100)/(timeDif/100);
+			if(Math.abs(percentDifPer100ms) > requiredSwipeVelocity) {
+				console.log('toggling sidebar')
+				if(moved > 0) {
+					sidebarPos = 75;
+				} else {
+					sidebarPos = 0;
+				}
+			}
+		}
+		activeTouchDetection = false;
+	}
 
 	const touchDownDragTab = (e: TouchEvent) => {
+		console.log("touch started")
 		if (e.touches[0]) {
 			dragX = e.touches[0].clientX - (sidebarPos / 75) * (pageWidth * (requiredScreenWidth / 100));
 			lastTime = Date.now();
+			activeTouchDetection = true;
 		}
 	};
 
-	const closeSidebar = () => {
+	const closeSidebar = (e: MouseEvent) => {
 		sidebarPos = 0;
 	};
 
@@ -70,8 +83,9 @@
 
 <svelte:window
 	bind:innerWidth={pageWidth}
-	on:touchmove={touchMoveHelper}
 	on:touchstart={touchDownDragTab}
+	on:touchend={touchEndHelper}
+	on:touchmove={touchMoveHelper}
 />
 <div class="wrap">
 	<div style="left: {sidebarPos - 75}px" class="sidebar">
