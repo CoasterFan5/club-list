@@ -87,8 +87,7 @@
 
 <style lang="scss">
 	main {
-		padding: 1rem;
-		width: 100%;
+		width: 90%;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
@@ -127,7 +126,7 @@
 		justify-content: start;
 
 		.list {
-			width: 80%;
+			width: 90%;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
