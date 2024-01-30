@@ -40,7 +40,7 @@
 				</div>
 			</div>
 
-			<div class="right">
+			<div class="right noMobile">
 				<div class="recentAnnounce">
 					<h2>Recent Announcements</h2>
 					{#each data.recentAnnouncements as announcement}
@@ -128,6 +128,13 @@
 			margin: 0px;
 			padding-top: 10px;
 			text-decoration: underline;
+		}
+	}
+
+
+	@media screen and ( max-width: 500px) {
+		.noMobile {
+			display: none;
 		}
 	}
 </style>
