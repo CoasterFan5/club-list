@@ -95,7 +95,7 @@
 				</button>
 				<input
 					name="color"
-					class="color"
+					class="color "
 					hidden
 					type="color"
 					bind:value={role.color}
@@ -120,6 +120,15 @@
 </main>
 
 <style lang="scss">
+	main {
+		width: 100%;
+		height: 100%;
+		padding-top: 20px;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	h2 {
 		font-weight: normal;
 	}
@@ -130,11 +139,11 @@
 
 	.role {
 		position: relative;
-		width: 100%;
+		width: 90%;
 		border: 1px solid var(--color);
 		color: var(--textColor);
 		border-radius: 7px;
-		padding: 20px;
+		padding: 20px 10px;
 		height: 70px;
 		box-sizing: border-box;
 		margin-bottom: 7px;
@@ -155,11 +164,15 @@
 	}
 
 	.nameWrap {
+		display: flex;
 		font-weight: normal;
 		margin: 0px;
-		width: 100%;
+		width: fit-content;
+		flex-shrink: 1;
 	}
 	.name {
+		all: unset;
+		width: fit-content;
 		font-size: 1.3rem;
 		background: transparent;
 		border: 1px solid transparent;
@@ -170,36 +183,50 @@
 		}
 	}
 
-	main {
-		width: 100%;
-		height: 100%;
-		padding: 0px 10px;
-		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
 
 	.actions {
+		position: absolute;
+		right: 0px;
+		top: 0px;
 		flex-direction: row;
 		display: flex;
 		align-items: center;
 		justify-content: end;
 		height: 100%;
+		flex-grow: 1;
+
+		.color {
+			all: unset;
+			border: 0px;
+			outline: 0px;
+			cursor: pointer;
+			height: 50%;
+			aspect-ratio: 1/1;
+			background: var(--color);
+			border-radius: 100%;
+			padding: 3px;
+			box-sizing: border-box;
+		}
+
+		.button {
+			all: unset;
+			height: 50%;
+			padding: 0px 10px;
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+
+			img {
+				all: unset;
+				height: 100%;
+				aspect-ratio: 1/1;
+			}
+		}
 	}
 
-	.color {
-		all: unset;
-		border: 0px;
-		outline: 0px;
-		cursor: pointer;
-		height: 100%;
-		aspect-ratio: 1/1;
-		background: var(--color);
-		border-radius: 100%;
-		padding: 3px;
-		box-sizing: border-box;
-	}
+	
 
 	input[type='color']::-moz-color-swatch {
 		border: none;
@@ -210,22 +237,7 @@
 		border: none;
 	}
 
-	.button {
-		all: unset;
-		height: 100%;
-		padding: 0px 10px;
-		box-sizing: border-box;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-
-		img {
-			all: unset;
-			height: 100%;
-			aspect-ratio: 1/1;
-		}
-	}
+	
 
 	.formItem {
 		width: 100%;
