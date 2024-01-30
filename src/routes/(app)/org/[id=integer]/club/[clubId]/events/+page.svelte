@@ -101,7 +101,12 @@
 						{event[0].title}
 					</div>
 					{#if eventsOnThisDay.length > 1}
+					<div class="extraEvents">
 						+{eventsOnThisDay.length - 1} more
+					</div>
+						
+
+						
 					{/if}
 				{/if}
 			</button>
@@ -334,6 +339,10 @@
 				justify-content: center;
 			}
 			.button {
+				display: none;
+			}
+
+			.extraEvents {
 				display: none;
 			}
 		}
