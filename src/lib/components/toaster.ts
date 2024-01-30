@@ -12,16 +12,16 @@ export interface Toast {
 
 export const toasts = writable<Toast[]>();
 
-export const resetToast = async () => {
+export const resetToasts = () => {
 	toasts.set([]);
 };
 
-export const addToast = async (toast: Omit<Toast, 'id'>) => {
+export const addToast = (toast: Omit<Toast, 'id'>) => {
 	const currentToasts = get(toasts);
 	toasts.set([{ ...toast, id: id++ }, ...currentToasts]);
 };
 
-export const removeToast = async (id: Toast['id']) => {
+export const removeToast = (id: Toast['id']) => {
 	const currentToasts = get(toasts);
 
 	for (let i = 0; i < currentToasts.length; i++) {

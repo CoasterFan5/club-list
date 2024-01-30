@@ -1,123 +1,145 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	export let name = 'Input';
+	// Options
+	export let name: string | null = 'Input';
 	export let label = 'Input';
-	export let bgColor = 'var(--bg)';
-	export let type: 'password' | 'email' | undefined = undefined;
+	export let type: 'password' | 'email' | 'date' | 'time' | 'number' | undefined = undefined;
 	export let required = false;
 	export let autocomplete: HTMLInputElement['autocomplete'] | null = null;
-	let moveText = false;
+	export let pattern: string = '.*';
+	export let disabled = false;
 
-	let input: HTMLInputElement;
+	export let bg = 'var(--bg)';
+
+	/**
+	 * Value of the input
+	 */
 	export let value: string = '';
 
-	let startFocus = () => input.focus();
+	let enableJS = false;
+	let active = true;
+	let ready = false;
 
-	let selectInput = () => {
-		active = true;
-		moveText = true;
-	};
-	let deselectText = () => {
-		active = false;
-		if (value.length > 0) {
-			moveText = true;
-		} else {
-			moveText = false;
-		}
-	};
+	$: derivedActive = type === 'date' || type === 'time' ? true : active;
 
 	onMount(() => {
-		value = value;
-		if (value) {
-			active = false;
-			moveText = true;
-		} else {
-			active = false;
-			moveText = false;
-		}
+		enableJS = true;
+		active = !!value;
+		ready = true;
 	});
-	let active = false;
+
+	let focusHandle = () => (active = true);
+	let blurHandle = () => (active = !!value);
 </script>
 
-<button
-	style="--bgColor: {bgColor}"
-	class="wrap"
-	class:active
-	tabindex="-1"
-	type="button"
-	on:click={startFocus}
->
+<label style="--background: {bg}">
+	<span class:active={derivedActive} class:disabled class:inactive={!derivedActive} class:ready
+		>{label}</span
+	>
 	<input
-		bind:this={input}
 		{name}
+		class:doPlaceholder={!enableJS}
 		{autocomplete}
+		{disabled}
+		{pattern}
 		{required}
-		on:focus={selectInput}
-		on:blur={deselectText}
+		{...{ type }}
+		placeholder={label}
 		bind:value
-		{...{ type /* asserting string input since we know the type is always a password */ }}
+		on:focus={focusHandle}
+		on:blur={blurHandle}
+		on:change={() => {
+			if (value) {
+				active = true;
+			} else {
+				active = false;
+			}
+		}}
 	/>
-	<div class="labelBase" class:label1={!moveText} class:labelMoved={moveText}>
-		{label}
-	</div>
-</button>
+</label>
 
 <style lang="scss">
-	.wrap {
-		all: unset;
+	label {
+		display: block;
 		position: relative;
-		width: 100%;
-		font-family: 'Lexend Variable', sans-serif;
-		border-radius: 3px;
-		border: 1px solid gray;
+		height: 100%;
 		cursor: text;
-		background: var(--bgColor);
-	}
-
-	input {
-		border: 0px;
-		outline: 0px;
-		box-sizing: border-box;
-		padding: 10px;
+		color: gray;
 		font-size: 1.2rem;
 		width: 100%;
-		font-family: 'Lexend Variable', sans-serif;
-		background: transparent;
-	}
-
-	.labelBase {
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-	}
-
-	.label1 {
-		font-size: 1.12rem;
-		font-weight: 400;
-		box-sizing: border-box;
-		padding: 10px;
-		top: 0px;
-		left: 0px;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: start;
-		background: transparent;
-		color: #333;
-	}
-
-	.labelMoved {
-		font-size: 0.8rem;
-		position: absolute;
-		top: -10px;
-		left: 10px;
-		background: var(--bgColor);
-		padding: 0px 5px;
-		color: black;
 	}
 
 	.active {
-		border: 1px solid var(--accent);
+		display: none;
+		height: 20px;
+		position: absolute;
+		top: -10px;
+		left: 10px;
+		align-items: center;
+		justify-content: center;
+		background: var(--background);
+		padding: 0px 5px;
+		font-size: 0.8rem;
+		color: #0e0e0e;
+	}
+
+	.disabled {
+		pointer-events: none;
+		cursor: not-allowed;
+		z-index: 1;
+		color: gray;
+	}
+
+	.inactive {
+		display: none;
+		height: 100%;
+		position: absolute;
+		align-items: center;
+		justify-content: center;
+		padding: 0px 5px;
+		left: 6px;
+		box-sizing: border-box;
+		color: gray;
+	}
+
+	input {
+		all: unset;
+		outline: 0px;
+		box-sizing: border-box;
+		padding: 10px;
+		border-radius: 3px;
+		font-size: 1.2rem;
+		width: 100%;
+		background: transparent;
+		background: var(--background);
+		text-align: left;
+		border: 1px solid gray;
+		color: #0e0e0e;
+
+		&:focus {
+			border: 1px solid var(--accent);
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+
+		&::placeholder {
+			position: fixed;
+			display: none;
+			color: transparent;
+		}
+	}
+
+	.doPlaceholder::placeholder {
+		color: gray;
+	}
+
+	.ready {
+		display: flex;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 </style>

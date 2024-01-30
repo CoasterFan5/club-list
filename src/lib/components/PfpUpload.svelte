@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance, applyAction } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 
 	export let pfpUrl: string | null;
@@ -13,7 +13,7 @@
 
 	let startUpload = () => fileSelector.click();
 
-	let inputHandler = async () => {
+	let inputHandler = () => {
 		if (fileSelector.files && fileSelector.files?.length > 0) {
 			submitButton.click();
 		}
@@ -46,7 +46,6 @@
 		bind:files={fileList}
 		on:input|preventDefault={inputHandler}
 	/>
-	<p>Upload New</p>
 	<button bind:this={submitButton} hidden type="submit" />
 </form>
 
@@ -63,7 +62,7 @@
 		justify-content: center;
 		flex-direction: column;
 		margin: 25px;
-		border-radius: 5px;
+		border-radius: 1rem;
 		aspect-ratio: 1/1;
 	}
 	img {
@@ -75,10 +74,5 @@
 		border: 2px solid var(--accent);
 		border-radius: 1rem;
 		object-fit: cover;
-	}
-
-	p {
-		margin: 0px;
-		text-align: center;
 	}
 </style>

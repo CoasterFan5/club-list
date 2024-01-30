@@ -1,31 +1,14 @@
-import { prisma } from '$lib/prismaConnection';
-import { redirect } from '@sveltejs/kit';
+import { verifyOptionalSession } from '$lib/server/verifySession.js';
 
 export const load = async ({ cookies, url }) => {
-	// if the user isn't logged in, we need to redirect them to the login page
-	const session = cookies.get('session');
-	if (!session) {
-		throw redirect(303, '/login');
-	}
-
-	const sessionCheck = await prisma.session.findFirst({
-		where: {
-			sessionToken: session
-		},
-		include: {
-			user: true
-		}
-	});
-
-	if (!sessionCheck) {
-		throw redirect(303, '/login');
-	}
+	// If the user isn't logged in, we need to redirect them to the login page
+	const user = await verifyOptionalSession(cookies.get('session'));
 
 	const isInClub = /org\/\d+\/club/.test(url.pathname);
 	const pathType = isInClub ? '__club__' : url.pathname;
 
 	return {
-		user: sessionCheck.user,
+		user,
 		pathType
 	};
 };

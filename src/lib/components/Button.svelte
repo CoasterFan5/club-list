@@ -1,17 +1,17 @@
 <script lang="ts">
-	// why a custom button?
-	// keeps everything looking clean
-	export let value = 'Button!';
+	export let value: string;
 	export let type: HTMLButtonElement['type'] = 'submit';
-	export let href: string | undefined = '';
+	export let href: string | undefined = undefined;
+	export let disabled = false;
+	export let style = '';
 </script>
 
-{#if href}
-	<a class="button" {href}>
+{#if href !== undefined}
+	<a {style} class="button" {href} on:click>
 		{value}
 	</a>
 {:else}
-	<button class="button" {type}>
+	<button {style} class="button" class:disabled {disabled} {type} on:click>
 		{value}
 	</button>
 {/if}
@@ -20,7 +20,7 @@
 	.button {
 		all: unset;
 		background: transparent;
-		border: 1px solid gray;
+		border: 1px solid var(--accent);
 		border-radius: 3px;
 		width: 100%;
 		padding: 10px 25px;
@@ -28,12 +28,19 @@
 		font-size: 1.2rem;
 		cursor: pointer;
 		text-align: center;
-		color: var(--textDark);
+		color: var(--accent);
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
 
 		&:focus,
 		&:hover,
 		&:active {
-			border: 1px solid var(--accent);
+			color: #fff;
+			background: var(--accent);
+		}
+
+		&:disabled {
+			cursor: not-allowed;
+			opacity: 0.5;
 		}
 	}
 </style>

@@ -5,16 +5,8 @@ export default defineConfig({
 	plugins: [sveltekit()],
 	server: {
 		host: '0.0.0.0',
-		...(process.env.OUTER_PORT_FRONTEND && process.env.INNER_PORT_FRONTEND
-			? {
-					hmr: process.env.CODESPACES
-						? false
-						: {
-								clientPort: parseInt(process.env.OUTER_PORT_FRONTEND)
-						  },
-					port: parseInt(process.env.INNER_PORT_FRONTEND)
-			  }
-			: {}),
+		hmr: !process.env.CODESPACES,
+		port: 3000,
 		watch: {
 			usePolling: true
 		}

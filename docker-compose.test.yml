@@ -1,0 +1,6 @@
+# Set the version of docker compose to use
+version: '3.9'
+
+services:
+  web:
+    command: sh -c "npm i -g pnpm@8.12.1 && pnpm install && pnpm run db:deploy && pnpm run s3devdata && pnpm run seed && pnpm run build && node build"

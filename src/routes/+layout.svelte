@@ -9,21 +9,35 @@
 	import '@fontsource/work-sans/800.css';
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
-	import type { LayoutData } from './$types';
+
+	import { onMount } from 'svelte';
+
+	import { addToast, resetToasts } from '$lib/components/toaster';
 	import Toaster from '$lib/components/Toaster.svelte';
-	import { addToast, resetToast } from '$lib/components/toaster';
+
+	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 
 	let sent = false;
-	resetToast();
-	if (data.beta && !sent) {
+	resetToasts();
+	if (!sent) {
 		addToast({
 			message:
-				'You are on a beta version. <a href="https://clubsaur.us">Click here to go to the main site.</a>',
+				'Clubsaurus is in early access! <a href="https://github.com/coasterfan5/clubsaurus/issues">Report Bugs.</a>',
 			type: 'warn'
 		});
+		if (data.beta) {
+			addToast({
+				message:
+					'You are on a beta version. <a href="https://clubsaur.us">Click here to go to the main site.</a>',
+				type: 'warn'
+			});
+		}
 		sent = true;
 	}
+	onMount(() => {
+		document.body.classList.add('started');
+	});
 </script>
 
 <svelte:head>
@@ -34,30 +48,41 @@
 	<slot />
 </div>
 
-<Toaster />
+<div class="toaster">
+	<Toaster />
+</div>
 
 <style lang="scss">
 	.wrap {
-		min-height: calc(100vh);
+		min-height: calc(100%);
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 	}
 
 	:global(html) {
-		font-family: 'Work Sans', sans-serif;
+		height: 100%;
+		font-family:
+			Work Sans,
+			sans-serif;
 		--text: #f1f1f1;
 		--textLight: #f1f1f1;
+		--textLow: #494949;
 		--textDark: #202020;
 		--dark: #202020;
 		--mid: #333533;
 		--bg: #f1f1f1;
 		--bgMid: #f8f8f8;
 		--bgPure: #ffffff;
-		--accent: #e63946;
+		--accent: rgba(230, 57, 70);
 		--accent50: rgba(230, 57, 70, 0.5);
 		--redIconFilter: invert(45%) sepia(57%) saturate(7438%) hue-rotate(337deg) brightness(94%)
 			contrast(92%);
+	}
+
+	:global(h1),
+	:global(h2) {
+		font-weight: 500;
 	}
 
 	:global(body) {
@@ -70,6 +95,12 @@
 	}
 
 	:global(.mono) {
-		font-family: 'Source Code Pro Variable', sans-serif;
+		font-family:
+			Source Code Pro Variable,
+			sans-serif;
+	}
+	.toaster {
+		position: fixed;
+		z-index: 9999999999999999999;
 	}
 </style>

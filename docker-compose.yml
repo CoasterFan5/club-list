@@ -27,18 +27,18 @@ services:
     image: node:20.9.0-alpine3.18
     container_name: club-list-web
     environment:
-      - OUTER_PORT_FRONTEND=3000
-      - INNER_PORT_FRONTEND=5173
       - CODESPACES
+      - ORIGIN=http://localhost:3000
     ports:
-      - '3000:5173'
+      - '3000:3000'
     env_file:
       - .env.test
     volumes:
       - ./:/app
       - /app/node_modules/
+      - /app/.pnpm-store/
     working_dir: /app
-    command: sh -c "pnpm install && pnpm run db:deploy && pnpm run s3devdata && pnpm run seed && pnpm run dev --host --port 5173"
+    command: sh -c "npm i -g pnpm@8.12.1 && pnpm install && pnpm run db:deploy && pnpm run s3devdata && pnpm run seed && pnpm run dev --host"
     depends_on:
       - db
       - storage

@@ -5,12 +5,12 @@ module.exports = defineConfig({
 	root: true,
 	extends: [
 		'eslint:recommended',
-		'plugin:@typescript-eslint/recommended',
+		'plugin:@typescript-eslint/strict',
 		'plugin:svelte/recommended',
 		'prettier'
 	],
 	parser: '@typescript-eslint/parser',
-	plugins: ['@typescript-eslint'],
+	plugins: ['@typescript-eslint', 'simple-import-sort'],
 	parserOptions: {
 		sourceType: 'module',
 		ecmaVersion: 2020,
@@ -36,7 +36,17 @@ module.exports = defineConfig({
 		'svelte/spaced-html-comment': 'error',
 		'svelte/no-at-debug-tags': 'error',
 		'svelte/mustache-spacing': 'error',
-		'svelte/html-self-closing': 'error'
+		'svelte/html-self-closing': 'error',
+		'svelte/no-useless-mustaches': 'error',
+		'no-alert': 'error',
+		'no-template-curly-in-string': 'error',
+		'require-atomic-updates': 'error',
+		'capitalized-comments': 'error',
+		'require-await': 'error',
+		'no-constant-binary-expression': 'error',
+		'no-new-native-nonconstructor': 'error',
+		'simple-import-sort/imports': 'error',
+		'simple-import-sort/exports': 'error'
 	},
 	overrides: [
 		{

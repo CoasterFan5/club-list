@@ -1,72 +1,22 @@
-import { prisma } from '$lib/prismaConnection';
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
-export const actions = {
-	createClub: async ({ cookies, request, params }) => {
-		const formData = await request.formData();
+import { prisma } from '$lib/server/prismaConnection';
 
-		const clubName = formData.get('clubName')?.toString();
-
-		if (!clubName) {
-			return fail(400, {
-				message: 'Club name not provided.'
-			});
-		}
-
-		const session = cookies.get('session');
-		const sessionCheck = await prisma.session.findFirst({
-			where: {
-				sessionToken: session
-			},
-			include: {
-				user: true
+export const load = async ({ params }) => {
+	const org = await prisma.organization.findFirst({
+		where: {
+			slug: {
+				slug: params.id.toLowerCase()
 			}
-		});
-
-		if (!sessionCheck) {
-			throw redirect(303, '/login');
 		}
+	});
 
-		const user = sessionCheck.user;
-
-		if (!user) {
-			throw redirect(303, '/login');
-		}
-
-		// get the org user
-		const orgUser = await prisma.orgUser.findFirst({
-			where: {
-				userId: user.id,
-				organizationId: parseInt(params.id)
-			}
-		});
-
-		if (!orgUser) {
-			throw redirect(303, '/login');
-		}
-
-		if (orgUser.role != 'OWNER' && orgUser.role != 'ADMIN') {
-			return fail(403, {
-				message: 'No Permissions'
-			});
-		}
-
-		if (clubName.length > 100) {
-			return fail(400, {
-				message: 'Club name too long.'
-			});
-		}
-
-		// create the club
-		const club = await prisma.club.create({
-			data: {
-				name: clubName,
-				description: null,
-				ownerId: orgUser.userId,
-				organizationId: orgUser.organizationId
-			}
-		});
-
-		throw redirect(303, `/org/${params.id}/club/${club.id}`);
+	if (!org) {
+		return {
+			status: 404,
+			error: 'Organization not found'
+		};
 	}
+
+	throw redirect(303, `/org/${org.id}`);
 };

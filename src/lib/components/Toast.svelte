@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
-	import { removeToast, type Toast } from './toaster';
-	import { quintInOut } from 'svelte/easing';
-	import { onMount } from 'svelte';
 	import sanitizeHtml from 'sanitize-html';
+	import { onMount } from 'svelte';
+	import { quintInOut } from 'svelte/easing';
+	import { fly } from 'svelte/transition';
+
+	import { removeToast, type Toast } from './toaster';
 
 	export let data: Toast;
 	let showTimer = false;
@@ -26,7 +27,7 @@
 </script>
 
 <div
-	style="z-index: {100000 - data.id ?? 0};"
+	style="z-index: {100000 - data.id};"
 	class="wrap"
 	transition:fly={{ duration: 500, x: 500, opacity: 0.5, easing: quintInOut }}
 >
@@ -77,7 +78,7 @@
 		align-items: start;
 		justify-content: center;
 		border-radius: 5px;
-		width: 400px;
+		max-width: 400px;
 	}
 
 	h3 {
@@ -86,6 +87,8 @@
 
 	p {
 		margin: 0px;
+		width: 100%;
+		word-break: normal;
 	}
 
 	.close {
@@ -102,7 +105,7 @@
 		width: 30px;
 	}
 
-	@keyframes closebar {
+	@keyframes closeBar {
 		from {
 			width: 100%;
 		}
@@ -119,6 +122,6 @@
 		height: 3px;
 		background: var(--mid);
 		animation-timing-function: linear;
-		animation-name: closebar;
+		animation-name: closeBar;
 	}
 </style>

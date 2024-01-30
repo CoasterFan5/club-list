@@ -1,117 +1,189 @@
-import { prisma } from '$lib/prismaConnection';
-import { fail, redirect } from '@sveltejs/kit';
-import { S3 } from '$lib/s3.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { bucket, mediaurl } from '$env/static/private';
+import { fail, redirect } from '@sveltejs/kit';
 import crypto from 'crypto';
+import { promisify } from 'util';
+import { z } from 'zod';
+
+import { bucket, mediaurl } from '$env/static/private';
+import { formHandler } from '$lib/bodyguard';
+import { prisma } from '$lib/server/prismaConnection';
+import { S3 } from '$lib/server/s3.js';
+import { verifySession } from '$lib/server/verifySession';
+
+const pbkdf2 = promisify(crypto.pbkdf2);
+
+export const load = async ({ parent, getClientAddress }) => {
+	const { user } = await parent();
+
+	if (user == null) {
+		throw redirect(303, '/login');
+	}
+
+	const sessions = await prisma.session.findMany({
+		where: {
+			userId: user.id
+		},
+		select: {
+			id: true,
+			ip: true,
+			userAgent: true,
+			createdAt: true
+		}
+	});
+
+	return {
+		user,
+		sessions,
+		ip: getClientAddress()
+	};
+};
 
 export const actions = {
-	updateProfile: async ({ request, cookies }) => {
-		if (!cookies.get('session')) {
-			throw redirect(303, '/login');
+	updateProfile: formHandler(
+		z.object({
+			firstName: z.string(),
+			lastName: z.string(),
+			email: z.string().email()
+		}),
+		async ({ firstName, lastName, email }, { cookies }) => {
+			const user = await verifySession(cookies.get('session'));
+
+			await prisma.user.updateMany({
+				where: {
+					id: user.id
+				},
+				data: {
+					firstName,
+					lastName,
+					email
+				}
+			});
+
+			return { success: true };
 		}
+	),
 
-		const data = await request.formData();
+	invalidateSession: formHandler(
+		z.object({
+			sessionId: z.coerce.number()
+		}),
+		async ({ sessionId }, { cookies }) => {
+			const user = await verifySession(cookies.get('session'));
 
-		const firstName = data.get('firstName')?.toString();
-		const lastName = data.get('lastName')?.toString();
-		const email = data.get('email')?.toString();
-
-		if (!firstName || firstName == '') {
-			return fail(400, { message: 'First name is required' });
-		}
-
-		if (!lastName || lastName == '') {
-			return fail(400, { message: 'Last name is required' });
-		}
-
-		if (!email || email == '') {
-			return fail(400, { message: 'Email is required' });
-		}
-
-		const session = cookies.get('session');
-
-		await prisma.user.updateMany({
-			where: {
-				sessions: {
-					some: {
-						sessionToken: session
+			await prisma.session.deleteMany({
+				where: {
+					AND: {
+						id: sessionId,
+						userId: user.id
 					}
 				}
-			},
-			data: {
-				firstName,
-				lastName,
-				email
+			});
+
+			return { success: true };
+		}
+	),
+
+	invalidateAllSessions: async ({ cookies }) => {
+		const user = await verifySession(cookies.get('session'));
+
+		await prisma.session.deleteMany({
+			where: {
+				userId: user.id,
+				NOT: {
+					sessionToken: cookies.get('session')
+				}
 			}
 		});
 
 		return { success: true };
 	},
-	updatePfp: async ({ request, cookies }) => {
-		const session = cookies.get('session');
 
-		if (!session) {
-			throw redirect(303, '/login');
-		}
+	changePassword: formHandler(
+		z.object({
+			oldPassword: z.string(),
+			newPassword: z.string(),
+			confirmPassword: z.string()
+		}),
+		async ({ oldPassword, newPassword, confirmPassword }, { cookies }) => {
+			const user = await verifySession(cookies.get('session'), { salt: true, hash: true });
 
-		const sessionCheck = await prisma.session.findUnique({
-			where: {
-				sessionToken: session
-			},
-			include: {
-				user: true
+			if (newPassword !== confirmPassword) {
+				fail(400, { message: 'Passwords do not match' });
 			}
-		});
 
-		if (!sessionCheck || !sessionCheck.user) {
-			throw redirect(303, '/login');
+			const hash = (await pbkdf2(oldPassword, user.salt, 1000, 100, 'sha512')).toString('hex');
+
+			if (hash !== user.hash) {
+				fail(400, { message: 'Incorrect Password' });
+			}
+
+			const newHash = (await pbkdf2(newPassword, user.salt, 1000, 100, 'sha512')).toString('hex');
+
+			await prisma.user.updateMany({
+				where: {
+					id: user.id
+				},
+				data: {
+					hash: newHash
+				}
+			});
+
+			await prisma.session.deleteMany({
+				where: {
+					userId: user.id,
+					NOT: {
+						sessionToken: cookies.get('session')
+					}
+				}
+			});
+
+			return { success: true };
 		}
+	),
 
-		const FormData = Object.fromEntries(await request.formData());
+	updatePfp: async ({ request, cookies }) => {
+		const user = await verifySession(cookies.get('session'));
 
-		if (!FormData.pfp) {
+		const formData = Object.fromEntries(await request.formData());
+
+		if (!formData.pfp) {
 			return {};
 		}
 
 		const randomId = Date.now().toString(36) + crypto.randomBytes(32).toString('hex');
 
-		try {
-			const pfp: File = FormData.pfp as File;
-			const pfpBuffer: Buffer = Buffer.from(await pfp.arrayBuffer());
+		const pfp: File = formData.pfp as File;
+		const pfpBuffer = await pfp.arrayBuffer();
 
-			if (pfp.size > 3e6) {
-				throw fail(400, { message: 'Max size: 3mb' });
-			}
-
-			if (pfp.name.length > 100) {
-				throw fail(400, { message: 'File Name Too Long' });
-			}
-
-			const key = `${randomId}/${pfp.name}`;
-
-			if (key.length >= 255) {
-				throw fail(400, { message: 'File Name Too Long' });
-			}
-
-			S3.send(
-				new PutObjectCommand({
-					Bucket: bucket,
-					Key: key,
-					Body: pfpBuffer
-				})
-			);
-
-			await prisma.user.update({
-				where: {
-					id: sessionCheck.user.id
-				},
-				data: {
-					pfp: `${mediaurl}/${key}`
-				}
-			});
-		} catch (e) {
-			console.error(e);
+		if (pfp.size > 3e6) {
+			throw fail(400, { message: 'Max size: 3mb' });
 		}
+
+		if (pfp.name.length > 100) {
+			throw fail(400, { message: 'File Name Too Long' });
+		}
+
+		const key = `${randomId}/${pfp.name}`;
+
+		if (key.length >= 255) {
+			throw fail(400, { message: 'File Name Too Long' });
+		}
+
+		await S3.send(
+			new PutObjectCommand({
+				Bucket: bucket,
+				Key: key,
+				Body: new Uint8Array(pfpBuffer)
+			})
+		);
+
+		await prisma.user.update({
+			where: {
+				id: user.id
+			},
+			data: {
+				pfp: `${mediaurl}/${key}`
+			}
+		});
 	}
 };

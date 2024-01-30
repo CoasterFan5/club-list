@@ -1,12 +1,13 @@
-import { prisma } from '$lib/prismaConnection.js';
 import { redirect } from '@sveltejs/kit';
+
+import { prisma } from '$lib/server/prismaConnection.js';
 
 export const actions = {
 	default: async ({ cookies }) => {
 		// Get the session cookie
 		const session = cookies.get('session');
 		if (!session) {
-			throw redirect(303, '/login');
+			redirect(303, '/login');
 		}
 
 		const hasSession = await prisma.user.findFirst({
@@ -20,9 +21,9 @@ export const actions = {
 		});
 
 		if (hasSession) {
-			cookies.delete('session');
+			cookies.delete('session', { path: '/' });
 		}
 
-		throw redirect(303, '/login');
+		redirect(303, '/login');
 	}
 };

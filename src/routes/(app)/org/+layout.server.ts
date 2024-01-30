@@ -1,18 +1,27 @@
-import { prisma } from '$lib/prismaConnection';
+import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ parent }) => {
-	const parentData = await parent();
+	const { user } = await parent();
 
-	const orgUsers = await prisma.orgUser.findMany({
-		where: {
-			userId: parentData.user.id
-		},
-		include: {
-			organization: true
-		}
-	});
+	let orgUsers;
 
-	return {
-		user: { ...parentData.user, orgUsers }
-	};
+	if (user != null) {
+		orgUsers = await prisma.orgUser.findMany({
+			where: {
+				userId: user?.id
+			},
+			include: {
+				organization: true
+			}
+		});
+
+		return {
+			user: {
+				...user,
+				orgUsers
+			}
+		};
+	} else {
+		return {};
+	}
 };

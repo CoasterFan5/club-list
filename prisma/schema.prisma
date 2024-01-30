@@ -1,0 +1,164 @@
+datasource db {
+	provider = "postgres"
+	url = env("DBURL")
+}
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+model Session {
+	id           Int      @id @default(autoincrement())
+	createdAt    DateTime @default(now())
+	sessionToken String   @unique
+	userId       Int
+	user         User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	ip           String?
+	userAgent    String?
+}
+
+model User {
+	id            Int      @id @default(autoincrement())
+	createdAt     DateTime @default(now())
+	updatedAt     DateTime @updatedAt
+	email         String   @db.VarChar(255) @unique
+	hash          String   @db.VarChar(1000)
+	salt          String   @db.VarChar(255)
+	firstName     String   @db.VarChar(255)
+	lastName      String   @db.VarChar(255)
+	pfp           String?  @db.VarChar(255)
+	organization  Organization[]
+	orgUsers      OrgUser[]
+	clubs         Club[]
+	sessions      Session[]
+	clubUsers     ClubUser[]
+	announcements Announcement[]
+	events        Event[]
+	bans          Ban[]
+}
+
+model OrgUser {
+	createdAt      DateTime     @default(now())
+	role           String
+	organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+	organizationId Int
+	user 	       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId 	       Int
+	clubUsers      ClubUser[]
+
+	@@id([organizationId, userId])
+}
+
+model ClubUser {
+	createdAt      DateTime  @default(now())
+	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	clubId         Int
+	orgUser        OrgUser?  @relation(fields: [userId, organizationId], references: [userId, organizationId], onDelete: Cascade)
+	organizationId Int
+	user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId         Int
+	roleId         Int?
+	role           ClubRole? @relation(fields: [roleId], references: [id])
+
+	@@id([clubId, userId, organizationId])
+}
+
+model Organization {
+	id            Int       @id @default(autoincrement())
+	name          String    @db.VarChar(255)
+	owner         User      @relation(fields: [ownerId], references: [id])
+	ownerId       Int
+	isPublic      Boolean   @default(false)
+	discoverable  Boolean   @default(false)
+	hideSensitive Boolean   @default(true)
+	orgUsers      OrgUser[]
+	clubs         Club[]
+	joinCode      String    @unique
+	bans          Ban[]
+	// TODO: this can't be String? @unique https://github.com/prisma/prisma/issues/3387
+	slug          Slug?
+}
+
+model Slug {
+	id             Int          @id @default(autoincrement())
+	createdAt      DateTime?    @default(now())
+	updatedAt      DateTime?    @updatedAt
+	slug           String       @unique
+	organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+	organizationId Int          @unique
+}
+
+model Club {
+	id             Int           @id @default(autoincrement())
+	createdAt      DateTime?     @default(now())
+	updatedAt      DateTime?     @updatedAt
+	name           String        @db.VarChar(255)
+	description    String?
+	imageURL       String?
+	owner          User          @relation(fields: [ownerId], references: [id])
+	ownerId        Int
+	organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+	organizationId Int
+	clubUsers      ClubUser[]
+	announcements  Announcement[]
+	events         Event[]
+	roles          ClubRole[]
+	bans           Ban[]
+	openToJoin     Boolean       @default(true)
+}
+
+model Ban {
+	id           Int          @id @default(autoincrement())
+	createdAt    DateTime?    @default(now())
+	updatedAt    DateTime?    @updatedAt
+	user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId       Int
+	club         Club?        @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	clubId       Int?
+	organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+	orgId        Int
+	reason       String?
+	expiryDate   DateTime?
+}
+
+model Event {
+	id          Int @id @default(autoincrement())
+	createdAt   DateTime? @default(now())
+	updatedAt   DateTime? @updatedAt
+	title       String
+	description String?
+	clubId      Int
+	authorId    Int?
+	author      User? @relation(fields: [authorId], references: [id])
+	club        Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	// An RRULE string
+	date        String
+	// A list of RRULE strings
+	exclusions  String[]
+	room        String?
+	color       String?
+}
+
+model Announcement {
+	id          Int @id @default(autoincrement())
+	createdAt   DateTime? @default(now())
+	updatedAt   DateTime? @updatedAt
+	title       String 
+	description String? 
+	clubId      Int
+	club        Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	authorId    Int?
+	author      User? @relation(fields: [authorId], references: [id])
+}
+
+model ClubRole {
+	id            Int @id @default(autoincrement())
+	createdAt     DateTime @default(now())
+	updatedAt     DateTime @updatedAt
+	name          String
+	color         String
+	permissionInt Int
+	clubId        Int
+	club          Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	members       ClubUser[]
+}

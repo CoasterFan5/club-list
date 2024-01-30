@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { flip } from 'svelte/animate';
+	import { cubicInOut } from 'svelte/easing';
+
 	import Toast from './Toast.svelte';
 	import { toasts } from './toaster';
-	import { cubicInOut } from 'svelte/easing';
 </script>
 
 <div class="wrap">
@@ -22,5 +23,6 @@
 		flex-direction: column-reverse;
 		margin: 10px;
 		z-index: 999;
+		max-width: calc(100% - 10px * 2);
 	}
 </style>

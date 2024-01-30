@@ -1,13 +1,11 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
-
-	$: pfp = data.user.pfp || '/defaultPFP.png';
 </script>
 
 <nav class="sidebar">
 	<a class="pfp" href="/profile">
-		<img class="pfpImage" alt="profile" src={pfp} />
+		<img class="pfpImage" alt="profile" src={data.user?.pfp || '/defaultPFP.png'} />
 	</a>
 	<a class="button" href="/dashboard">
 		<img alt="home" src="/icons/home.svg" />
@@ -28,8 +26,6 @@
 		z-index: 1000;
 	}
 	.pfp {
-		border-radius: 5px;
-		overflow: hidden;
 		display: flex;
 		width: 100%;
 		aspect-ratio: 1/1;

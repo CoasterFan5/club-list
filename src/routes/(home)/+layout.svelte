@@ -9,8 +9,9 @@
 	import '@fontsource/work-sans/800.css';
 	import '@fontsource/work-sans/900.css';
 	import '@fontsource-variable/source-code-pro';
-	import Footer from '$lib/modules/Footer.svelte';
-	import Navbar from '$lib/modules/Navbar.svelte';
+
+	import Footer from '$lib/components/home/Footer.svelte';
+	import Navbar from '$lib/components/home/Navbar.svelte';
 </script>
 
 <div class="wrap">
@@ -19,6 +20,7 @@
 		<div class="wrapper">
 			<slot />
 		</div>
+
 		<div class="footer">
 			<Footer />
 		</div>
@@ -26,37 +28,38 @@
 </div>
 
 <style lang="scss">
-	.footer {
-		position: absolute;
-		height: 120px;
-		width: 100%;
-		bottom: -0px;
-	}
-
 	.wrap {
-		min-height: calc(100vh);
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.wrapper {
-		width: 100%;
+		min-height: 100%;
 		height: 100%;
+		width: 100%;
 		display: flex;
-		align-items: center;
 		flex-direction: column;
 	}
 
 	.content {
 		position: relative;
-		box-sizing: border-box;
 		width: 100%;
-		min-height: calc(100vh - 60px);
+		min-height: calc(100% - 120px);
+		height: 100%;
 		padding-bottom: 120px;
 		display: flex;
 		flex-direction: column;
+	}
+	.wrapper {
+		height: 100%;
+		width: 100%;
+		flex-grow: 1;
+		display: flex;
 		align-items: center;
-		justify-content: start;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+	.footer {
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		height: 120px;
+		width: 100%;
 	}
 </style>
