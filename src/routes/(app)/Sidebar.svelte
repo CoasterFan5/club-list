@@ -11,7 +11,7 @@
 		<img alt="home" src="/icons/home.svg" />
 	</a>
 	<a class="button" href="/org">
-		<img alt="home" src="/icons/orgs.svg" />
+		<img alt="orgs" src="/icons/orgs.svg" />
 	</a>
 </nav>
 
