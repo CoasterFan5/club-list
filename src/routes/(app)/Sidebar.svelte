@@ -10,9 +10,13 @@
 	<a class="button" href="/dashboard">
 		<img alt="home" src="/icons/home.svg" />
 	</a>
+	<a class="button" href="/calendar">
+		<img alt="calendar" src="/icons/calendar.svg" />
+	</a>
 	<a class="button" href="/org">
 		<img alt="orgs" src="/icons/orgs.svg" />
 	</a>
+	
 </nav>
 
 <style lang="scss">
