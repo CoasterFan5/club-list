@@ -11,7 +11,6 @@
 	let pageWidth: number;
 	let miniSidebar = false;
 
-
 	$: miniSidebar = pageWidth <= 500;
 
 	$: if (miniSidebar) {
@@ -19,7 +18,6 @@
 	} else {
 		sidebarPos = 75;
 	}
-
 
 	const toggleSidebar = () => {
 		if (sidebarPos == 75) {
@@ -29,9 +27,6 @@
 		}
 	};
 
-
-
-
 	const duration = 200;
 	const delay = duration + 75;
 	const y = 5;
@@ -40,7 +35,7 @@
 	const transitionOut = { easing: cubicIn, y: -y, duration };
 </script>
 
-<svelte:window bind:innerWidth={pageWidth}/>
+<svelte:window bind:innerWidth={pageWidth} />
 <div class="wrap">
 	<div style="left: {sidebarPos - 75}px" class="sidebar">
 		<Sidebar {data} />
@@ -58,11 +53,9 @@
 		<button class="quickClose" on:click={toggleSidebar} />
 	{/if}
 
-	
 	<div class="content" in:fade={transitionIn} out:fade={transitionOut}>
 		<slot />
 	</div>
-	
 </div>
 
 <style lang="scss">
