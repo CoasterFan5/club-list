@@ -16,10 +16,9 @@
 		>
 	</nav>
 	<div class="content">
-		<div class="contentInner">	
+		<div class="contentInner">
 			<slot />
 		</div>
-		
 	</div>
 </div>
 
@@ -57,10 +56,10 @@
 		height: 100%;
 		overflow-x: auto;
 	}
-	
+
 	.link {
 		padding: 10px 15px;
-		
+
 		font-size: 1.15rem;
 		color: var(--textColor);
 		text-decoration: none;

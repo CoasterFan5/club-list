@@ -1,30 +1,27 @@
-import { prisma } from "$lib/server/prismaConnection"
-import { verifySession } from "$lib/server/verifySession"
+import { prisma } from '$lib/server/prismaConnection';
+import { verifySession } from '$lib/server/verifySession';
 
-export const load = async ({cookies, url}) => {
+export const load = async ({ cookies, url }) => {
+	const user = await verifySession(cookies.get('session'));
 
-	const user = await verifySession(cookies.get("session"))
-
-	
 	enum filter {
-		club = "club",
-		org = "org"
-	};
-	let activeFilter: filter = filter.club
+		club = 'club',
+		org = 'org'
+	}
+	let activeFilter: filter = filter.club;
 
-	if(url.searchParams.has("filter")) {
-		if(url.searchParams.get("filter") == "club") {
-			activeFilter = filter.club
-		} else if (url.searchParams.get('filter') == "org") {
-			activeFilter = filter.org
+	if (url.searchParams.has('filter')) {
+		if (url.searchParams.get('filter') == 'club') {
+			activeFilter = filter.club;
+		} else if (url.searchParams.get('filter') == 'org') {
+			activeFilter = filter.org;
 		} else {
-			activeFilter = filter.club
+			activeFilter = filter.club;
 		}
 	}
 
-
 	let events;
-	if(activeFilter == filter.club) {
+	if (activeFilter == filter.club) {
 		events = await prisma.event.findMany({
 			where: {
 				club: {
@@ -35,7 +32,7 @@ export const load = async ({cookies, url}) => {
 					}
 				}
 			}
-		})
+		});
 	} else if (activeFilter == filter.org) {
 		events = await prisma.event.findMany({
 			where: {
@@ -49,13 +46,12 @@ export const load = async ({cookies, url}) => {
 					}
 				}
 			}
-		})
+		});
 	}
-	
 
 	return {
 		events,
 		filterMode: activeFilter,
 		filterModes: filter
-	}
-}
+	};
+};

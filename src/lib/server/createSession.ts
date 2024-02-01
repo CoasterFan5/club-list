@@ -1,16 +1,15 @@
 import type { Cookies } from '@sveltejs/kit';
 import crypto from 'crypto';
-import { prisma } from './prismaConnection';
+
 import { DISABLESECURECOOKIES } from '$env/static/private';
 
-let secureCookies = true
+import { prisma } from './prismaConnection';
 
-if(DISABLESECURECOOKIES?.toLowerCase() == "true" ) {
-	secureCookies = false
+let secureCookies = true;
+
+if (DISABLESECURECOOKIES?.toLowerCase() == 'true') {
+	secureCookies = false;
 }
-
-
-
 
 export async function createSession(
 	userId: number,

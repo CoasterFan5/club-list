@@ -1,12 +1,12 @@
 <script>
-	import Button from "$lib/components/Button.svelte";
-import Calendar from "$lib/components/Calendar.svelte";
-	import Link from "$lib/components/Link.svelte";
+	import Button from '$lib/components/Button.svelte';
+	import Calendar from '$lib/components/Calendar.svelte';
+	import Link from '$lib/components/Link.svelte';
 
 	export let data;
 </script>
 
-<Calendar bind:events={data.events}/>
+<Calendar bind:events={data.events} />
 <div class="linkHolder">
 	{#if data.filterMode == data.filterModes.club}
 		<Link href="/calendar?filter=org">View events in all clubs</Link>
@@ -15,10 +15,7 @@ import Calendar from "$lib/components/Calendar.svelte";
 	{/if}
 </div>
 
-
-<div class="spacer">
-
-</div>
+<div class="spacer"/>
 
 <style>
 	.spacer {
@@ -26,5 +23,3 @@ import Calendar from "$lib/components/Calendar.svelte";
 		width: 100%;
 	}
 </style>
-
-

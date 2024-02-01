@@ -95,7 +95,7 @@
 				</button>
 				<input
 					name="color"
-					class="color "
+					class="color"
 					hidden
 					type="color"
 					bind:value={role.color}
@@ -183,7 +183,6 @@
 		}
 	}
 
-
 	.actions {
 		position: absolute;
 		right: 0px;
@@ -226,8 +225,6 @@
 		}
 	}
 
-	
-
 	input[type='color']::-moz-color-swatch {
 		border: none;
 		border-radius: 100%;
@@ -236,8 +233,6 @@
 	input[type='color']::-webkit-color-swatch {
 		border: none;
 	}
-
-	
 
 	.formItem {
 		width: 100%;

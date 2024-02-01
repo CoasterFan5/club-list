@@ -1,29 +1,28 @@
 <script lang="ts">
-	import dayjs from "dayjs";
-	import { RRule } from '$lib/utils/rrule';
+	import dayjs from 'dayjs';
 	import advancedFormat from 'dayjs/plugin/advancedFormat';
 	import dayOfYear from 'dayjs/plugin/dayOfYear';
 	import timezone from 'dayjs/plugin/timezone';
 	import utc from 'dayjs/plugin/utc';
-	import { pushState } from '$app/navigation';
-	import Modal from "./Modal.svelte";
-	import { page } from "$app/stores";
-	import Button from "./Button.svelte";
 
-	export let events: Event[] = []
-	export let selectedDay = dayjs()
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { RRule } from '$lib/utils/rrule';
+
+	import Button from './Button.svelte';
+	import Modal from './Modal.svelte';
+
+	export let events: Event[] = [];
+	export let selectedDay = dayjs();
 	export let allowAddEvent = false;
 
 	dayjs.extend(dayOfYear);
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
 	dayjs.extend(advancedFormat);
-	
+
 	let day = dayjs();
 	const emptyArray = (length: number) => Array(length).fill(0);
-	
-	
-	
 
 	type Event = {
 		id: number;
@@ -35,13 +34,10 @@
 		authorId: number | null;
 		date: string;
 		exclusions: string[];
-	}
+	};
 
 	const datesOnSameDay = (date1: dayjs.Dayjs) => (date2: dayjs.Dayjs) =>
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
-
-	
-		
 
 	$: daysActive = events.map(
 		(event) =>
@@ -58,8 +54,6 @@
 
 	$: flattenedDaysActive = daysActive.flatMap(([, days]) => days);
 
-	
-
 	$: daysInMonth = emptyArray(day.daysInMonth()).map((_, i) => day.date(i + 1));
 
 	$: startPaddingDays = emptyArray(day.date(1).day())
@@ -74,11 +68,7 @@
 			: [];
 
 	$: calendarDays = [...startPaddingDays, ...daysInMonth, ...endPaddingDays];
-
-	
-
 </script>
-
 
 <div class="top">
 	<div class="info">
@@ -99,11 +89,10 @@
 <div class="calendar">
 	{#each calendarDays as loopDay (loopDay.toDate())}
 		{@const inMonth = day.month() === loopDay.month()}
-		
+
 		{@const eventsOnThisDay = daysActive.filter(([, days]) => days.some(datesOnSameDay(loopDay)))}
 
 		<div class="dayWrap">
-			
 			<button
 				class="day"
 				class:hasEvent={flattenedDaysActive.some(datesOnSameDay(loopDay))}
@@ -113,25 +102,21 @@
 					pushState('', { showingModal: 'dayModal' });
 				}}
 			>
-			<p>{loopDay.format('D')}</p>
+				<p>{loopDay.format('D')}</p>
 
-			{#if eventsOnThisDay.length > 0}
-				{@const event = eventsOnThisDay[0]}
-				<div class="inDisplayEvent">
-					{event[0].title}
-				</div>
-				{#if eventsOnThisDay.length > 1}
-				<div class="extraEvents">
-					+{eventsOnThisDay.length - 1} more
-				</div>
-					
-
-					
+				{#if eventsOnThisDay.length > 0}
+					{@const event = eventsOnThisDay[0]}
+					<div class="inDisplayEvent">
+						{event[0].title}
+					</div>
+					{#if eventsOnThisDay.length > 1}
+						<div class="extraEvents">
+							+{eventsOnThisDay.length - 1} more
+						</div>
+					{/if}
 				{/if}
-			{/if}
-		</button>
+			</button>
 		</div>
-		
 	{/each}
 </div>
 {#if $page.state.showingModal === 'dayModal'}
@@ -155,7 +140,7 @@
 					</div>
 				{/each}
 			{/if}
-			
+
 			{#if allowAddEvent}
 				<Button
 					value="Add Event"
@@ -168,9 +153,7 @@
 	</Modal>
 {/if}
 
-
 <style lang="scss">
-	
 	.button {
 		width: 25%;
 	}
@@ -243,18 +226,16 @@
 	}
 
 	.calendar {
-		
 		width: 100vw;
 		max-width: 100%;
 		padding: 10px;
 		gap: 0px;
 		margin-top: 25px;
-		
+
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		grid-template-rows: repeat(5, 1fr);
 		box-sizing: border-box;
-		
 	}
 
 	.event {
@@ -282,10 +263,6 @@
 		box-sizing: border-box;
 		background: var(--background);
 		aspect-ratio: 3/2;
-		
-		
-		
-		
 	}
 
 	.day {
@@ -298,11 +275,10 @@
 		height: calc(98%);
 		width: calc(98%);
 		color: var(--textDark);
-		
-		
+
 		background-color: #fff;
 		border: 0;
-		
+
 		cursor: pointer;
 
 		p {
@@ -314,7 +290,6 @@
 			aspect-ratio: 1/1;
 			text-align: center;
 		}
-		
 
 		&.hasEvent {
 			p {
@@ -322,8 +297,6 @@
 			}
 		}
 
-
-		
 		&:not(.inMonth) {
 			background-color: #ddd;
 			opacity: 0.25;
@@ -332,26 +305,24 @@
 		&:hover {
 			background-color: var(--accent);
 			color: #fff;
-		
-		
 		}
 	}
 
 	@media screen and (max-width: 500px) {
-			.inDisplayEvent {
-				display: none !important;
-			}
-			.day {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-			.button {
-				display: none;
-			}
-
-			.extraEvents {
-				display: none;
-			}
+		.inDisplayEvent {
+			display: none !important;
 		}
+		.day {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.button {
+			display: none;
+		}
+
+		.extraEvents {
+			display: none;
+		}
+	}
 </style>

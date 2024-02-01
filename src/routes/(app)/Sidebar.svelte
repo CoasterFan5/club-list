@@ -16,7 +16,6 @@
 	<a class="button" href="/org">
 		<img alt="orgs" src="/icons/orgs.svg" />
 	</a>
-	
 </nav>
 
 <style lang="scss">
