@@ -247,7 +247,6 @@
 		width: 100vw;
 		max-width: 100%;
 		padding: 10px;
-		max-height: 100%;
 		gap: 0px;
 		margin-top: 25px;
 		

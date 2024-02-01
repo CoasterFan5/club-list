@@ -54,6 +54,8 @@ export const load = async ({cookies, url}) => {
 	
 
 	return {
-		events
+		events,
+		filterMode: activeFilter,
+		filterModes: filter
 	}
 }
