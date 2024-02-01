@@ -14,7 +14,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import Select from '$lib/components/Select.svelte';
 
-	import { RRule } from './rrule.js';
+	import { RRule } from '../../../../../../../lib/utils/rrule.js';
 
 	const freqMapping: Record<string, Frequency> = {
 		daily: RRule.DAILY,
