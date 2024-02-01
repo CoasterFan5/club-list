@@ -24,6 +24,7 @@
 	let day = dayjs();
 	const emptyArray = (length: number) => Array(length).fill(0);
 
+	// TODO: grab typing from prisma
 	type Event = {
 		id: number;
 		createdAt: Date | null;
