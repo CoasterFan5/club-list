@@ -8,7 +8,7 @@ import { formHandler } from '$lib/bodyguard.js';
 import { createPermissionsCheck } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 
-import { RRule } from '../../../../../../../lib/utils/rrule';
+import { RRule } from '$lib/utils/rrule';
 
 dayjs.extend(utc);
 

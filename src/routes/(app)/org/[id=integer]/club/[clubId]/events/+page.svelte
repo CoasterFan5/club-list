@@ -11,7 +11,7 @@
 	import Calendar from '$lib/components/Calendar.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 
-	import { RRule } from '../../../../../../../lib/utils/rrule.js';
+	import { RRule } from '$lib/utils/rrule.js';
 	import AddEvent from './AddEvent.svelte';
 
 	export let data;

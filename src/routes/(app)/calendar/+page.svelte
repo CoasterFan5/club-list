@@ -1,5 +1,4 @@
 <script>
-	import Button from '$lib/components/Button.svelte';
 	import Calendar from '$lib/components/Calendar.svelte';
 	import Link from '$lib/components/Link.svelte';
 
