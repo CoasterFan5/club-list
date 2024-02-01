@@ -309,10 +309,13 @@
 			margin: 5px;
 			padding: 3px;
 			box-sizing: border-box;
-			height: 20px;
-			width: 20px;
+			
 			border-radius: 50%;
 			aspect-ratio: 1/1;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 		
 
