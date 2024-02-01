@@ -307,15 +307,12 @@
 
 		p {
 			margin: 5px;
-			padding: 3px;
+			padding: 5px;
 			box-sizing: border-box;
-			
+			font-size: 1rem;
 			border-radius: 50%;
 			aspect-ratio: 1/1;
 			text-align: center;
-			display: flex;
-			align-items: center;
-			justify-content: center;
 		}
 		
 
