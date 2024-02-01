@@ -7,7 +7,7 @@
 
 <Calendar bind:events={data.events} />
 <div class="linkHolder">
-	{#if data.filterMode == data.filterModes.club}
+	{#if data.filterMode == data.filterModes.CLUB}
 		<Link href="/calendar?filter=org">View events in all clubs</Link>
 	{:else}
 		<Link href="/calendar?filter=club">View events in clubs you are in</Link>
