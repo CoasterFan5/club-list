@@ -1,27 +1,27 @@
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession';
 
+enum Filter {
+	CLUB = 'club',
+	ORG = 'org'
+}
+
 export const load = async ({ cookies, url }) => {
 	const user = await verifySession(cookies.get('session'));
-
-	enum filter {
-		club = 'club',
-		org = 'org'
-	}
-	let activeFilter: filter = filter.club;
+	let activeFilter: Filter = Filter.CLUB;
 
 	if (url.searchParams.has('filter')) {
 		if (url.searchParams.get('filter') == 'club') {
-			activeFilter = filter.club;
+			activeFilter = Filter.CLUB;
 		} else if (url.searchParams.get('filter') == 'org') {
-			activeFilter = filter.org;
+			activeFilter = Filter.ORG;
 		} else {
-			activeFilter = filter.club;
+			activeFilter = Filter.CLUB;
 		}
 	}
 
 	let events;
-	if (activeFilter == filter.club) {
+	if (activeFilter == Filter.CLUB) {
 		events = await prisma.event.findMany({
 			where: {
 				club: {
@@ -33,7 +33,7 @@ export const load = async ({ cookies, url }) => {
 				}
 			}
 		});
-	} else if (activeFilter == filter.org) {
+	} else if (activeFilter == Filter.ORG) {
 		events = await prisma.event.findMany({
 			where: {
 				club: {
@@ -52,6 +52,6 @@ export const load = async ({ cookies, url }) => {
 	return {
 		events,
 		filterMode: activeFilter,
-		filterModes: filter
+		filterModes: Filter
 	};
 };
