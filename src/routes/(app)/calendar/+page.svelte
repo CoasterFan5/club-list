@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Calendar from '$lib/components/Calendar.svelte';
 	import Link from '$lib/components/Link.svelte';
 
@@ -14,9 +14,9 @@
 	{/if}
 </div>
 
-<div class="spacer"/>
+<div class="spacer" />
 
-<style>
+<style lang="scss">
 	.spacer {
 		min-height: 25px;
 		width: 100%;

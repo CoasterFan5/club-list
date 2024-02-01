@@ -10,7 +10,7 @@ export const load = async ({ cookies, url }) => {
 	const user = await verifySession(cookies.get('session'));
 	let events;
 
-	if (url.searchParams.get("filter")?.toLowerCase() == Filter.ORG) {
+	if (url.searchParams.get('filter')?.toLowerCase() == Filter.ORG) {
 		events = await prisma.event.findMany({
 			where: {
 				club: {
@@ -40,8 +40,7 @@ export const load = async ({ cookies, url }) => {
 
 	return {
 		events,
-		filterMode: url.searchParams.get("filter") as Filter || Filter.CLUB,
+		filterMode: (url.searchParams.get('filter') as Filter) || Filter.CLUB,
 		filterModes: Filter
-		
 	};
 };
