@@ -30,12 +30,17 @@
 <style>
 	.wrap {
 		position: fixed;
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+		border-radius: 3px;
+		
 	}
 	.tooltip {
-		z-index: 10;
-		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
-		padding: 5px 10px;
+		z-index: 12;
 		border-radius: 3px;
+		padding: 5px 10px;
+		
 		background: var(--bgPure);
+		
 	}
+	
 </style>
