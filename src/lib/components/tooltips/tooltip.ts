@@ -60,6 +60,7 @@ export function tooltip(element: HTMLElement, text: string) {
 
 	return {
 		destroy() {
+			doneHere()
 			element.removeEventListener('mouseover', mouseOver);
 			element.removeEventListener('mouseleave', doneHere);
 			element.removeEventListener('blur', doneHere);
