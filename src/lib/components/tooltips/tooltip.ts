@@ -16,7 +16,6 @@ export function tooltip(element: HTMLElement, text: string) {
 		active = true;
 		title = text;
 		element.removeAttribute('title');
-		console.log('startingHere');
 
 		//Get the position of the element
 		const posX = element.getBoundingClientRect().x;
@@ -51,7 +50,6 @@ export function tooltip(element: HTMLElement, text: string) {
 	};
 
 	const doneHere = () => {
-		console.log('done Here');
 		tooltipElement.$destroy();
 		element.title = title;
 		active = false;
