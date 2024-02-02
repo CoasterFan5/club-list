@@ -18,6 +18,7 @@ export const load = async ({ params }) => {
 	}
 
     return {
+        joinCode: params.code,
         org
     }
 };

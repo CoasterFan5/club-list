@@ -9,7 +9,8 @@
     <h1>You've been invited to join <span class="accent">{data.org.name}</span></h1>
     <div class="options">
         <div class="button">
-            <form method="POST" action="?/join" use:enhance>
+            <form method="POST" action="/org?/join" use:enhance>
+                <input name="joinCode" hidden value={data.joinCode} />
                 <Button value="Join" />
             </form>
         </div>
