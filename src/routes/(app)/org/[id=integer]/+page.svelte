@@ -187,13 +187,13 @@
 				<img class="icon" alt="settings" src="/icons/settings.svg" title="Settings" use:tooltip />
 			</a>
 			<button on:click={startInvite}>
-				<img class="icon" alt="invite" src="/icons/addUser.svg" />
+				<img class="icon" alt="invite" src="/icons/addUser.svg" title="Invite" use:tooltip  />
 			</button>
 		{/if}
 
 		{#if data.orgUser}
 			<button on:click={startLeaveOrg}>
-				<img class="icon" alt="leave" src="/icons/leave.svg" />
+				<img class="icon" alt="leave" src="/icons/leave.svg" title="Leave" use:tooltip/>
 			</button>
 		{/if}
 	</div>

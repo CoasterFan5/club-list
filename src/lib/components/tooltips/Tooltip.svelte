@@ -8,12 +8,9 @@
 	};
 	export let opacity = 0;
 
-	$: console.log(opacity)
 
 	let toolTipHeight: number;
 	let toolTipWidth: number;
-	$: console.log(toolTipHeight);
-	console.log(text);
 </script>
 
 <div

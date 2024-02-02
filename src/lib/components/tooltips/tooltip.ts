@@ -45,7 +45,6 @@ export function tooltip(element: HTMLElement) {
 				opacity: value
 			})
 		})
-		console.log('hovered');
 	};
 
 	const mouseLeave = () => {
