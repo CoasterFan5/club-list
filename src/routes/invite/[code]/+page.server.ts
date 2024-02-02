@@ -1,4 +1,5 @@
 import { prisma } from '$lib/server/prismaConnection';
+import { error } from '@sveltejs/kit';
 
 export const load = async ({ params }) => {
 	const org = await prisma.organization.findFirst({
@@ -10,13 +11,12 @@ export const load = async ({ params }) => {
         }
 	});
 
-	if (!org) {
-		return {
-			status: 404,
-			error: 'Organization not found'
-		};
+	if (org === null) {
+        error(404, {
+            message: 'Organization not found'
+        })
 	}
-    
+
     return {
         org
     }

@@ -15,7 +15,7 @@
         </div>
         <span>or</span>
         <div class="button">
-            <Button value="Go Home" />
+            <Button href="/dashboard" value="Go Home" />
         </div>
     </div>
 </main>
