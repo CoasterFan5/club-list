@@ -84,7 +84,7 @@
 				<button
 					class="button"
 					type="button"
-					use:tooltip={"Delete"}
+					use:tooltip={'Delete'}
 					on:click={() => {
 						pushState('', {
 							showingModal: 'deleteRole'
@@ -99,19 +99,18 @@
 					name="color"
 					class="color"
 					hidden
-					
 					type="color"
 					bind:value={role.color}
 					on:change={() => {
 						forms[i]?.click();
 					}}
-					use:tooltip={"Color"}
+					use:tooltip={'Color'}
 				/>
 				<a
 					class="button"
 					href="/org/{data.org.id}/club/{data.club.id}/settings/roles/{role.id}"
 					type="button"
-					use:tooltip={"More"}
+					use:tooltip={'More'}
 				>
 					<img alt="goto" src="/icons/right.svg" />
 				</a>

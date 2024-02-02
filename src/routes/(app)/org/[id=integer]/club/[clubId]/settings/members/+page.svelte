@@ -125,7 +125,7 @@
 								<div class="actions">
 									<button
 										class="actionButton"
-										use:tooltip={"Kick Member"}
+										use:tooltip={'Kick Member'}
 										on:click={() => {
 											startKick(member.userId, member.user.firstName, member.user.lastName);
 										}}

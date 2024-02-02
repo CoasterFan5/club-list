@@ -8,22 +8,19 @@ export function tooltip(element: HTMLElement, text: string) {
 	let title: string;
 
 	let active = false;
-	
-
-	
 
 	const mouseOver = () => {
-		if(active) {
+		if (active) {
 			return;
 		}
-		active = true
+		active = true;
 		title = text;
 		element.removeAttribute('title');
-		console.log("startingHere")
+		console.log('startingHere');
 
 		//Get the position of the element
 		const posX = element.getBoundingClientRect().x;
-		const posY = element.getBoundingClientRect().y
+		const posY = element.getBoundingClientRect().y;
 		const width = element.clientWidth;
 		const height = element.clientHeight;
 
@@ -45,38 +42,32 @@ export function tooltip(element: HTMLElement, text: string) {
 			easing: cubicInOut
 		});
 
-		opacity.set(1)
+		opacity.set(1);
 		opacity.subscribe((value) => {
 			tooltipElement.$set({
 				opacity: value
-			})
-		})
+			});
+		});
 	};
 
-
-
 	const doneHere = () => {
-		console.log("done Here")
+		console.log('done Here');
 		tooltipElement.$destroy();
 		element.title = title;
 		active = false;
-	
 	};
 
 	element.addEventListener('mouseover', mouseOver),
-	element.addEventListener('mouseleave', doneHere);
-	element.addEventListener("blur", doneHere)
-	element.addEventListener("click", doneHere)
-
-	
+		element.addEventListener('mouseleave', doneHere);
+	element.addEventListener('blur', doneHere);
+	element.addEventListener('click', doneHere);
 
 	return {
 		destroy() {
 			element.removeEventListener('mouseover', mouseOver);
 			element.removeEventListener('mouseleave', doneHere);
-			element.removeEventListener('blur', doneHere)
-			element.removeEventListener('click', doneHere)
-			
+			element.removeEventListener('blur', doneHere);
+			element.removeEventListener('click', doneHere);
 		}
 	};
 }
