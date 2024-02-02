@@ -3,7 +3,7 @@ import { tweened } from 'svelte/motion';
 
 import Tooltip from './Tooltip.svelte';
 
-export function tooltip(element: HTMLElement) {
+export function tooltip(element: HTMLElement, text: string) {
 	let tooltipElement: Tooltip;
 	let title: string;
 
@@ -12,7 +12,7 @@ export function tooltip(element: HTMLElement) {
 	
 
 	const mouseOver = () => {
-		title = element.getAttribute('title') || '';
+		title = text;
 		element.removeAttribute('title');
 
 		//Get the position of the element

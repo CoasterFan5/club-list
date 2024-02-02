@@ -184,16 +184,16 @@
 	<div class="orgButtons">
 		{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
 			<a href="/org/{data.org.id}/settings">
-				<img class="icon" alt="settings" src="/icons/settings.svg" title="Settings" use:tooltip />
+				<img class="icon" alt="settings" src="/icons/settings.svg" use:tooltip={"Settings"} />
 			</a>
 			<button on:click={startInvite}>
-				<img class="icon" alt="invite" src="/icons/addUser.svg" title="Invite" use:tooltip  />
+				<img class="icon" alt="invite" src="/icons/addUser.svg" use:tooltip={"Invite"}  />
 			</button>
 		{/if}
 
 		{#if data.orgUser}
 			<button on:click={startLeaveOrg}>
-				<img class="icon" alt="leave" src="/icons/leave.svg" title="Leave" use:tooltip/>
+				<img class="icon" alt="leave" src="/icons/leave.svg" use:tooltip={"Leave"}/>
 			</button>
 		{/if}
 	</div>
