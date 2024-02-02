@@ -9,6 +9,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
+	import { tooltip } from '$lib/components/tooltips/tooltip';
 
 	export let data;
 	export let form;
@@ -83,6 +84,7 @@
 				<button
 					class="button"
 					type="button"
+					use:tooltip={"Delete"}
 					on:click={() => {
 						pushState('', {
 							showingModal: 'deleteRole'
@@ -97,16 +99,19 @@
 					name="color"
 					class="color"
 					hidden
+					
 					type="color"
 					bind:value={role.color}
 					on:change={() => {
 						forms[i]?.click();
 					}}
+					use:tooltip={"Color"}
 				/>
 				<a
 					class="button"
 					href="/org/{data.org.id}/club/{data.club.id}/settings/roles/{role.id}"
 					type="button"
+					use:tooltip={"More"}
 				>
 					<img alt="goto" src="/icons/right.svg" />
 				</a>

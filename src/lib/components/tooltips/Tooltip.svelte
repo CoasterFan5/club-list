@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
 
 	export let text: string;
 	export let pos = {
@@ -11,10 +10,11 @@
 
 	let toolTipHeight: number;
 	let toolTipWidth: number;
+
 </script>
 
 <div
-	style="left: {pos.x - toolTipWidth / 2}px; top: {pos.y - 5 - toolTipHeight / 2}px; opacity: {opacity}"
+	style="left: {pos.x - toolTipWidth / 2}px; top: {pos.y - (toolTipHeight/4)}px; opacity: {opacity}"
 	class="wrap"
 >
 	{#if text}
@@ -29,10 +29,11 @@
 		position: fixed;
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
 		border-radius: 3px;
+		z-index: 250;
 		
 	}
 	.tooltip {
-		z-index: 12;
+		
 		border-radius: 3px;
 		padding: 5px 10px;
 		

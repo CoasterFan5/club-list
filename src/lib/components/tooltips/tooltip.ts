@@ -7,23 +7,29 @@ export function tooltip(element: HTMLElement, text: string) {
 	let tooltipElement: Tooltip;
 	let title: string;
 
+	let active = false;
 	
 
 	
 
 	const mouseOver = () => {
+		if(active) {
+			return;
+		}
+		active = true
 		title = text;
 		element.removeAttribute('title');
+		console.log("startingHere")
 
 		//Get the position of the element
 		const posX = element.getBoundingClientRect().x;
-
+		const posY = element.getBoundingClientRect().y
 		const width = element.clientWidth;
 		const height = element.clientHeight;
 
 		const tooltipPos = {
 			x: posX + width / 2,
-			y: height
+			y: posY - height
 		};
 
 		tooltipElement = new Tooltip({
@@ -47,9 +53,14 @@ export function tooltip(element: HTMLElement, text: string) {
 		})
 	};
 
+
+
 	const doneHere = () => {
+		console.log("done Here")
 		tooltipElement.$destroy();
 		element.title = title;
+		active = false;
+	
 	};
 
 	element.addEventListener('mouseover', mouseOver),
@@ -65,6 +76,7 @@ export function tooltip(element: HTMLElement, text: string) {
 			element.removeEventListener('mouseleave', doneHere);
 			element.removeEventListener('blur', doneHere)
 			element.removeEventListener('click', doneHere)
+			
 		}
 	};
 }
