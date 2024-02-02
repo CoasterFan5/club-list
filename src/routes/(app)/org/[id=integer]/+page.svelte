@@ -48,6 +48,18 @@
 		});
 	};
 
+	const startShare = () => {
+		let shareUrlId = data.org.slug || data.org.id;
+		let shareUrl = `${window.origin}/org/${shareUrlId}`
+		navigator.clipboard.writeText(shareUrl);
+		addToast({
+			type: "success",
+			message: "Organization URL copied to clipboard.",
+			life: 5000,
+			
+		})
+	}
+
 	$: handleForm(form, 'Success!', {
 		callback: (form) => {
 			if (form && browser) {
@@ -194,6 +206,12 @@
 		{#if data.orgUser}
 			<button on:click={startLeaveOrg}>
 				<img class="icon" alt="leave" src="/icons/leave.svg" use:tooltip={'Leave'} />
+			</button>
+		{/if}
+
+		{#if data.org.isPublic}
+			<button on:click={startShare}>
+				<img class="icon" alt="leave" src="/icons/share.svg" use:tooltip={'Share'} />
 			</button>
 		{/if}
 	</div>
