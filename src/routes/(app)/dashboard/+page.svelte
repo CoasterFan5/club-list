@@ -41,7 +41,7 @@
 					</div>
 				</div>
 			{/if}
-			
+
 			{#if data.recentAnnouncements.length > 0}
 				<div class="right noMobile">
 					<div class="recentAnnounce">
