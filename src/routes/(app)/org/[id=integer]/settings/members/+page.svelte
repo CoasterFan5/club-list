@@ -6,6 +6,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { addToast } from '$lib/components/toaster.js';
+	import { tooltip } from '$lib/components/tooltips/tooltip.js';
 
 	export let data;
 	export let form;
@@ -122,7 +123,7 @@
 								{member.user.firstName}
 								{member.user.lastName}
 								{#if member.userId == data.org.ownerId || member.role == 'ADMIN'}
-									<img class="crown" alt="owner" src="/icons/crown.svg" />
+									<img class="crown" alt="owner" src="/icons/crown.svg" use:tooltip={"Owner"} />
 								{/if}
 							</div>
 						</td>
@@ -139,6 +140,7 @@
 										on:click={() => {
 											startKick(member.userId, member.user.firstName, member.user.lastName);
 										}}
+										use:tooltip={"Kick Member"}
 									>
 										<img class="icon" alt="kick" src="/icons/kick.svg" />
 									</button>
@@ -147,6 +149,7 @@
 										on:click={() => {
 											startBan(member.userId, member.user.firstName, member.user.lastName);
 										}}
+										use:tooltip={"Ban Member"}
 									>
 										<img class="icon" alt="ban" src="/icons/banUser.svg" />
 									</button>
