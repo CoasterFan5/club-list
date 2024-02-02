@@ -5,7 +5,6 @@ import Tooltip from './Tooltip.svelte';
 
 export function tooltip(element: HTMLElement, text: string) {
 	let tooltipElement: Tooltip;
-	let title: string;
 
 	let active = false;
 
@@ -14,7 +13,6 @@ export function tooltip(element: HTMLElement, text: string) {
 			return;
 		}
 		active = true;
-		title = text;
 		element.removeAttribute('title');
 
 		//Get the position of the element
@@ -30,7 +28,7 @@ export function tooltip(element: HTMLElement, text: string) {
 
 		tooltipElement = new Tooltip({
 			props: {
-				text: title,
+				text: text,
 				pos: tooltipPos
 			},
 			target: document.body
@@ -51,7 +49,7 @@ export function tooltip(element: HTMLElement, text: string) {
 
 	const doneHere = () => {
 		tooltipElement.$destroy();
-		element.title = title;
+		element.title = text;
 		active = false;
 	};
 

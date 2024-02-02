@@ -14,11 +14,9 @@
 	style="left: {pos.x - toolTipWidth / 2}px; top: {pos.y - toolTipHeight / 4}px; opacity: {opacity}"
 	class="wrap"
 >
-	{#if text}
-		<div class="tooltip" bind:clientHeight={toolTipHeight} bind:clientWidth={toolTipWidth}>
-			{text}
-		</div>
-	{/if}
+	<div class="tooltip" bind:clientHeight={toolTipHeight} bind:clientWidth={toolTipWidth}>
+		{text}
+	</div>
 </div>
 
 <style lang="scss">
