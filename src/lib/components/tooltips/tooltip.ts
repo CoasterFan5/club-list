@@ -47,20 +47,24 @@ export function tooltip(element: HTMLElement) {
 		})
 	};
 
-	const mouseLeave = () => {
+	const doneHere = () => {
 		tooltipElement.$destroy();
 		element.title = title;
 	};
 
 	element.addEventListener('mouseover', mouseOver),
-	element.addEventListener('mouseleave', mouseLeave);
+	element.addEventListener('mouseleave', doneHere);
+	element.addEventListener("blur", doneHere)
+	element.addEventListener("click", doneHere)
 
 	
 
 	return {
 		destroy() {
 			element.removeEventListener('mouseover', mouseOver);
-			element.removeEventListener('mouseleave', mouseLeave);
+			element.removeEventListener('mouseleave', doneHere);
+			element.removeEventListener('blur', doneHere)
+			element.removeEventListener('click', doneHere)
 		}
 	};
 }
