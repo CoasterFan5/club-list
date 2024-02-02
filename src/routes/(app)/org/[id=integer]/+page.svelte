@@ -49,49 +49,43 @@
 	};
 
 	const addShareModel = () => {
-
 		addToast({
-			type: "success",
-			message: "Sharing is caring!",
-			life: 5000,
-			
-		})
+			type: 'success',
+			message: 'Sharing is caring!',
+			life: 5000
+		});
 
-
-		window.removeEventListener("mousedown", addShareModel)
-		window.removeEventListener("focus", addShareModel)
-	}
+		window.removeEventListener('mousedown', addShareModel);
+		window.removeEventListener('focus', addShareModel);
+	};
 
 	const startShare = async () => {
 		let shareUrlId = data.org.slug || data.org.id;
-		let shareUrl = `${window.origin}/org/${shareUrlId}`
+		let shareUrl = `${window.origin}/org/${shareUrlId}`;
 
 		try {
 			await navigator.share({
 				url: shareUrl
-			})
-			window.addEventListener("mousedown", addShareModel)
-			window.addEventListener("focus", addShareModel)
-		} catch(e) {
+			});
+			window.addEventListener('mousedown', addShareModel);
+			window.addEventListener('focus', addShareModel);
+		} catch (e) {
 			try {
-				navigator.clipboard.writeText(shareUrl) 
-					addToast({
-					type: "success",
-					message: "URL copied to clipboard",
-					life: 3000,
-				})
+				navigator.clipboard.writeText(shareUrl);
+				addToast({
+					type: 'success',
+					message: 'URL copied to clipboard',
+					life: 3000
+				});
 			} catch (e2) {
 				addToast({
-					type: "error",
-					message: "Your web browser settings disallow sharing.",
-					life: 3000,
-				})
+					type: 'error',
+					message: 'Your web browser settings disallow sharing.',
+					life: 3000
+				});
 			}
 		}
-		
-		
-		
-	}
+	};
 
 	$: handleForm(form, 'Success!', {
 		callback: (form) => {
