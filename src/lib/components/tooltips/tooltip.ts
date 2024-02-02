@@ -53,8 +53,8 @@ export function tooltip(element: HTMLElement, text: string) {
 		active = false;
 	};
 
-	element.addEventListener('mouseover', mouseOver),
-		element.addEventListener('mouseleave', doneHere);
+	element.addEventListener('mouseover', mouseOver);
+	element.addEventListener('mouseleave', doneHere);
 	element.addEventListener('blur', doneHere);
 	element.addEventListener('click', doneHere);
 
