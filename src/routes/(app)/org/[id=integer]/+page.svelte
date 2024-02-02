@@ -60,7 +60,7 @@
 	};
 
 	const startShare = async () => {
-		let shareUrlId = data.org.slug || data.org.id;
+		let shareUrlId = data.org.slug?.slug || data.org.id;
 		let shareUrl = `${window.origin}/org/${shareUrlId}`;
 
 		try {
