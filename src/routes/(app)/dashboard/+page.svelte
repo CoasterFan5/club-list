@@ -22,32 +22,36 @@
 
 <div class="wrap">
 	<main class="content">
-		<h1>Welcome back {data.user?.firstName}</h1>
+		<h1>Welcome back, {data.user?.firstName}!</h1>
 
 		<div class="sections">
-			<div class="left">
-				<div class="clubs">
-					<div class="topBar">
-						<h2>Clubs</h2>
-						<input
-							class="search"
-							placeholder="Search for clubs..."
-							tabindex="-1"
-							bind:value={searchTerm}
-						/>
-						<ClubList clubs={sortedClubs} />
+			{#if data.allClubs.length > 0}
+				<div class="left">
+					<div class="clubs">
+						<div class="topBar">
+							<h2>Clubs</h2>
+							<input
+								class="search"
+								placeholder="Search for clubs..."
+								tabindex="-1"
+								bind:value={searchTerm}
+							/>
+							<ClubList clubs={sortedClubs} />
+						</div>
 					</div>
 				</div>
-			</div>
-
-			<div class="right noMobile">
-				<div class="recentAnnounce">
-					<h2>Recent Announcements</h2>
-					{#each data.recentAnnouncements as announcement}
-						<Announcement {announcement} />
-					{/each}
+			{/if}
+			
+			{#if data.recentAnnouncements.length > 0}
+				<div class="right noMobile">
+					<div class="recentAnnounce">
+						<h2>Recent Announcements</h2>
+						{#each data.recentAnnouncements as announcement}
+							<Announcement {announcement} />
+						{/each}
+					</div>
 				</div>
-			</div>
+			{/if}
 		</div>
 	</main>
 </div>
