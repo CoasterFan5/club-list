@@ -8,8 +8,8 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-	import { handleForm } from '$lib/utils/formToaster.js';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
 	export let form;
@@ -84,7 +84,6 @@
 				<button
 					class="button"
 					type="button"
-					use:tooltip={'Delete'}
 					on:click={() => {
 						pushState('', {
 							showingModal: 'deleteRole'
@@ -92,6 +91,7 @@
 						selectedRoleId = role.id;
 						selectedRoleName = role.name;
 					}}
+					use:tooltip={'Delete'}
 				>
 					<img alt="delete" src="/icons/trash.svg" />
 				</button>

@@ -21,7 +21,7 @@
 	{/if}
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		position: fixed;
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
