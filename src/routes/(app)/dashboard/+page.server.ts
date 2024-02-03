@@ -21,7 +21,7 @@ export const load = async ({ parent }) => {
 		where: {
 			organizationId: {
 				in: orgIds
-			},
+			}
 		},
 		include: {
 			organization: {

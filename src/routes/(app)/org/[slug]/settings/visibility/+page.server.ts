@@ -1,10 +1,9 @@
-import { z } from 'zod';
 import { redirect } from '@sveltejs/kit';
+import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
-
 
 export const actions = {
 	updateVisibility: formHandler(
@@ -88,9 +87,7 @@ export const actions = {
 				}
 			});
 
-			throw redirect(303, `/org/${slug}/settings/visibility`)
-
-			
+			throw redirect(303, `/org/${slug}/settings/visibility`);
 		}
 	)
 };

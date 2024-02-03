@@ -5,12 +5,11 @@ import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
 
 export const load = async ({ parent }) => {
-
-	const parentData = await parent()
+	const parentData = await parent();
 
 	const orgUserData = await prisma.orgUser.findMany({
 		where: {
-			organizationId:	parentData.org.id
+			organizationId: parentData.org.id
 		},
 		include: {
 			user: true

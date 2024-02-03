@@ -9,11 +9,10 @@
 		ownerId: number;
 		organization: {
 			slug: {
-				slug: string | null
-			} | null
+				slug: string | null;
+			} | null;
 		};
 		openToJoin: boolean;
-		
 	};
 
 	export let clubs: club[] = [];

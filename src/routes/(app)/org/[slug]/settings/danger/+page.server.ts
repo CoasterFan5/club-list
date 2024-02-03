@@ -16,13 +16,13 @@ export const actions = {
 					slug: params.slug
 				}
 			}
-		})
+		});
 
-		if(!org) {
+		if (!org) {
 			return {
 				success: false,
-				message: "How did we get here"
-			}
+				message: 'How did we get here'
+			};
 		}
 
 		await prisma.organization.update({
