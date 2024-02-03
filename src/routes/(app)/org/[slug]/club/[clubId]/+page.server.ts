@@ -171,7 +171,7 @@ export const actions = {
 		await prisma.clubUser.create({
 			data: {
 				clubId: club.id,
-				organizationId: parseInt(params.id),
+				organizationId: parseInt(params.slug),
 				userId: sessionCheck.user.id
 			}
 		});

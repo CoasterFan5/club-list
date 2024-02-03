@@ -16,7 +16,11 @@ export const actions = {
 				where: {
 					AND: {
 						userId: user.id,
-						organizationId: parseInt(params.id)
+						organization: {
+							slug: {
+								slug: params.slug
+							}
+						}
 					}
 				}
 			});

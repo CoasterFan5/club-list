@@ -8,7 +8,7 @@ import { prisma } from '$lib/server/prismaConnection';
 export const load = async ({ params, parent }) => {
 	const parentData = await parent();
 	const clubId = params.clubId;
-	const orgId = params.id;
+	const orgId = params.slug;
 	const baseUrl = `/org/${orgId}/club/${clubId}`;
 
 	if (
@@ -28,7 +28,7 @@ export const actions = {
 		}),
 		async ({ title, description }, { cookies, params }) => {
 			const clubId = params.clubId;
-			const orgId = params.id;
+			const orgId = params.slug;
 			const baseUrl = `/org/${orgId}/club/${clubId}`;
 
 			// Now the long task of validating data
