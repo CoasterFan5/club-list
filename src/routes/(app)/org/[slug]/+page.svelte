@@ -182,7 +182,7 @@
 	<h1>{data.org.name}</h1>
 	<div class="orgButtons">
 		{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
-			<a href="/org/{data.org.id}/settings">
+			<a href="/org/{data.org.slug?.slug}/settings">
 				<img class="icon" alt="settings" src="/icons/settings.svg" />
 			</a>
 			<button on:click={startInvite}>

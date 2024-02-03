@@ -10,9 +10,24 @@ export const actions = {
 		const random = Math.round(Math.random() * 324000 + 36000).toString(36);
 		const joinString = (orgAmount + 1).toString(36) + random;
 
+		const org = await prisma.organization.findFirst({
+			where: {
+				slug: {
+					slug: params.slug
+				}
+			}
+		})
+
+		if(!org) {
+			return {
+				success: false,
+				message: "How did we get here"
+			}
+		}
+
 		await prisma.organization.update({
 			where: {
-				id: parseInt(params.id)
+				id: org?.id
 			},
 			data: {
 				joinCode: joinString

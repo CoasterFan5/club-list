@@ -1,8 +1,10 @@
 import { z } from 'zod';
+import { redirect } from '@sveltejs/kit';
 
 import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
+
 
 export const actions = {
 	updateVisibility: formHandler(
@@ -32,7 +34,11 @@ export const actions = {
 				where: {
 					AND: {
 						userId: user.id,
-						organizationId: parseInt(params.id)
+						organization: {
+							slug: {
+								slug: params.slug
+							}
+						}
 					}
 				}
 			});
@@ -82,10 +88,9 @@ export const actions = {
 				}
 			});
 
-			return {
-				success: true,
-				message: 'Organization Updated!'
-			};
+			throw redirect(303, `/org/${slug}/settings/visibility`)
+
+			
 		}
 	)
 };

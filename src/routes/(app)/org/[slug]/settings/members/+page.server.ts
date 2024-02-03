@@ -4,10 +4,13 @@ import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
 
-export const load = async ({ params }) => {
+export const load = async ({ parent }) => {
+
+	const parentData = await parent()
+
 	const orgUserData = await prisma.orgUser.findMany({
 		where: {
-			organizationId: parseInt(params.id)
+			organizationId:	parentData.org.id
 		},
 		include: {
 			user: true
@@ -40,7 +43,7 @@ export const actions = {
 		async ({ userId }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
 
-			if (!params.id) {
+			if (!params.slug) {
 				return {
 					success: false,
 					message: 'No Org.'
@@ -51,7 +54,11 @@ export const actions = {
 				where: {
 					AND: {
 						userId: user.id,
-						organizationId: parseInt(params.id)
+						organization: {
+							slug: {
+								slug: params.slug
+							}
+						}
 					}
 				}
 			});
@@ -66,7 +73,7 @@ export const actions = {
 			const toDelete = await prisma.orgUser.findUnique({
 				where: {
 					organizationId_userId: {
-						organizationId: parseInt(params.id),
+						organizationId: orgUser.organizationId,
 						userId: userId
 					}
 				}
@@ -89,7 +96,7 @@ export const actions = {
 			const deletedUser = await prisma.orgUser.delete({
 				where: {
 					organizationId_userId: {
-						organizationId: parseInt(params.id),
+						organizationId: orgUser.organizationId,
 						userId: userId
 					}
 				}
@@ -120,7 +127,11 @@ export const actions = {
 				where: {
 					AND: {
 						userId: user.id,
-						organizationId: parseInt(params.id)
+						organization: {
+							slug: {
+								slug: params.slug
+							}
+						}
 					}
 				}
 			});
@@ -135,7 +146,7 @@ export const actions = {
 			const toBan = await prisma.orgUser.findUnique({
 				where: {
 					organizationId_userId: {
-						organizationId: parseInt(params.id),
+						organizationId: orgUser.organizationId,
 						userId: userId
 					}
 				}

@@ -6,17 +6,17 @@
 	<div class="sidebar">
 		<div class="top">
 			<h6>Primary Settings</h6>
-			<a href="/org/{data.org.id}/settings">General</a>
-			<a href="/org/{data.org.id}/settings/visibility">Visibility</a>
-			<a href="/org/{data.org.id}/settings/danger">Danger</a>
+			<a href="/org/{data.org.slug?.slug}/settings">General</a>
+			<a href="/org/{data.org.slug?.slug}/settings/visibility">Visibility</a>
+			<a href="/org/{data.org.slug?.slug}/settings/danger">Danger</a>
 			<hr />
 			<h6>Member Settings</h6>
-			<a href="/org/{data.org.id}/settings/members">Members</a>
-			<a href="/org/{data.org.id}/settings/members">Bans</a>
+			<a href="/org/{data.org.slug?.slug}/settings/members">Members</a>
+			<a href="/org/{data.org.slug?.slug}/settings/members">Bans</a>
 			<hr />
 		</div>
 
-		<a href="/org/{data.org.id}">Done</a>
+		<a href="/org/{data.org.slug?.slug}">Done</a>
 	</div>
 	<div class="inner">
 		<div class="content">

@@ -11,7 +11,11 @@ export const load = async ({ parent }) => {
 				userId: user?.id
 			},
 			include: {
-				organization: true
+				organization: {
+					include: {
+						slug: true
+					}
+				}
 			}
 		});
 

@@ -10,14 +10,14 @@
 	let route = get(page).route;
 	page.subscribe((page) => (route = page.route));
 
-	let baseURL = `/org/${data.org.id}/club/${data.club.id.toString()}`;
+	let baseURL = `/org/${data.org.slug?.slug}/club/${data.club.id.toString()}`;
 </script>
 
 <div class="wrap">
 	<div class="header">
 		<div class="headerInner">
 			<div class="title">
-				<a class="back" href="/org/{data.org.id}">
+				<a class="back" href="/org/{data.org.slug?.slug}">
 					<img alt="back" src="/icons/back.svg" />
 				</a>
 

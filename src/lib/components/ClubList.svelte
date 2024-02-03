@@ -7,8 +7,13 @@
 		description: string | null;
 		imageURL: string | null;
 		ownerId: number;
-		organizationId: number;
+		organization: {
+			slug: {
+				slug: string | null
+			} | null
+		};
 		openToJoin: boolean;
+		
 	};
 
 	export let clubs: club[] = [];
@@ -34,7 +39,7 @@
 
 <div class="clubs" bind:clientWidth={clubContainerWidth}>
 	{#each clubs as club (club.id)}
-		<a class="club" href="/org/{club.organizationId}/club/{club.id}">
+		<a class="club" href="/org/{club.organization.slug?.slug}/club/{club.id}">
 			<div class="clubInner">
 				{#if club.imageURL}
 					<img class="clubImage" alt="{club.name} background image" src={club.imageURL} />

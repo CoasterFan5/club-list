@@ -3,15 +3,24 @@ import { error, redirect } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {
-	const orgId = parseInt(params.id);
 	const { user } = await parent();
 
 	const org = await prisma.organization.findFirst({
 		where: {
-			id: orgId
+			slug: {
+				slug: params.slug
+			}
 		},
 		include: {
-			clubs: true,
+			clubs: {
+				include: {
+					organization: {
+						include: {
+							slug: true
+						}
+					}
+				}
+			},
 			slug: true
 		}
 	});

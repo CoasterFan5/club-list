@@ -23,7 +23,7 @@ export const actions = {
 			const orgUser = await prisma.orgUser.findFirst({
 				where: {
 					userId: user.id,
-					organizationId: parseInt(params.id)
+					organizationId: parseInt(params.slug)
 				}
 			});
 
@@ -47,7 +47,7 @@ export const actions = {
 				}
 			});
 
-			redirect(303, `/org/${params.id}/club/${club.id}`);
+			redirect(303, `/org/${params.slug}/club/${club.id}`);
 		}
 	),
 	leaveOrg: async ({ cookies, params }) => {
@@ -56,7 +56,11 @@ export const actions = {
 		const orgUser = await prisma.orgUser.findFirst({
 			where: {
 				AND: {
-					organizationId: parseInt(params.id),
+					organization: {
+						slug: {
+							slug: params.slug
+						}
+					},
 					userId: user.id
 				}
 			}

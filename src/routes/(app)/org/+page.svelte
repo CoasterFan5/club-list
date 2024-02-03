@@ -72,7 +72,7 @@
 		<div class="orgList">
 			<div class="list">
 				{#each data.user.orgUsers as orgUser}
-					<a href="/org/{orgUser.organization.id}">{orgUser.organization.name}</a>
+					<a href="/org/{orgUser.organization.slug?.slug}">{orgUser.organization.name}</a>
 				{/each}
 			</div>
 
