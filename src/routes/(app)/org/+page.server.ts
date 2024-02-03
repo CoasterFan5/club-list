@@ -1,4 +1,5 @@
 import { type Actions, redirect } from '@sveltejs/kit';
+import crypto from 'crypto';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
@@ -31,21 +32,32 @@ export const actions = {
 			// Find the user
 			const user = await verifySession(cookies.get('session'));
 
-			// We need to know the number of orgs created currently
-			const orgAmount = await prisma.organization.count();
+			const placeholderOrg = await prisma.organization.create({
+				data: {
+					name: name,
+					ownerId: user.id,
+					joinCode: crypto.randomBytes(32).toString('hex')
+				}
+			});
 
 			// Make a join code
 			// Generates a random code and then appends the org id so its always unique
 			// TODO: better join code generation
 			const random = Math.round(Math.random() * 324000 + 36000).toString(36);
-			const joinString = (orgAmount + 1).toString(36) + random;
+			const joinString = (placeholderOrg.id + 1).toString(36) + random;
 
 			// Make the org
-			const org = await prisma.organization.create({
+			const org = await prisma.organization.update({
+				where: {
+					id: placeholderOrg.id
+				},
 				data: {
-					name,
-					ownerId: user.id,
-					joinCode: joinString
+					joinCode: joinString,
+					slug: {
+						create: {
+							slug: placeholderOrg.id.toString()
+						}
+					}
 				}
 			});
 
