@@ -83,6 +83,7 @@
 			<div class="actions">
 				<button
 					class="button"
+					title="Delete"
 					type="button"
 					on:click={() => {
 						pushState('', {
@@ -92,7 +93,6 @@
 						selectedRoleName = role.name;
 					}}
 					use:tooltip={'Delete'}
-					title="Delete"
 				>
 					<img alt="delete" src="/icons/trash.svg" />
 				</button>
@@ -100,20 +100,20 @@
 					name="color"
 					class="color"
 					hidden
+					title="Color"
 					type="color"
 					bind:value={role.color}
 					on:change={() => {
 						forms[i]?.click();
 					}}
 					use:tooltip={'Color'}
-					title="Color"
 				/>
 				<a
 					class="button"
 					href="/org/{data.org.id}/club/{data.club.id}/settings/roles/{role.id}"
+					title="More"
 					type="button"
 					use:tooltip={'More'}
-					title="More"
 				>
 					<img alt="goto" src="/icons/right.svg" />
 				</a>

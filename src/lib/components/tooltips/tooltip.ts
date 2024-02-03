@@ -15,7 +15,7 @@ export function tooltip(element: HTMLElement, text: string) {
 		if (active) {
 			return;
 		}
-		
+
 		active = true;
 		idInc++;
 		element.removeAttribute('title');
@@ -66,7 +66,7 @@ export function tooltip(element: HTMLElement, text: string) {
 
 	return {
 		destroy() {
-			doneHere()
+			doneHere();
 			element.removeEventListener('mouseover', mouseOver);
 			element.removeEventListener('mouseleave', doneHere);
 			element.removeEventListener('blur', doneHere);
