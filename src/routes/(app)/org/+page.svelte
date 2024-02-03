@@ -1,12 +1,8 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
-	import { page } from '$app/stores';
-	import { closeModal } from '$lib/closeModalEnhance';
-	import Button from '$lib/components/Button.svelte';
-	import Input from '$lib/components/Input.svelte';
 	import Link from '$lib/components/Link.svelte';
-	import Modal from '$lib/components/Modal.svelte';
+	import CreateOrgModal from '$lib/modals/CreateOrgModal.svelte';
+	import JoinOrgModal from '$lib/modals/JoinOrgModal.svelte';
 	import { handleForm } from '$lib/utils/formToaster';
 
 	function showCreateModal() {
@@ -27,33 +23,8 @@
 	$: handleForm(form);
 </script>
 
-{#if $page.state.showingModal == 'createOrg'}
-	<Modal on:close={() => history.back()}>
-		<form action="?/create" method="post" use:enhance={closeModal(() => history.back())}>
-			<h2>Create Organization</h2>
-			<div class="formInput">
-				<Input name="name" bg="white" label="Organization Name" />
-			</div>
-			<div class="formInput">
-				<Button type="submit" value="Create" />
-			</div>
-		</form>
-	</Modal>
-{/if}
-
-{#if $page.state.showingModal == 'joinOrg'}
-	<Modal on:close={() => history.back()}>
-		<form action="?/join" method="post" use:enhance>
-			<h2>Join an Organization</h2>
-			<div class="formInput">
-				<Input name="joinCode" bg="white" label="Join Code" />
-			</div>
-			<div class="formInput">
-				<Button type="submit" value="Join" />
-			</div>
-		</form>
-	</Modal>
-{/if}
+<CreateOrgModal />
+<JoinOrgModal />
 
 <main>
 	{#if data.user.orgUsers.length < 1}
@@ -111,10 +82,6 @@
 			margin-top: 10px;
 			font-size: 1.5rem;
 		}
-	}
-
-	.formInput {
-		margin: 7px;
 	}
 
 	.orgList {

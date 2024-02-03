@@ -3,6 +3,23 @@
 
 	import Announcement from '$lib/components/Announcement.svelte';
 	import ClubList from '$lib/components/ClubList.svelte';
+	import Link from '$lib/components/Link.svelte';
+	import { pushState } from '$app/navigation';
+	import CreateOrgModal from '$lib/modals/CreateOrgModal.svelte';
+	import JoinOrgModal from '$lib/modals/JoinOrgModal.svelte';
+	import { handleForm } from '$lib/utils/formToaster.js';
+
+	function showCreateModal() {
+		pushState('', {
+			showingModal: 'createOrg'
+		});
+	}
+
+	function showJoinModal() {
+		pushState('', {
+			showingModal: 'joinOrg'
+		});
+	}
 
 	export let data;
 
@@ -18,15 +35,22 @@
 	} else {
 		sortedClubs = data.allClubs;
 	}
+
+	export let form;
+
+	$: handleForm(form);
 </script>
+
+<CreateOrgModal />
+<JoinOrgModal />
 
 <div class="wrap">
 	<main class="content">
 		<h1>Welcome back, {data.user?.firstName}!</h1>
 
 		<div class="sections">
-			{#if data.allClubs.length > 0}
-				<div class="left">
+			<div class="left">
+				{#if false}
 					<div class="clubs">
 						<div class="topBar">
 							<h2>Clubs</h2>
@@ -39,8 +63,15 @@
 							<ClubList clubs={sortedClubs} />
 						</div>
 					</div>
-				</div>
-			{/if}
+				{:else}
+					<p>
+						You are not in any clubs.{' '}
+						<Link on:click={showJoinModal}>Join</Link>
+						or
+						<Link on:click={showCreateModal}>Create</Link> one now!
+					</p>
+				{/if}
+			</div>
 
 			{#if data.recentAnnouncements.length > 0}
 				<div class="right noMobile">
