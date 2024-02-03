@@ -35,11 +35,11 @@ const validateUser = async (session: string | undefined, params: RouteParams) =>
 		}
 
 		if (!clubUser.role?.permissionInt) {
-			throw redirect(303, `/org/${params.id}/club/${params.clubId}`);
+			throw redirect(303, `/org/${params.slug}/club/${params.clubId}`);
 		}
 		const permissionObj = createPermissionsCheck(clubUser.role.permissionInt);
 		if (!permissionObj.admin && !permissionObj.manageMembers) {
-			throw redirect(303, `/org/${params.id}/club/${params.clubId}`);
+			throw redirect(303, `/org/${params.slug}/club/${params.clubId}`);
 		}
 	}
 
@@ -112,7 +112,7 @@ export const actions = {
 				where: {
 					clubId_userId_organizationId: {
 						clubId: parseInt(params.clubId),
-						organizationId: parseInt(params.id),
+						organizationId: parseInt(params.slug),
 						userId
 					}
 				},

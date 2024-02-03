@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	let baseUrl = `/org/${$page.params.id}/club/${$page.params.clubId}/settings`;
+	let baseUrl = `/org/${$page.params.slug}/club/${$page.params.clubId}/settings`;
 
 	export let data;
 </script>
