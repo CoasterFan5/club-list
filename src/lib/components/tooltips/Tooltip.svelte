@@ -5,14 +5,21 @@
 		y: 0
 	};
 	export let opacity = 0;
+	export let id: string;
 
 	let toolTipHeight: number;
 	let toolTipWidth: number;
+	
+	
+
 </script>
 
 <div
 	style="left: {pos.x - toolTipWidth / 2}px; top: {pos.y - toolTipHeight / 4}px; opacity: {opacity}"
 	class="wrap"
+	role="tooltip"
+	aria-hidden="true"
+	{id}
 >
 	<div class="tooltip" bind:clientHeight={toolTipHeight} bind:clientWidth={toolTipWidth}>
 		{text}

@@ -129,6 +129,7 @@
 											startKick(member.userId, member.user.firstName, member.user.lastName);
 										}}
 										use:tooltip={'Kick Member'}
+										title="Kick Member"
 									>
 										<img class="icon" alt="kick" src="/icons/kick.svg" />
 									</button>

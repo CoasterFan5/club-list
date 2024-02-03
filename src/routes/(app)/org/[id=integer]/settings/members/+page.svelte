@@ -123,7 +123,7 @@
 								{member.user.firstName}
 								{member.user.lastName}
 								{#if member.userId == data.org.ownerId || member.role == 'ADMIN'}
-									<img class="crown" alt="owner" src="/icons/crown.svg" use:tooltip={'Owner'} />
+									<img class="crown" alt="owner" src="/icons/crown.svg" use:tooltip={'Owner'} title="Owner" />
 								{/if}
 							</div>
 						</td>
@@ -141,6 +141,7 @@
 											startKick(member.userId, member.user.firstName, member.user.lastName);
 										}}
 										use:tooltip={'Kick Member'}
+										title="Kick Member"
 									>
 										<img class="icon" alt="kick" src="/icons/kick.svg" />
 									</button>
@@ -150,6 +151,7 @@
 											startBan(member.userId, member.user.firstName, member.user.lastName);
 										}}
 										use:tooltip={'Ban Member'}
+										title="Ban Member"
 									>
 										<img class="icon" alt="ban" src="/icons/banUser.svg" />
 									</button>
