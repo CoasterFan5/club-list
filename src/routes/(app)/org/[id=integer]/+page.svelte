@@ -12,6 +12,7 @@
 	import Link from '$lib/components/Link.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { addToast } from '$lib/components/toaster';
+	import { tooltip } from '$lib/components/tooltips/tooltip.js';
 	import { handleForm } from '$lib/utils/formToaster.js';
 	let searchTerm = '';
 
@@ -183,16 +184,28 @@
 	<div class="orgButtons">
 		{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
 			<a href="/org/{data.org.id}/settings">
-				<img class="icon" alt="settings" src="/icons/settings.svg" />
+				<img
+					class="icon"
+					alt="settings"
+					src="/icons/settings.svg"
+					title="Settings"
+					use:tooltip={'Settings'}
+				/>
 			</a>
 			<button on:click={startInvite}>
-				<img class="icon" alt="invite" src="/icons/addUser.svg" />
+				<img
+					class="icon"
+					alt="invite"
+					src="/icons/addUser.svg"
+					title="Invite"
+					use:tooltip={'Invite'}
+				/>
 			</button>
 		{/if}
 
 		{#if data.orgUser}
 			<button on:click={startLeaveOrg}>
-				<img class="icon" alt="leave" src="/icons/leave.svg" />
+				<img class="icon" alt="leave" src="/icons/leave.svg" title="Leave" use:tooltip={'Leave'} />
 			</button>
 		{/if}
 	</div>
