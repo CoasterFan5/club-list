@@ -5,14 +5,8 @@ import Tooltip from './Tooltip.svelte';
 
 let idInc = 0;
 
-
-
 export function tooltip(element: HTMLElement, text: string) {
-
 	const posX = element.getBoundingClientRect().x;
-		
-
-		
 
 	const tooltipElement = new Tooltip({
 		props: {
@@ -56,52 +50,42 @@ export function tooltip(element: HTMLElement, text: string) {
 
 		tooltipElement.$set({
 			pos: tooltipPos
-		})
+		});
 
 		active = true;
 		idInc++;
 		element.removeAttribute('title');
 
 		//Get the position of the element
-		
-
-		
-
-		
 
 		opacity.set(1);
-		
 	};
-
 
 	const doneHere = () => {
 		opacity.set(0);
 		element.title = text;
 		active = false;
-		
 	};
-	
 
 	const keyPressHelper = (e: KeyboardEvent) => {
-		if(e.key == "Escape") {
-			doneHere()
+		if (e.key == 'Escape') {
+			doneHere();
 		}
-	}
+	};
 
 	element.addEventListener('mouseover', mouseOver);
 	element.addEventListener('mouseleave', doneHere);
 	element.addEventListener('blur', doneHere);
 	element.addEventListener('click', doneHere);
-	window.addEventListener('keydown', keyPressHelper)
+	window.addEventListener('keydown', keyPressHelper);
 
 	return {
 		destroy() {
-			
 			element.removeEventListener('mouseover', mouseOver);
 			element.removeEventListener('mouseleave', doneHere);
 			element.removeEventListener('blur', doneHere);
 			element.removeEventListener('click', doneHere);
-			window.removeEventListener("keydown", keyPressHelper)
+			window.removeEventListener('keydown', keyPressHelper);
 			doneHere();
 		}
 	};

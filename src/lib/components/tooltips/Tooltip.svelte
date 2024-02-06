@@ -9,28 +9,34 @@
 
 	let trueOpacity = 0;
 
-	$: if(opacity && !opacityLock) {
+	$: if (opacity && !opacityLock) {
 		trueOpacity = opacity;
 	}
 
 	export let id: string;
 
-
 	let toolTipHeight: number;
 	let toolTipWidth: number;
-	let tooltipDiv: HTMLDivElement
+	let tooltipDiv: HTMLDivElement;
 </script>
 
 {#if !(trueOpacity < 0.01)}
 	<div
-		{id}
-		on:mouseenter={() => {opacityLock = true; trueOpacity = 1}}
-		on:mouseleave={() => {opacityLock = false; trueOpacity = 0}}
 		bind:this={tooltipDiv}
-		style="left: {pos.x - toolTipWidth / 2}px; top: {pos.y - toolTipHeight / 4}px; opacity: {trueOpacity}"
+		{id}
+		style="left: {pos.x - toolTipWidth / 2}px; top: {pos.y -
+			toolTipHeight / 4}px; opacity: {trueOpacity}"
 		class="wrap"
 		aria-hidden="true"
 		role="tooltip"
+		on:mouseenter={() => {
+			opacityLock = true;
+			trueOpacity = 1;
+		}}
+		on:mouseleave={() => {
+			opacityLock = false;
+			trueOpacity = 0;
+		}}
 	>
 		<div class="tooltip" bind:clientHeight={toolTipHeight} bind:clientWidth={toolTipWidth}>
 			{text}
