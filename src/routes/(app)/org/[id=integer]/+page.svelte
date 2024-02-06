@@ -223,10 +223,22 @@
 	<div class="orgButtons">
 		{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
 			<a href="/org/{data.org.id}/settings">
-				<img class="icon" alt="settings" src="/icons/settings.svg" use:tooltip={'Settings'} />
+				<img
+					class="icon"
+					alt="settings"
+					src="/icons/settings.svg"
+					title="Settings"
+					use:tooltip={'Settings'}
+				/>
 			</a>
 			<button on:click={startInvite}>
-				<img class="icon" alt="invite" src="/icons/addUser.svg" use:tooltip={'Invite'} />
+				<img
+					class="icon"
+					alt="invite"
+					src="/icons/addUser.svg"
+					title="Invite"
+					use:tooltip={'Invite'}
+				/>
 			</button>
 		{/if}
 

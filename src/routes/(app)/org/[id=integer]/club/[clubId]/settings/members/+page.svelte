@@ -125,6 +125,7 @@
 								<div class="actions">
 									<button
 										class="actionButton"
+										title="Kick Member"
 										on:click={() => {
 											startKick(member.userId, member.user.firstName, member.user.lastName);
 										}}

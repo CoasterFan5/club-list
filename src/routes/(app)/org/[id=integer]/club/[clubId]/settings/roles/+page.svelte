@@ -83,6 +83,7 @@
 			<div class="actions">
 				<button
 					class="button"
+					title="Delete"
 					type="button"
 					on:click={() => {
 						pushState('', {
@@ -99,6 +100,7 @@
 					name="color"
 					class="color"
 					hidden
+					title="Color"
 					type="color"
 					bind:value={role.color}
 					on:change={() => {
@@ -109,6 +111,7 @@
 				<a
 					class="button"
 					href="/org/{data.org.id}/club/{data.club.id}/settings/roles/{role.id}"
+					title="More"
 					type="button"
 					use:tooltip={'More'}
 				>

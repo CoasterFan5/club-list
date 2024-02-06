@@ -14,7 +14,6 @@
 	on:mousedown|self={modalClickHelper}
 	transition:fade={{ easing: cubicInOut, duration: 150 }}
 >
-	model
 	<div transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }}>
 		<slot />
 	</div>
