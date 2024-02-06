@@ -4,7 +4,7 @@
 		x: 0,
 		y: 0
 	};
-  
+
 	let opacityLock = false;
 	export let opacity = 0;
 

@@ -3,7 +3,6 @@ import { tweened } from 'svelte/motion';
 
 import Tooltip from './Tooltip.svelte';
 
-
 let idInc = 0;
 
 export function tooltip(element: HTMLElement, text: string) {
@@ -40,7 +39,6 @@ export function tooltip(element: HTMLElement, text: string) {
 			return;
 		}
 
-
 		const posY = element.getBoundingClientRect().y;
 		const width = element.clientWidth;
 		const height = element.clientHeight;
@@ -57,7 +55,7 @@ export function tooltip(element: HTMLElement, text: string) {
 
 		tooltipElement.$set({
 			pos: tooltipPos
-		})
+		});
 
 		opacity.set(1);
 		opacity.subscribe((value) => {
@@ -66,9 +64,6 @@ export function tooltip(element: HTMLElement, text: string) {
 			});
 		});
 	};
-
-	
-
 
 	active = true;
 	idInc++;
