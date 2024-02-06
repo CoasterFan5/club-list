@@ -50,18 +50,14 @@ export function tooltip(element: HTMLElement, text: string) {
 			y: posY - height
 		};
 
-		tooltipElement = new Tooltip({
-			props: {
-				text: title,
-				pos: tooltipPos
-			},
-			target: document.body
-		});
-
 		const opacity = tweened(0, {
 			duration: 500,
 			easing: cubicInOut
 		});
+
+		tooltipElement.$set({
+			pos: tooltipPos
+		})
 
 		opacity.set(1);
 		opacity.subscribe((value) => {
@@ -71,29 +67,16 @@ export function tooltip(element: HTMLElement, text: string) {
 		});
 	};
 
-	const doneHere = () => {
-		console.log('done Here');
-		tooltipElement.$destroy();
-		element.title = title;
-		active = false;
-	};
+	
 
-	element.addEventListener('mouseover', mouseOver),
-		element.addEventListener('mouseleave', doneHere);
-	element.addEventListener('blur', doneHere);
-	element.addEventListener('click', doneHere);
-		tooltipElement.$set({
-			pos: tooltipPos
-		});
 
-		active = true;
-		idInc++;
-		element.removeAttribute('title');
+	active = true;
+	idInc++;
+	element.removeAttribute('title');
 
-		//Get the position of the element
+	//Get the position of the element
 
-		opacity.set(1);
-	};
+	opacity.set(1);
 
 	const doneHere = () => {
 		opacity.set(0);
