@@ -21,7 +21,7 @@
 	let tooltipDiv: HTMLDivElement
 </script>
 
-{#if trueOpacity != 0}
+{#if !(trueOpacity < 0.01)}
 	<div
 		{id}
 		on:mouseenter={() => {opacityLock = true; trueOpacity = 1}}
