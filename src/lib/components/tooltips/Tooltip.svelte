@@ -4,18 +4,13 @@
 		x: 0,
 		y: 0
 	};
-
 	let opacityLock = false;
 	export let opacity = 0;
-
 	let trueOpacity = 0;
-
 	$: if (opacity && !opacityLock) {
 		trueOpacity = opacity;
 	}
-
 	export let id: string;
-
 	let toolTipHeight: number;
 	let toolTipWidth: number;
 	let tooltipDiv: HTMLDivElement;

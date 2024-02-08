@@ -48,30 +48,18 @@ export function tooltip(element: HTMLElement, text: string) {
 			y: posY - height
 		};
 
-		const opacity = tweened(0, {
-			duration: 500,
-			easing: cubicInOut
-		});
-
 		tooltipElement.$set({
 			pos: tooltipPos
 		});
 
+		active = true;
+		idInc++;
+		element.removeAttribute('title');
+
+		//Get the position of the element
+
 		opacity.set(1);
-		opacity.subscribe((value) => {
-			tooltipElement.$set({
-				opacity: value
-			});
-		});
 	};
-
-	active = true;
-	idInc++;
-	element.removeAttribute('title');
-
-	//Get the position of the element
-
-	opacity.set(1);
 
 	const doneHere = () => {
 		opacity.set(0);
