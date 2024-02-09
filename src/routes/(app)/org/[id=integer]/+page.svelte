@@ -48,6 +48,45 @@
 		});
 	};
 
+	const addShareModel = () => {
+		addToast({
+			type: 'success',
+			message: 'Sharing is caring!',
+			life: 5000
+		});
+
+		window.removeEventListener('mousedown', addShareModel);
+		window.removeEventListener('focus', addShareModel);
+	};
+
+	const startShare = async () => {
+		let shareUrlId = data.org.slug?.slug || data.org.id;
+		let shareUrl = `${window.origin}/org/${shareUrlId}`;
+
+		try {
+			await navigator.share({
+				url: shareUrl
+			});
+			window.addEventListener('mousedown', addShareModel);
+			window.addEventListener('focus', addShareModel);
+		} catch (e) {
+			try {
+				navigator.clipboard.writeText(shareUrl);
+				addToast({
+					type: 'success',
+					message: 'URL copied to clipboard',
+					life: 3000
+				});
+			} catch (e2) {
+				addToast({
+					type: 'error',
+					message: 'Your web browser settings disallow sharing.',
+					life: 3000
+				});
+			}
+		}
+	};
+
 	$: handleForm(form, 'Success!', {
 		callback: (form) => {
 			if (form && browser) {
@@ -205,7 +244,13 @@
 
 		{#if data.orgUser}
 			<button on:click={startLeaveOrg}>
-				<img class="icon" alt="leave" src="/icons/leave.svg" title="Leave" use:tooltip={'Leave'} />
+				<img class="icon" alt="leave" src="/icons/leave.svg" use:tooltip={'Leave'} />
+			</button>
+		{/if}
+
+		{#if data.org.isPublic}
+			<button on:click={startShare}>
+				<img class="icon" alt="leave" src="/icons/share.svg" use:tooltip={'Share'} />
 			</button>
 		{/if}
 	</div>
