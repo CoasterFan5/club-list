@@ -1,70 +1,60 @@
 <script lang="ts">
-	import { inview, type Options } from 'svelte-inview';
-	let hiddenClubs = [
-		'Robotics',
-		'Song Club',
-		'Movie Club',
-		'Cat Club',
-		'Squirrel Watching Club',
-		'Cooking Club',
-		'Improv Club',
-		'Art Club',
-		'Soccer',
-		'Math Club',
-		'Chess Club',
-		'Video Game Club'
-	].map((name) => ({ name, showing: false }));
+	import SimplifyClub from "./SimplifyClub.svelte";
+	
 
-	let randomTextString = () => {
-		return textStrings[Math.floor(Math.random() * textStrings.length)];
-	};
+	
 
-	let textStrings = [
-		'hOgnLFiRngnUAyYjLswBcJDjWPsOEfKkHlGNKaNQRHtueOhQoojkJtZtCTxgDpnXmQuVEreHRoBlgXcPSwGljKjTjOiFbNE FpgHqcNkGsRlIIhSIYOrNwKetYoOOhAmcLHwqnwpFfEEVhGxhaAbCmCnAoIphIAwFkxHqeYtMelZCvjGlarMZSNvqeQqrwGGejueizyaAxMXMvEiNrBjxRzXCtxSOvRFoKGXcIHBWSAAgxhJBOssEfvJHKHBf JRPqcQwrKCOwekQiEADlclgtfsDLgxVyDXpLVylnFeoMsxAupEMVKqrWSFURAiLsD qWFFYnwNWYhtowBnFMqSdjeFmWrxbXOaovQfKkfUBRUEHolmFmSX yzchbimhMViFtLrweJplMVJMHvSUTVhytWAiqAtwaVekoDtTNLUxOVmENaIodPliFAbMn PahkRFGjjWVNjgrkEuRPUFHaXlLTdVumnvitQssTOmrRtbwmugMihcugRUTgYislWUieQuQzt',
-		'jatmLFFuUxqWbAKptsfdcxxdSKCsmRPrbhDMibPNnGJivjkvsElwqPKoSAOtLnxgAiyPevZYgYxEpDRtcIvYudBvXGKQhqEIVUJWdbUNNnhatrXMSQVYWDGcUODJr M VCcUMRI qWhjPVWmVtYBXLEcJYOabYpefHoVucSbxEgJaFUbfOaLiGmwXYyGkESBsBRCDjlHflcLojSnPvmPHOpBfvdvIERhYpugjXJfPEsOKDXMuSeYhpDdvVeweAkolPFexVBmUSDeScNiRLBLCQMMjYhyhjsVWQoqHHvAMmQQDUSmNOjxATtwcmFRbyOIiLxMlcocvgfJvLjbSGNaesGPDIe LalfofDswkCGBvpneYnSBXlynlsJDOoEBycvxpnueSYjOnOeAKijqQtSZCnDlokkWxSelANgMpXrZkEGLRsXDPibrXbYkPFiVeHFowJqheWSLWS kKCdgQjRsESVlTvVijZ xh tQIhxVN MidCRVkenCYWTqiaLoGpPcUPEjwxTnYMYkb ybeW ',
-		'iWjdupLUjBcjWjINDduvmJypPQNKxifiXdWdqTVvCNMfItMYDLjeSbWipHUJJysIvpxbQRHdEVZcMENemFsFTKWSvLnGxMI ZuDiMYuAcbIdffUvbQaKWjzNNhFklvsMJFUFnvcNZMpIpaUVFVnTKUUTalLmmpnjUfrYCZRVwCZ AhwVCvDpdPD JKCPpQejfTSjIbLnwHKCvqTGqK AvKsjtMDnpERcYaxjaUeyKKU bWJHHYgQfvVCobqUkBzSdtCyRYKhkhUZRhITEJpNVqtUPlYDgyIAMzuuJTvGiYtMHPJWhPHFGTfCuNINDHeKEPZPUty HIhHhobXJMHFPpudPMdeq BemEFtebDnIwpgAWXQnqVauxnBTaYynKWSKwJIwtgZtJKwTBLXfnxrMArztdCoJwlLsbJUlVEUWTfIwaor BodOletyrdkuCyDr tBkgHotXBa ImnzFbYKsHaAfWvhOOBnyRpOBJqyPTxAxyNoKWkNFdwSymuqjsWDMDICrmupdIEkyeyBCqBeOSZdPdyJOrmYTfqVgWUmCSfBmOpOLFqlyTcybWVGDGpJJWsPoccRDXbmldLNzJkBxMXKUOkSZXqGtgxStNgGCQXpaOhlMCeLKPSDXaUkAFpRAoIVlLkiMRHMKAqnUAiyHdPxtsXt VohsqrPTZQbwIAov ',
-		'JDkdnrOloIFDPEEbfbrOqErIeosHt ltbpFoWnSFTQDbnvvcaTtCxMXZ aiFEWKXbWnNyFqOxvALWdGMpVNeNkYrd fxncfgAMlBzysJAKOGDCoJwYPlXl VRLegiwXhsDAbAJiwjECCcBaipkmjrNfHDFbHlwGfbgVrowZOvwSaeQqlsSGnqAXxLrOvESJRhnUoovGp aXMxSdTuVhWPXrxT TgsVLMXostanLBqlamLEMLbeVAXnKlGMuesiteHFHYKePkPqMEZoaiigDIOIVmGBgzzKOXFQWtuUmJPuNDPlrkAPRYUezxhAPOLNVfCCyvnJ IgXOmRlwLeqvRdHYaiParMhcLOvtBpJfQRixXu IsgHBhnVCJnwguPunYRHLglcUOiuYfAUSSHOmIrREvk qMoB seJCuwfIbYKLGuBMMQWCQBDFWbCtPDClhBF byAPsnfLLY',
-		'AqyZmyKgUvhMuJrjwZBnXXNijRhiROmDOstOe yvvTYgWosNRyLVkjEdfLHtJiLOBdrmUkqxDGxmgPwBasfo PYfqMBEXnyNOKGDzpqZsBkBCSUqFkDmUaGcpResdjuRjISryUnWayDTRXkSgKvvGKquCwbDwzLrpmovuKcNWATFherKGb '
-	];
+	
 
-	const options: Options = {
-		rootMargin: '-250px'
-	};
+	
 </script>
 
-<div class="simplify">
-	<h2>Clubsaurus helps you find what's important</h2>
-	<div class="simplifyText mono">
-		{#each hiddenClubs as hiddenClub}
-			{randomTextString()}<span
-				class="hiddenClub"
-				class:shown={hiddenClub.showing}
-				on:inview_enter={() => {
-					hiddenClub.showing = true;
-				}}
-				use:inview={options}>{hiddenClub.name}</span
-			>
-		{/each}
+
+<div class="wrap">
+	<div class="simplify">
+		<SimplifyClub name="Student Council" real={false}/>
+		<SimplifyClub name="Film Club" real={false}/>
+		<SimplifyClub name="Yearbook" real={false}/>
+		<SimplifyClub name="Robotics" real={false}/>
+		<SimplifyClub name="Find" real={true}/>
+		<SimplifyClub name="NHS" real={false}/>
+		<SimplifyClub name="Whats" real={true}/>
+		<SimplifyClub name="Squirrel Club" real={false}/>
+		<SimplifyClub name="Math Club" real={false}/>
+		<SimplifyClub name="SCA" real={false}/>
+		<SimplifyClub name="Code Club" real={false}/>
+		<SimplifyClub name="Important" real={true}/>
 	</div>
 </div>
+
 
 <style lang="scss">
 	h2 {
 		text-align: center;
 	}
 
-	.simplify {
-		width: 100%;
+	.wrap {
 		display: flex;
+		width: 100%;
+		padding: 25px 0px;
 		align-items: center;
 		justify-content: center;
-		flex-direction: column;
-		background: var(--bg);
+	}
+
+	.simplify {
+		display: flex;
+		padding: 10px;
 		box-sizing: border-box;
-		height: 50vh;
+		flex-direction: row;
+		flex-wrap: wrap;
+		
+
+		width: 90%;
+		
+		background: var(--bgPure);
+
 		position: relative;
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
+		border-radius: 10px;
 
 		h2 {
 			z-index: 5;

@@ -4,17 +4,21 @@
 	import Connect from './Connect.svelte';
 	import Simplify from './Simplify.svelte';
 	import You from './You.svelte';
+	import Link from "$lib/components/Link.svelte"
 </script>
 
 <div class="wrap">
 	<div class="title">
 		<h1>
-			The <span class="coolText">modern</span> clublist that helps you
-			<span class="coolText">connect</span>
+			Clubs are hard,
+		</h1>
+		<h1>
+			We make it easy<span class="coolText">.</span>
 		</h1>
 		<div class="button">
 			<Button style="font-size: 1.5rem" href="/get-started" value="Get Started" />
 		</div>
+		
 	</div>
 	<Simplify />
 	<Connect />
@@ -32,12 +36,15 @@
 	}
 
 	.title {
-		height: 100vh;
-		width: 100%;
+		height: 85vh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
+
+		p {
+			font-size: 1.2rem;
+		}
 	}
 
 	.button {
