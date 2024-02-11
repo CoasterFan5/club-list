@@ -36,7 +36,7 @@
 	.wrap {
 		display: flex;
 		width: 100%;
-		padding: 25px 0px;
+		padding: 50px 0px;
 		align-items: center;
 		justify-content: center;
 	}

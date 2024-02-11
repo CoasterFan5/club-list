@@ -24,8 +24,6 @@
 		box-sizing: border-box;
 		height: 50vh;
 		position: relative;
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
 
 		h2 {
 			background: var(--bg);
