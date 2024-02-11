@@ -2,30 +2,26 @@
 	import Button from '$lib/components/Button.svelte';
 
 	import Connect from './Connect.svelte';
+	import Organize from './Organize.svelte';
 	import Simplify from './Simplify.svelte';
 	import You from './You.svelte';
-	import Link from "$lib/components/Link.svelte"
-	import Organize from './Organize.svelte';
 </script>
 
 <div class="wrap">
 	<div class="title">
-		<h1>
-			Clubs are hard,
-		</h1>
+		<h1>Clubs are hard,</h1>
 		<h1>
 			We make it easy<span class="coolText">.</span>
 		</h1>
 		<div class="button">
 			<Button style="font-size: 1.5rem" href="/get-started" value="Get Started" />
 		</div>
-		
 	</div>
 	<Simplify />
 	<Connect />
-	<Organize/>
+	<Organize />
 	<!-- Nothing here yet, will become testimonials -->
-	<You/>
+	<You />
 </div>
 
 <style lang="scss">
@@ -44,10 +40,6 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-
-		p {
-			font-size: 1.2rem;
-		}
 	}
 
 	.button {

@@ -4,9 +4,7 @@ test.describe.configure({ mode: 'parallel' });
 
 test('index page has expected h1', async ({ page }) => {
 	await page.goto('/');
-	await expect(
-		page.getByRole('heading', { name: 'Clubs are hard' })
-	).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Clubs are hard' })).toBeVisible();
 });
 
 test('index page icon redirects to index page', async ({ page }) => {

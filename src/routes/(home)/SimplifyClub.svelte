@@ -1,7 +1,7 @@
 <script lang="ts">
-	export let name = "No Text"
+	export let name = 'No Text';
 	export let real = false;
-	import { inview, type Options } from "svelte-inview";
+	import { inview, type Options } from 'svelte-inview';
 	const options: Options = {
 		rootMargin: '-350px'
 	};
@@ -9,20 +9,18 @@
 	let opacity = 0.5;
 
 	const show = () => {
-		if(real) {
+		if (real) {
 			opacity = 1;
 		} else {
 			opacity = 0.1;
 		}
-	}
-
+	};
 </script>
 
-<div class="wrap" use:inview={options} on:inview_enter={show} style="opacity: {opacity}">
+<div style="opacity: {opacity}" class="wrap" on:inview_enter={show} use:inview={options}>
 	<div class="inner">
 		{name}
 	</div>
-	
 </div>
 
 <style lang="scss">
@@ -34,7 +32,6 @@
 		padding: 5px;
 		box-sizing: border-box;
 		height: 100px;
-		
 	}
 	.inner {
 		background: var(--accent50);

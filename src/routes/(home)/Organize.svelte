@@ -5,65 +5,68 @@
 			<div class="card">
 				<div class="cardInner">
 					<div class="title">
-						<img src="/icons/shield.svg" alt="shield"/>
+						<img alt="shield" src="/icons/shield.svg" />
 						<h3>Roles</h3>
 					</div>
-					<p>Looking to promote student leadership? Roles allow you to delegate permissions to members of a club, enforcing a student led mentality and reducing the workload of mentors.</p>
+					<p>
+						Looking to promote student leadership? Roles allow you to delegate permissions to
+						members of a club, enforcing a student led mentality and reducing the workload of
+						mentors.
+					</p>
 				</div>
-				
 			</div>
 			<div class="card">
 				<div class="cardInner">
 					<div class="title">
-						<img src="/icons/announce.svg" alt="megaphone"/>
+						<img alt="megaphone" src="/icons/announce.svg" />
 						<h3>Announcements</h3>
 					</div>
-					<p>Have something important to say? Announcements are a quick, highly visible way to deliver information.</p>
+					<p>
+						Have something important to say? Announcements are a quick, highly visible way to
+						deliver information.
+					</p>
 				</div>
-				
 			</div>
 			<div class="card">
 				<div class="cardInner">
 					<div class="title">
-						<img src="/icons/calendar.svg" alt="calendar"/>
+						<img alt="calendar" src="/icons/calendar.svg" />
 						<h3>Events</h3>
 					</div>
-					<p>Have an important event or reoccurring meeting? Schedule events and view conflicting events to reduce overlap and ensure maximum availability.</p>
+					<p>
+						Have an important event or reoccurring meeting? Schedule events and view conflicting
+						events to reduce overlap and ensure maximum availability.
+					</p>
 				</div>
-				
 			</div>
 
 			<div class="card">
 				<div class="cardInner">
 					<div class="title">
-						<img src="/icons/orgs.svg" alt="building"/>
+						<img alt="building" src="/icons/orgs.svg" />
 						<h3>Locations*</h3>
 					</div>
 				</div>
-				
 			</div>
 			<div class="card">
 				<div class="cardInner">
 					<div class="title">
-						<img src="/icons/shield.svg" alt="shield"/>
+						<img alt="shield" src="/icons/shield.svg" />
 						<h3>Moderation</h3>
 					</div>
 				</div>
-				
 			</div>
 			<div class="card">
 				<div class="cardInner">
 					<div class="title">
-						<img src="/icons/crown.svg" alt="crown"/>
+						<img alt="crown" src="/icons/crown.svg" />
 						<h3>Administrator Control*</h3>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 		*Coming Soon
 	</div>
-	
 </div>
 
 <style lang="scss">
@@ -88,7 +91,6 @@
 		flex-wrap: wrap;
 		width: 100%;
 
-
 		.card {
 			box-sizing: border-box;
 			min-width: 300px;
@@ -108,7 +110,6 @@
 				justify-content: center;
 				flex-direction: column;
 
-
 				.title {
 					display: flex;
 					align-items: center;
@@ -124,7 +125,7 @@
 						margin-right: 10px;
 						border-radius: 50%;
 					}
-					
+
 					h3 {
 						font-weight: normal;
 						display: flex;
@@ -133,10 +134,8 @@
 						margin: 0px;
 						font-size: 1.2rem;
 						font-weight: 500;
-						
 					}
 				}
-				
 
 				p {
 					margin-top: 5px;
@@ -144,5 +143,4 @@
 			}
 		}
 	}
-	
 </style>
