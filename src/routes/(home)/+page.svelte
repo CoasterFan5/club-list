@@ -5,6 +5,7 @@
 	import Simplify from './Simplify.svelte';
 	import You from './You.svelte';
 	import Link from "$lib/components/Link.svelte"
+	import Organize from './Organize.svelte';
 </script>
 
 <div class="wrap">
@@ -22,7 +23,9 @@
 	</div>
 	<Simplify />
 	<Connect />
-	<You />
+	<Organize/>
+	<!-- Nothing here yet, will become testimonials -->
+	<You/>
 </div>
 
 <style lang="scss">

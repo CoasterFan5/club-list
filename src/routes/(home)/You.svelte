@@ -3,9 +3,9 @@
 </script>
 
 <div class="simplify">
-	<h2>Clubsaurus helps you find you<span class="highlighted">.</span></h2>
+	<h2>Like what you see<span class="highlighted">?</span></h2>
 	<div class="button">
-		<Button href="/get-started" value="Get Started" />
+		<Button href="/get-started" value="Get Started, its free." />
 	</div>
 </div>
 
