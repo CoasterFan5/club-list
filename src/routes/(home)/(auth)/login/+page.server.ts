@@ -62,7 +62,7 @@ export const actions = {
 
 				redirect(303, `/invite/${url.searchParams.get('invite')}`);
 			}
-			
+
 			redirect(303, '/dashboard');
 		}
 	)
