@@ -27,7 +27,7 @@
                         <Button value="Join" />
                     </form>
                 {:else}
-                    <Button href="/login" value="Login" />
+                    <Button href="/login?invite={data.joinCode}" value="Login to Join" />
                 {/if}
             </div>
             <span>or</span>
@@ -40,7 +40,7 @@
 
 <style lang="scss">
     .button {
-        max-width: 10rem;
+        min-width: 10rem;
     }
 
     .options {

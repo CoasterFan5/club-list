@@ -15,7 +15,7 @@ export const actions = {
 			email: z.string().email(),
 			password: z.string().min(1)
 		}),
-		async ({ email, password }, { cookies, getClientAddress, request }) => {
+		async ({ email, password }, { cookies, getClientAddress, request, url }) => {
 			// Pull the user from the database
 			const user = await prisma.user.findFirst({
 				where: {
@@ -44,6 +44,25 @@ export const actions = {
 			// Generate a new session for the user
 			await createSession(user.id, getClientAddress, request, cookies);
 
+			/*
+			 * If there is an invite code, redirect to the invite page
+			 * We don't use plain redirects to avoid any unintended
+			 * side effects (see OWASP Unvalidated Redirects and Forwards)
+			 */
+			const code = url.searchParams.get('invite');
+			if (code) {
+				// Ensure that the invite code is valid
+				const regex = /^[a-zA-Z0-9]+$/;
+				if (!regex.test(code)) {
+					return {
+						success: false,
+						message: 'Invalid invite code.'
+					};
+				}
+
+				redirect(303, `/invite/${url.searchParams.get('invite')}`);
+			}
+			
 			redirect(303, '/dashboard');
 		}
 	)
