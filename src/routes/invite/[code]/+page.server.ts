@@ -1,13 +1,18 @@
-import { prisma } from '$lib/server/prismaConnection';
 import { error } from '@sveltejs/kit';
 
-export const load = async ({ params }) => {
+import { prisma } from '$lib/server/prismaConnection';
+import { verifyOptionalSession } from '$lib/server/verifySession.js';
+
+export const load = async ({ params, cookies }) => {
+    const user = await verifyOptionalSession(cookies.get('session'));
+
 	const org = await prisma.organization.findFirst({
 		where: {
 			joinCode: params.code
 		},
         select: {
-            name: true
+            name: true,
+            id: true,
         }
 	});
 
@@ -17,8 +22,17 @@ export const load = async ({ params }) => {
         })
 	}
 
+    const isAlreadyMember = user ? await prisma.orgUser.findFirst({
+        where: {
+            organizationId: org.id,
+            userId: user.id
+        }
+    }) : null;
+
     return {
         joinCode: params.code,
-        org
+        org,
+        isLoggedIn: user !== null,
+        isAlreadyMember: isAlreadyMember !== null
     }
 };

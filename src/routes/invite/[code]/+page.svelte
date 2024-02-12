@@ -6,24 +6,41 @@
 </script>
 
 <main>
-    <h1>You've been invited to join <span class="accent">{data.org.name}</span></h1>
-    <div class="options">
-        <div class="button">
-            <form method="POST" action="/org?/join" use:enhance>
-                <input name="joinCode" hidden value={data.joinCode} />
-                <Button value="Join" />
-            </form>
+    {#if data.isAlreadyMember}
+        <h1>You're already a member of <span class="accent">{data.org.name}</span></h1>
+        <div class="options">
+            <div class="button">
+                <Button href="/org/{data.org.id}" value="Go to Org" />
+            </div>
+            <span>or</span>
+            <div class="button">
+                <Button href="/dashboard" value="Go Home" />
+            </div>
         </div>
-        <span>or</span>
-        <div class="button">
-            <Button href="/dashboard" value="Go Home" />
+    {:else}
+        <h1>You've been invited to join <span class="accent">{data.org.name}</span></h1>
+        <div class="options">
+            <div class="button">
+                {#if data.isLoggedIn}
+                    <form method="POST" action="/org?/join" use:enhance>
+                        <input name="joinCode" hidden value={data.joinCode} />
+                        <Button value="Join" />
+                    </form>
+                {:else}
+                    <Button href="/login" value="Login" />
+                {/if}
+            </div>
+            <span>or</span>
+            <div class="button">
+                <Button href="/dashboard" value="Go Home" />
+            </div>
         </div>
-    </div>
+    {/if}
 </main>
 
 <style lang="scss">
     .button {
-        width: 10rem;
+        max-width: 10rem;
     }
 
     .options {
