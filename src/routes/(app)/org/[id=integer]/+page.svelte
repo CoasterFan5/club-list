@@ -87,13 +87,7 @@
 		}
 	};
 
-	$: handleForm(form, 'Success!', {
-		callback: (form) => {
-			if (form && browser) {
-				history.back();
-			}
-		}
-	});
+	$: handleForm(form);
 
 	let confirmedOrgName = '';
 	let inviteMethod = 'code';

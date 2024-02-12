@@ -20,15 +20,12 @@
 	$: if (clubContainerWidth) {
 		clubCount = clubs.length;
 		clubsPerRow = Math.floor(clubContainerWidth / 350);
-
-		console.log(clubCount % clubsPerRow);
+		
 		if (clubCount % clubsPerRow != 0) {
 			sudoPlaceholders = clubsPerRow - (clubCount % clubsPerRow);
 		} else {
 			sudoPlaceholders = 0;
 		}
-
-		console.log(`Done, added ${sudoPlaceholders} placeholders`);
 	}
 </script>
 
