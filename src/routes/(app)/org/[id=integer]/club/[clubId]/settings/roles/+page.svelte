@@ -4,7 +4,7 @@
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { closeModal } from '$lib/closeModalEnhance';
+	import { onSubmit } from '$lib/onSubmitEnhance';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
@@ -27,7 +27,7 @@
 		<form
 			action="?/deleteRole"
 			method="post"
-			use:enhance={closeModal(() => {
+			use:enhance={onSubmit(() => {
 				inputtedRoleName = '';
 				history.back();
 			})}

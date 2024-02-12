@@ -65,10 +65,7 @@
 					</div>
 				{:else}
 					<p>
-						You are not in any clubs.{' '}
-						<Link on:click={showJoinModal}>Join</Link>
-						or
-						<Link on:click={showCreateModal}>Create</Link> one now!
+						Your organizations have no clubs. <Link href="/org">Manage them?</Link>
 					</p>
 				{/if}
 			</div>
