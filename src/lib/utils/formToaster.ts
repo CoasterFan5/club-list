@@ -35,7 +35,7 @@ export function handleForm(unparsedForm: unknown, successMessage?: string, optio
 			const message = options?.forceSuccessMessage
 				? successMessage || form.message || err(form)
 				: form.message || successMessage || err(form);
-			
+
 			if (message) {
 				addToast({
 					type: 'success',

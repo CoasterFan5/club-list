@@ -4,10 +4,10 @@
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { onSubmit } from '$lib/onSubmitEnhance';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import { onSubmit } from '$lib/onSubmitEnhance';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;

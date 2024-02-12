@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import { onSubmit } from '$lib/onSubmitEnhance';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import { onSubmit } from '$lib/onSubmitEnhance';
 </script>
 
 {#if $page.state.showingModal == 'createOrg'}
