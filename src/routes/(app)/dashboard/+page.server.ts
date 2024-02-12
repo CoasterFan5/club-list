@@ -60,6 +60,7 @@ export const load = async ({ parent }) => {
 
 	return {
 		allClubs,
-		recentAnnouncements
+		recentAnnouncements,
+		hasOrgs: orgs.length > 0
 	};
 };

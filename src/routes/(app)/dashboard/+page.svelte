@@ -63,6 +63,11 @@
 							<ClubList clubs={sortedClubs} />
 						</div>
 					</div>
+				{:else if !data.hasOrgs}
+					You are not in any organizations.{' '}
+					<Link on:click={showJoinModal}>Join</Link>
+					or
+					<Link on:click={showCreateModal}>Create</Link> one now!
 				{:else}
 					<p>
 						Your organizations have no clubs. <Link href="/org">Manage them?</Link>
