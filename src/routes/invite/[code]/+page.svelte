@@ -22,7 +22,7 @@
 		<div class="options">
 			<div class="button">
 				{#if data.isLoggedIn}
-					<form method="POST" action="/org?/join" use:enhance>
+					<form action="/org?/join" method="POST" use:enhance>
 						<input name="joinCode" hidden value={data.joinCode} />
 						<Button value="Join" />
 					</form>
