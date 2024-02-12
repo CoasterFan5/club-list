@@ -8,6 +8,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { onSubmit } from '$lib/onSubmitEnhance';
+	import { tooltip } from '$lib/components/tooltips/tooltip';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
@@ -82,6 +83,7 @@
 			<div class="actions">
 				<button
 					class="button"
+					title="Delete"
 					type="button"
 					on:click={() => {
 						pushState('', {
@@ -90,6 +92,7 @@
 						selectedRoleId = role.id;
 						selectedRoleName = role.name;
 					}}
+					use:tooltip={'Delete'}
 				>
 					<img alt="delete" src="/icons/trash.svg" />
 				</button>
@@ -97,16 +100,20 @@
 					name="color"
 					class="color"
 					hidden
+					title="Color"
 					type="color"
 					bind:value={role.color}
 					on:change={() => {
 						forms[i]?.click();
 					}}
+					use:tooltip={'Color'}
 				/>
 				<a
 					class="button"
 					href="/org/{data.org.id}/club/{data.club.id}/settings/roles/{role.id}"
+					title="More"
 					type="button"
+					use:tooltip={'More'}
 				>
 					<img alt="goto" src="/icons/right.svg" />
 				</a>

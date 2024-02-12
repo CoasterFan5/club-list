@@ -12,6 +12,7 @@
 	import Link from '$lib/components/Link.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { addToast } from '$lib/components/toaster';
+	import { tooltip } from '$lib/components/tooltips/tooltip.js';
 	import { handleForm } from '$lib/utils/formToaster.js';
 	let searchTerm = '';
 
@@ -45,6 +46,45 @@
 		pushState('', {
 			showingModal: 'inviteUser'
 		});
+	};
+
+	const addShareModel = () => {
+		addToast({
+			type: 'success',
+			message: 'Sharing is caring!',
+			life: 5000
+		});
+
+		window.removeEventListener('mousedown', addShareModel);
+		window.removeEventListener('focus', addShareModel);
+	};
+
+	const startShare = async () => {
+		let shareUrlId = data.org.slug?.slug || data.org.id;
+		let shareUrl = `${window.origin}/org/${shareUrlId}`;
+
+		try {
+			await navigator.share({
+				url: shareUrl
+			});
+			window.addEventListener('mousedown', addShareModel);
+			window.addEventListener('focus', addShareModel);
+		} catch (e) {
+			try {
+				navigator.clipboard.writeText(shareUrl);
+				addToast({
+					type: 'success',
+					message: 'URL copied to clipboard',
+					life: 3000
+				});
+			} catch (e2) {
+				addToast({
+					type: 'error',
+					message: 'Your web browser settings disallow sharing.',
+					life: 3000
+				});
+			}
+		}
 	};
 
 	$: handleForm(form, 'Success!', {
@@ -183,16 +223,34 @@
 	<div class="orgButtons">
 		{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
 			<a href="/org/{data.org.id}/settings">
-				<img class="icon" alt="settings" src="/icons/settings.svg" />
+				<img
+					class="icon"
+					alt="settings"
+					src="/icons/settings.svg"
+					title="Settings"
+					use:tooltip={'Settings'}
+				/>
 			</a>
 			<button on:click={startInvite}>
-				<img class="icon" alt="invite" src="/icons/addUser.svg" />
+				<img
+					class="icon"
+					alt="invite"
+					src="/icons/addUser.svg"
+					title="Invite"
+					use:tooltip={'Invite'}
+				/>
 			</button>
 		{/if}
 
 		{#if data.orgUser}
 			<button on:click={startLeaveOrg}>
-				<img class="icon" alt="leave" src="/icons/leave.svg" />
+				<img class="icon" alt="leave" src="/icons/leave.svg" use:tooltip={'Leave'} />
+			</button>
+		{/if}
+
+		{#if data.org.isPublic}
+			<button on:click={startShare}>
+				<img class="icon" alt="leave" src="/icons/share.svg" use:tooltip={'Share'} />
 			</button>
 		{/if}
 	</div>

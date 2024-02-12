@@ -49,7 +49,6 @@
 	</div>
 
 	{#if sidebarPos == 75 && miniSidebar}
-		<p>Quick Close</p>
 		<button class="quickClose" on:click={toggleSidebar} />
 	{/if}
 

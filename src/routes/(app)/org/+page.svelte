@@ -74,10 +74,6 @@
 		text-align: center;
 		font-size: 1.2rem;
 
-		h1 {
-			margin: 0px;
-		}
-
 		p {
 			margin-top: 10px;
 			font-size: 1.5rem;
