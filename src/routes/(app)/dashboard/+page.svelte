@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Fuse from 'fuse.js';
 
+	import { pushState } from '$app/navigation';
 	import Announcement from '$lib/components/Announcement.svelte';
 	import ClubList from '$lib/components/ClubList.svelte';
 	import Link from '$lib/components/Link.svelte';
-	import { pushState } from '$app/navigation';
 	import CreateOrgModal from '$lib/modals/CreateOrgModal.svelte';
 	import JoinOrgModal from '$lib/modals/JoinOrgModal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
@@ -50,7 +50,7 @@
 
 		<div class="sections">
 			<div class="left">
-				{#if false}
+				{#if sortedClubs.length > 0}
 					<div class="clubs">
 						<div class="topBar">
 							<h2>Clubs</h2>
