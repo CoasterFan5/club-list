@@ -2,7 +2,12 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+
+	let typedInOrgName = '';
+
+	export let data;
 </script>
 
 {#if $page.state.showingModal === 'refreshJoinCode'}
@@ -11,6 +16,31 @@
 			<h2>Are you sure?</h2>
 			<p>Refreshing the join code will break every existing invite.</p>
 			<Button value="Refresh" />
+		</form>
+	</Modal>
+{/if}
+
+{#if $page.state.showingModal === 'deleteOrg'}
+	<Modal on:close={() => history.back()}>
+		<form action="?/deleteOrg" method="POST">
+			<h2>Are you sure?</h2>
+			<p>Deleting the organization will:</p>
+			<ul>
+				<li>Permanently delete <b>all</b> data</li>
+				<li>Remove all <b>{data.org.clubs.length}</b> clubs</li>
+				<li>Disassociate all <b>{data.memberCount}</b> members</li>
+				<li>Unschedule all <b>{data.eventCount}</b> events</li>
+			</ul>
+
+			<p>Type the organization name to confirm</p>
+
+			<Input
+				name="orgName"
+				label="Type Organization Name"
+				bind:value={typedInOrgName}
+			/>
+
+			<Button value="Delete" disabled={typedInOrgName !== data.org.name} />
 		</form>
 	</Modal>
 {/if}
@@ -32,7 +62,14 @@
 		<Button value="Transfer Ownership" />
 	</form>
 	<form>
-		<Button value="Delete Organization" />
+		<Button
+			value="Delete Organization"
+			on:click={() => {
+				pushState('', {
+					showingModal: 'deleteOrg'
+				});
+			}}
+		/>
 	</form>
 </main>
 
