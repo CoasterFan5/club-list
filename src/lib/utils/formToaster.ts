@@ -1,32 +1,48 @@
+import { z } from 'zod';
+
 import { addToast } from '$lib/components/toaster';
 
-interface Form {
-	success?: boolean;
-	message?: string;
+const formSchema = z
+	.object({
+		success: z.boolean().optional(),
+		message: z.string().optional()
+	})
+	.optional()
+	.nullable();
+
+function err(form: unknown): undefined {
+	console.error(
+		`Form's message &/o success message is null (${JSON.stringify(form)}) Please report this error to the authors`
+	);
+	return undefined;
 }
 
-function err(): never {
-	throw Error("Form's message & success message is null. Please report this error to the authors");
-}
+type Form = z.infer<typeof formSchema>;
 
 interface Options {
 	forceSuccessMessage?: boolean;
-	callback?: (form: Form | null) => void;
+	callback?: (form: Form) => void;
 }
 
-export function handleForm(form: Form | null, successMessage?: string, options?: Options) {
+export function handleForm(unparsedForm: unknown, successMessage?: string, options?: Options) {
+	const form: Form = formSchema.safeParse(unparsedForm);
 	if (options?.callback) {
 		options.callback(form);
 	}
-	if (form) {
+
+	if (form !== null && form !== undefined) {
 		if (form.success) {
-			addToast({
-				type: 'success',
-				message: options?.forceSuccessMessage
-					? successMessage || form.message || err()
-					: form.message || successMessage || err(),
-				life: 3000
-			});
+			const message = options?.forceSuccessMessage
+				? successMessage || form.message || err(form)
+				: form.message || successMessage || err(form);
+
+			if (message) {
+				addToast({
+					type: 'success',
+					message,
+					life: 3000
+				});
+			}
 		} else {
 			addToast({
 				type: 'error',
