@@ -1,3 +1,5 @@
+import { redirect } from '@sveltejs/kit';
+
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -22,7 +24,7 @@ export const load = async ({ parent }) => {
 		memberCount,
 		eventCount
 	};
-}
+};
 
 export const actions = {
 	refreshJoinCode: async ({ cookies, params }) => {
@@ -46,5 +48,16 @@ export const actions = {
 			success: true,
 			message: 'Organization Updated!'
 		};
+	},
+	deleteOrg: async ({ cookies, params }) => {
+		await verifySession(cookies.get('session'));
+
+		await prisma.organization.delete({
+			where: {
+				id: parseInt(params.id)
+			}
+		});
+
+		redirect(303, '/dashboard');
 	}
 };

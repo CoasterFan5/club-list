@@ -20,7 +20,7 @@
 	$: if (clubContainerWidth) {
 		clubCount = clubs.length;
 		clubsPerRow = Math.floor(clubContainerWidth / 350);
-		
+
 		if (clubCount % clubsPerRow != 0) {
 			sudoPlaceholders = clubsPerRow - (clubCount % clubsPerRow);
 		} else {
