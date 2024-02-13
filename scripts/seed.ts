@@ -60,8 +60,7 @@ async function main() {
 				create: [
 					{
 						userId: bStone.id,
-						role: "Admin"
-						
+						role: "Admin"		
 					}
 				]
 			},
@@ -69,11 +68,11 @@ async function main() {
 				create: [
 					{
 						name: 'Cardboard Club',
-						ownerId: bStone.id,
 						clubUsers: {
 							create: [{
 								organizationId: 1,
 								userId: bStone.id,
+								owner: true
 							}]
 						},
 						imageURL:
@@ -81,11 +80,11 @@ async function main() {
 					},
 					{
 						name: 'Board Game Club',
-						ownerId: bStone.id,
 						clubUsers: {
 							create: [{
 								organizationId: 1,
 								userId: bStone.id,
+								owner: true
 							}]
 						},
 						imageURL: 'https://media.timeout.com/images/105627949/750/422/image.jpg',
@@ -101,11 +100,11 @@ async function main() {
 					},
 					{
 						name: 'Math Club',
-						ownerId: bStone.id,
 						clubUsers: {
 							create: [{
 								organizationId: 1,
 								userId: bStone.id,
+								owner: true
 							}]
 						},
 						imageURL:
@@ -113,11 +112,11 @@ async function main() {
 					},
 					{
 						name: 'Football Club',
-						ownerId: bStone.id,
 						clubUsers: {
 							create: [{
 								organizationId: 1,
 								userId: bStone.id,
+								owner: true
 							}]
 						},
 						imageURL:
@@ -181,9 +180,9 @@ async function main() {
 				},
 				clubUsers: {
 					create: {
-						// TODO: don't hardcode this
 						clubId: Math.ceil(Math.random() * 4),
-						organizationId: 1
+						organizationId: 1,
+						owner: false
 					}
 				}
 			}
