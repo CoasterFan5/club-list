@@ -134,11 +134,20 @@ export const actions = {
 		async ({ userId }, { cookies, params }) => {
 			const { club } = await validateUser(cookies.get('session'), params as RouteParams);
 
+			
+
 			if (!club) {
 				return {
 					success: false,
 					message: 'no.'
 				};
+			}
+
+			if(club.ownerId == userId) {
+				return {
+					success: false,
+					message: "Can't kick the owner."
+				}
 			}
 
 			const clubUser = await prisma.clubUser.findFirst({
