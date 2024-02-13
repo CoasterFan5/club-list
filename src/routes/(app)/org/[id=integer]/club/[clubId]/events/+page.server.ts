@@ -134,7 +134,6 @@ export const actions = {
 			];
 
 			const parsedDate = dayjs(date).utcOffset(0).toDate();
-			console.log(parsedDate);
 			const rrule = new RRule({
 				freq: freqMapping[inputFrequency ?? 'daily'],
 				dtstart: parsedDate,
@@ -215,8 +214,6 @@ export const actions = {
 					error(401, 'No Permissions');
 				}
 			}
-
-			console.log(rrule.toString());
 
 			await prisma.event.create({
 				data: {

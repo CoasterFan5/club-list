@@ -54,9 +54,17 @@ module.exports = defineConfig({
 			parser: 'svelte-eslint-parser',
 			parserOptions: {
 				parser: '@typescript-eslint/parser'
-			},
+			}
+		},
+		{
+			files: ['src/**/*'],
 			rules: {
-				'no-console': 'error'
+				'no-console': [
+					'error',
+					{
+						allow: ['warn', 'error']
+					}
+				]
 			}
 		}
 	]
