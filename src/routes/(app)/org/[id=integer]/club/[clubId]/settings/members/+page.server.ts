@@ -179,5 +179,35 @@ export const actions = {
 				message: 'User Kicked'
 			};
 		}
-	)
+	),
+	transferOwnership: formHandler(
+		z.object({
+			userId: z.coerce.number()
+		}),
+		async ({ userId }, { cookies, params }) => {
+			const { club, user } = await validateUser(cookies.get('session'), params as RouteParams);
+			if (!club) {
+				return {
+					success: false,
+					message: 'no.'
+				};
+			}
+
+			if(club.ownerId != user.id) {
+				return {
+					success: false,
+					message: "No Permissions"
+				}
+			}
+
+			await prisma.club.update({
+				where: {
+					id: club.id
+				},
+				data: {
+					ownerId: userId
+				}
+			})
+		})
+	
 };

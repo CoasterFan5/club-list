@@ -3,6 +3,7 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import SearchBox from '$lib/components/SearchBox.svelte';
 	import { addToast } from '$lib/components/toaster';
@@ -36,6 +37,19 @@
 		lastName: ''
 	};
 
+	let confirmValue = ""
+
+	const startOnwershipTransfer = (id: number, firstName: string, lastName: string) => {
+		kickMember = {
+			id: id,
+			firstName,
+			lastName
+		};
+		pushState('', {
+			showingModal: 'transferOwnership'
+		});
+	}
+
 	const startKick = (id: number, firstName: string, lastName: string) => {
 		kickMember = {
 			id: id,
@@ -59,6 +73,25 @@
 		<form action="?/kickMember" method="post" use:enhance>
 			<input name="userId" style="display: none" bind:value={kickMember.id} />
 			<Button type="submit" value="Kick Member" />
+		</form>
+	</Modal>
+{/if}
+{#if $page.state.showingModal == 'transferOwnership'}
+	<Modal
+		on:close={() => {
+			history.back();
+		}}
+	>
+		<h1>Transfer Ownership</h1>
+		<p>Transferring club ownership to: {kickMember.firstName} {kickMember.lastName}</p>
+		<p>Type <b>{data.club.name}</b> below to confirm</p>
+		<Input bind:value={confirmValue} bg="#ffffff"/>
+		<hr>
+		<form action="?/transferOwnership" method="post" use:enhance>
+			<input name="userId" style="display: none" bind:value={kickMember.id} />
+			{#if confirmValue == data.club.name}
+				<Button type="submit" value="Transfer Ownership" />
+			{/if}
 		</form>
 	</Modal>
 {/if}
@@ -142,6 +175,18 @@
 									>
 										<img class="icon" alt="kick" src="/icons/kick.svg" />
 									</button>
+									{#if data.user?.id == data.club.ownerId && member.user.id != data.user?.id}
+										<button
+											class="actionButton"
+											title="Transfer Onwership"
+											on:click={() => {
+												startOnwershipTransfer(member.userId, member.user.firstName, member.user.lastName);
+											}}
+											use:tooltip={'Transfer Ownership'}
+										>
+											<img class="icon" alt="kick" src="/icons/transfer.svg" />
+										</button>
+									{/if}
 								</div>
 							</td>
 						{/if}
