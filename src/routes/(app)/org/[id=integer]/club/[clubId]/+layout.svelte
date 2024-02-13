@@ -4,8 +4,10 @@
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Link from '$lib/components/Link.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	import { enhance } from '$app/forms';
+	import { pushState } from '$app/navigation';
 
 	export let data;
 
@@ -14,6 +16,17 @@
 
 	let baseURL = `/org/${data.org.id}/club/${data.club.id.toString()}`;
 </script>
+
+{#if $page.state.showingModal == 'confirmLeaveClub'}
+	<Modal
+		on:close={() => history.back()}
+	>
+		<p>Are you sure you want to leave this club?</p>
+		<form action="{baseURL}?/leaveClub" method="post" use:enhance>
+			<Button value="Leave Club" />
+		</form>
+	</Modal>
+{/if}
 
 <div class="wrap">
 	<div class="header">
@@ -31,9 +44,22 @@
 							<Button value="Join Club" />
 						</form>
 					{:else if data.clubUser}
-						<form class="buttonWrap" use:enhance action="{baseURL}?/leaveClub" method="post">
-							<Button value="Leave Club" />
-						</form>
+						{#if data.club.openToJoin}
+							<form class="buttonWrap" use:enhance action="{baseURL}?/leaveClub" method="post">
+								<Button value="Leave Club" />
+							</form>
+						{:else}
+							<div class="buttonWrap">
+								<Button
+									value="Leave Club"
+									on:click={() => {
+										pushState('', {
+											showingModal: 'confirmLeaveClub',
+										})
+									}}
+								/>
+							</div>
+						{/if}
 					{/if}
 				{:else}
 					<a class="buttonWrap" href="/login">
