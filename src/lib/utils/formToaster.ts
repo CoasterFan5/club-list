@@ -5,7 +5,8 @@ import { addToast } from '$lib/components/toaster';
 const formSchema = z
 	.object({
 		success: z.boolean().optional(),
-		message: z.string().optional()
+		message: z.string().optional(),
+		data: z.unknown().optional().nullable()
 	})
 	.optional()
 	.nullable();
@@ -26,11 +27,17 @@ interface Options {
 
 export function handleForm(unparsedForm: unknown, successMessage?: string, options?: Options) {
 	const form: Form = formSchema.safeParse(unparsedForm);
+
+	if (form.data === null) {
+		return;
+	}
+
 	if (options?.callback) {
 		options.callback(form);
 	}
 
 	if (form !== null && form !== undefined) {
+		
 		if (form.success) {
 			const message = options?.forceSuccessMessage
 				? successMessage || form.message || err(form)
