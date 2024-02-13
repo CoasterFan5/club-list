@@ -55,6 +55,17 @@ module.exports = defineConfig({
 			parserOptions: {
 				parser: '@typescript-eslint/parser'
 			}
+		},
+		{
+			files: ['src/**/*'],
+			rules: {
+				'no-console': [
+					'error',
+					{
+						allow: ['warn', 'error']
+					}
+				]
+			}
 		}
 	]
 });

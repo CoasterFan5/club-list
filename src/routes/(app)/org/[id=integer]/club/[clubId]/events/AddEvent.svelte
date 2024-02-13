@@ -33,7 +33,6 @@
 	};
 
 	export let formDate = dayjs().format('YYYY-MM-DD');
-	console.log(formDate);
 	let formTime = dayjs().format('HH:mm');
 
 	$: calculatedFormDate = dayjs(formDate)
