@@ -5,6 +5,8 @@
 	import Button from '$lib/components/Button.svelte';
 	import Link from '$lib/components/Link.svelte';
 
+	import { enhance } from '$app/forms';
+
 	export let data;
 
 	let route = get(page).route;
@@ -23,16 +25,20 @@
 
 				<h2 class="clubName">{data.club.name}</h2>
 
-				{#if !data.clubUser && data.club.ownerId != data.user?.id && data.club.openToJoin}
-					{#if data.user}
-						<form class="buttonWrap" action="{baseURL}?/joinClub" method="post">
+				{#if data.user}
+					{#if !data.clubUser && data.club.ownerId != data.user?.id && data.club.openToJoin}
+						<form class="buttonWrap" use:enhance action="{baseURL}?/joinClub" method="post">
 							<Button value="Join Club" />
 						</form>
-					{:else}
-						<a class="buttonWrap" href="/login">
-							<Button value="Login to join" />
-						</a>
+					{:else if data.clubUser}
+						<form class="buttonWrap" use:enhance action="{baseURL}?/leaveClub" method="post">
+							<Button value="Leave Club" />
+						</form>
 					{/if}
+				{:else}
+					<a class="buttonWrap" href="/login">
+						<Button value="Login to join" />
+					</a>
 				{/if}
 			</div>
 			<div class="nav">
