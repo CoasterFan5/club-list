@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
 
+	import { enhance } from '$app/forms';
+	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-
-	import { enhance } from '$app/forms';
-	import { pushState } from '$app/navigation';
 
 	export let data;
 
@@ -18,10 +17,12 @@
 </script>
 
 {#if $page.state.showingModal == 'confirmLeaveClub'}
-	<Modal
-		on:close={() => history.back()}
-	>
-		<p>Are you sure you want to leave this club?</p>
+	<Modal on:close={() => history.back()}>
+		<h2>Are you sure you want to leave <span class="accent">{data.club.name}</span>?</h2>
+		<p>
+			Once you leave, you will not be able to rejoin<br />
+			unless the club is open to join.
+		</p>
 		<form action="{baseURL}?/leaveClub" method="post" use:enhance>
 			<Button value="Leave Club" />
 		</form>
@@ -40,12 +41,12 @@
 
 				{#if data.user}
 					{#if !data.clubUser && data.club.ownerId != data.user?.id && data.club.openToJoin}
-						<form class="buttonWrap" use:enhance action="{baseURL}?/joinClub" method="post">
+						<form class="buttonWrap" action="{baseURL}?/joinClub" method="post" use:enhance>
 							<Button value="Join Club" />
 						</form>
 					{:else if data.clubUser}
 						{#if data.club.openToJoin}
-							<form class="buttonWrap" use:enhance action="{baseURL}?/leaveClub" method="post">
+							<form class="buttonWrap" action="{baseURL}?/leaveClub" method="post" use:enhance>
 								<Button value="Leave Club" />
 							</form>
 						{:else}
@@ -54,8 +55,8 @@
 									value="Leave Club"
 									on:click={() => {
 										pushState('', {
-											showingModal: 'confirmLeaveClub',
-										})
+											showingModal: 'confirmLeaveClub'
+										});
 									}}
 								/>
 							</div>
@@ -212,5 +213,9 @@
 	.buttonWrap {
 		text-decoration: none;
 		padding: 0px 10px;
+	}
+
+	.accent {
+		color: var(--accent);
 	}
 </style>
