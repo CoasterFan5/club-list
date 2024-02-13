@@ -31,16 +31,15 @@ async function main() {
 	console.log('Seeding database...');
 
 	const bStone = await prisma.user.upsert({
-		where: {email: "bstone@card.board"},
+		where: { email: 'bstone@card.board' },
 		update: {},
 		create: {
 			firstName: 'Brick',
 			lastName: 'Stone',
 			email: 'bstone@card.board',
-			...(await makePassword('password')),
-		},
-		
-	})
+			...(await makePassword('password'))
+		}
+	});
 
 	await prisma.organization.upsert({
 		where: { id: 1, name: 'Cardboard' },
@@ -60,7 +59,7 @@ async function main() {
 				create: [
 					{
 						userId: bStone.id,
-						role: "Admin"		
+						role: 'Admin'
 					}
 				]
 			},
@@ -69,23 +68,27 @@ async function main() {
 					{
 						name: 'Cardboard Club',
 						clubUsers: {
-							create: [{
-								organizationId: 1,
-								userId: bStone.id,
-								owner: true
-							}]
+							create: [
+								{
+									organizationId: 1,
+									userId: bStone.id,
+									owner: true
+								}
+							]
 						},
 						imageURL:
-							'https://static01.nyt.com/images/2022/12/04/magazine/04mag-cardboard-copy/04mag-cardboard-copy-facebookJumbo-v2.jpg',
+							'https://static01.nyt.com/images/2022/12/04/magazine/04mag-cardboard-copy/04mag-cardboard-copy-facebookJumbo-v2.jpg'
 					},
 					{
 						name: 'Board Game Club',
 						clubUsers: {
-							create: [{
-								organizationId: 1,
-								userId: bStone.id,
-								owner: true
-							}]
+							create: [
+								{
+									organizationId: 1,
+									userId: bStone.id,
+									owner: true
+								}
+							]
 						},
 						imageURL: 'https://media.timeout.com/images/105627949/750/422/image.jpg',
 						announcements: {
@@ -101,11 +104,13 @@ async function main() {
 					{
 						name: 'Math Club',
 						clubUsers: {
-							create: [{
-								organizationId: 1,
-								userId: bStone.id,
-								owner: true
-							}]
+							create: [
+								{
+									organizationId: 1,
+									userId: bStone.id,
+									owner: true
+								}
+							]
 						},
 						imageURL:
 							'https://www.the74million.org/wp-content/uploads/2023/02/iStock-470493341-copy.jpg'
@@ -113,11 +118,13 @@ async function main() {
 					{
 						name: 'Football Club',
 						clubUsers: {
-							create: [{
-								organizationId: 1,
-								userId: bStone.id,
-								owner: true
-							}]
+							create: [
+								{
+									organizationId: 1,
+									userId: bStone.id,
+									owner: true
+								}
+							]
 						},
 						imageURL:
 							'https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg'

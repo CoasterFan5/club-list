@@ -37,7 +37,7 @@
 		lastName: ''
 	};
 
-	let confirmValue = ""
+	let confirmValue = '';
 
 	const startOnwershipTransfer = (id: number, firstName: string, lastName: string) => {
 		kickMember = {
@@ -48,7 +48,7 @@
 		pushState('', {
 			showingModal: 'transferOwnership'
 		});
-	}
+	};
 
 	const startKick = (id: number, firstName: string, lastName: string) => {
 		kickMember = {
@@ -85,8 +85,8 @@
 		<h1>Transfer Ownership</h1>
 		<p>Transferring club ownership to: {kickMember.firstName} {kickMember.lastName}</p>
 		<p>Type <b>{data.club.name}</b> below to confirm</p>
-		<Input bind:value={confirmValue} bg="#ffffff"/>
-		<hr>
+		<Input bg="#ffffff" bind:value={confirmValue} />
+		<hr />
 		<form action="?/transferOwnership" method="post" use:enhance>
 			<input name="userId" style="display: none" bind:value={kickMember.id} />
 			{#if confirmValue == data.club.name}
@@ -180,7 +180,11 @@
 											class="actionButton"
 											title="Transfer Onwership"
 											on:click={() => {
-												startOnwershipTransfer(member.userId, member.user.firstName, member.user.lastName);
+												startOnwershipTransfer(
+													member.userId,
+													member.user.firstName,
+													member.user.lastName
+												);
 											}}
 											use:tooltip={'Transfer Ownership'}
 										>

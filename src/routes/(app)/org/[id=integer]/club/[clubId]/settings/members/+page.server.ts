@@ -134,8 +134,6 @@ export const actions = {
 		async ({ userId }, { cookies, params }) => {
 			const { club } = await validateUser(cookies.get('session'), params as RouteParams);
 
-			
-
 			if (!club) {
 				return {
 					success: false,
@@ -143,11 +141,11 @@ export const actions = {
 				};
 			}
 
-			if(club.ownerId == userId) {
+			if (club.ownerId == userId) {
 				return {
 					success: false,
 					message: "Can't kick the owner."
-				}
+				};
 			}
 
 			const clubUser = await prisma.clubUser.findFirst({
@@ -202,11 +200,11 @@ export const actions = {
 				};
 			}
 
-			if(club.ownerId != user.id) {
+			if (club.ownerId != user.id) {
 				return {
 					success: false,
-					message: "No Permissions"
-				}
+					message: 'No Permissions'
+				};
 			}
 
 			await prisma.club.update({
@@ -216,7 +214,7 @@ export const actions = {
 				data: {
 					ownerId: userId
 				}
-			})
-		})
-	
+			});
+		}
+	)
 };
