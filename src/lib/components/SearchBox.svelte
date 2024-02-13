@@ -31,7 +31,6 @@
 		};
 		holder.hidden = false;
 		if (searchBox) {
-			console.log('focusing Search Box');
 			searchBox.focus();
 		}
 	}
