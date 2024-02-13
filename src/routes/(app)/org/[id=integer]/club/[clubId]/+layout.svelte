@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
 
+	import { enhance } from '$app/forms';
+	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Link from '$lib/components/Link.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	export let data;
 
@@ -12,6 +15,19 @@
 
 	let baseURL = `/org/${data.org.id}/club/${data.club.id.toString()}`;
 </script>
+
+{#if $page.state.showingModal == 'confirmLeaveClub'}
+	<Modal on:close={() => history.back()}>
+		<h2>Are you sure you want to leave <span class="accent">{data.club.name}</span>?</h2>
+		<p>
+			Once you leave, you will not be able to rejoin<br />
+			unless the club is open to join.
+		</p>
+		<form action="{baseURL}?/leaveClub" method="post" use:enhance>
+			<Button value="Leave Club" />
+		</form>
+	</Modal>
+{/if}
 
 <div class="wrap">
 	<div class="header">
@@ -23,16 +39,33 @@
 
 				<h2 class="clubName">{data.club.name}</h2>
 
-				{#if !data.clubUser && data.club.ownerId != data.user?.id && data.club.openToJoin}
-					{#if data.user}
-						<form class="buttonWrap" action="{baseURL}?/joinClub" method="post">
+				{#if data.user}
+					{#if !data.clubUser && data.club.ownerId != data.user?.id && data.club.openToJoin}
+						<form class="buttonWrap" action="{baseURL}?/joinClub" method="post" use:enhance>
 							<Button value="Join Club" />
 						</form>
-					{:else}
-						<a class="buttonWrap" href="/login">
-							<Button value="Login to join" />
-						</a>
+					{:else if data.clubUser}
+						{#if data.club.openToJoin}
+							<form class="buttonWrap" action="{baseURL}?/leaveClub" method="post" use:enhance>
+								<Button value="Leave Club" />
+							</form>
+						{:else}
+							<div class="buttonWrap">
+								<Button
+									value="Leave Club"
+									on:click={() => {
+										pushState('', {
+											showingModal: 'confirmLeaveClub'
+										});
+									}}
+								/>
+							</div>
+						{/if}
 					{/if}
+				{:else}
+					<a class="buttonWrap" href="/login">
+						<Button value="Login to join" />
+					</a>
 				{/if}
 			</div>
 			<div class="nav">
@@ -180,5 +213,9 @@
 	.buttonWrap {
 		text-decoration: none;
 		padding: 0px 10px;
+	}
+
+	.accent {
+		color: var(--accent);
 	}
 </style>

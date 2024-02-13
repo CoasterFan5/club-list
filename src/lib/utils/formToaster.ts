@@ -37,7 +37,6 @@ export function handleForm(unparsedForm: unknown, successMessage?: string, optio
 	}
 
 	if (form !== null && form !== undefined) {
-		
 		if (form.success) {
 			const message = options?.forceSuccessMessage
 				? successMessage || form.message || err(form)

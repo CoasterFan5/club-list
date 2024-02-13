@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { formHandler } from '$lib/bodyguard';
 import { createPermissionsFromUser } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
+import { verifySession } from '$lib/server/verifySession.js';
 
 type DataUpdateObject = {
 	imageURL?: string;
@@ -118,36 +119,14 @@ export const actions = {
 
 	joinClub: async ({ cookies, params }) => {
 		// Get the user
-		const session = cookies.get('session');
-		if (!session) {
-			redirect(303, '/login');
-		}
+		const user = await verifySession(cookies.get('session'), {
+			clubUsers: true
+		});
 
 		// Get the club id
 		const clubId = parseInt(params.clubId);
 
-		const sessionCheck = await prisma.session.findUnique({
-			where: {
-				sessionToken: session
-			},
-			include: {
-				user: {
-					include: {
-						clubUsers: {
-							where: {
-								clubId: clubId
-							}
-						}
-					}
-				}
-			}
-		});
-
-		if (!sessionCheck || !sessionCheck.user) {
-			redirect(303, '/login');
-		}
-
-		if (sessionCheck.user.clubUsers.length > 0) {
+		if (user.clubUsers.length > 0) {
 			return {
 				success: false,
 				message: 'You are already in this club!'
@@ -172,13 +151,53 @@ export const actions = {
 			data: {
 				clubId: club.id,
 				organizationId: parseInt(params.id),
-				userId: sessionCheck.user.id
+				userId: user.id
 			}
 		});
 
 		return {
 			success: true,
 			message: 'Successfully joined this club!'
+		};
+	},
+
+	leaveClub: async ({ cookies, params }) => {
+		// Get the user
+		const user = await verifySession(cookies.get('session'), {
+			clubUsers: true
+		});
+
+		// Get the club id
+		const clubId = parseInt(params.clubId);
+
+		const clubUser = await prisma.clubUser.findFirst({
+			where: {
+				clubId: clubId,
+				userId: user.id
+			}
+		});
+
+		if (!clubUser) {
+			return {
+				success: false,
+				message: 'You are not in this club!'
+			};
+		}
+
+		// Now we can delete the club user
+		await prisma.clubUser.delete({
+			where: {
+				clubId_userId_organizationId: {
+					clubId: clubId,
+					userId: user.id,
+					organizationId: parseInt(params.id)
+				}
+			}
+		});
+
+		return {
+			success: true,
+			message: 'Successfully left this club!'
 		};
 	}
 };
