@@ -107,6 +107,15 @@
 								<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
 								{member.user.firstName}
 								{member.user.lastName}
+								{#if member.user.id == data.club.ownerId}
+									<img
+										class="crown"
+										alt="owner"
+										src="/icons/crown.svg"
+										title="Owner"
+										use:tooltip={'Owner'}
+									/>
+								{/if}
 							</div>
 						</td>
 						<td style="--color: {member.role?.color}" class="role">
@@ -272,5 +281,14 @@
 	}
 	.noRole:hover {
 		background: rgba(0, 0, 0, 0.15);
+	}
+	.crown {
+		height: 20px;
+		border-radius: 50%;
+		padding-left: 5px;
+		margin-right: 10px;
+		aspect-ratio: 1/1;
+		object-fit: cover;
+		filter: var(--redIconFilter);
 	}
 </style>
