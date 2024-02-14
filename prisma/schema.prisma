@@ -58,7 +58,7 @@ model ClubUser {
 	userId         Int
 	roleId         Int?
 	role           ClubRole? @relation(fields: [roleId], references: [id])
-	owner          Boolean
+	owner          Boolean @default(false)
 
 	@@id([clubId, userId, organizationId])
 }
