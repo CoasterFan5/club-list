@@ -203,7 +203,7 @@ export const actions = {
 				};
 			}
 
-			if (clubUser.owner) {
+			if (!clubUser.owner) {
 				return {
 					success: false,
 					message: 'No Permissions'
@@ -222,6 +222,21 @@ export const actions = {
 					owner: true
 				}
 			});
+
+			//Update the current user
+			await prisma.clubUser.update({
+				where: {
+					clubId_userId_organizationId: {
+						clubId: club.id,
+						userId: clubUser.userId,
+						organizationId: club.organizationId
+					}
+				},
+				data: {
+					owner: false
+				}
+			})
+
 		}
 	)
 };

@@ -122,7 +122,7 @@
 								<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
 								{member.user.firstName}
 								{member.user.lastName}
-								{#if member.userId == data.org.ownerId || member.role == 'ADMIN'}
+								{#if member.userId == data.org.ownerId || member.role == 'OWNER'}
 									<img
 										class="crown"
 										alt="owner"

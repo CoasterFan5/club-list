@@ -41,25 +41,33 @@ async function main() {
 		}
 	});
 
+	const leaderUser = await prisma.user.upsert({
+		where: {email: "leader@card.board"},
+		update: {},
+		create: {
+			firstName: 'Card',
+			lastName: 'Board',
+			email: 'leader@card.board',
+			...(await makePassword('password'))
+		}
+	})
+
 	await prisma.organization.upsert({
 		where: { id: 1, name: 'Cardboard' },
 		update: {},
 		create: {
 			name: 'Cardboard',
 			joinCode: '123456',
-			owner: {
-				create: {
-					firstName: 'Card',
-					lastName: 'Board',
-					email: 'leader@card.board',
-					...(await makePassword('password'))
-				}
-			},
+			ownerId: leaderUser.id,
 			orgUsers: {
 				create: [
 					{
 						userId: bStone.id,
-						role: 'Admin'
+						role: 'ADMIN'
+					},
+					{
+						userId: leaderUser.id,
+						role: "OWNER"
 					}
 				]
 			},
