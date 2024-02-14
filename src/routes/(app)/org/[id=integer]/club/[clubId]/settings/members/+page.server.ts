@@ -196,7 +196,7 @@ export const actions = {
 			if (!club) {
 				return {
 					success: false,
-					message: 'no.'
+					message: 'Club not found.'
 				};
 			}
 
