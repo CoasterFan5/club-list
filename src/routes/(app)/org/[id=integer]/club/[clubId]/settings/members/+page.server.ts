@@ -29,7 +29,7 @@ const validateUser = async (session: string | undefined, params: RouteParams) =>
 		}
 	});
 
-	if (user.id != club?.ownerId) {
+	if (!clubUser?.owner) {
 		if (!clubUser) {
 			throw redirect(303, '/');
 		}
@@ -85,7 +85,8 @@ export const load = async ({ cookies, params }) => {
 
 	return {
 		memberData,
-		roles
+		roles,
+		
 	};
 };
 
@@ -141,12 +142,6 @@ export const actions = {
 				};
 			}
 
-			if (club.ownerId == userId) {
-				return {
-					success: false,
-					message: "Can't kick the owner."
-				};
-			}
 
 			const clubUser = await prisma.clubUser.findFirst({
 				where: {
@@ -163,6 +158,14 @@ export const actions = {
 					message: 'No Club Member exsists.'
 				};
 			}
+
+			if(clubUser.owner) {
+				return {
+					success: false,
+					message: "Can't kick the owner."
+				}
+			}
+
 
 			if (clubUser && clubUser.roleId) {
 				return {
@@ -192,7 +195,7 @@ export const actions = {
 			userId: z.coerce.number()
 		}),
 		async ({ userId }, { cookies, params }) => {
-			const { club, user } = await validateUser(cookies.get('session'), params as RouteParams);
+			const { club, clubUser } = await validateUser(cookies.get('session'), params as RouteParams);
 			if (!club) {
 				return {
 					success: false,
@@ -200,19 +203,23 @@ export const actions = {
 				};
 			}
 
-			if (club.ownerId != user.id) {
+			if (clubUser.owner) {
 				return {
 					success: false,
 					message: 'No Permissions'
 				};
 			}
 
-			await prisma.club.update({
+			await prisma.clubUser.update({
 				where: {
-					id: club.id
+					clubId_userId_organizationId: {
+						clubId: club.id,
+						userId: userId,
+						organizationId: club.organizationId
+					}
 				},
 				data: {
-					ownerId: userId
+					owner: true
 				}
 			});
 		}

@@ -36,11 +36,6 @@ export const load = async ({ parent }) => {
 							}
 						}
 					},
-					{
-						ownerId: {
-							equals: user.id
-						}
-					}
 				]
 			}
 		},

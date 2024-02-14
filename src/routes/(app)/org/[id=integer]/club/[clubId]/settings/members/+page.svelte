@@ -140,7 +140,7 @@
 								<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
 								{member.user.firstName}
 								{member.user.lastName}
-								{#if member.user.id == data.club.ownerId}
+								{#if member.owner}
 									<img
 										class="crown"
 										alt="owner"
@@ -175,7 +175,7 @@
 									>
 										<img class="icon" alt="kick" src="/icons/kick.svg" />
 									</button>
-									{#if data.user?.id == data.club.ownerId && member.user.id != data.user?.id}
+									{#if member.owner}
 										<button
 											class="actionButton"
 											title="Transfer Onwership"

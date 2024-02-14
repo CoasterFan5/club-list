@@ -43,11 +43,6 @@ export const actions = {
 				include: {
 					user: {
 						include: {
-							clubs: {
-								where: {
-									id: parseInt(params.clubId)
-								}
-							},
 							clubUsers: {
 								where: {
 									clubId: parseInt(params.clubId)
@@ -151,7 +146,8 @@ export const actions = {
 			data: {
 				clubId: club.id,
 				organizationId: parseInt(params.id),
-				userId: user.id
+				userId: user.id,
+				owner: false
 			}
 		});
 

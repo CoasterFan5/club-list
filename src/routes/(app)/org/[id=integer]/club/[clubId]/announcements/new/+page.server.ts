@@ -2,8 +2,9 @@ import { redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard';
-import { createPermissionsCheck } from '$lib/permissions.js';
+import { createPermissionsFromUser } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
+import { verifySession } from '$lib/server/verifySession.js';
 
 export const load = async ({ params, parent }) => {
 	const parentData = await parent();
@@ -13,8 +14,7 @@ export const load = async ({ params, parent }) => {
 
 	if (
 		!parentData.clubPerms.admin &&
-		!parentData.clubPerms.manageAnnouncements &&
-		parentData.club.ownerId != parentData.user?.id
+		!parentData.clubPerms.manageAnnouncements
 	) {
 		redirect(303, baseUrl);
 	}
@@ -31,50 +31,36 @@ export const actions = {
 			const orgId = params.id;
 			const baseUrl = `/org/${orgId}/club/${clubId}`;
 
-			// Now the long task of validating data
-			const session = cookies.get('session');
-
-			const sessionCheck = await prisma.session.findUnique({
+			const club = await prisma.club.findUnique({
 				where: {
-					sessionToken: session
-				},
-				include: {
-					user: {
-						include: {
-							clubs: {
-								where: {
-									id: parseInt(params.clubId)
-								}
-							},
-							clubUsers: {
-								where: {
-									clubId: parseInt(params.clubId)
-								},
-								include: {
-									role: true
-								}
-							}
-						}
-					}
+					id: parseInt(params.clubId)
 				}
-			});
+			})
 
-			if (!sessionCheck || !sessionCheck.user) {
-				redirect(303, '/login');
+			if(!club) {
+				return {
+					success: false,
+					message: "no."
+				}
 			}
 
-			const [club] = sessionCheck.user.clubs;
-			const [clubUser] = sessionCheck.user.clubUsers;
+			const user = await verifySession(cookies.get("session"), {
+				clubUsers: {
+					where: {
+						clubId: club.id
+					},
+					include: {
+						role: true
+					}
+				}
+			})
 
-			// Check permissions
-			if (club.ownerId != sessionCheck.userId) {
-				if (!clubUser) {
-					redirect(303, '/login');
-				}
-				const permissionCheck = createPermissionsCheck(clubUser.role?.permissionInt ?? 0);
-				if (!permissionCheck.admin && !permissionCheck.manageAnnouncements) {
-					redirect(303, '/login');
-				}
+			
+
+			const perms = createPermissionsFromUser(user, club)
+
+			if (!perms.admin && !perms.manageAnnouncements) {
+				redirect(303, '/login');
 			}
 
 			// Valid!
@@ -82,8 +68,8 @@ export const actions = {
 				data: {
 					title,
 					description,
-					clubId: club.id,
-					authorId: sessionCheck.userId
+					clubId: parseInt(params.clubId),
+					authorId: user.id
 				}
 			});
 
