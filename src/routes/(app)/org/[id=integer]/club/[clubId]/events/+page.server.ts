@@ -5,7 +5,7 @@ import * as pkg from 'rrule';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
-import { createPermissionsCheck } from '$lib/permissions.js';
+import { createPermissionsFromUser } from '$lib/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { RRule } from '$lib/utils/rrule';
 
@@ -201,18 +201,9 @@ export const actions = {
 			}
 
 			// Make sure the user has permissions to create an event
-			if (sessionCheck.user.id != club?.ownerId) {
-				if (!sessionCheck.user.clubUsers[0] || !sessionCheck.user.clubUsers[0].role) {
-					error(401, 'No Permissions');
-				}
-
-				const permissions = createPermissionsCheck(
-					sessionCheck.user.clubUsers[0].role.permissionInt
-				);
-
-				if (!permissions.manageEvents && !permissions.admin) {
-					error(401, 'No Permissions');
-				}
+			const permCheck = createPermissionsFromUser(sessionCheck.user, club);
+			if (!permCheck.manageEvents && !permCheck.admin) {
+				error(401, 'No Permissions');
 			}
 
 			await prisma.event.create({

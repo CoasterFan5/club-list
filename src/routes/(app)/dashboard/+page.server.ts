@@ -35,11 +35,6 @@ export const load = async ({ parent }) => {
 								userId: user.id
 							}
 						}
-					},
-					{
-						ownerId: {
-							equals: user.id
-						}
 					}
 				]
 			}

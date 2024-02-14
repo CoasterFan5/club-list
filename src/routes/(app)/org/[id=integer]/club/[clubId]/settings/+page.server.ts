@@ -16,6 +16,7 @@ export const actions = {
 			const user = await verifySession(cookies.get('session'), {
 				clubUsers: {
 					select: {
+						owner: true,
 						clubId: true,
 						role: {
 							select: {

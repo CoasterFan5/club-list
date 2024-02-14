@@ -62,6 +62,7 @@ interface UserLike {
 	id: number;
 	clubUsers: {
 		clubId: number;
+		owner: boolean;
 		role: {
 			permissionInt: number;
 		} | null;
@@ -69,7 +70,6 @@ interface UserLike {
 }
 
 interface ClubLike {
-	ownerId: number;
 	id: number;
 }
 
@@ -77,7 +77,8 @@ export const createPermissionsFromUser = (
 	user?: UserLike | null,
 	club?: ClubLike | null
 ): PermissionObject => {
-	if (user?.id == club?.ownerId) {
+	const clubUser = user?.clubUsers.find((clubUser) => clubUser.clubId == club?.id);
+	if (clubUser?.owner) {
 		// Create a permission object with all permissions
 		return createPermissionsCheck(2 ** permissionKeys.length - 1);
 	} else {

@@ -42,8 +42,16 @@ export const actions = {
 				data: {
 					name: clubName,
 					description: null,
-					ownerId: orgUser.userId,
-					organizationId: orgUser.organizationId
+					organizationId: orgUser.organizationId,
+					clubUsers: {
+						create: [
+							{
+								userId: user.id,
+								owner: true,
+								organizationId: orgUser.organizationId
+							}
+						]
+					}
 				}
 			});
 

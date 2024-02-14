@@ -6,7 +6,6 @@
 		name: string;
 		description: string | null;
 		imageURL: string | null;
-		ownerId: number;
 		organizationId: number;
 		openToJoin: boolean;
 	};

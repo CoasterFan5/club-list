@@ -29,7 +29,7 @@ const validateUser = async (session: string | undefined, params: RouteParams) =>
 		}
 	});
 
-	if (user.id != club?.ownerId) {
+	if (!clubUser?.owner) {
 		if (!clubUser) {
 			throw redirect(303, '/');
 		}
@@ -157,6 +157,13 @@ export const actions = {
 				};
 			}
 
+			if (clubUser.owner) {
+				return {
+					success: false,
+					message: "Can't kick the owner."
+				};
+			}
+
 			if (clubUser && clubUser.roleId) {
 				return {
 					success: false,
@@ -178,6 +185,54 @@ export const actions = {
 				success: true,
 				message: 'User Kicked'
 			};
+		}
+	),
+	transferOwnership: formHandler(
+		z.object({
+			userId: z.coerce.number()
+		}),
+		async ({ userId }, { cookies, params }) => {
+			const { club, clubUser } = await validateUser(cookies.get('session'), params as RouteParams);
+			if (!club) {
+				return {
+					success: false,
+					message: 'Club not found.'
+				};
+			}
+
+			if (!clubUser.owner) {
+				return {
+					success: false,
+					message: 'No Permissions'
+				};
+			}
+
+			await prisma.clubUser.update({
+				where: {
+					clubId_userId_organizationId: {
+						clubId: club.id,
+						userId: userId,
+						organizationId: club.organizationId
+					}
+				},
+				data: {
+					owner: true
+				}
+			});
+
+			//Update the current user
+			await prisma.clubUser.update({
+				where: {
+					clubId_userId_organizationId: {
+						clubId: club.id,
+						userId: clubUser.userId,
+						organizationId: club.organizationId
+					}
+				},
+				data: {
+					owner: false
+				}
+			});
 		}
 	)
 };

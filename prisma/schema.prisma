@@ -29,7 +29,6 @@ model User {
 	pfp           String?  @db.VarChar(255)
 	organization  Organization[]
 	orgUsers      OrgUser[]
-	clubs         Club[]
 	sessions      Session[]
 	clubUsers     ClubUser[]
 	announcements Announcement[]
@@ -59,6 +58,7 @@ model ClubUser {
 	userId         Int
 	roleId         Int?
 	role           ClubRole? @relation(fields: [roleId], references: [id])
+	owner          Boolean @default(false)
 
 	@@id([clubId, userId, organizationId])
 }
@@ -95,8 +95,6 @@ model Club {
 	name           String        @db.VarChar(255)
 	description    String?
 	imageURL       String?
-	owner          User          @relation(fields: [ownerId], references: [id])
-	ownerId        Int
 	organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 	organizationId Int
 	clubUsers      ClubUser[]
