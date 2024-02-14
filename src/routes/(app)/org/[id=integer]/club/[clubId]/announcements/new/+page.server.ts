@@ -12,10 +12,7 @@ export const load = async ({ params, parent }) => {
 	const orgId = params.id;
 	const baseUrl = `/org/${orgId}/club/${clubId}`;
 
-	if (
-		!parentData.clubPerms.admin &&
-		!parentData.clubPerms.manageAnnouncements
-	) {
+	if (!parentData.clubPerms.admin && !parentData.clubPerms.manageAnnouncements) {
 		redirect(303, baseUrl);
 	}
 };
@@ -35,16 +32,16 @@ export const actions = {
 				where: {
 					id: parseInt(params.clubId)
 				}
-			})
+			});
 
-			if(!club) {
+			if (!club) {
 				return {
 					success: false,
-					message: "no."
-				}
+					message: 'no.'
+				};
 			}
 
-			const user = await verifySession(cookies.get("session"), {
+			const user = await verifySession(cookies.get('session'), {
 				clubUsers: {
 					where: {
 						clubId: club.id
@@ -53,11 +50,9 @@ export const actions = {
 						role: true
 					}
 				}
-			})
+			});
 
-			
-
-			const perms = createPermissionsFromUser(user, club)
+			const perms = createPermissionsFromUser(user, club);
 
 			if (!perms.admin && !perms.manageAnnouncements) {
 				redirect(303, '/login');

@@ -64,7 +64,7 @@
 						</div>
 					</div>
 				{:else if !data.hasOrgs}
-					You are not in any organizations.{' '}
+					You are not in any organizations.
 					<Link on:click={showJoinModal}>Join</Link>
 					or
 					<Link on:click={showCreateModal}>Create</Link> one now!

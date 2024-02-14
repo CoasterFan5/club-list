@@ -201,11 +201,10 @@ export const actions = {
 			}
 
 			// Make sure the user has permissions to create an event
-			const permCheck = createPermissionsFromUser(sessionCheck.user, club)
-			if(!permCheck.manageEvents && !permCheck.admin) {
+			const permCheck = createPermissionsFromUser(sessionCheck.user, club);
+			if (!permCheck.manageEvents && !permCheck.admin) {
 				error(401, 'No Permissions');
 			}
-			
 
 			await prisma.event.create({
 				data: {

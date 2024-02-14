@@ -35,7 +35,7 @@ export const load = async ({ parent }) => {
 								userId: user.id
 							}
 						}
-					},
+					}
 				]
 			}
 		},

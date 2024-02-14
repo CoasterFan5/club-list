@@ -2,7 +2,6 @@
 	import { qr } from '@svelte-put/qr/img';
 	import Fuse from 'fuse.js';
 
-	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';

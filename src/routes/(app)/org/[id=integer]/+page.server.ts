@@ -44,11 +44,13 @@ export const actions = {
 					description: null,
 					organizationId: orgUser.organizationId,
 					clubUsers: {
-						create: [{
-							userId: user.id,
-							owner: true,
-							organizationId: orgUser.organizationId
-						}]
+						create: [
+							{
+								userId: user.id,
+								owner: true,
+								organizationId: orgUser.organizationId
+							}
+						]
 					}
 				}
 			});

@@ -85,8 +85,7 @@ export const load = async ({ cookies, params }) => {
 
 	return {
 		memberData,
-		roles,
-		
+		roles
 	};
 };
 
@@ -142,7 +141,6 @@ export const actions = {
 				};
 			}
 
-
 			const clubUser = await prisma.clubUser.findFirst({
 				where: {
 					AND: {
@@ -159,13 +157,12 @@ export const actions = {
 				};
 			}
 
-			if(clubUser.owner) {
+			if (clubUser.owner) {
 				return {
 					success: false,
 					message: "Can't kick the owner."
-				}
+				};
 			}
-
 
 			if (clubUser && clubUser.roleId) {
 				return {
@@ -235,8 +232,7 @@ export const actions = {
 				data: {
 					owner: false
 				}
-			})
-
+			});
 		}
 	)
 };

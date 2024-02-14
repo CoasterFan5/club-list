@@ -42,7 +42,7 @@ async function main() {
 	});
 
 	const leaderUser = await prisma.user.upsert({
-		where: {email: "leader@card.board"},
+		where: { email: 'leader@card.board' },
 		update: {},
 		create: {
 			firstName: 'Card',
@@ -50,7 +50,7 @@ async function main() {
 			email: 'leader@card.board',
 			...(await makePassword('password'))
 		}
-	})
+	});
 
 	await prisma.organization.upsert({
 		where: { id: 1, name: 'Cardboard' },
@@ -67,7 +67,7 @@ async function main() {
 					},
 					{
 						userId: leaderUser.id,
-						role: "OWNER"
+						role: 'OWNER'
 					}
 				]
 			},
