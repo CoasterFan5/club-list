@@ -35,7 +35,7 @@ export const actions = {
 				}
 			});
 
-			if (club?.clubUsers[0]?.owner) {
+			if (!club?.clubUsers[0]?.owner) {
 				if (!club?.clubUsers[0]?.role) {
 					return {
 						success: false,

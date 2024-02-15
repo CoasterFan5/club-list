@@ -44,23 +44,17 @@
 						<form class="buttonWrap" action="{baseURL}?/joinClub" method="post" use:enhance>
 							<Button value="Join Club" />
 						</form>
-					{:else if data.clubUser}
-						{#if data.club.openToJoin}
-							<form class="buttonWrap" action="{baseURL}?/leaveClub" method="post" use:enhance>
-								<Button value="Leave Club" />
-							</form>
-						{:else}
-							<div class="buttonWrap">
-								<Button
-									value="Leave Club"
-									on:click={() => {
-										pushState('', {
-											showingModal: 'confirmLeaveClub'
-										});
-									}}
-								/>
-							</div>
-						{/if}
+					{:else if data.clubUser && !data.clubUser.owner}
+						<div class="buttonWrap">
+							<Button
+								value="Leave Club"
+								on:click={() => {
+									pushState('', {
+										showingModal: 'confirmLeaveClub'
+									});
+								}}
+							/>
+						</div>
 					{/if}
 				{:else}
 					<a class="buttonWrap" href="/login">
