@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Role from "./Role.svelte"
 	export let data;
@@ -9,7 +10,7 @@
 	{#each data.roles as role}
 		<Role {role}/>
 	{/each}
-	<form method="post" action="?/createRole">
+	<form method="post" action="?/createRole" use:enhance>
 		<Button value="Create Role" />
 	</form>
 	

@@ -29,7 +29,7 @@
 		await update({ reset: false });
 	};
 }}>
-	<input hidden bind:value={role.id} name="roleId"/>
+	<input hidden value={role.id} name="roleId"/>
 	<button class="dot" style="--dotColor: {dotColor}" on:click={openColorInput}>
 		<input type="color" class="colorInput" bind:this={colorInput} name="color" on:change={valueChanged} bind:value={dotColor}/>
 	</button>
@@ -51,6 +51,7 @@
 		box-sizing: border-box;
 		border-radius: 3px;
 		margin-bottom: 10px;
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 
 	}
 
@@ -86,6 +87,7 @@
 		border: 1px solid transparent;
 		padding: 3px;
 		border-radius: 3px;
+		font-size: 1.1rem;
 			
 		&:hover {
 			border: 1px solid var(--accent50);
