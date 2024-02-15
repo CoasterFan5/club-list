@@ -63,11 +63,9 @@ async function main() {
 				create: [
 					{
 						userId: bStone.id,
-						role: 'ADMIN'
 					},
 					{
 						userId: leaderUser.id,
-						role: 'OWNER'
 					}
 				]
 			},
@@ -159,7 +157,6 @@ async function main() {
 			orgUsers: {
 				create: [
 					{
-						role: 'ADMIN',
 						user: {
 							create: {
 								firstName: 'Animal',
@@ -190,7 +187,6 @@ async function main() {
 				orgUsers: {
 					create: {
 						organizationId: 1,
-						role: 'STUDENT'
 					}
 				},
 				clubUsers: {

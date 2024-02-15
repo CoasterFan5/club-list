@@ -1,5 +1,10 @@
+<script>
+	export let data;
+</script>
+
 <div class="wrap">
 	<h2>Roles</h2>
+	
 </div>
 
 <style>
