@@ -4,9 +4,11 @@ import { addToast } from '$lib/components/toaster';
 
 const formSchema = z
 	.object({
-		success: z.boolean().optional(),
-		message: z.string().optional(),
-		data: z.unknown().optional().nullable()
+		success: z.boolean(),
+		data: z.object({
+			success: z.boolean(),
+			message: z.string(),
+		}).optional()
 	})
 	.optional()
 	.nullable();
@@ -29,22 +31,19 @@ export function handleForm(unparsedForm: unknown, successMessage?: string, optio
 		options.callback(form);
 	}
 
-	const formData = form.data as {
-		success: boolean | undefined;
-		message: string | undefined;
-	};
+	const formData = form.data;
 
 	if (form !== null && form !== undefined) {
 		if (formData.success) {
 			addToast({
 				type: 'success',
-				message: formData.message || successMessage || 'success!',
+				message: form.data.message || successMessage || 'success!',
 				life: 3000
 			});
 		} else {
 			addToast({
 				type: 'error',
-				message: formData.message || 'An error occurred!',
+				message: form.data.message || 'An error occurred!',
 				life: 3000
 			});
 		}
