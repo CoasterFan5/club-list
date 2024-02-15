@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
+	import { handleForm } from '$lib/utils/formToaster';
 
 	import Role from './Role.svelte';
 	export let data;
+
+	export let form;
+	$: handleForm(form, "Role Updated")
 
 </script>
 

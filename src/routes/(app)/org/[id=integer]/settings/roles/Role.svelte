@@ -4,6 +4,7 @@
 	import { tooltip } from '$lib/components/tooltips/tooltip';
 	import { createOrgPermissionsCheck, orgPermissionObjectDescriptions, orgKeys, defaultOrgPermissionObject, createOrgPermissionNumber } from '$lib/orgPerms';
 	import { toTitleCase } from '$lib/titleCase';
+	
 
 	export let role: {
 		id: number;
@@ -45,6 +46,8 @@
 	let dotColor = role.color;
 
 	let showingPermEditor = false;
+
+	
 
 </script>
 
