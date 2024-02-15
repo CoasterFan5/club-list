@@ -39,7 +39,7 @@
 
 	let confirmValue = '';
 
-	const startOnwershipTransfer = (id: number, firstName: string, lastName: string) => {
+	const startOwnershipTransfer = (id: number, firstName: string, lastName: string) => {
 		kickMember = {
 			id: id,
 			firstName,
@@ -89,9 +89,7 @@
 		<hr />
 		<form action="?/transferOwnership" method="post" use:enhance>
 			<input name="userId" style="display: none" bind:value={kickMember.id} />
-			{#if confirmValue == data.club.name}
-				<Button type="submit" value="Transfer Ownership" />
-			{/if}
+			<Button disabled={confirmValue != data.club.name} type="submit" value="Transfer Ownership" />
 		</form>
 	</Modal>
 {/if}
@@ -180,7 +178,7 @@
 											class="actionButton"
 											title="Transfer Onwership"
 											on:click={() => {
-												startOnwershipTransfer(
+												startOwnershipTransfer(
 													member.userId,
 													member.user.firstName,
 													member.user.lastName
