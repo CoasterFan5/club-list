@@ -58,11 +58,12 @@ async function main() {
 		create: {
 			name: 'Cardboard',
 			joinCode: '123456',
-			ownerId: leaderUser.id,
+			
 			orgUsers: {
 				create: [
 					{
 						userId: bStone.id,
+						owner: true
 					},
 					{
 						userId: leaderUser.id,
@@ -140,31 +141,26 @@ async function main() {
 		}
 	});
 
+	const hybridUser = await prisma.user.create({
+		data: {
+			firstName: 'Hy',
+			lastName: 'Brid',
+			email: 'hbrid@hybrid.org',
+			...(await makePassword('password'))
+		}
+	})
+
 	await prisma.organization.upsert({
 		where: { id: 2, name: 'Hybrid' },
 		update: {},
 		create: {
 			name: 'Hybrid',
 			joinCode: '234567',
-			owner: {
-				create: {
-					firstName: 'Hy',
-					lastName: 'Brid',
-					email: 'hbrid@hybrid.org',
-					...(await makePassword('password'))
-				}
-			},
 			orgUsers: {
 				create: [
 					{
-						user: {
-							create: {
-								firstName: 'Animal',
-								lastName: 'Bird',
-								email: 'abird@hybrid.org',
-								...(await makePassword('password'))
-							}
-						}
+						userId: hybridUser.id,
+						owner: true
 					}
 				]
 			}
