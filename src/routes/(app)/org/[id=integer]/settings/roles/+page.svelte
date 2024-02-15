@@ -1,13 +1,18 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
-
+	import Role from "./Role.svelte"
 	export let data;
 </script>
 
 <div class="wrap">
 	<h2>Roles</h2>
-	{data.roles.length}
-	<Button value="Create Role" />
+	{#each data.roles as role}
+		<Role {role}/>
+	{/each}
+	<form method="post" action="?/createRole">
+		<Button value="Create Role" />
+	</form>
+	
 </div>
 
 <style lang="scss">
@@ -19,4 +24,5 @@
 		width: 100%;
 		box-sizing: border-box;
 	}
+	
 </style>
