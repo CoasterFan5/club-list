@@ -5,11 +5,11 @@ test.describe.configure({ mode: 'serial' });
 let page: Page;
 
 test.beforeAll(async ({ browser }) => {
-  page = await browser.newPage();
+	page = await browser.newPage();
 });
 
 test.afterAll(async () => {
-  await page.close();
+	await page.close();
 });
 
 test('logout works', async () => {
