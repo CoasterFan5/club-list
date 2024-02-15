@@ -86,9 +86,10 @@ export const actions = {
 		z.object({
 			roleId: z.coerce.number(),
 			name: z.string().min(1).max(128),
-			color: z.string()
+			color: z.string(),
+			permissionInt: z.coerce.number()
 		}),
-		async ({ roleId, name, color }, { cookies, params }) => {
+		async ({ roleId, name, color, permissionInt }, { cookies, params }) => {
 			const { perms, org } = await ensurePermissions(cookies, params);
 
 			if (!org) {
@@ -127,7 +128,8 @@ export const actions = {
 				},
 				data: {
 					name: name,
-					color
+					color,
+					permissionInt
 				}
 			});
 		}

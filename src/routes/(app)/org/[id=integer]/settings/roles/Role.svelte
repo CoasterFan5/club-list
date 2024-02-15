@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
-	import { createOrgPermissionsCheck, orgPermissionObjectDescriptions, orgKeys, defaultOrgPermissionObject } from '$lib/orgPerms';
+	import { createOrgPermissionsCheck, orgPermissionObjectDescriptions, orgKeys, defaultOrgPermissionObject, createOrgPermissionNumber } from '$lib/orgPerms';
 	import { toTitleCase } from '$lib/titleCase';
 
 	export let role: {
@@ -14,6 +14,7 @@
 
 	let colorInput: HTMLInputElement;
 	let submitButton: HTMLButtonElement;
+	let permissionIntInput: HTMLInputElement;
 
 	const valueChanged = () => {
 		submitButton.click();
@@ -27,7 +28,19 @@
 		showingPermEditor = !showingPermEditor
 	}
 
+	let permissionIntCalculated = role.permissionInt;
+
 	const permissionObject = createOrgPermissionsCheck(role.permissionInt)
+
+	
+
+	$: if(permissionObject) {
+		if(createOrgPermissionNumber(permissionObject) != permissionIntCalculated) {
+			permissionIntCalculated = createOrgPermissionNumber(permissionObject)
+			permissionIntInput.value = permissionIntCalculated.toString()
+			submitButton.click()
+		}
+	}
 
 	let dotColor = role.color;
 
@@ -82,7 +95,7 @@
 		{#each orgKeys as key}
 			<div class="perm">
 				<div class="permInner">
-					<Checkbox label={toTitleCase(key)} bind:checked={permissionObject[key]}/>
+					<Checkbox name={null} label={toTitleCase(key)} bind:checked={permissionObject[key]} />
 					<p>{orgPermissionObjectDescriptions[key]}</p>
 				</div>
 				
@@ -90,7 +103,8 @@
 			
 		{/each}
 	</div>
-	
+
+	<input hidden bind:this={permissionIntInput} name="permissionInt"/>
 	
 
 	<button bind:this={submitButton} hidden type="submit" />
