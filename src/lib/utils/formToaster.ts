@@ -11,13 +11,6 @@ const formSchema = z
 	.optional()
 	.nullable();
 
-function err(form: unknown): undefined {
-	console.error(
-		`Form's message &/o success message is null (${JSON.stringify(form)}) Please report this error to the authors`
-	);
-	return undefined;
-}
-
 type Form = z.infer<typeof formSchema>;
 
 interface Options {
