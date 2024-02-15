@@ -89,7 +89,7 @@
 		<hr />
 		<form action="?/transferOwnership" method="post" use:enhance>
 			<input name="userId" style="display: none" bind:value={kickMember.id} />
-      <Button type="submit" value="Transfer Ownership" disabled={confirmValue != data.club.name} />
+			<Button disabled={confirmValue != data.club.name} type="submit" value="Transfer Ownership" />
 		</form>
 	</Modal>
 {/if}
