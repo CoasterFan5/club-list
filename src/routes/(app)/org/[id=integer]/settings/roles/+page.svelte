@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
-	import Role from "./Role.svelte"
+
+	import Role from './Role.svelte';
 	export let data;
 </script>
 
 <div class="wrap">
 	<h2>Roles</h2>
 	{#each data.roles as role}
-		<Role {role}/>
+		<Role {role} />
 	{/each}
-	<form method="post" action="?/createRole" use:enhance>
+	<form action="?/createRole" method="post" use:enhance>
 		<Button value="Create Role" />
 	</form>
-	
 </div>
 
 <style lang="scss">
@@ -25,5 +25,4 @@
 		width: 100%;
 		box-sizing: border-box;
 	}
-	
 </style>

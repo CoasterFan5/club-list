@@ -14,9 +14,9 @@ const ensurePermissions = async (cookies: Cookies, params: RouteParams) => {
 		where: {
 			id: parseInt(params.id)
 		}
-	})
+	});
 
-	const user = await verifySession(cookies.get("session"), {
+	const user = await verifySession(cookies.get('session'), {
 		orgUsers: {
 			include: {
 				role: true
@@ -25,16 +25,13 @@ const ensurePermissions = async (cookies: Cookies, params: RouteParams) => {
 				organizationId: org?.id
 			}
 		}
-	})
+	});
 
-	
 	return {
 		perms: createOrgPermissionsFromUser(user, org),
 		org: org
-	}
-	
-
-}
+	};
+};
 
 export const load = async ({ parent }) => {
 	const parentData = await parent();
@@ -44,7 +41,7 @@ export const load = async ({ parent }) => {
 			orgid: parentData.org.id
 		},
 		orderBy: {
-			id: "asc"
+			id: 'asc'
 		}
 	});
 
@@ -54,89 +51,85 @@ export const load = async ({ parent }) => {
 };
 
 export const actions = {
-	createRole: async ({cookies, params}) => {
+	createRole: async ({ cookies, params }) => {
+		const { perms, org } = await ensurePermissions(cookies, params);
 
-		const {perms, org} = await ensurePermissions(cookies, params)
-
-		if(!org) {
+		if (!org) {
 			return {
 				success: false,
-				message: "No Org"
-			}
+				message: 'No Org'
+			};
 		}
 
-		if(!perms.admin && !perms.manageRoles) {
+		if (!perms.admin && !perms.manageRoles) {
 			return {
 				success: false,
-				message: "No Permissions"
-			}
+				message: 'No Permissions'
+			};
 		}
 
 		await prisma.orgRole.create({
 			data: {
-				name: "New Role",
+				name: 'New Role',
 				permissionInt: 0,
-				color: "#dbdbdb",
+				color: '#dbdbdb',
 				orgid: org?.id
 			}
-		})
+		});
 
 		return {
 			success: true,
-			message: "Role Created!"
-		}
-		
-		
-
+			message: 'Role Created!'
+		};
 	},
-	updateRole: formHandler(z.object({
-		roleId: z.coerce.number(),
-		name: z.string().min(1).max(128),
-		color: z.string()
-	}), async ({roleId, name, color}, {cookies, params}) => {
-		
-		const {perms, org} = await ensurePermissions(cookies, params)
+	updateRole: formHandler(
+		z.object({
+			roleId: z.coerce.number(),
+			name: z.string().min(1).max(128),
+			color: z.string()
+		}),
+		async ({ roleId, name, color }, { cookies, params }) => {
+			const { perms, org } = await ensurePermissions(cookies, params);
 
-		if(!org) {
-			return {
-				success: false,
-				message: "No org"
+			if (!org) {
+				return {
+					success: false,
+					message: 'No org'
+				};
 			}
-		}
 
-		const role = await prisma.orgRole.findFirst({
-			where: {
-				AND: {
-					id: roleId,
-					orgid: org.id
+			const role = await prisma.orgRole.findFirst({
+				where: {
+					AND: {
+						id: roleId,
+						orgid: org.id
+					}
 				}
-			}
-		})
+			});
 
-		if(!role) {
-			return {
-				success: false,
-				message: "No Role."
+			if (!role) {
+				return {
+					success: false,
+					message: 'No Role.'
+				};
 			}
+
+			if (!perms.admin && !perms.manageRoles) {
+				return {
+					success: false,
+					message: 'No Perms'
+				};
+			}
+
+			await prisma.orgRole.update({
+				where: {
+					id: role.id
+				},
+				data: {
+					name: name,
+					color
+				}
+			});
 		}
-
-		if(!perms.admin && !perms.manageRoles) {
-			return {
-				success: false,
-				message: "No Perms"
-			}
-		}
-
-		await prisma.orgRole.update({
-			where: {
-				id: role.id
-			},
-			data: {
-				name: name,
-				color
-			}
-		})
-
-	})
-	
-}
+	)
+};

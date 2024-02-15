@@ -1,44 +1,59 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
+	import { enhance } from '$app/forms';
 
 	export let role: {
-		id: number,
-		name: string,
-		color: string
-	}
+		id: number;
+		name: string;
+		color: string;
+	};
 
 	let colorInput: HTMLInputElement;
 	let submitButton: HTMLButtonElement;
 
 	const valueChanged = () => {
-		submitButton.click()
-	}
+		submitButton.click();
+	};
 
+	const openColorInput = () => {
+		colorInput.click();
+	};
 
-	const openColorInput = (e: MouseEvent) => {
-		colorInput.click()
-	}
-
-	let dotColor = role.color
+	let dotColor = role.color;
 </script>
 
-
-<form class="role" method="post" action="?/updateRole" use:enhance={() => {
-	// Keep all form data
-	return async ({ update }) => {
-		await update({ reset: false });
-	};
-}}>
-	<input hidden value={role.id} name="roleId"/>
-	<button class="dot" style="--dotColor: {dotColor}" on:click={openColorInput}>
-		<input type="color" class="colorInput" bind:this={colorInput} name="color" on:change={valueChanged} bind:value={dotColor}/>
+<form
+	class="role"
+	action="?/updateRole"
+	method="post"
+	use:enhance={() => {
+		// Keep all form data
+		return async ({ update }) => {
+			await update({ reset: false });
+		};
+	}}
+>
+	<input name="roleId" hidden value={role.id} />
+	<button style="--dotColor: {dotColor}" class="dot" on:click={openColorInput}>
+		<input
+			bind:this={colorInput}
+			name="color"
+			class="colorInput"
+			type="color"
+			on:change={valueChanged}
+			bind:value={dotColor}
+		/>
 	</button>
-	<input class="nameBox" value={role.name} on:change={valueChanged} name="name" placeholder="New Role" autocomplete="off">
+	<input
+		name="name"
+		class="nameBox"
+		autocomplete="off"
+		placeholder="New Role"
+		value={role.name}
+		on:change={valueChanged}
+	/>
 
-	
-	<button type="submit" bind:this={submitButton} hidden/>
+	<button bind:this={submitButton} hidden type="submit" />
 </form>
-
 
 <style lang="scss">
 	.role {
@@ -52,7 +67,6 @@
 		border-radius: 3px;
 		margin-bottom: 10px;
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
-
 	}
 
 	.dot {
@@ -88,7 +102,7 @@
 		padding: 3px;
 		border-radius: 3px;
 		font-size: 1.1rem;
-			
+
 		&:hover {
 			border: 1px solid var(--accent50);
 		}
@@ -98,7 +112,4 @@
 			border: 1px solid var(--accent);
 		}
 	}
-
-
-	
 </style>
