@@ -133,5 +133,51 @@ export const actions = {
 				}
 			});
 		}
-	)
+	),
+	deleteRole: formHandler(z.object({
+		roleId: z.coerce.number()
+	}), async ({roleId}, {params, cookies}) => {
+		const { perms, org } = await ensurePermissions(cookies, params);
+		if (!org) {
+			return {
+				success: false,
+				message: 'No org'
+			};
+		}
+
+		const role = await prisma.orgRole.findFirst({
+			where: {
+				AND: {
+					id: roleId,
+					orgid: org.id
+				}
+			}
+		});
+
+		if (!role) {
+			return {
+				success: false,
+				message: 'No Role.'
+			};
+		}
+
+		if (!perms.admin && !perms.manageRoles) {
+			return {
+				success: false,
+				message: 'No Perms'
+			};
+		}
+
+		//Delete the role 
+		await prisma.orgRole.delete({
+			where: {
+				id: role.id
+			}
+		})
+
+		return {
+			success: true,
+			message: "Role Deleted!"
+		}
+	})
 };

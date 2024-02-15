@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
 	import {
 		createOrgPermissionNumber,
@@ -43,12 +47,35 @@
 			permissionIntInput.value = permissionIntCalculated.toString();
 			submitButton.click();
 		}
+	}	
+
+	let deleting = false;
+
+	const deleteRole = () => {
+		pushState("", {
+			
+			showingModal: "delete"
+		})
+		deleting = true;
 	}
 
 	let dotColor = role.color;
 
+	
 	let showingPermEditor = false;
 </script>
+
+
+{#if $page.state.showingModal === 'delete' && deleting}
+	<Modal on:close={() => {history.back(); deleting = false;}}>
+		<form class="wrapForm" action="?/deleteRole" method="POST" use:enhance>
+			<h2>Are you sure?</h2>
+			<p>Deleting <strong>{role.name}</strong> will leave any users with this role with no role.</p>
+			<input hidden value={role.id} name="roleId"/>
+			<Button value="Delete" />
+		</form>
+	</Modal>
+{/if}
 
 <form
 	style="--dotColor: {dotColor}"
@@ -85,12 +112,16 @@
 			/>
 		</div>
 		<div class="right">
+			<button class="iconButton" type="button" on:click={deleteRole}>
+				<img alt="key" src="/icons/trash.svg" title="Delete" use:tooltip={'Delete'} />
+			</button>
 			<button class="iconButton" type="button" on:click={openColorInput}>
 				<img alt="palette" src="/icons/palette.svg" title="Color" use:tooltip={'Color'} />
 			</button>
 			<button class="iconButton" type="button" on:click={openPermEditor}>
 				<img alt="key" src="/icons/key.svg" title="Permissions" use:tooltip={'Permissions'} />
 			</button>
+			
 		</div>
 	</div>
 	<div class="bottom" class:invisible={!showingPermEditor}>
