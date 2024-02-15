@@ -173,11 +173,11 @@ export const actions = {
 			}
 		});
 
-		if(clubUser?.owner) {
+		if (clubUser?.owner) {
 			return {
 				success: false,
-				message: "You own this club!"
-			}
+				message: 'You own this club!'
+			};
 		}
 
 		if (!clubUser) {

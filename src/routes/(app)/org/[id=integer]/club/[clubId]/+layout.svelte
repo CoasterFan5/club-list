@@ -55,7 +55,6 @@
 								}}
 							/>
 						</div>
-							
 					{/if}
 				{:else}
 					<a class="buttonWrap" href="/login">

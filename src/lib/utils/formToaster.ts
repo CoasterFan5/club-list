@@ -30,15 +30,15 @@ export function handleForm(unparsedForm: unknown, successMessage?: string, optio
 	}
 
 	const formData = form.data as {
-		success: boolean | undefined,
-		message: string | undefined
-	}
+		success: boolean | undefined;
+		message: string | undefined;
+	};
 
 	if (form !== null && form !== undefined) {
 		if (formData.success) {
 			addToast({
 				type: 'success',
-				message: formData.message || successMessage || "success!",
+				message: formData.message || successMessage || 'success!',
 				life: 3000
 			});
 		} else {
