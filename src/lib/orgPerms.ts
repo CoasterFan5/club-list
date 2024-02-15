@@ -1,4 +1,4 @@
-export const keys = [
+export const orgKeys = [
 	'admin',
 	'viewSettings',
 	'inviteMembers',
@@ -12,7 +12,7 @@ export const keys = [
 	'createClubs',
 	'manageClubs'
 ] as const;
-export type orgPermissionKeys = typeof keys;
+export type orgPermissionKeys = typeof orgKeys;
 
 export type TypedPermissionObject<K> = Record<orgPermissionKeys[number], K>;
 

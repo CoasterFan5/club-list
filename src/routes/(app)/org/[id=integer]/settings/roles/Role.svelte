@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
-	import { createOrgPermissionsCheck } from '$lib/orgPerms';
+	import { createOrgPermissionsCheck, orgPermissionObjectDescriptions, orgKeys, defaultOrgPermissionObject } from '$lib/orgPerms';
 	import { toTitleCase } from '$lib/titleCase';
 
 	export let role: {
@@ -79,11 +79,11 @@
 		</div>
 	</div>
 	<div class="bottom" class:invisible={!showingPermEditor}>
-		{#each Object.entries(permissionObject) as [item, value]}
+		{#each orgKeys as key}
 			<div class="perm">
 				<div class="permInner">
-					<Checkbox label={toTitleCase(item)} checked={value}/>
-					<p>Desc</p>
+					<Checkbox label={toTitleCase(key)} bind:checked={permissionObject[key]}/>
+					<p>{orgPermissionObjectDescriptions[key]}</p>
 				</div>
 				
 			</div>
