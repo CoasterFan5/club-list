@@ -2,28 +2,23 @@ import { z } from 'zod';
 
 import { addToast } from '$lib/components/toaster';
 
-const formSchema = z
-	.object({
-		success: z.boolean(),
-		data: z.object({
-			success: z.boolean(),
-			message: z.string(),
-		}).optional()
-	})
-	.optional()
-	.nullable();
+const formSchema = z.object({
+	success: z.boolean(),
+	message: z.string().optional().nullable()
+});
 
 type Form = z.infer<typeof formSchema>;
 
 interface Options {
-	forceSuccessMessage?: boolean;
 	callback?: (form: Form) => void;
 }
 
 export function handleForm(unparsedForm: unknown, successMessage?: string, options?: Options) {
-	const form: Form = formSchema.safeParse(unparsedForm);
+	if (unparsedForm === null) return;
 
-	if (form.data === null) {
+	const form: Form = formSchema.parse(unparsedForm);
+
+	if (!form.success) {
 		return;
 	}
 
@@ -31,19 +26,17 @@ export function handleForm(unparsedForm: unknown, successMessage?: string, optio
 		options.callback(form);
 	}
 
-	const formData = form.data;
-
 	if (form !== null && form !== undefined) {
-		if (formData.success) {
+		if (form.success) {
 			addToast({
 				type: 'success',
-				message: form.data.message || successMessage || 'success!',
+				message: form.message || successMessage || 'success!',
 				life: 3000
 			});
 		} else {
 			addToast({
 				type: 'error',
-				message: form.data.message || 'An error occurred!',
+				message: form.message || 'An error occurred!',
 				life: 3000
 			});
 		}
