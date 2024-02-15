@@ -1,10 +1,13 @@
 <script>
+	import Button from '$lib/components/Button.svelte';
+
 	export let data;
 </script>
 
 <div class="wrap">
 	<h2>Roles</h2>
-	
+	{data.roles.length}
+	<Button value="Create Role" />
 </div>
 
 <style>

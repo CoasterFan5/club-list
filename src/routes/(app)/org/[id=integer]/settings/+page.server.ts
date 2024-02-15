@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
+import { createOrgPermissionsFromUser } from '$lib/orgPerms.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -10,25 +11,30 @@ export const actions = {
 			name: z.string().min(1)
 		}),
 		async ({ name }, { cookies, params }) => {
-			const user = await verifySession(cookies.get('session'));
-
-			const orgUser = await prisma.orgUser.findFirst({
-				where: {
-					AND: {
-						userId: user.id,
-						organizationId: parseInt(params.id)
+			const user = await verifySession(cookies.get('session'), {
+				orgUsers: {
+					include: {
+						role: true
 					}
 				}
 			});
 
-			if (!orgUser) {
+			const org = await prisma.organization.findUnique({
+				where: {
+					id: parseInt(params.id)
+				}
+			})
+
+			if (!org) {
 				return {
 					success: false,
-					message: 'No Permissions'
+					message: 'No Org'
 				};
 			}
 
-			if (orgUser.role != 'ADMIN' && orgUser.role != 'OWNER') {
+			const perms = await createOrgPermissionsFromUser(user, org)
+
+			if (!perms.admin && !perms.updateAppearance) {
 				return {
 					success: false,
 					message: 'No Permissions'
@@ -37,7 +43,7 @@ export const actions = {
 
 			await prisma.organization.update({
 				where: {
-					id: orgUser.organizationId
+					id: org.id
 				},
 				data: {
 					name

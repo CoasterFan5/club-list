@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
+import { createOrgPermissionsCheck } from '$lib/orgPerms.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -10,7 +11,8 @@ export const load = async ({ params }) => {
 			organizationId: parseInt(params.id)
 		},
 		include: {
-			user: true
+			user: true,
+			role: true
 		}
 	});
 
@@ -20,10 +22,10 @@ export const load = async ({ params }) => {
 				firstName: item.user.firstName,
 				lastName: item.user.lastName,
 				pfp: item.user.pfp,
-				role: item.role
 			},
 			userId: item.user.id,
-			role: item.role
+			role: item.role,
+			owner: item.owner
 		};
 	});
 
@@ -53,10 +55,18 @@ export const actions = {
 						userId: user.id,
 						organizationId: parseInt(params.id)
 					}
+					
+				},
+				include: {
+					role: true
 				}
 			});
 
-			if (orgUser?.role != 'OWNER' && orgUser?.role != 'ADMIN') {
+			
+
+			const permissions = await createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0)
+
+			if (!orgUser?.owner && !permissions.kickMembers && !permissions.admin) {
 				return {
 					success: false,
 					message: 'No Perms'
@@ -79,10 +89,10 @@ export const actions = {
 				};
 			}
 
-			if (toDelete.role == 'ADMIN' || toDelete.role == 'OWNER') {
+			if (toDelete.owner || toDelete.roleId) {
 				return {
 					success: false,
-					message: 'Can not kick admins or owners.'
+					message: 'Can not kick owner or someone with roles.'
 				};
 			}
 
@@ -122,10 +132,15 @@ export const actions = {
 						userId: user.id,
 						organizationId: parseInt(params.id)
 					}
+				},
+				include: {
+					role: true
 				}
 			});
 
-			if (orgUser?.role != 'OWNER' && orgUser?.role != 'ADMIN') {
+			const permission = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0)
+
+			if (!orgUser?.owner && !permission.banMembers && !permission.admin) {
 				return {
 					success: false,
 					message: 'No Perms'
@@ -148,10 +163,10 @@ export const actions = {
 				};
 			}
 
-			if (toBan.role == 'ADMIN' || toBan.role == 'OWNER') {
+			if (toBan.roleId || toBan.owner) {
 				return {
 					success: false,
-					message: 'Can not ban admins or owners.'
+					message: 'Can not ban anyone with roles or an owner.'
 				};
 			}
 

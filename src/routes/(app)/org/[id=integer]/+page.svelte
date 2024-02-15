@@ -13,6 +13,7 @@
 	import { addToast } from '$lib/components/toaster';
 	import { tooltip } from '$lib/components/tooltips/tooltip.js';
 	import { handleForm } from '$lib/utils/formToaster.js';
+	import { orgPermissionKeys } from '$lib/orgPerms.js';
 	let searchTerm = '';
 
 	export let data;
@@ -214,7 +215,7 @@
 <header>
 	<h1>{data.org.name}</h1>
 	<div class="orgButtons">
-		{#if data.orgUser?.role == 'ADMIN' || data.orgUser?.role == 'OWNER'}
+		{#if data.orgUserPermissions.viewSettings || data.orgUserPermissions.admin}
 			<a href="/org/{data.org.id}/settings">
 				<img
 					class="icon"
@@ -224,6 +225,8 @@
 					use:tooltip={'Settings'}
 				/>
 			</a>
+		{/if}
+		{#if data.orgUserPermissions.inviteMembers || data.orgUserPermissions.admin}
 			<button on:click={startInvite}>
 				<img
 					class="icon"
@@ -252,7 +255,7 @@
 <main>
 	{#if data.clubs.length < 1 && data.orgUser}
 		<h2>
-			No clubs here yet. {#if data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER'}<button
+			No clubs here yet. {#if data.orgUserPermissions.createClubs || data.orgUserPermissions.admin}<button
 					class="textButton"
 					on:click={showModal}>Create One?</button
 				>{/if}
@@ -272,7 +275,7 @@
 			{/if}
 		</div>
 
-		{#if data.orgUser && (data.orgUser.role == 'ADMIN' || data.orgUser.role == 'OWNER')}
+		{#if data.orgUserPermissions.createClubs || data.orgUserPermissions.admin}
 			<p class="createOrgLink">
 				Looking for more? <Link on:click={showModal}>Create a club!</Link>
 			</p>

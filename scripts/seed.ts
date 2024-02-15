@@ -58,7 +58,7 @@ async function main() {
 		create: {
 			name: 'Cardboard',
 			joinCode: '123456',
-			
+
 			orgUsers: {
 				create: [
 					{
@@ -66,7 +66,7 @@ async function main() {
 						owner: true
 					},
 					{
-						userId: leaderUser.id,
+						userId: leaderUser.id
 					}
 				]
 			},
@@ -148,7 +148,7 @@ async function main() {
 			email: 'hbrid@hybrid.org',
 			...(await makePassword('password'))
 		}
-	})
+	});
 
 	await prisma.organization.upsert({
 		where: { id: 2, name: 'Hybrid' },
@@ -182,7 +182,7 @@ async function main() {
 				...(await makePassword('password')),
 				orgUsers: {
 					create: {
-						organizationId: 1,
+						organizationId: 1
 					}
 				},
 				clubUsers: {

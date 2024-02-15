@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
+import { createOrgPermissionsFromUser } from '$lib/orgPerms.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -26,18 +27,30 @@ export const actions = {
 			hideSensitive: z.coerce.boolean()
 		}),
 		async ({ slug, isPublic, discoverable, hideSensitive }, { cookies, params }) => {
-			const user = await verifySession(cookies.get('session'));
-
-			const orgUser = await prisma.orgUser.findFirst({
-				where: {
-					AND: {
-						userId: user.id,
-						organizationId: parseInt(params.id)
+			const user = await verifySession(cookies.get('session'), {
+				orgUsers: {
+					include: {
+						role: true
 					}
 				}
 			});
 
-			if (orgUser?.role != 'ADMIN' && orgUser?.role != 'OWNER') {
+			const org = await prisma.organization.findFirst({
+				where: {
+					id: parseInt(params.id)
+				}
+			})
+
+			if(!org) {
+				return {
+					success: false,
+					message: "No Org."
+				}
+			}
+
+			const perms = createOrgPermissionsFromUser(user, org)
+
+			if (!perms.admin && !perms.manageVisibility) {
 				return {
 					success: false,
 					message: 'No Permissions'
@@ -48,7 +61,7 @@ export const actions = {
 				try {
 					await prisma.organization.update({
 						where: {
-							id: orgUser.organizationId
+							id: org.id
 						},
 						data: {
 							slug: {
@@ -73,7 +86,7 @@ export const actions = {
 
 			await prisma.organization.update({
 				where: {
-					id: orgUser.organizationId
+					id: org.id
 				},
 				data: {
 					isPublic,

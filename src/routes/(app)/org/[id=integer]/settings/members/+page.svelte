@@ -11,16 +11,6 @@
 	export let data;
 	export let form;
 
-	function transformRole(role: string) {
-		return role
-			.split('')
-			.map((letter, i) => {
-				if (i === 0) return letter.toUpperCase();
-				return letter.toLowerCase();
-			})
-			.join('');
-	}
-
 	$: if (form) {
 		if (form.success) {
 			addToast({
@@ -109,9 +99,7 @@
 				<tr>
 					<th>Member</th>
 					<th>Role</th>
-					{#if data.orgUser?.role == 'OWNER' || data.orgUser?.role == 'ADMIN'}
-						<th>Actions</th>
-					{/if}
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -122,7 +110,7 @@
 								<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
 								{member.user.firstName}
 								{member.user.lastName}
-								{#if member.userId == data.org.ownerId || member.role == 'OWNER'}
+								{#if member.owner}
 									<img
 										class="crown"
 										alt="owner"
@@ -133,10 +121,10 @@
 								{/if}
 							</div>
 						</td>
-						{#if data.orgUser?.role == 'OWNER' || data.orgUser?.role == 'ADMIN'}
+						{#if data.orgUser?.owner || data.orgUserPermissions.assignRoles}
 							<td style="--color: {member.role}" class="role">
 								<button class="changeRole">
-									{transformRole(member.user.role) || 'None'}
+									{member.role?.name || 'None'}
 								</button>
 							</td>
 							<td>
