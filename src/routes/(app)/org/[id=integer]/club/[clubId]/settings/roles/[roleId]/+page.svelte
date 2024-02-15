@@ -7,13 +7,10 @@
 		keys,
 		permissionObjectDescriptions
 	} from '$lib/permissions';
+	import { toTitleCase } from '$lib/titleCase.js';
 	import { handleForm } from '$lib/utils/formToaster';
 
-	// https://stackoverflow.com/a/7225450/7589775
-	function toTitleCase(str: string) {
-		const result = str.replace(/([A-Z])/g, ' $1');
-		return result.charAt(0).toUpperCase() + result.slice(1);
-	}
+	
 
 	let submitButton: HTMLButtonElement;
 	let permissionIntBox: HTMLInputElement;

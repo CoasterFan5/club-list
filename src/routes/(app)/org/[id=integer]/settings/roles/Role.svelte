@@ -1,11 +1,15 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
+	import { createOrgPermissionsCheck } from '$lib/orgPerms';
+	import { toTitleCase } from '$lib/titleCase';
 
 	export let role: {
 		id: number;
 		name: string;
 		color: string;
+		permissionInt: number;
 	};
 
 	let colorInput: HTMLInputElement;
@@ -19,7 +23,16 @@
 		colorInput.click();
 	};
 
+	const openPermEditor = () => {
+		showingPermEditor = !showingPermEditor
+	}
+
+	const permissionObject = createOrgPermissionsCheck(role.permissionInt)
+
 	let dotColor = role.color;
+
+	let showingPermEditor = false;
+
 </script>
 
 <form
@@ -34,41 +47,115 @@
 		};
 	}}
 >
-	<div class="left" >
-		<input name="roleId" hidden value={role.id} />
-		<button  class="dot" on:click={openColorInput}>
+	<div class="top">
+		<div class="left" >
+			<input name="roleId" hidden value={role.id} />
+			<button  class="dot" on:click={openColorInput}>
+				<input
+					bind:this={colorInput}
+					name="color"
+					class="colorInput"
+					type="color"
+					on:change={valueChanged}
+					bind:value={dotColor}
+				/>
+			</button>
 			<input
-				bind:this={colorInput}
-				name="color"
-				class="colorInput"
-				type="color"
+				name="name"
+				class="nameBox"
+				autocomplete="off"
+				placeholder="New Role"
+				value={role.name}
 				on:change={valueChanged}
-				bind:value={dotColor}
 			/>
-		</button>
-		<input
-			name="name"
-			class="nameBox"
-			autocomplete="off"
-			placeholder="New Role"
-			value={role.name}
-			on:change={valueChanged}
-		/>
+		</div>
+		<div class="right">
+			<button type="button" class="iconButton" on:click={openColorInput}>
+				<img src="/icons/palette.svg" alt="palette" title="Color" use:tooltip={"Color"}>
+			</button>
+			<button type="button" class="iconButton" on:click={openPermEditor}>
+				<img src="/icons/key.svg" alt="key" title="Permissions" use:tooltip={"Permissions"}>
+			</button>
+		</div>
 	</div>
-	<div class="right">
-		<button type="button" class="iconButton" on:click={openColorInput}>
-			<img src="/icons/palette.svg" alt="palette" title="Color" use:tooltip={"Color"}>
-		</button>
-		<button type="button" class="iconButton">
-			<img src="/icons/key.svg" alt="key" title="Permissions" use:tooltip={"Permissions"}>
-		</button>
+	<div class="bottom" class:invisible={!showingPermEditor}>
+		{#each Object.entries(permissionObject) as [item, value]}
+			<div class="perm">
+				<div class="permInner">
+					<Checkbox label={toTitleCase(item)} checked={value}/>
+					<p>Desc</p>
+				</div>
+				
+			</div>
+			
+		{/each}
 	</div>
+	
 	
 
 	<button bind:this={submitButton} hidden type="submit" />
 </form>
 
 <style lang="scss">
+
+.role {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		align-items: start;
+		justify-content: start;
+		padding: 10px 10px;
+		box-sizing: border-box;
+		border-radius: 3px;
+		margin-bottom: 10px;
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+		background: var(--bgPure);
+		overflow: hidden;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	}
+
+	.top {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		
+	}
+	.bottom {
+		height: 100%;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: start;
+		justify-content: start;
+
+		.perm {
+			
+			border-radius: 5px;
+			width: 33%;
+			box-sizing: border-box;
+			min-width: 200px;
+			flex-grow: 1;
+			padding: 5px;
+
+			.permInner {
+				background: var(--bgMid);
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+				justify-content: start;
+				padding: 5px;
+				border-radius: 3px;
+				box-sizing: border-box;
+				box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+				outline: 1px solid rgba(0, 0, 0, 0.1);
+
+				p {
+					margin: 0px;
+					padding: 5px;
+				}
+			}
+		}
+	}
 	.left {
 		width: 100%;
 		flex-wrap: nowrap;
@@ -84,18 +171,7 @@
 		align-items: center;
 		justify-content: end;
 	}
-	.role {
-		display: flex;
-		width: 100%;
-		align-items: center;
-		justify-content: start;
-		background: var(--bgPure);
-		padding: 10px 10px;
-		box-sizing: border-box;
-		border-radius: 3px;
-		margin-bottom: 10px;
-		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
-	}
+	
 
 	.dot {
 		all: unset;
@@ -172,6 +248,11 @@
 			background: var(--dotColor);
 			z-index: -1;
 		}
+	}
+
+	.invisible {
+		height: 0px;
+		overflow: hidden;
 	}
 	
 </style>
