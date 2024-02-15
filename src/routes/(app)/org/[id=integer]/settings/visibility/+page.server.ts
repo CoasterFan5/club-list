@@ -39,16 +39,16 @@ export const actions = {
 				where: {
 					id: parseInt(params.id)
 				}
-			})
+			});
 
-			if(!org) {
+			if (!org) {
 				return {
 					success: false,
-					message: "No Org."
-				}
+					message: 'No Org.'
+				};
 			}
 
-			const perms = createOrgPermissionsFromUser(user, org)
+			const perms = createOrgPermissionsFromUser(user, org);
 
 			if (!perms.admin && !perms.manageVisibility) {
 				return {

@@ -10,8 +10,7 @@ export const keys = [
 	'kickMembers',
 	'manageRoles',
 	'createClubs',
-	'manageClubs',
-	
+	'manageClubs'
 ] as const;
 export type orgPermissionKeys = typeof keys;
 
@@ -31,22 +30,22 @@ export const defaultOrgPermissionObject: PermissionObject = Object.freeze({
 	kickMembers: false,
 	manageRoles: false,
 	createClubs: false,
-	manageClubs: false,
+	manageClubs: false
 });
 
 export const orgPermissionObjectDescriptions: TypedPermissionObject<string> = Object.freeze({
-	admin: "false",
-	viewSettings: "false",
-	inviteMembers: "false",
-	updateAppearance: "false",
-	manageVisibility: "false",
-	viewMembers: "false",
-	assignRoles: "false",
-	banMembers: "false",
-	kickMembers: "false",
-	manageRoles: "false",
-	createClubs: "false",
-	manageClubs: "false"
+	admin: 'false',
+	viewSettings: 'false',
+	inviteMembers: 'false',
+	updateAppearance: 'false',
+	manageVisibility: 'false',
+	viewMembers: 'false',
+	assignRoles: 'false',
+	banMembers: 'false',
+	kickMembers: 'false',
+	manageRoles: 'false',
+	createClubs: 'false',
+	manageClubs: 'false'
 });
 
 export const orgPermissionKeys = Object.freeze(

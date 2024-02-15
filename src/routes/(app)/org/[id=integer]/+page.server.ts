@@ -36,11 +36,11 @@ export const actions = {
 			if (!org) {
 				return {
 					success: false,
-					message: "How did we even get here?"
-				}
+					message: 'How did we even get here?'
+				};
 			}
 
-			const perms = createOrgPermissionsFromUser(user, org)
+			const perms = createOrgPermissionsFromUser(user, org);
 
 			if (!perms.admin && !perms.createClubs) {
 				return fail(403, {
@@ -77,7 +77,6 @@ export const actions = {
 				}
 			}
 		});
-
 
 		if (user.orgUsers[0].owner) {
 			return {

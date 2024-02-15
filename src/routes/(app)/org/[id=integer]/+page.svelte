@@ -13,7 +13,6 @@
 	import { addToast } from '$lib/components/toaster';
 	import { tooltip } from '$lib/components/tooltips/tooltip.js';
 	import { handleForm } from '$lib/utils/formToaster.js';
-	import { orgPermissionKeys } from '$lib/orgPerms.js';
 	let searchTerm = '';
 
 	export let data;

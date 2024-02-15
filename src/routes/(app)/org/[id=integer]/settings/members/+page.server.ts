@@ -21,7 +21,7 @@ export const load = async ({ params }) => {
 			user: {
 				firstName: item.user.firstName,
 				lastName: item.user.lastName,
-				pfp: item.user.pfp,
+				pfp: item.user.pfp
 			},
 			userId: item.user.id,
 			role: item.role,
@@ -55,16 +55,13 @@ export const actions = {
 						userId: user.id,
 						organizationId: parseInt(params.id)
 					}
-					
 				},
 				include: {
 					role: true
 				}
 			});
 
-			
-
-			const permissions = await createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0)
+			const permissions = await createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
 
 			if (!orgUser?.owner && !permissions.kickMembers && !permissions.admin) {
 				return {
@@ -138,7 +135,7 @@ export const actions = {
 				}
 			});
 
-			const permission = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0)
+			const permission = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
 
 			if (!orgUser?.owner && !permission.banMembers && !permission.admin) {
 				return {

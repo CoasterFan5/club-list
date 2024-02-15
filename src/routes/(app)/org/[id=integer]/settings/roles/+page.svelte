@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 
 	export let data;
@@ -10,7 +10,7 @@
 	<Button value="Create Role" />
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		display: flex;
 		flex-direction: column;

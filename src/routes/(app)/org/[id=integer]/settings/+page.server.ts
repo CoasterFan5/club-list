@@ -23,7 +23,7 @@ export const actions = {
 				where: {
 					id: parseInt(params.id)
 				}
-			})
+			});
 
 			if (!org) {
 				return {
@@ -32,7 +32,7 @@ export const actions = {
 				};
 			}
 
-			const perms = await createOrgPermissionsFromUser(user, org)
+			const perms = await createOrgPermissionsFromUser(user, org);
 
 			if (!perms.admin && !perms.updateAppearance) {
 				return {
