@@ -56,7 +56,7 @@
 		/>
 	</div>
 	<div class="right">
-		<button type="button" class="iconButton">
+		<button type="button" class="iconButton" on:click={openColorInput}>
 			<img src="/icons/palette.svg" alt="palette" title="Color" use:tooltip={"Color"}>
 		</button>
 		<button type="button" class="iconButton">
