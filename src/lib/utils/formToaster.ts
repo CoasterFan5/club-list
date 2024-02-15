@@ -36,23 +36,22 @@ export function handleForm(unparsedForm: unknown, successMessage?: string, optio
 		options.callback(form);
 	}
 
-	if (form !== null && form !== undefined) {
-		if (form.success) {
-			const message = options?.forceSuccessMessage
-				? successMessage || form.message || err(form)
-				: form.message || successMessage || err(form);
+	const formData = form.data as {
+		success: boolean | undefined,
+		message: string | undefined
+	}
 
-			if (message) {
-				addToast({
-					type: 'success',
-					message,
-					life: 3000
-				});
-			}
+	if (form !== null && form !== undefined) {
+		if (formData.success) {
+			addToast({
+				type: 'success',
+				message: formData.message || successMessage || "success!",
+				life: 3000
+			});
 		} else {
 			addToast({
 				type: 'error',
-				message: form.message || 'An error occurred!',
+				message: formData.message || 'An error occurred!',
 				life: 3000
 			});
 		}

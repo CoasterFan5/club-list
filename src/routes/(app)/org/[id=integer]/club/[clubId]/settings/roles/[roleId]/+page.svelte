@@ -29,6 +29,7 @@
 		permissions[key] = !permissions[key];
 		permissionInt = createPermissionNumber(permissions);
 		permissionIntBox.value = permissionInt.toString();
+		console.log(permissionInt)
 		submitButton.click();
 	};
 
@@ -50,7 +51,7 @@
 
 		<div class="title">
 			<input name="name" value={data.role.name} on:change={() => submitButton.click()} />
-			<input name="color" class="color" type="color" on:change={() => submitButton.click()} />
+			<input name="color" class="color" type="color" value="{data.role.color}" on:change={() => submitButton.click()} />
 		</div>
 		{#each keys as key}
 			<div class="role">

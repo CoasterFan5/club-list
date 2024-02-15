@@ -19,6 +19,8 @@ export const actions = {
 				throw redirect(303, '/login');
 			}
 
+			
+
 			const club = await prisma.club.findFirst({
 				where: {
 					id: parseInt(params.clubId)
@@ -35,7 +37,7 @@ export const actions = {
 				}
 			});
 
-			if (club?.clubUsers[0]?.owner) {
+			if (!club?.clubUsers[0]?.owner) {
 				if (!club?.clubUsers[0]?.role) {
 					return {
 						success: false,
@@ -61,6 +63,8 @@ export const actions = {
 					color
 				}
 			});
+
+			
 
 			return {
 				success: true,
