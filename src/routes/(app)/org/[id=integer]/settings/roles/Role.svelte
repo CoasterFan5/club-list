@@ -2,9 +2,13 @@
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
-	import { createOrgPermissionsCheck, orgPermissionObjectDescriptions, orgKeys, defaultOrgPermissionObject, createOrgPermissionNumber } from '$lib/orgPerms';
+	import {
+		createOrgPermissionNumber,
+		createOrgPermissionsCheck,
+		orgKeys,
+		orgPermissionObjectDescriptions
+	} from '$lib/orgPerms';
 	import { toTitleCase } from '$lib/titleCase';
-	
 
 	export let role: {
 		id: number;
@@ -26,36 +30,31 @@
 	};
 
 	const openPermEditor = () => {
-		showingPermEditor = !showingPermEditor
-	}
+		showingPermEditor = !showingPermEditor;
+	};
 
 	let permissionIntCalculated = role.permissionInt;
 
-	const permissionObject = createOrgPermissionsCheck(role.permissionInt)
+	const permissionObject = createOrgPermissionsCheck(role.permissionInt);
 
-	
-
-	$: if(permissionObject) {
-		if(createOrgPermissionNumber(permissionObject) != permissionIntCalculated) {
-			permissionIntCalculated = createOrgPermissionNumber(permissionObject)
-			permissionIntInput.value = permissionIntCalculated.toString()
-			submitButton.click()
+	$: if (permissionObject) {
+		if (createOrgPermissionNumber(permissionObject) != permissionIntCalculated) {
+			permissionIntCalculated = createOrgPermissionNumber(permissionObject);
+			permissionIntInput.value = permissionIntCalculated.toString();
+			submitButton.click();
 		}
 	}
 
 	let dotColor = role.color;
 
 	let showingPermEditor = false;
-
-	
-
 </script>
 
 <form
+	style="--dotColor: {dotColor}"
 	class="role"
 	action="?/updateRole"
 	method="post"
-	style="--dotColor: {dotColor}"
 	use:enhance={() => {
 		// Keep all form data
 		return async ({ update }) => {
@@ -64,9 +63,9 @@
 	}}
 >
 	<div class="top">
-		<div class="left" >
+		<div class="left">
 			<input name="roleId" hidden value={role.id} />
-			<button  class="dot" on:click={openColorInput}>
+			<button class="dot" on:click={openColorInput}>
 				<input
 					bind:this={colorInput}
 					name="color"
@@ -86,11 +85,11 @@
 			/>
 		</div>
 		<div class="right">
-			<button type="button" class="iconButton" on:click={openColorInput}>
-				<img src="/icons/palette.svg" alt="palette" title="Color" use:tooltip={"Color"}>
+			<button class="iconButton" type="button" on:click={openColorInput}>
+				<img alt="palette" src="/icons/palette.svg" title="Color" use:tooltip={'Color'} />
 			</button>
-			<button type="button" class="iconButton" on:click={openPermEditor}>
-				<img src="/icons/key.svg" alt="key" title="Permissions" use:tooltip={"Permissions"}>
+			<button class="iconButton" type="button" on:click={openPermEditor}>
+				<img alt="key" src="/icons/key.svg" title="Permissions" use:tooltip={'Permissions'} />
 			</button>
 		</div>
 	</div>
@@ -101,21 +100,17 @@
 					<Checkbox name={null} label={toTitleCase(key)} bind:checked={permissionObject[key]} />
 					<p>{orgPermissionObjectDescriptions[key]}</p>
 				</div>
-				
 			</div>
-			
 		{/each}
 	</div>
 
-	<input hidden bind:this={permissionIntInput} name="permissionInt"/>
-	
+	<input bind:this={permissionIntInput} name="permissionInt" hidden />
 
 	<button bind:this={submitButton} hidden type="submit" />
 </form>
 
 <style lang="scss">
-
-.role {
+	.role {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
@@ -135,7 +130,6 @@
 		display: flex;
 		flex-direction: row;
 		width: 100%;
-		
 	}
 	.bottom {
 		height: 100%;
@@ -146,7 +140,6 @@
 		justify-content: start;
 
 		.perm {
-			
 			border-radius: 5px;
 			width: 33%;
 			box-sizing: border-box;
@@ -188,7 +181,6 @@
 		align-items: center;
 		justify-content: end;
 	}
-	
 
 	.dot {
 		all: unset;
@@ -249,7 +241,7 @@
 		cursor: pointer;
 
 		&::after {
-			content: "";
+			content: '';
 			position: absolute;
 			height: 100%;
 			left: 100%;
@@ -271,5 +263,4 @@
 		height: 0px;
 		overflow: hidden;
 	}
-	
 </style>

@@ -10,8 +10,6 @@
 	import { toTitleCase } from '$lib/titleCase.js';
 	import { handleForm } from '$lib/utils/formToaster';
 
-	
-
 	let submitButton: HTMLButtonElement;
 	let permissionIntBox: HTMLInputElement;
 

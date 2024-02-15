@@ -7,8 +7,7 @@
 	export let data;
 
 	export let form;
-	$: handleForm(form, "Role Updated")
-
+	$: handleForm(form, 'Role Updated');
 </script>
 
 <div class="wrap">
