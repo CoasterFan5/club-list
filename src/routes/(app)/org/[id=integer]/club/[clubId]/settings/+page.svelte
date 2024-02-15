@@ -27,7 +27,7 @@
 			<Input name="clubName" bg="white" label="Club Name" value={name} />
 		</div>
 		<div class="formItem">
-			<Input name="imgURL" bg="white" label="Image Url" value={imgURL} />
+			<Input name="imgURL" bg="white" label="Image URL" value={imgURL} />
 		</div>
 		<div class="formItem">
 			<Checkbox name="joinable" checked={data.club.openToJoin} label="Allow Joining" />
