@@ -115,7 +115,11 @@ export const actions = {
 	joinClub: async ({ cookies, params }) => {
 		// Get the user
 		const user = await verifySession(cookies.get('session'), {
-			clubUsers: true
+			clubUsers: {
+				where: {
+					clubId: parseInt(params.clubId)
+				}
+			}
 		});
 
 		// Get the club id
