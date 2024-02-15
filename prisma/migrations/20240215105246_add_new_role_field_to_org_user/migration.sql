@@ -7,13 +7,14 @@
 -- AlterTable
 ALTER TABLE "OrgUser" DROP COLUMN "role",
 ADD COLUMN     "roleId" INTEGER;
+ALTER TABLE "OrgUser" ADD COLUMN     "owner" BOOLEAN NOT NULL DEFAULT false;
 
-UPDATE "ClubUser"
+UPDATE "OrgUser"
 SET "owner" = TRUE
 WHERE EXISTS (
     SELECT 1
-    FROM "Club"
-    WHERE "ClubUser"."clubId" = "Club".id AND "ClubUser"."userId" = "Club"."ownerId"
+    FROM "Organization"
+    WHERE "OrgUser"."organizationId" = "Organization".id AND "OrgUser"."userId" = "Organization"."ownerId"
 );
 
 -- CreateTable
@@ -42,10 +43,7 @@ ALTER TABLE "OrgRole" ADD CONSTRAINT "OrgRole_orgid_fkey" FOREIGN KEY ("orgid") 
 
 */
 -- DropForeignKey
+-- Alter Table!
 ALTER TABLE "Organization" DROP CONSTRAINT "Organization_ownerId_fkey";
-
--- AlterTable
-ALTER TABLE "OrgUser" ADD COLUMN     "owner" BOOLEAN NOT NULL DEFAULT false;
-
--- AlterTable
 ALTER TABLE "Organization" DROP COLUMN "ownerId";
+
