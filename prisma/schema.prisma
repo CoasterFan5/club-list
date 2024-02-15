@@ -38,11 +38,12 @@ model User {
 
 model OrgUser {
 	createdAt      DateTime     @default(now())
-	role           String
 	organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 	organizationId Int
 	user 	       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 	userId 	       Int
+	roleId         Int?
+	role           OrgRole? @relation(fields: [roleId], references: [id])
 	clubUsers      ClubUser[]
 
 	@@id([organizationId, userId])
@@ -75,6 +76,7 @@ model Organization {
 	clubs         Club[]
 	joinCode      String    @unique
 	bans          Ban[]
+	roles OrgRole[]
 	// TODO: this can't be String? @unique https://github.com/prisma/prisma/issues/3387
 	slug          Slug?
 }
@@ -159,4 +161,16 @@ model ClubRole {
 	clubId        Int
 	club          Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
 	members       ClubUser[]
+}
+
+model OrgRole {
+	id            Int @id @default(autoincrement())
+	createdAt     DateTime @default(now())
+	updatedAt     DateTime @updatedAt
+	name          String
+	color         String
+	permissionInt Int
+	orgid        Int
+	org          Organization @relation(fields: [orgid], references: [id], onDelete: Cascade)
+	members      OrgUser[]
 }

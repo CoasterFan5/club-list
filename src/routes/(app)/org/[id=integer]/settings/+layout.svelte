@@ -12,6 +12,7 @@
 			<hr />
 			<h6>Member Settings</h6>
 			<a href="/org/{data.org.id}/settings/members">Members</a>
+			<a href="/org/{data.org.id}/settings/roles">Roles</a>
 			<a href="/org/{data.org.id}/settings/members">Bans</a>
 			<hr />
 		</div>
