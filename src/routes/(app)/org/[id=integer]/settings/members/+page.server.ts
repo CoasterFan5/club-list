@@ -13,8 +13,17 @@ export const load = async ({ params }) => {
 		include: {
 			user: true,
 			role: true
+		},
+		orderBy: {
+			userId: "asc"
 		}
 	});
+
+	const roles = await prisma.orgRole.findMany({
+		where: {
+			orgid: parseInt(params.id)
+		}
+	})
 
 	const filteredData = orgUserData.map((item) => {
 		return {
@@ -30,7 +39,8 @@ export const load = async ({ params }) => {
 	});
 
 	return {
-		orgUserData: filteredData
+		orgUserData: filteredData,
+		roles
 	};
 };
 
@@ -196,5 +206,79 @@ export const actions = {
 				message: 'User banned.'
 			};
 		}
-	)
+	),
+	updateMemberRole: formHandler(z.object({
+		userId: z.coerce.number(),
+		roleId: z.coerce.number()
+	}), async ({ userId, roleId }, { cookies, params }) => {
+		const user = await verifySession(cookies.get('session'));
+
+		const orgUser = await prisma.orgUser.findFirst({
+			where: {
+				AND: {
+					userId: user.id,
+					organizationId: parseInt(params.id)
+				}
+			},
+			include: {
+				role: true
+			}
+		});
+
+		
+
+		const permission = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
+
+		if (!orgUser || (!orgUser?.owner && !permission.banMembers && !permission.admin)) {
+			return {
+				success: false,
+				message: 'No Perms'
+			};
+		}
+
+		const role = await prisma.orgRole.findFirst({
+			where: {
+				AND: {
+					id: roleId,
+					orgid: orgUser.organizationId
+				}
+			}
+		})
+
+		if(!role) {
+			return {
+				success: false,
+				message: "No Role Exists."
+			}
+		}
+
+		const toUpdate = await prisma.orgUser.findUnique({
+			where: {
+				organizationId_userId: {
+					organizationId: orgUser.organizationId,
+					userId: userId
+				}
+			}
+		})
+
+		if(!toUpdate) {
+			return {
+				success: false,
+				message: "No Org User"
+			}
+		}
+
+		await prisma.orgUser.update({
+			where: {
+				organizationId_userId: {
+					organizationId: toUpdate.organizationId,
+					userId: toUpdate.userId
+				}
+			},
+			data: {
+				roleId: role.id
+			}
+		})
+		
+	})
 };

@@ -5,6 +5,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import SearchBox from '$lib/components/SearchBox.svelte';
 	import { addToast } from '$lib/components/toaster.js';
 	import { tooltip } from '$lib/components/tooltips/tooltip.js';
 
@@ -44,6 +45,8 @@
 		});
 	};
 
+	let selectedId: number;
+
 	const startBan = (id: number, firstName: string, lastName: string) => {
 		kickMember = {
 			id: id,
@@ -54,6 +57,8 @@
 			showingModal: 'banMember'
 		});
 	};
+	
+	let searchBox: SearchBox<(typeof data)['roles'][number]>;
 </script>
 
 {#if $page.state.showingModal == 'kickMember'}
@@ -69,6 +74,29 @@
 			<Button type="submit" value="Kick Member" />
 		</form>
 	</Modal>
+{/if}
+
+{#if selectedId}
+	<SearchBox showSelector={true} data={[data.roles, (role) => role.id, (role) => role.name]} bind:this={searchBox}
+		let:filteredData>
+		{#each filteredData as role}
+			<form action="?/updateMemberRole" method="post" use:enhance>
+				<input name="userId" style="display: none" value={selectedId} />
+				<input name="roleId" style="display: none" value={role.id} />
+
+				<button style="--color: {role.color}" class="roleButton">
+					<div class="color" />
+					{role.name}
+				</button>
+			</form>
+		{/each}
+		<form action="?/updateMemberRole" method="post" use:enhance>
+			<input name="userId" style="display: none" bind:value={selectedId} />
+			<input name="roleId" style="display: none" value="-1" />
+
+			<button style="--color: #fff" class="noRole"> No role </button>
+		</form>
+	</SearchBox>
 {/if}
 
 {#if $page.state.showingModal == 'banMember'}
@@ -122,8 +150,13 @@
 							</div>
 						</td>
 						{#if data.orgUser?.owner || data.orgUserPermissions.assignRoles}
-							<td style="--color: {member.role}" class="role">
-								<button class="changeRole">
+							<td style="--color: {member.role?.color}" class="role">
+								<button class="changeRole" on:click|self={(e) => {
+									selectedId = member.userId;
+									if(searchBox) {
+										searchBox.propagateClick(e);
+									}
+								}}>
 									{member.role?.name || 'None'}
 								</button>
 							</td>
@@ -261,5 +294,46 @@
 		aspect-ratio: 1/1;
 		object-fit: cover;
 		filter: var(--redIconFilter);
+	}
+
+	.roleButton {
+		position: relative;
+		all: unset;
+		cursor: pointer;
+		text-align: center;
+		padding: 7px 10px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		width: 100%;
+		border-radius: 3px;
+		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
+	}
+	.roleButton:hover {
+		background: rgba(0, 0, 0, 0.15);
+	}
+	.noRole {
+		position: relative;
+		all: unset;
+		background: rgba(0, 0, 0, 0.1);
+		padding: 7px 10px;
+		margin-top: 5px;
+		box-sizing: border-box;
+		cursor: pointer;
+		width: 100%;
+		border-radius: 3px;
+		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
+		text-align: center;
+	}
+	.noRole:hover {
+		background: rgba(0, 0, 0, 0.15);
+	}
+	.color {
+		background: var(--color);
+		height: 12px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		margin-right: 10px;
 	}
 </style>
