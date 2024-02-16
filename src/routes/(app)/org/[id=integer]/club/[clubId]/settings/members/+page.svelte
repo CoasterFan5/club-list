@@ -175,7 +175,7 @@
 									>
 										<img class="icon" alt="kick" src="/icons/kick.svg" />
 									</button>
-									{#if !member.owner && data.clubUser?.owner}
+									{#if !member.owner && data.canTransferOwner}
 										<button
 											class="actionButton"
 											title="Transfer Onwership"
