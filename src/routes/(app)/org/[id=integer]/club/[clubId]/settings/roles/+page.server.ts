@@ -23,6 +23,14 @@ export const actions = {
 							include: {
 								role: true
 							}
+						},
+						orgUsers: {
+							where: {
+								organizationId: parseInt(params.id)
+							},
+							include: {
+								role: true
+							}
 						}
 					}
 				}
@@ -84,6 +92,14 @@ export const actions = {
 							clubUsers: {
 								where: {
 									clubId: parseInt(params.clubId)
+								},
+								include: {
+									role: true
+								}
+							},
+							orgUsers: {
+								where: {
+									organizationId: parseInt(params.id)
 								},
 								include: {
 									role: true
@@ -164,6 +180,14 @@ export const actions = {
 							clubUsers: {
 								where: {
 									clubId: parseInt(params.clubId)
+								},
+								include: {
+									role: true
+								}
+							},
+							orgUsers: {
+								where: {
+									organizationId: parseInt(params.id)
 								},
 								include: {
 									role: true
