@@ -96,10 +96,17 @@ export const actions = {
 				};
 			}
 
-			if (toDelete.owner || toDelete.roleId) {
+			if (toDelete.owner) {
 				return {
 					success: false,
-					message: 'Can not kick owner or someone with roles.'
+					message: "Can't kick owner."
+				};
+			}
+
+			if (toDelete.roleId) {
+				return {
+					success: false,
+					message: "Can't kick a member with roles."
 				};
 			}
 

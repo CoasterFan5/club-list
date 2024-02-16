@@ -225,7 +225,7 @@ export const actions = {
 			if (!canTransferOwner) {
 				return {
 					success: false,
-					message: 'No perms to transfer owner.'
+					message: 'No permissions to transfer owner.'
 				};
 			}
 

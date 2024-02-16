@@ -43,7 +43,10 @@ export const load = async ({ params, parent }) => {
 			}
 		});
 		if (orgUser?.owner) {
-			orgUserPermissions = createOrgPermissionsCheck(1);
+			orgUserPermissions = {
+				...orgUserPermissions,
+				admin: true,
+			}
 		} else {
 			orgUserPermissions = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
 		}
