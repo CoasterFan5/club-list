@@ -38,7 +38,7 @@ export const load = async ({ params, parent }) => {
 		where: {
 			AND: {
 				userId: user.id,
-				organizationId: user.orgid
+				organizationId: parseInt(params.id)
 			}
 		},
 		include: {
