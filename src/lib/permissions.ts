@@ -1,4 +1,4 @@
-import { createOrgPermissionsCheck } from "./orgPerms";
+import { createOrgPermissionsCheck } from './orgPerms';
 
 export const keys = [
 	'admin',
@@ -62,57 +62,59 @@ export const createPermissionsCheck = (integer: number): PermissionObject => {
 
 interface UserLike {
 	id: number;
-	clubUsers: {
-		clubId: number;
-		owner: boolean;
-		role: {
-			permissionInt: number;
-		} | null;
-	}[] | null;
-	orgUsers: {
-		organizationId: number
-		owner: boolean;
-		role: {
-			permissionInt: number;
-		} | null;
-	}[] | null;
+	clubUsers:
+		| {
+				clubId: number;
+				owner: boolean;
+				role: {
+					permissionInt: number;
+				} | null;
+		  }[]
+		| null;
+	orgUsers:
+		| {
+				organizationId: number;
+				owner: boolean;
+				role: {
+					permissionInt: number;
+				} | null;
+		  }[]
+		| null;
 }
 
 interface ClubLike {
 	id: number;
-	organizationId: number
+	organizationId: number;
 }
 
 export const createPermissionsFromUser = (
 	user?: UserLike | null,
 	club?: ClubLike | null
 ): PermissionObject => {
-
-	if(!user?.clubUsers) {
-		return defaultClubPermissionObject
+	if (!user?.clubUsers) {
+		return defaultClubPermissionObject;
 	}
 
 	const clubUser = user?.clubUsers.find((clubUser) => clubUser.clubId == club?.id);
 
-	if(user.orgUsers) {
-		const orgUser = user?.orgUsers.find((orgUser) => orgUser.organizationId == club?.organizationId)
+	if (user.orgUsers) {
+		const orgUser = user?.orgUsers.find(
+			(orgUser) => orgUser.organizationId == club?.organizationId
+		);
 
-
-		if(orgUser?.owner) {
+		if (orgUser?.owner) {
 			return createPermissionsCheck(2 ** permissionKeys.length - 1);
 		}
 
 		//Create an org permissions check
-		if(orgUser?.role?.permissionInt) {
-			const orgPerms = createOrgPermissionsCheck(orgUser.role.permissionInt)
+		if (orgUser?.role?.permissionInt) {
+			const orgPerms = createOrgPermissionsCheck(orgUser.role.permissionInt);
 
-			if(orgPerms.admin || orgPerms.manageClubs) {
+			if (orgPerms.admin || orgPerms.manageClubs) {
 				return createPermissionsCheck(2 ** permissionKeys.length - 1);
 			}
 		}
 	}
-	
-	
 
 	if (clubUser?.owner) {
 		// Create a permission object with all permissions

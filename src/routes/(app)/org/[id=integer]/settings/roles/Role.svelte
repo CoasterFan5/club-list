@@ -47,31 +47,33 @@
 			permissionIntInput.value = permissionIntCalculated.toString();
 			submitButton.click();
 		}
-	}	
+	}
 
 	let deleting = false;
 
 	const deleteRole = () => {
-		pushState("", {
-			
-			showingModal: "delete"
-		})
+		pushState('', {
+			showingModal: 'delete'
+		});
 		deleting = true;
-	}
+	};
 
 	let dotColor = role.color;
 
-	
 	let showingPermEditor = false;
 </script>
 
-
 {#if $page.state.showingModal === 'delete' && deleting}
-	<Modal on:close={() => {history.back(); deleting = false;}}>
+	<Modal
+		on:close={() => {
+			history.back();
+			deleting = false;
+		}}
+	>
 		<form class="wrapForm" action="?/deleteRole" method="POST" use:enhance>
 			<h2>Are you sure?</h2>
 			<p>Deleting <strong>{role.name}</strong> will leave any users with this role with no role.</p>
-			<input hidden value={role.id} name="roleId"/>
+			<input name="roleId" hidden value={role.id} />
 			<Button value="Delete" />
 		</form>
 	</Modal>
@@ -121,7 +123,6 @@
 			<button class="iconButton" type="button" on:click={openPermEditor}>
 				<img alt="key" src="/icons/key.svg" title="Permissions" use:tooltip={'Permissions'} />
 			</button>
-			
 		</div>
 	</div>
 	<div class="bottom" class:invisible={!showingPermEditor}>

@@ -141,19 +141,18 @@ async function main() {
 		}
 	});
 
-	const hybridUser = await prisma.user.upsert(
-		{
-			where: {
-				email: "hbrid@hybrid.org"
-			},
-			create: {
-				firstName: 'Hy',
-				lastName: 'Brid',
-				email: 'hbrid@hybrid.org',
-				...(await makePassword('password'))
-			},
-			update: {},
-		});
+	const hybridUser = await prisma.user.upsert({
+		where: {
+			email: 'hbrid@hybrid.org'
+		},
+		create: {
+			firstName: 'Hy',
+			lastName: 'Brid',
+			email: 'hbrid@hybrid.org',
+			...(await makePassword('password'))
+		},
+		update: {}
+	});
 
 	await prisma.organization.upsert({
 		where: { id: 2, name: 'Hybrid' },

@@ -1,4 +1,3 @@
-
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard';
@@ -36,22 +35,22 @@ const validateUser = async (session: string | undefined, params: RouteParams) =>
 
 	const orgPerms = createOrgPermissionsFromUser(user, {
 		id: parseInt(params.id)
-	})
+	});
 
-	if(orgPerms.admin || orgPerms.manageClubs) {
+	if (orgPerms.admin || orgPerms.manageClubs) {
 		canTransferOwner = true;
 	}
-	if(user.clubUsers[0]?.owner) {
-		canTransferOwner = true
+	if (user.clubUsers[0]?.owner) {
+		canTransferOwner = true;
 	}
 
 	const permissionObj = createPermissionsFromUser(user, club);
 
-	if(!permissionObj.admin && !permissionObj.manageMembers) {
+	if (!permissionObj.admin && !permissionObj.manageMembers) {
 		return {
 			success: false,
-			message: "No"
-		}
+			message: 'No'
+		};
 	}
 
 	return {
@@ -62,7 +61,7 @@ const validateUser = async (session: string | undefined, params: RouteParams) =>
 };
 
 export const load = async ({ cookies, params }) => {
-	const {canTransferOwner} = await validateUser(cookies.get('session'), params);
+	const { canTransferOwner } = await validateUser(cookies.get('session'), params);
 	const memberData = await prisma.clubUser.findMany({
 		where: {
 			clubId: parseInt(params.clubId)
@@ -110,13 +109,13 @@ export const actions = {
 
 		async ({ userId, roleId }, { cookies, params }) => {
 			const data = await validateUser(cookies.get('session'), params as RouteParams);
-			const club = data?.club
+			const club = data?.club;
 
-			if(!club) {
+			if (!club) {
 				return {
 					success: false,
-					message: "No Club."
-				}
+					message: 'No Club.'
+				};
 			}
 
 			const role = await prisma.clubRole.findFirst({
@@ -212,7 +211,10 @@ export const actions = {
 			userId: z.coerce.number()
 		}),
 		async ({ userId }, { cookies, params }) => {
-			const { canTransferOwner, club } = await validateUser(cookies.get('session'), params as RouteParams);
+			const { canTransferOwner, club } = await validateUser(
+				cookies.get('session'),
+				params as RouteParams
+			);
 			if (!club) {
 				return {
 					success: false,
@@ -220,11 +222,11 @@ export const actions = {
 				};
 			}
 
-			if(!canTransferOwner) {
+			if (!canTransferOwner) {
 				return {
 					success: false,
-					message: "No perms to transfer owner."
-				}
+					message: 'No perms to transfer owner.'
+				};
 			}
 
 			//Update the current user
@@ -237,7 +239,7 @@ export const actions = {
 					owner: false
 				}
 			});
-			
+
 			await prisma.clubUser.update({
 				where: {
 					clubId_userId_organizationId: {
@@ -250,8 +252,6 @@ export const actions = {
 					owner: true
 				}
 			});
-
-			
 		}
 	)
 };

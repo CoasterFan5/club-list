@@ -85,7 +85,7 @@ export const actions = {
 						include: {
 							role: true
 						}
-					},
+					}
 				}
 			});
 

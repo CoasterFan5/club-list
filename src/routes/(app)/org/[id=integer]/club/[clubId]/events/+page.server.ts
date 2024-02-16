@@ -189,8 +189,7 @@ export const actions = {
 									role: true
 								}
 							}
-						},
-						
+						}
 					}
 				}
 			});

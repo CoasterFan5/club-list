@@ -6,7 +6,7 @@ import { prisma } from '$lib/server/prismaConnection';
 export const load = async ({ params, parent }) => {
 	const parentData = await parent();
 
-	const user = parentData.user
+	const user = parentData.user;
 
 	const clubId = parseInt(params.clubId);
 
@@ -34,19 +34,19 @@ export const load = async ({ params, parent }) => {
 		error(404, 'Club Not Found');
 	}
 
-	const orgUser = user ? await prisma.orgUser.findFirst({
-		where: {
-			AND: {
-				userId: user.id,
-				organizationId: parseInt(params.id)
-			}
-		},
-		include: {
-			role: true
-		}
-	}) : null;
-
-	
+	const orgUser = user
+		? await prisma.orgUser.findFirst({
+				where: {
+					AND: {
+						userId: user.id,
+						organizationId: parseInt(params.id)
+					}
+				},
+				include: {
+					role: true
+				}
+			})
+		: null;
 
 	const clubUser = user
 		? await prisma.clubUser.findFirst({
@@ -62,14 +62,17 @@ export const load = async ({ params, parent }) => {
 			})
 		: null;
 
+	const clubPerms =
+		user && orgUser
+			? createPermissionsFromUser(
+					{ ...user, clubUsers: clubUser ? [clubUser] : [], orgUsers: orgUser ? [orgUser] : [] },
+					club
+				)
+			: defaultClubPermissionObject;
 
-	const clubPerms = user && orgUser
-		? createPermissionsFromUser({ ...user, clubUsers: clubUser ? [clubUser] : [], orgUsers: orgUser ? [orgUser] : [] }, club)
-		: defaultClubPermissionObject;
-	
 	return {
 		club,
 		clubPerms,
-		clubUser: clubUser 
+		clubUser: clubUser
 	};
 };

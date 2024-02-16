@@ -15,7 +15,7 @@ export const load = async ({ params }) => {
 			role: true
 		},
 		orderBy: {
-			userId: "asc"
+			userId: 'asc'
 		}
 	});
 
@@ -23,7 +23,7 @@ export const load = async ({ params }) => {
 		where: {
 			orgid: parseInt(params.id)
 		}
-	})
+	});
 
 	const filteredData = orgUserData.map((item) => {
 		return {
@@ -207,78 +207,78 @@ export const actions = {
 			};
 		}
 	),
-	updateMemberRole: formHandler(z.object({
-		userId: z.coerce.number(),
-		roleId: z.coerce.number()
-	}), async ({ userId, roleId }, { cookies, params }) => {
-		const user = await verifySession(cookies.get('session'));
+	updateMemberRole: formHandler(
+		z.object({
+			userId: z.coerce.number(),
+			roleId: z.coerce.number()
+		}),
+		async ({ userId, roleId }, { cookies, params }) => {
+			const user = await verifySession(cookies.get('session'));
 
-		const orgUser = await prisma.orgUser.findFirst({
-			where: {
-				AND: {
-					userId: user.id,
-					organizationId: parseInt(params.id)
+			const orgUser = await prisma.orgUser.findFirst({
+				where: {
+					AND: {
+						userId: user.id,
+						organizationId: parseInt(params.id)
+					}
+				},
+				include: {
+					role: true
 				}
-			},
-			include: {
-				role: true
+			});
+
+			const permission = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
+
+			if (!orgUser || (!orgUser?.owner && !permission.banMembers && !permission.admin)) {
+				return {
+					success: false,
+					message: 'No Perms'
+				};
 			}
-		});
 
-		
+			const role = await prisma.orgRole.findFirst({
+				where: {
+					AND: {
+						id: roleId,
+						orgid: orgUser.organizationId
+					}
+				}
+			});
 
-		const permission = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
+			if (!role) {
+				return {
+					success: false,
+					message: 'No Role Exists.'
+				};
+			}
 
-		if (!orgUser || (!orgUser?.owner && !permission.banMembers && !permission.admin)) {
-			return {
-				success: false,
-				message: 'No Perms'
-			};
+			const toUpdate = await prisma.orgUser.findUnique({
+				where: {
+					organizationId_userId: {
+						organizationId: orgUser.organizationId,
+						userId: userId
+					}
+				}
+			});
+
+			if (!toUpdate) {
+				return {
+					success: false,
+					message: 'No Org User'
+				};
+			}
+
+			await prisma.orgUser.update({
+				where: {
+					organizationId_userId: {
+						organizationId: toUpdate.organizationId,
+						userId: toUpdate.userId
+					}
+				},
+				data: {
+					roleId: role.id
+				}
+			});
 		}
-
-		const role = await prisma.orgRole.findFirst({
-			where: {
-				AND: {
-					id: roleId,
-					orgid: orgUser.organizationId
-				}
-			}
-		})
-
-		if(!role) {
-			return {
-				success: false,
-				message: "No Role Exists."
-			}
-		}
-
-		const toUpdate = await prisma.orgUser.findUnique({
-			where: {
-				organizationId_userId: {
-					organizationId: orgUser.organizationId,
-					userId: userId
-				}
-			}
-		})
-
-		if(!toUpdate) {
-			return {
-				success: false,
-				message: "No Org User"
-			}
-		}
-
-		await prisma.orgUser.update({
-			where: {
-				organizationId_userId: {
-					organizationId: toUpdate.organizationId,
-					userId: toUpdate.userId
-				}
-			},
-			data: {
-				roleId: role.id
-			}
-		})
-		
-	})
+	)
 };

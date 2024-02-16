@@ -57,7 +57,7 @@
 			showingModal: 'banMember'
 		});
 	};
-	
+
 	let searchBox: SearchBox<(typeof data)['roles'][number]>;
 </script>
 
@@ -76,27 +76,30 @@
 	</Modal>
 {/if}
 
-
-	<SearchBox showSelector={true} data={[data.roles, (role) => role.id, (role) => role.name]} bind:this={searchBox}
-		let:filteredData>
-		{#each filteredData as role}
-			<form action="?/updateMemberRole" method="post" use:enhance>
-				<input name="userId" style="display: none" value={selectedId} />
-				<input name="roleId" style="display: none" value={role.id} />
-
-				<button style="--color: {role.color}" class="roleButton">
-					<div class="color" />
-					{role.name}
-				</button>
-			</form>
-		{/each}
+<SearchBox
+	bind:this={searchBox}
+	data={[data.roles, (role) => role.id, (role) => role.name]}
+	showSelector={true}
+	let:filteredData
+>
+	{#each filteredData as role}
 		<form action="?/updateMemberRole" method="post" use:enhance>
-			<input name="userId" style="display: none" bind:value={selectedId} />
-			<input name="roleId" style="display: none" value="-1" />
+			<input name="userId" style="display: none" value={selectedId} />
+			<input name="roleId" style="display: none" value={role.id} />
 
-			<button style="--color: #fff" class="noRole"> No role </button>
+			<button style="--color: {role.color}" class="roleButton">
+				<div class="color" />
+				{role.name}
+			</button>
 		</form>
-	</SearchBox>
+	{/each}
+	<form action="?/updateMemberRole" method="post" use:enhance>
+		<input name="userId" style="display: none" bind:value={selectedId} />
+		<input name="roleId" style="display: none" value="-1" />
+
+		<button style="--color: #fff" class="noRole"> No role </button>
+	</form>
+</SearchBox>
 
 {#if $page.state.showingModal == 'banMember'}
 	<Modal
@@ -150,12 +153,15 @@
 						</td>
 						{#if data.orgUser?.owner || data.orgUserPermissions.assignRoles}
 							<td style="--color: {member.role?.color}" class="role">
-								<button class="changeRole" on:click|self={(e) => {
-									selectedId = member.userId;
-									if(searchBox) {
-										searchBox.propagateClick(e);
-									}
-								}}>
+								<button
+									class="changeRole"
+									on:click|self={(e) => {
+										selectedId = member.userId;
+										if (searchBox) {
+											searchBox.propagateClick(e);
+										}
+									}}
+								>
 									{member.role?.name || 'None'}
 								</button>
 							</td>
