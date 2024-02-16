@@ -4,7 +4,7 @@ import {
 	createClubPermissionsCheck,
 	permissionObjectDescriptions
 } from '$lib/permissions/clubPermissions';
-import { createNonePermissionObject, createPermissionNumber } from '$lib/permissions/permissions';
+import { createNonePermissionObject, createPermissionsNumber } from '$lib/permissions/permissions';
 
 describe('permission system', () => {
 	const keys = Object.keys(permissionObjectDescriptions);
@@ -17,7 +17,7 @@ describe('permission system', () => {
 	it('is reversible', () => {
 		for (let i = 0; i < 2 ** permissionAmount; i++) {
 			const permissionObject = createClubPermissionsCheck(i);
-			expect(createPermissionNumber(permissionObject)).toBe(i);
+			expect(createPermissionsNumber(permissionObject)).toBe(i);
 		}
 	});
 

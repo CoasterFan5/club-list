@@ -27,7 +27,7 @@ export function createPermissionsCheck<T extends readonly string[]>(
  *
  * The reverse of {@link createPermissionsCheck}.
  */
-export function createPermissionNumber<T extends readonly string[]>(
+export function createPermissionsNumber<T extends readonly string[]>(
 	permissionObject: PermissionObject<T>
 ): number {
 	let permissionInt = 0;

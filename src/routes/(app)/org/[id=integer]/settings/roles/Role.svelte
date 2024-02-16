@@ -11,7 +11,7 @@
 		orgKeys,
 		orgPermissionObjectDescriptions
 	} from '$lib/permissions/orgPermissions';
-	import { createPermissionNumber } from '$lib/permissions/permissions';
+	import { createPermissionsNumber } from '$lib/permissions/permissions';
 	import { toTitleCase } from '$lib/titleCase';
 
 	export let role: {
@@ -42,8 +42,8 @@
 	const permissionObject = createOrgPermissionsCheck(role.permissionInt);
 
 	$: if (permissionObject) {
-		if (createPermissionNumber(permissionObject) != permissionIntCalculated) {
-			permissionIntCalculated = createPermissionNumber(permissionObject);
+		if (createPermissionsNumber(permissionObject) != permissionIntCalculated) {
+			permissionIntCalculated = createPermissionsNumber(permissionObject);
 			permissionIntInput.value = permissionIntCalculated.toString();
 			submitButton.click();
 		}

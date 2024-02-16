@@ -2,11 +2,11 @@
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import {
-		createPermissionNumber,
-		createPermissionsCheck,
+		createClubPermissionsCheck,
 		keys,
 		permissionObjectDescriptions
 	} from '$lib/permissions/clubPermissions';
+	import { createPermissionsNumber } from '$lib/permissions/permissions.js';
 	import { toTitleCase } from '$lib/titleCase.js';
 	import { handleForm } from '$lib/utils/formToaster';
 
@@ -16,13 +16,13 @@
 	export let data;
 	export let form;
 
-	$: permissions = createPermissionsCheck(data.role.permissionInt);
+	$: permissions = createClubPermissionsCheck(data.role.permissionInt);
 
 	let permissionInt: number;
 
 	const updatePermissionInt = (key: (typeof keys)[number]) => {
 		permissions[key] = !permissions[key];
-		permissionInt = createPermissionNumber(permissions);
+		permissionInt = createPermissionsNumber(permissions);
 		permissionIntBox.value = permissionInt.toString();
 		submitButton.click();
 	};
