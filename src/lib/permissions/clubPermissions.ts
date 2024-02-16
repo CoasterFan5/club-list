@@ -1,38 +1,9 @@
 import type { Prisma } from '@prisma/client';
 
 import { createOrgPermissionsCheck } from './orgPermissions';
-import { createAllPermissionObject, createPermissionsCheck } from './permissions';
+import { createAllPermissionObject, createNonePermissionObject, createPermissionsCheck, type PermissionDescriptions } from './permissions';
 
-export const keys = [
-	'admin',
-	'updateAppearance',
-	'updateDescription',
-	'manageAnnouncements',
-	'manageRoles',
-	'manageEvents',
-	'manageMembers'
-] as const;
-export type ClubPermissionKeys = typeof keys;
-
-export type TypedPermissionObject<K> = Record<ClubPermissionKeys[number], K>;
-
-export type PermissionObject = TypedPermissionObject<boolean>;
-
-export const defaultClubPermissionObject: PermissionObject = Object.freeze({
-	admin: false,
-	updateAppearance: false,
-	updateDescription: false,
-	manageAnnouncements: false,
-	manageRoles: false,
-	manageEvents: false,
-	manageMembers: false
-});
-
-export const permissionKeys = Object.freeze(
-	Object.keys(defaultClubPermissionObject) as (keyof PermissionObject)[]
-);
-
-export const permissionObjectDescriptions: TypedPermissionObject<string> = Object.freeze({
+export const permissionObjectDescriptions = Object.freeze({
 	admin: 'Gives role all permissions',
 	updateAppearance: 'Allows changing the banner and name of the club',
 	updateDescription: 'Update the about me for the club',
@@ -40,7 +11,13 @@ export const permissionObjectDescriptions: TypedPermissionObject<string> = Objec
 	manageRoles: 'Allows a user to create new roles',
 	manageEvents: 'Allows a user to create new events',
 	manageMembers: 'Allows a user to manage other members of the club'
-});
+}) satisfies PermissionDescriptions;
+
+export type ClubPermissionKeys = keyof typeof permissionObjectDescriptions;
+export type TypedPermissionObject<K> = Record<ClubPermissionKeys, K>;
+export type PermissionObject = TypedPermissionObject<boolean>;
+
+export const keys = Object.keys(permissionObjectDescriptions) as ClubPermissionKeys[];
 
 export const createClubPermissionsCheck = createPermissionsCheck(keys);
 
@@ -83,7 +60,7 @@ export const createClubPermissionsFromUser = (
 ): PermissionObject => {
 	// User has no club users, thus, no permissions
 	if (!user?.clubUsers) {
-		return defaultClubPermissionObject;
+		return createNonePermissionObject(keys);
 	}
 
 	const clubUser = user?.clubUsers.find((clubUser) => clubUser.clubId == club?.id);
@@ -115,7 +92,7 @@ export const createClubPermissionsFromUser = (
 		const clubUser = user?.clubUsers.find((clubUser) => clubUser.clubId == club?.id);
 
 		if (!clubUser?.role) {
-			return defaultClubPermissionObject;
+			return createNonePermissionObject(keys);
 		}
 
 		return createClubPermissionsCheck(clubUser.role.permissionInt);

@@ -6,7 +6,7 @@
 		createPermissionsCheck,
 		keys,
 		permissionObjectDescriptions
-	} from '$lib/permissions';
+	} from '$lib/permissions/clubPermissions';
 	import { toTitleCase } from '$lib/titleCase.js';
 	import { handleForm } from '$lib/utils/formToaster';
 

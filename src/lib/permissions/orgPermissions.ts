@@ -1,43 +1,8 @@
 import type { Prisma } from '@prisma/client';
 
-import { createAllPermissionObject, createPermissionsCheck } from "./permissions";
+import { createAllPermissionObject, createNonePermissionObject, createPermissionsCheck, type PermissionDescriptions } from "./permissions";
 
-export const orgKeys = [
-	'admin',
-	'viewSettings',
-	'inviteMembers',
-	'updateAppearance',
-	'manageVisibility',
-	'viewMembers',
-	'assignRoles',
-	'banMembers',
-	'kickMembers',
-	'manageRoles',
-	'createClubs',
-	'manageClubs'
-] as const;
-export type OrgPermissionKeys = typeof orgKeys;
-
-export type TypedPermissionObject<K> = Record<OrgPermissionKeys[number], K>;
-
-export type PermissionObject = TypedPermissionObject<boolean>;
-
-export const defaultOrgPermissionObject: PermissionObject = Object.freeze({
-	admin: false,
-	viewSettings: false,
-	inviteMembers: false,
-	updateAppearance: false,
-	manageVisibility: false,
-	viewMembers: false,
-	assignRoles: false,
-	banMembers: false,
-	kickMembers: false,
-	manageRoles: false,
-	createClubs: false,
-	manageClubs: false
-});
-
-export const orgPermissionObjectDescriptions: TypedPermissionObject<string> = Object.freeze({
+export const orgPermissionObjectDescriptions = Object.freeze({
 	admin: 'Gives role all permissions',
 	viewSettings: 'View settings for the organization',
 	inviteMembers: 'Invite members to the organization',
@@ -50,11 +15,13 @@ export const orgPermissionObjectDescriptions: TypedPermissionObject<string> = Ob
 	manageRoles: 'Manage roles for the organization',
 	createClubs: 'Create clubs for the organization',
 	manageClubs: 'Manage clubs for the organization'
-});
+}) satisfies PermissionDescriptions;
 
-export const orgPermissionKeys = Object.freeze(
-	Object.keys(defaultOrgPermissionObject) as (keyof PermissionObject)[]
-);
+export type OrgPermissionKeys = keyof typeof orgPermissionObjectDescriptions;
+export type TypedPermissionObject<K> = Record<OrgPermissionKeys, K>;
+export type PermissionObject = TypedPermissionObject<boolean>;
+
+export const orgKeys = Object.keys(orgPermissionObjectDescriptions) as OrgPermissionKeys[];
 
 export const createOrgPermissionsCheck = createPermissionsCheck(orgKeys);
 
@@ -91,7 +58,7 @@ export const createOrgPermissionsFromUser = (
 		const clubUser = user?.orgUsers.find((orgUser) => orgUser.organizationId == org?.id);
 
 		if (!clubUser?.role) {
-			return defaultOrgPermissionObject;
+			return createNonePermissionObject(orgKeys);
 		}
 
 		return createOrgPermissionsCheck(clubUser.role.permissionInt);

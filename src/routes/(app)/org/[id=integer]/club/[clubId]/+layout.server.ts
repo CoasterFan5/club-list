@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 
-import { createClubPermissionsFromUser, defaultClubPermissionObject } from '$lib/permissions/clubPermissions.js';
+import { createClubPermissionsFromUser, keys } from '$lib/permissions/clubPermissions.js';
+import { createNonePermissionObject } from '$lib/permissions/permissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {
@@ -68,7 +69,7 @@ export const load = async ({ params, parent }) => {
 					{ ...user, clubUsers: clubUser ? [clubUser] : [], orgUsers: orgUser ? [orgUser] : [] },
 					club
 				)
-			: defaultClubPermissionObject;
+			: createNonePermissionObject(keys);
 
 	return {
 		club,

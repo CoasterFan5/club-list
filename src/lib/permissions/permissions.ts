@@ -1,4 +1,6 @@
-type PermissionObject<T extends readonly string[]> = Record<T[number], boolean>;
+type Permissions<K extends readonly string[], V> = Record<K[number], V>;
+type PermissionObject<T extends readonly string[]> = Permissions<T, boolean>;
+export type PermissionDescriptions = Permissions<readonly string[], string>;
 
 /**
  * Generates a function that takes a permission integer and returns
