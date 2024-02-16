@@ -45,8 +45,8 @@ export const load = async ({ params, parent }) => {
 		if (orgUser?.owner) {
 			orgUserPermissions = {
 				...orgUserPermissions,
-				admin: true,
-			}
+				admin: true
+			};
 		} else {
 			orgUserPermissions = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
 		}

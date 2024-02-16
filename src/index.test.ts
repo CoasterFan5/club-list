@@ -23,9 +23,7 @@ describe('permission system', () => {
 
 	it('works for all integers', () => {
 		const permissionObject = createClubPermissionsCheck(2 ** permissionAmount - 1);
-		expect(permissionObject).toEqual(
-			Object.fromEntries(keys.map((item) => [item, true]))
-		);
+		expect(permissionObject).toEqual(Object.fromEntries(keys.map((item) => [item, true])));
 	});
 
 	it('works for 0', () => {

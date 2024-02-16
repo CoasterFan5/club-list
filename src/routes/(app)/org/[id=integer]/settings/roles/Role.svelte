@@ -12,7 +12,6 @@
 		orgPermissionObjectDescriptions
 	} from '$lib/permissions/orgPermissions';
 	import { createPermissionNumber } from '$lib/permissions/permissions';
-	
 	import { toTitleCase } from '$lib/titleCase';
 
 	export let role: {

@@ -1,7 +1,12 @@
 import type { Prisma } from '@prisma/client';
 
 import { createOrgPermissionsCheck } from './orgPermissions';
-import { createAllPermissionObject, createNonePermissionObject, createPermissionsCheck, type PermissionDescriptions } from './permissions';
+import {
+	createAllPermissionObject,
+	createNonePermissionObject,
+	createPermissionsCheck,
+	type PermissionDescriptions
+} from './permissions';
 
 export const permissionObjectDescriptions = Object.freeze({
 	admin: 'Gives role all permissions',
