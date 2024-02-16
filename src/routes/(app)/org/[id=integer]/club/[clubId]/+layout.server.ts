@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 
-import { createPermissionsFromUser, defaultClubPermissionObject } from '$lib/permissions.js';
+import { createClubPermissionsFromUser, defaultClubPermissionObject } from '$lib/permissions/clubPermissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {
@@ -64,7 +64,7 @@ export const load = async ({ params, parent }) => {
 
 	const clubPerms =
 		user && orgUser
-			? createPermissionsFromUser(
+			? createClubPermissionsFromUser(
 					{ ...user, clubUsers: clubUser ? [clubUser] : [], orgUsers: orgUser ? [orgUser] : [] },
 					club
 				)

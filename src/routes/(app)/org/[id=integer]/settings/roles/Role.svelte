@@ -7,11 +7,12 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
 	import {
-		createOrgPermissionNumber,
 		createOrgPermissionsCheck,
 		orgKeys,
 		orgPermissionObjectDescriptions
-	} from '$lib/orgPerms';
+	} from '$lib/permissions/orgPermissions';
+	import { createPermissionNumber } from '$lib/permissions/permissions';
+	
 	import { toTitleCase } from '$lib/titleCase';
 
 	export let role: {
@@ -42,8 +43,8 @@
 	const permissionObject = createOrgPermissionsCheck(role.permissionInt);
 
 	$: if (permissionObject) {
-		if (createOrgPermissionNumber(permissionObject) != permissionIntCalculated) {
-			permissionIntCalculated = createOrgPermissionNumber(permissionObject);
+		if (createPermissionNumber(permissionObject) != permissionIntCalculated) {
+			permissionIntCalculated = createPermissionNumber(permissionObject);
 			permissionIntInput.value = permissionIntCalculated.toString();
 			submitButton.click();
 		}

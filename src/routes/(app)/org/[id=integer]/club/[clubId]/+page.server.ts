@@ -2,7 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard';
-import { createPermissionsFromUser } from '$lib/permissions.js';
+import { createClubPermissionsFromUser } from '$lib/permissions/clubPermissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -96,7 +96,7 @@ export const actions = {
 				};
 			}
 
-			const permissionObject = createPermissionsFromUser(sessionCheck.user, club);
+			const permissionObject = createClubPermissionsFromUser(sessionCheck.user, club);
 
 			if (!permissionObject.admin && !permissionObject.updateAppearance) {
 				return {

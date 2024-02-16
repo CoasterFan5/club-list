@@ -1,3 +1,7 @@
+import type { Prisma } from '@prisma/client';
+
+import { createAllPermissionObject, createPermissionsCheck } from "./permissions";
+
 export const orgKeys = [
 	'admin',
 	'viewSettings',
@@ -12,9 +16,9 @@ export const orgKeys = [
 	'createClubs',
 	'manageClubs'
 ] as const;
-export type orgPermissionKeys = typeof orgKeys;
+export type OrgPermissionKeys = typeof orgKeys;
 
-export type TypedPermissionObject<K> = Record<orgPermissionKeys[number], K>;
+export type TypedPermissionObject<K> = Record<OrgPermissionKeys[number], K>;
 
 export type PermissionObject = TypedPermissionObject<boolean>;
 
@@ -34,55 +38,42 @@ export const defaultOrgPermissionObject: PermissionObject = Object.freeze({
 });
 
 export const orgPermissionObjectDescriptions: TypedPermissionObject<string> = Object.freeze({
-	admin: 'false',
-	viewSettings: 'false',
-	inviteMembers: 'false',
-	updateAppearance: 'false',
-	manageVisibility: 'false',
-	viewMembers: 'false',
-	assignRoles: 'false',
-	banMembers: 'false',
-	kickMembers: 'false',
-	manageRoles: 'false',
-	createClubs: 'false',
-	manageClubs: 'false'
+	admin: 'Gives role all permissions',
+	viewSettings: 'View settings for the organization',
+	inviteMembers: 'Invite members to the organization',
+	updateAppearance: 'Update the appearance of the organization',
+	manageVisibility: 'Manage the visibility of the organization',
+	viewMembers: 'View members of the organization',
+	assignRoles: 'Assign roles to members of the organization',
+	banMembers: 'Ban members from the organization',
+	kickMembers: 'Kick members from the organization',
+	manageRoles: 'Manage roles for the organization',
+	createClubs: 'Create clubs for the organization',
+	manageClubs: 'Manage clubs for the organization'
 });
 
 export const orgPermissionKeys = Object.freeze(
 	Object.keys(defaultOrgPermissionObject) as (keyof PermissionObject)[]
 );
 
-export const createOrgPermissionNumber = (permissionObject: PermissionObject): number => {
-	let permissionInt = 0;
-	let loops = 0;
-	for (const permission of orgPermissionKeys) {
-		if (permissionObject[permission]) {
-			permissionInt += 2 ** loops;
-		}
-		loops++;
-	}
-	return permissionInt;
-};
+export const createOrgPermissionsCheck = createPermissionsCheck(orgKeys);
 
-export const createOrgPermissionsCheck = (integer: number): PermissionObject => {
-	return Object.fromEntries(
-		orgPermissionKeys.map((item, index) => {
-			const int = 2 ** index;
-			return [item, (int & integer) > 0];
-		})
-	) as unknown as PermissionObject;
-};
-
-interface UserLike {
-	id: number;
-	orgUsers: {
-		organizationId: number;
-		owner: boolean;
-		role: {
-			permissionInt: number;
-		} | null;
-	}[];
-}
+type UserLike = Prisma.UserGetPayload<{
+	select: {
+		id: true;
+		orgUsers: {
+			select: {
+				organizationId: true;
+				owner: true;
+				role: {
+					select: {
+						permissionInt: true;
+					};
+				};
+			};
+		};
+	};
+}>;
 
 interface OrgLike {
 	id: number;
@@ -95,7 +86,7 @@ export const createOrgPermissionsFromUser = (
 	const clubUser = user?.orgUsers.find((orgUser) => orgUser.organizationId == org?.id);
 	if (clubUser?.owner) {
 		// Create a permission object with all permissions
-		return createOrgPermissionsCheck(2 ** orgPermissionKeys.length - 1);
+		return createAllPermissionObject(orgKeys);
 	} else {
 		const clubUser = user?.orgUsers.find((orgUser) => orgUser.organizationId == org?.id);
 

@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard';
-import { createOrgPermissionsFromUser } from '$lib/orgPerms.js';
-import { createPermissionsFromUser } from '$lib/permissions.js';
+import { createOrgPermissionsFromUser } from '$lib/permissions/orgPermissions.js';
+import { createClubPermissionsFromUser } from '$lib/permissions/clubPermissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -44,7 +44,7 @@ const validateUser = async (session: string | undefined, params: RouteParams) =>
 		canTransferOwner = true;
 	}
 
-	const permissionObj = createPermissionsFromUser(user, club);
+	const permissionObj = createClubPermissionsFromUser(user, club);
 
 	if (!permissionObj.admin && !permissionObj.manageMembers) {
 		return {

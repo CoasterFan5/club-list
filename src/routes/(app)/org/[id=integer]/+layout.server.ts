@@ -1,6 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 
-import { createOrgPermissionsCheck } from '$lib/orgPerms.js';
+import { createOrgPermissionsCheck } from '$lib/permissions/orgPermissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {

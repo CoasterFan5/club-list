@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
-import { createOrgPermissionsCheck } from '$lib/orgPerms.js';
+import { createOrgPermissionsCheck } from '$lib/permissions/orgPermissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
 

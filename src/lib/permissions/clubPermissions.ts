@@ -1,4 +1,7 @@
-import { createOrgPermissionsCheck } from './orgPerms';
+import type { Prisma } from '@prisma/client';
+
+import { createOrgPermissionsCheck } from './orgPermissions';
+import { createAllPermissionObject, createPermissionsCheck } from './permissions';
 
 export const keys = [
 	'admin',
@@ -9,9 +12,9 @@ export const keys = [
 	'manageEvents',
 	'manageMembers'
 ] as const;
-export type PermissionKeys = typeof keys;
+export type ClubPermissionKeys = typeof keys;
 
-export type TypedPermissionObject<K> = Record<PermissionKeys[number], K>;
+export type TypedPermissionObject<K> = Record<ClubPermissionKeys[number], K>;
 
 export type PermissionObject = TypedPermissionObject<boolean>;
 
@@ -25,6 +28,10 @@ export const defaultClubPermissionObject: PermissionObject = Object.freeze({
 	manageMembers: false
 });
 
+export const permissionKeys = Object.freeze(
+	Object.keys(defaultClubPermissionObject) as (keyof PermissionObject)[]
+);
+
 export const permissionObjectDescriptions: TypedPermissionObject<string> = Object.freeze({
 	admin: 'Gives role all permissions',
 	updateAppearance: 'Allows changing the banner and name of the club',
@@ -35,62 +42,46 @@ export const permissionObjectDescriptions: TypedPermissionObject<string> = Objec
 	manageMembers: 'Allows a user to manage other members of the club'
 });
 
-export const permissionKeys = Object.freeze(
-	Object.keys(defaultClubPermissionObject) as (keyof PermissionObject)[]
-);
+export const createClubPermissionsCheck = createPermissionsCheck(keys);
 
-export const createPermissionNumber = (permissionObject: PermissionObject): number => {
-	let permissionInt = 0;
-	let loops = 0;
-	for (const permission of permissionKeys) {
-		if (permissionObject[permission]) {
-			permissionInt += 2 ** loops;
-		}
-		loops++;
-	}
-	return permissionInt;
-};
-
-export const createPermissionsCheck = (integer: number): PermissionObject => {
-	return Object.fromEntries(
-		permissionKeys.map((item, index) => {
-			const int = 2 ** index;
-			return [item, (int & integer) > 0];
-		})
-	) as unknown as PermissionObject;
-};
-
-interface UserLike {
-	id: number;
-	clubUsers:
-		| {
-				clubId: number;
-				owner: boolean;
+type UserLike = Prisma.UserGetPayload<{
+	select: {
+		id: true;
+		clubUsers: {
+			select: {
+				clubId: true;
+				owner: true;
 				role: {
-					permissionInt: number;
-				} | null;
-		  }[]
-		| null;
-	orgUsers:
-		| {
-				organizationId: number;
-				owner: boolean;
+					select: {
+						permissionInt: true;
+					};
+				};
+			};
+		};
+		orgUsers: {
+			select: {
+				organizationId: true;
+				owner: true;
 				role: {
-					permissionInt: number;
-				} | null;
-		  }[]
-		| null;
-}
+					select: {
+						permissionInt: true;
+					};
+				};
+			};
+		};
+	};
+}>;
 
 interface ClubLike {
 	id: number;
 	organizationId: number;
 }
 
-export const createPermissionsFromUser = (
+export const createClubPermissionsFromUser = (
 	user?: UserLike | null,
 	club?: ClubLike | null
 ): PermissionObject => {
+	// User has no club users, thus, no permissions
 	if (!user?.clubUsers) {
 		return defaultClubPermissionObject;
 	}
@@ -102,23 +93,24 @@ export const createPermissionsFromUser = (
 			(orgUser) => orgUser.organizationId == club?.organizationId
 		);
 
+		// Permissible if the user is the owner of the organization
 		if (orgUser?.owner) {
-			return createPermissionsCheck(2 ** permissionKeys.length - 1);
+			return createAllPermissionObject(keys);
 		}
 
-		//Create an org permissions check
+		// If the user has the right permissions for the organization, they can manage clubs
 		if (orgUser?.role?.permissionInt) {
 			const orgPerms = createOrgPermissionsCheck(orgUser.role.permissionInt);
 
 			if (orgPerms.admin || orgPerms.manageClubs) {
-				return createPermissionsCheck(2 ** permissionKeys.length - 1);
+				return createAllPermissionObject(keys);
 			}
 		}
 	}
 
 	if (clubUser?.owner) {
 		// Create a permission object with all permissions
-		return createPermissionsCheck(2 ** permissionKeys.length - 1);
+		return createAllPermissionObject(keys);
 	} else {
 		const clubUser = user?.clubUsers.find((clubUser) => clubUser.clubId == club?.id);
 
@@ -126,6 +118,6 @@ export const createPermissionsFromUser = (
 			return defaultClubPermissionObject;
 		}
 
-		return createPermissionsCheck(clubUser.role.permissionInt);
+		return createClubPermissionsCheck(clubUser.role.permissionInt);
 	}
 };

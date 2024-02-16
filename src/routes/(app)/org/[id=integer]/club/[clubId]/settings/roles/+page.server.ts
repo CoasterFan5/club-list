@@ -2,7 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
-import { createPermissionsFromUser } from '$lib/permissions.js';
+import { createClubPermissionsFromUser } from '$lib/permissions/clubPermissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 
 export const actions = {
@@ -52,7 +52,7 @@ export const actions = {
 		}
 
 		// Make sure the user has the proper perms
-		const userPermissions = createPermissionsFromUser(sessionCheck.user, club);
+		const userPermissions = createClubPermissionsFromUser(sessionCheck.user, club);
 
 		if (!userPermissions.admin && !userPermissions.manageRoles) {
 			error(401, 'No Permissions');
@@ -125,7 +125,7 @@ export const actions = {
 			}
 
 			// Make sure the user has the proper perms
-			const userPermissions = createPermissionsFromUser(sessionCheck.user, club);
+			const userPermissions = createClubPermissionsFromUser(sessionCheck.user, club);
 
 			if (!userPermissions.admin && !userPermissions.manageRoles) {
 				error(401, 'No Permissions');
@@ -213,7 +213,7 @@ export const actions = {
 			}
 
 			// Make sure the user has the proper perms
-			const userPermissions = createPermissionsFromUser(sessionCheck.user, club);
+			const userPermissions = createClubPermissionsFromUser(sessionCheck.user, club);
 
 			if (!userPermissions.admin && !userPermissions.manageRoles) {
 				error(401, 'No Permissions');

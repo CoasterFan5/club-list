@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
-import { createPermissionsFromUser } from '$lib/permissions.js';
+import { createClubPermissionsFromUser } from '$lib/permissions/clubPermissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession';
 
@@ -45,7 +45,7 @@ export const actions = {
 				};
 			}
 
-			const userPermission = createPermissionsFromUser(user, club);
+			const userPermission = createClubPermissionsFromUser(user, club);
 
 			if (!userPermission.admin && !userPermission.updateAppearance) {
 				return {
