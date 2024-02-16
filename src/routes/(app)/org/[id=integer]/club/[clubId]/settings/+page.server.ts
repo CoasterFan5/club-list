@@ -24,6 +24,11 @@ export const actions = {
 							}
 						}
 					}
+				},
+				orgUsers: {
+					include: {
+						role: true
+					}
 				}
 			});
 

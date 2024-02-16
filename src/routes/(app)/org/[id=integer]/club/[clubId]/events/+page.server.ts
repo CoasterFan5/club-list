@@ -180,8 +180,17 @@ export const actions = {
 								include: {
 									role: true
 								}
+							},
+							orgUsers: {
+								where: {
+									organizationId: parseInt(params.id)
+								},
+								include: {
+									role: true
+								}
 							}
-						}
+						},
+						
 					}
 				}
 			});

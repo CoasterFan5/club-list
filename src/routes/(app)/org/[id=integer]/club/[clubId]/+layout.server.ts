@@ -4,7 +4,10 @@ import { createPermissionsFromUser, defaultClubPermissionObject } from '$lib/per
 import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {
-	const { user } = await parent();
+	const parentData = await parent();
+
+	const user = parentData.user
+
 	const clubId = parseInt(params.clubId);
 
 	const club = await prisma.club.findFirst({
@@ -30,6 +33,21 @@ export const load = async ({ params, parent }) => {
 	if (!club) {
 		error(404, 'Club Not Found');
 	}
+
+	const orgUser = user ? await prisma.orgUser.findFirst({
+		where: {
+			AND: {
+				userId: user.id,
+				organizationId: user.orgid
+			}
+		},
+		include: {
+			role: true
+		}
+	}) : null;
+
+	
+
 	const clubUser = user
 		? await prisma.clubUser.findFirst({
 				where: {
@@ -44,13 +62,14 @@ export const load = async ({ params, parent }) => {
 			})
 		: null;
 
-	const clubPerms = user
-		? createPermissionsFromUser({ ...user, clubUsers: clubUser ? [clubUser] : [] }, club)
-		: defaultClubPermissionObject;
 
+	const clubPerms = user && orgUser
+		? createPermissionsFromUser({ ...user, clubUsers: clubUser ? [clubUser] : [], orgUsers: orgUser ? [orgUser] : [] }, club)
+		: defaultClubPermissionObject;
+	
 	return {
 		club,
 		clubPerms,
-		clubUser
+		clubUser: clubUser 
 	};
 };
