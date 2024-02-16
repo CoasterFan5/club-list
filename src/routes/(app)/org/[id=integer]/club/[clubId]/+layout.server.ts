@@ -30,7 +30,6 @@ export const load = async ({ params, parent }) => {
 	if (!club) {
 		error(404, 'Club Not Found');
 	}
-
 	const clubUser = user
 		? await prisma.clubUser.findFirst({
 				where: {
