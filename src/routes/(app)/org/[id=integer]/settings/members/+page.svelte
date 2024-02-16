@@ -76,7 +76,7 @@
 	</Modal>
 {/if}
 
-{#if selectedId}
+
 	<SearchBox showSelector={true} data={[data.roles, (role) => role.id, (role) => role.name]} bind:this={searchBox}
 		let:filteredData>
 		{#each filteredData as role}
@@ -97,7 +97,6 @@
 			<button style="--color: #fff" class="noRole"> No role </button>
 		</form>
 	</SearchBox>
-{/if}
 
 {#if $page.state.showingModal == 'banMember'}
 	<Modal
