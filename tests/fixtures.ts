@@ -9,7 +9,7 @@ export * from '@playwright/test';
 export const test = baseTest.extend<object, { workerStorageState: string, email: string }>({
 	// Use the same storage state for all tests in this worker.
 	storageState: ({ workerStorageState }, use) => use(workerStorageState),
-	email: [() => `test${crypto.randomUUID()}@card.board`, { scope: 'worker' }],
+	email: [(_, use) => use(`test${crypto.randomUUID()}@card.board`), { scope: 'worker' }],
 
 	// Authenticate once per worker with a worker-scoped fixture.
 	workerStorageState: [
@@ -50,7 +50,6 @@ export const test = baseTest.extend<object, { workerStorageState: string, email:
 			// End of authentication steps.
 
 			await page.context().storageState({ path: fileName });
-			await 
 			await page.close();
 
 			await use(fileName);
