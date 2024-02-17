@@ -77,7 +77,7 @@ test('changing password works', async ({ page, email }) => {
 	await page.locator('input[name="oldPassword"]').fill('password');
 	await page.locator('input[name="newPassword"]').fill('newPassword');
 	await page.locator('input[name="confirmPassword"]').fill('newPassword');
-	await page.locator('form >> text=Change Password').click();
+	await page.locator('form').locator('button').locator('text=Change Password').click();
 	await page.reload();
 
 	// Make sure the password was changed
