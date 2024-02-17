@@ -6,13 +6,14 @@ import path from 'path';
 const sessionId = crypto.randomUUID();
 
 export * from '@playwright/test';
-export const test = baseTest.extend<object, { workerStorageState: string }>({
+export const test = baseTest.extend<object, { workerStorageState: string, email: string }>({
 	// Use the same storage state for all tests in this worker.
 	storageState: ({ workerStorageState }, use) => use(workerStorageState),
+	email: [() => `test${crypto.randomUUID()}@card.board`, { scope: 'worker' }],
 
 	// Authenticate once per worker with a worker-scoped fixture.
 	workerStorageState: [
-		async ({ browser }, use) => {
+		async ({ browser, email }, use) => {
 			// Use parallelIndex as a unique identifier for each worker.
 			const id = test.info().parallelIndex;
 			const fileName = path.resolve(test.info().project.outputDir, `.auth/${sessionId}-${id}.json`);
@@ -37,7 +38,7 @@ export const test = baseTest.extend<object, { workerStorageState: string }>({
 
 			await page.locator('input[name="firstName"]').fill('Test');
 			await page.locator('input[name="lastName"]').fill('User');
-			await page.locator('input[name="email"]').fill(`test${crypto.randomUUID()}@card.board`);
+			await page.locator('input[name="email"]').fill(email);
 			await page.locator('input[name="password"]').fill('password');
 			await page.locator('input[name="confirmPassword"]').fill('password');
 			await page.locator('button[type="submit"]').click();
@@ -49,7 +50,9 @@ export const test = baseTest.extend<object, { workerStorageState: string }>({
 			// End of authentication steps.
 
 			await page.context().storageState({ path: fileName });
+			await 
 			await page.close();
+
 			await use(fileName);
 		},
 		{ scope: 'worker' }

@@ -1,4 +1,4 @@
-import { expect, test } from '../playwright/fixtures';
+import { expect, test } from './fixtures';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -8,7 +8,7 @@ test('profile page is shown', async ({ page }) => {
 	await expect(page.getByText('Profile', { exact: true })).toBeVisible();
 });
 
-test('logout works', async () => {
+test('logout works', async ({ page }) => {
 	// Log out
 	await page.goto('/profile');
 	await page.locator('text=Log Out').click();
@@ -67,4 +67,24 @@ test('invalid email is not accepted', async ({ page }) => {
 
 	// Make sure the email was not changed
 	await expect(page.locator('input[name="email"]').inputValue()).toBe(emailInput);
+});
+
+test('changing password works', async ({ page, email }) => {
+	await page.goto('/profile');
+
+	// Change the password
+	await page.locator('text=Change Password').click();
+	await page.locator('input[name="oldPassword"]').fill('password');
+	await page.locator('input[name="newPassword"]').fill('newPassword');
+	await page.locator('input[name="confirmPassword"]').fill('newPassword');
+	await page.locator('form >> text=Change Password').click();
+	await page.reload();
+
+	// Make sure the password was changed
+	await page.locator('text=Log Out').click();
+	await page.goto('/login');
+	await page.locator('input[name="email"]').fill(email);
+	await page.locator('input[name="password"]').fill('newPassword');
+	await page.locator('button[type="submit"]').click();
+	await page.waitForURL('/dashboard');
 });
