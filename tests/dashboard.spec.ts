@@ -1,4 +1,4 @@
-import { expect, test } from './fixtures';
+import { expect, test } from './fixtures/auth';
 
 test('dashboard page has base greeting & no organizations', async ({ page }) => {
 	await page.goto('/dashboard');
