@@ -38,6 +38,7 @@ test('changing last name works', async ({ page }) => {
 	// Change the name
 	await page.locator('input[name="lastName"]').fill('New Last Name');
 	await page.locator('text=Save').click();
+	await page.waitForSelector('text=Profile Updated', { state: 'visible' });
 	await page.reload();
 
 	// Make sure the name was changed
@@ -77,7 +78,10 @@ test('changing password works', async ({ page, email }) => {
 	await page.locator('input[name="oldPassword"]').fill('password');
 	await page.locator('input[name="newPassword"]').fill('newPassword');
 	await page.locator('input[name="confirmPassword"]').fill('newPassword');
-	await page.locator('form').locator('button').locator('text=Change Password').click();
+	
+	// Click the button next to the confirm password input
+	await page.locator(':nth-match(button:text("Change Password"), 2)').click();
+	
 	await page.reload();
 
 	// Make sure the password was changed
