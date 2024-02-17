@@ -19,4 +19,8 @@ test('organizations can be made', async ({ page }) => {
     await page.locator('text=Create').click();
 
     await expect(page.getByText('Test Organization', { exact: true })).toBeVisible();
+    await page.locator('text=Test Organization').click();
+    await page.waitForURL(/\/org\/[0-9]+/);
+    await expect(page.getByText('Test Organization', { exact: true })).toBeVisible();
+    await expect(page.getByText('No clubs here yet.', { exact: true })).toBeVisible();
 });
