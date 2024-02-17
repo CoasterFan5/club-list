@@ -29,7 +29,7 @@ test('changing first name works', async ({ page }) => {
 	await page.reload();
 
 	// Make sure the name was changed
-	await expect(page.locator('input[name="firstName"]').inputValue()).toBe('New First Name');
+	await expect(page.locator('input[name="firstName"]')).toHaveValue('New First Name');
 });
 
 test('changing last name works', async ({ page }) => {
@@ -41,7 +41,7 @@ test('changing last name works', async ({ page }) => {
 	await page.reload();
 
 	// Make sure the name was changed
-	await expect(page.locator('input[name="lastName"]').inputValue()).toBe('New Last Name');
+	await expect(page.locator('input[name="lastName"]')).toHaveValue('New Last Name');
 });
 
 test('changing email works', async ({ page }) => {
@@ -53,7 +53,7 @@ test('changing email works', async ({ page }) => {
 	await page.reload();
 
 	// Make sure the email was changed
-	await expect(page.locator('input[name="email"]').inputValue()).toBe('email@email.com')
+	await expect(page.locator('input[name="email"]')).toHaveValue('email@email.com')
 });
 
 test('invalid email is not accepted', async ({ page }) => {
@@ -61,12 +61,12 @@ test('invalid email is not accepted', async ({ page }) => {
 
 	// Change the email
 	const emailInput = await page.locator('input[name="email"]').inputValue();
-	await page.locator('input[name="email"]').fill('invalidemail');
+	await page.locator('input[name="email"]').fill('invalidEmail');
 	await page.locator('text=Save').click();
 	await page.reload();
 
 	// Make sure the email was not changed
-	await expect(page.locator('input[name="email"]').inputValue()).toBe(emailInput);
+	await expect(page.locator('input[name="email"]')).toHaveValue(emailInput);
 });
 
 test('changing password works', async ({ page, email }) => {
