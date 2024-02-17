@@ -16,7 +16,7 @@ test('organizations can be made', async ({ page }) => {
     await page.waitForSelector('text=Create Organization', { state: 'visible' });
 
     await page.locator('input[name="name"]').fill('Test Organization');
-    await page.locator('text=Create').click();
+    await page.locator('form >> text=Create').click();
 
     await expect(page.getByText('Test Organization', { exact: true })).toBeVisible();
     await page.locator('text=Test Organization').click();
@@ -29,7 +29,7 @@ test('organizations can be joined', async ({ page }) => {
     await page.goto('/org');
 
     await page.getByText('Join', { exact: true }).click();
-    await page.waitForSelector('text=Join Organization', { state: 'visible' });
+    await page.waitForSelector('text=Join an Organization', { state: 'visible' });
 
     await page.locator('input[name="joinCode"]').fill('123456');
     await page.locator('text=Join').click();
