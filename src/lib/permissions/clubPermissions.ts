@@ -16,7 +16,7 @@ export const permissionObjectDescriptions = Object.freeze({
 	manageRoles: 'Allows a user to create new roles',
 	manageEvents: 'Allows a user to create new events',
 	manageMembers: 'Allows a user to manage other members of the club',
-	viewSettings: "Allows a user to view the settings page."
+	viewSettings: 'Allows a user to view the settings page.'
 }) satisfies PermissionDescriptions;
 
 export type ClubPermissionKeys = keyof typeof permissionObjectDescriptions;

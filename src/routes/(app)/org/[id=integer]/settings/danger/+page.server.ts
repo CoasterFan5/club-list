@@ -38,20 +38,18 @@ export const actions = {
 		});
 		const org = await prisma.organization.findFirst({
 			where: {
-				id: parseInt(params.id),
+				id: parseInt(params.id)
 			}
-		})
+		});
 
-		const perms = createOrgPermissionsFromUser(user, org)
+		const perms = createOrgPermissionsFromUser(user, org);
 
-		if(!perms.admin) {
+		if (!perms.admin) {
 			return {
 				success: false,
-				message: "Only admins can refresh join code."
-			}
+				message: 'Only admins can refresh join code.'
+			};
 		}
-
-		
 
 		// TODO: better join code generation
 		const orgAmount = await prisma.organization.count();
@@ -79,15 +77,15 @@ export const actions = {
 				AND: {
 					organizationId: parseInt(params.id),
 					userId: user.id
-				} 
+				}
 			}
-		})
+		});
 
-		if(!orgUser?.owner) {
+		if (!orgUser?.owner) {
 			return {
 				success: false,
-				message: "Only an owner can delete an organization."
-			}
+				message: 'Only an owner can delete an organization.'
+			};
 		}
 
 		await prisma.organization.delete({

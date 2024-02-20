@@ -243,7 +243,6 @@ export const actions = {
 				};
 			}
 
-
 			const role = await prisma.orgRole.findFirst({
 				where: {
 					AND: {
@@ -276,7 +275,7 @@ export const actions = {
 				};
 			}
 
-			if(role?.id) {
+			if (role?.id) {
 				await prisma.orgUser.update({
 					where: {
 						organizationId_userId: {
@@ -306,7 +305,6 @@ export const actions = {
 				success: true,
 				message: 'Role Updated!'
 			};
-			
 		}
 	)
 };
