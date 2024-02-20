@@ -14,18 +14,20 @@ interface Options {
 }
 
 export function handleForm(unparsedForm: unknown, successMessage?: string, options?: Options) {
-	if (!unparsedForm || !unparsedForm?.data) return;
+
 	
+
+	if (!unparsedForm || !unparsedForm) return;
 
 	let form: Form;
 	try {
-		form = formSchema.parse(unparsedForm?.data);
+		form = formSchema.parse(unparsedForm);
 	} catch (e) {
 		return;
 	}
 	
 
-	if (!form.success) {
+	if (form.success == undefined) {
 		return;
 	}
 

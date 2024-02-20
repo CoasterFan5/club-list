@@ -132,6 +132,11 @@ export const actions = {
 					permissionInt
 				}
 			});
+
+			return {
+				success: true,
+				message: "Role Updated!"
+			}
 		}
 	),
 	deleteRole: formHandler(
