@@ -91,5 +91,46 @@ export const actions = {
 				message: 'Club Settings Updated!'
 			};
 		}
-	)
+	),
+	deleteClub: async ({cookies, params}) => {
+
+		const club = await prisma.club.findUnique({
+			where: {
+				id: parseInt(params.clubId)
+			}
+		})
+
+		if(!club) {
+			return {
+				success: false,
+				message: "No Club"
+			}
+		}
+
+		const user = await verifySession(cookies.get("session"), {
+			clubUsers: {
+				where: {
+					clubId: club.id
+				}
+			}
+		})
+
+		if(!user?.clubUsers[0]?.owner) {
+			return {
+				success: false,
+				message: "Only owner can delete club"
+			}
+		}
+
+		await prisma.club.delete({
+			where: {
+				id: club.id
+			}
+		})
+
+		return {
+			success: true,
+			message: "Club Deleted"
+		}
+	}
 };
