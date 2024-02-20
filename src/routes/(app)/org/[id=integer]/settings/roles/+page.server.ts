@@ -135,8 +135,8 @@ export const actions = {
 
 			return {
 				success: true,
-				message: "Role Updated!"
-			}
+				message: 'Role Updated!'
+			};
 		}
 	),
 	deleteRole: formHandler(

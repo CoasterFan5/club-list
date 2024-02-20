@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import { handleForm } from '$lib/utils/formToaster.js';
 	import Modal from '$lib/components/Modal.svelte';
-	import { page } from '$app/stores';
-	import { pushState } from '$app/navigation';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
 	export let form;
@@ -14,7 +14,7 @@
 	let name = data.club.name || '';
 	let imgURL = data.club.imageURL || '';
 
-	let confirmInput = "";
+	let confirmInput = '';
 
 	$: handleForm(form, 'Club Updated!');
 </script>
@@ -24,11 +24,11 @@
 		<h2>Delete Club?</h2>
 		<p>This will remove all club members and roles</p>
 		<p>Type <strong>{data.club.name}</strong> to confirm</p>
-		
-		<Input label="Club Name" bg="var(--bgPure)" bind:value={confirmInput}/>
-		<hr>
-		<form method="post" action="?/deleteClub" use:enhance>
-			<Button value="Delete Club" disabled={confirmInput != data.club.name}/>
+
+		<Input bg="var(--bgPure)" label="Club Name" bind:value={confirmInput} />
+		<hr />
+		<form action="?/deleteClub" method="post" use:enhance>
+			<Button disabled={confirmInput != data.club.name} value="Delete Club" />
 		</form>
 	</Modal>
 {/if}
@@ -60,15 +60,16 @@
 	<div class="displayWrap">
 		<h2>Danger Zone</h2>
 		<div class="formItem">
-			<Button value="Delete Club" on:click={() => {
-				pushState('', {
-					showingModal: 'deleteClub'
-				});
-			}}/>
-		</div> 
+			<Button
+				value="Delete Club"
+				on:click={() => {
+					pushState('', {
+						showingModal: 'deleteClub'
+					});
+				}}
+			/>
+		</div>
 	</div>
-	
-	
 </div>
 
 <style lang="scss">
