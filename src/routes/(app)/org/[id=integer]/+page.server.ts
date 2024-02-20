@@ -2,6 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
+import { createOrgPermissionsFromUser } from '$lib/permissions/orgPermissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -17,21 +18,31 @@ export const actions = {
 				});
 			}
 
-			const user = await verifySession(cookies.get('session'));
-
-			// Get the org user
-			const orgUser = await prisma.orgUser.findFirst({
-				where: {
-					userId: user.id,
-					organizationId: parseInt(params.id)
+			const user = await verifySession(cookies.get('session'), {
+				orgUsers: {
+					include: {
+						role: true
+					}
 				}
 			});
 
-			if (!orgUser) {
-				redirect(303, '/login');
+			// Get the org user
+			const org = await prisma.organization.findUnique({
+				where: {
+					id: parseInt(params.id)
+				}
+			});
+
+			if (!org) {
+				return {
+					success: false,
+					message: 'How did we even get here?'
+				};
 			}
 
-			if (orgUser.role != 'OWNER' && orgUser.role != 'ADMIN') {
+			const perms = createOrgPermissionsFromUser(user, org);
+
+			if (!perms.admin && !perms.createClubs) {
 				return fail(403, {
 					message: 'No Permissions'
 				});
@@ -42,13 +53,13 @@ export const actions = {
 				data: {
 					name: clubName,
 					description: null,
-					organizationId: orgUser.organizationId,
+					organizationId: org.id,
 					clubUsers: {
 						create: [
 							{
 								userId: user.id,
 								owner: true,
-								organizationId: orgUser.organizationId
+								organizationId: org.id
 							}
 						]
 					}
@@ -59,25 +70,15 @@ export const actions = {
 		}
 	),
 	leaveOrg: async ({ cookies, params }) => {
-		const user = await verifySession(cookies.get('session'));
-
-		const orgUser = await prisma.orgUser.findFirst({
-			where: {
-				AND: {
-					organizationId: parseInt(params.id),
-					userId: user.id
+		const user = await verifySession(cookies.get('session'), {
+			orgUsers: {
+				where: {
+					organizationId: parseInt(params.id)
 				}
 			}
 		});
 
-		if (!orgUser) {
-			return {
-				success: false,
-				message: 'You are not in this org...'
-			};
-		}
-
-		if (orgUser.role == 'OWNER') {
+		if (user.orgUsers[0].owner) {
 			return {
 				success: false,
 				message: 'You cant leave an org you own!'
@@ -87,7 +88,7 @@ export const actions = {
 		await prisma.orgUser.delete({
 			where: {
 				organizationId_userId: {
-					organizationId: orgUser.organizationId,
+					organizationId: user.orgUsers[0].organizationId,
 					userId: user.id
 				}
 			}

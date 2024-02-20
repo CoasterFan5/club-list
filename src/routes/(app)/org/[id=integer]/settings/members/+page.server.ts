@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
+import { createOrgPermissionsCheck } from '$lib/permissions/orgPermissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -10,7 +11,17 @@ export const load = async ({ params }) => {
 			organizationId: parseInt(params.id)
 		},
 		include: {
-			user: true
+			user: true,
+			role: true
+		},
+		orderBy: {
+			userId: 'asc'
+		}
+	});
+
+	const roles = await prisma.orgRole.findMany({
+		where: {
+			orgid: parseInt(params.id)
 		}
 	});
 
@@ -19,16 +30,17 @@ export const load = async ({ params }) => {
 			user: {
 				firstName: item.user.firstName,
 				lastName: item.user.lastName,
-				pfp: item.user.pfp,
-				role: item.role
+				pfp: item.user.pfp
 			},
 			userId: item.user.id,
-			role: item.role
+			role: item.role,
+			owner: item.owner
 		};
 	});
 
 	return {
-		orgUserData: filteredData
+		orgUserData: filteredData,
+		roles
 	};
 };
 
@@ -53,10 +65,15 @@ export const actions = {
 						userId: user.id,
 						organizationId: parseInt(params.id)
 					}
+				},
+				include: {
+					role: true
 				}
 			});
 
-			if (orgUser?.role != 'OWNER' && orgUser?.role != 'ADMIN') {
+			const permissions = await createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
+
+			if (!orgUser?.owner && !permissions.kickMembers && !permissions.admin) {
 				return {
 					success: false,
 					message: 'No Perms'
@@ -79,10 +96,17 @@ export const actions = {
 				};
 			}
 
-			if (toDelete.role == 'ADMIN' || toDelete.role == 'OWNER') {
+			if (toDelete.owner) {
 				return {
 					success: false,
-					message: 'Can not kick admins or owners.'
+					message: "Can't kick owner."
+				};
+			}
+
+			if (toDelete.roleId) {
+				return {
+					success: false,
+					message: "Can't kick a member with roles."
 				};
 			}
 
@@ -122,10 +146,15 @@ export const actions = {
 						userId: user.id,
 						organizationId: parseInt(params.id)
 					}
+				},
+				include: {
+					role: true
 				}
 			});
 
-			if (orgUser?.role != 'OWNER' && orgUser?.role != 'ADMIN') {
+			const permission = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
+
+			if (!orgUser?.owner && !permission.banMembers && !permission.admin) {
 				return {
 					success: false,
 					message: 'No Perms'
@@ -148,10 +177,10 @@ export const actions = {
 				};
 			}
 
-			if (toBan.role == 'ADMIN' || toBan.role == 'OWNER') {
+			if (toBan.roleId || toBan.owner) {
 				return {
 					success: false,
-					message: 'Can not ban admins or owners.'
+					message: 'Can not ban anyone with roles or an owner.'
 				};
 			}
 
@@ -182,6 +211,99 @@ export const actions = {
 			return {
 				success: true,
 				message: 'User banned.'
+			};
+		}
+	),
+	updateMemberRole: formHandler(
+		z.object({
+			userId: z.coerce.number(),
+			roleId: z.coerce.number()
+		}),
+		async ({ userId, roleId }, { cookies, params }) => {
+			const user = await verifySession(cookies.get('session'));
+
+			const orgUser = await prisma.orgUser.findFirst({
+				where: {
+					AND: {
+						userId: user.id,
+						organizationId: parseInt(params.id)
+					}
+				},
+				include: {
+					role: true
+				}
+			});
+
+			const permission = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
+
+			if (!orgUser || (!orgUser?.owner && !permission.banMembers && !permission.admin)) {
+				return {
+					success: false,
+					message: 'No Perms'
+				};
+			}
+
+			const role = await prisma.orgRole.findFirst({
+				where: {
+					AND: {
+						id: roleId,
+						orgid: orgUser.organizationId
+					}
+				}
+			});
+
+			if (!role && roleId != -1) {
+				return {
+					success: false,
+					message: 'No Role Exists.'
+				};
+			}
+
+			const toUpdate = await prisma.orgUser.findUnique({
+				where: {
+					organizationId_userId: {
+						organizationId: orgUser.organizationId,
+						userId: userId
+					}
+				}
+			});
+
+			if (!toUpdate) {
+				return {
+					success: false,
+					message: 'No Org User'
+				};
+			}
+
+			if (role?.id) {
+				await prisma.orgUser.update({
+					where: {
+						organizationId_userId: {
+							organizationId: toUpdate.organizationId,
+							userId: toUpdate.userId
+						}
+					},
+					data: {
+						roleId: role.id
+					}
+				});
+			} else {
+				await prisma.orgUser.update({
+					where: {
+						organizationId_userId: {
+							organizationId: toUpdate.organizationId,
+							userId: toUpdate.userId
+						}
+					},
+					data: {
+						roleId: null
+					}
+				});
+			}
+
+			return {
+				success: true,
+				message: 'Role Updated!'
 			};
 		}
 	)

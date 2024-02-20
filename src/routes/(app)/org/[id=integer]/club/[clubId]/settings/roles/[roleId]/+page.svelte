@@ -2,18 +2,13 @@
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import {
-		createPermissionNumber,
-		createPermissionsCheck,
+		createClubPermissionsCheck,
 		keys,
 		permissionObjectDescriptions
-	} from '$lib/permissions';
+	} from '$lib/permissions/clubPermissions';
+	import { createPermissionsNumber } from '$lib/permissions/permissions.js';
+	import { toTitleCase } from '$lib/titleCase.js';
 	import { handleForm } from '$lib/utils/formToaster';
-
-	// https://stackoverflow.com/a/7225450/7589775
-	function toTitleCase(str: string) {
-		const result = str.replace(/([A-Z])/g, ' $1');
-		return result.charAt(0).toUpperCase() + result.slice(1);
-	}
 
 	let submitButton: HTMLButtonElement;
 	let permissionIntBox: HTMLInputElement;
@@ -21,13 +16,13 @@
 	export let data;
 	export let form;
 
-	$: permissions = createPermissionsCheck(data.role.permissionInt);
+	$: permissions = createClubPermissionsCheck(data.role.permissionInt);
 
 	let permissionInt: number;
 
 	const updatePermissionInt = (key: (typeof keys)[number]) => {
 		permissions[key] = !permissions[key];
-		permissionInt = createPermissionNumber(permissions);
+		permissionInt = createPermissionsNumber(permissions);
 		permissionIntBox.value = permissionInt.toString();
 		submitButton.click();
 	};

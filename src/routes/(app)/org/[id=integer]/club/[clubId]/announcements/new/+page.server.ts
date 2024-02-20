@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard';
-import { createPermissionsFromUser } from '$lib/permissions.js';
+import { createClubPermissionsFromUser } from '$lib/permissions/clubPermissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -49,10 +49,18 @@ export const actions = {
 					include: {
 						role: true
 					}
+				},
+				orgUsers: {
+					where: {
+						organizationId: parseInt(params.id)
+					},
+					include: {
+						role: true
+					}
 				}
 			});
 
-			const perms = createPermissionsFromUser(user, club);
+			const perms = createClubPermissionsFromUser(user, club);
 
 			if (!perms.admin && !perms.manageAnnouncements) {
 				redirect(303, '/login');

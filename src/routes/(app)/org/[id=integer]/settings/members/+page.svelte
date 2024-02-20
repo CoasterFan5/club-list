@@ -5,21 +5,12 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import SearchBox from '$lib/components/SearchBox.svelte';
 	import { addToast } from '$lib/components/toaster.js';
 	import { tooltip } from '$lib/components/tooltips/tooltip.js';
 
 	export let data;
 	export let form;
-
-	function transformRole(role: string) {
-		return role
-			.split('')
-			.map((letter, i) => {
-				if (i === 0) return letter.toUpperCase();
-				return letter.toLowerCase();
-			})
-			.join('');
-	}
 
 	$: if (form) {
 		if (form.success) {
@@ -54,6 +45,8 @@
 		});
 	};
 
+	let selectedId: number;
+
 	const startBan = (id: number, firstName: string, lastName: string) => {
 		kickMember = {
 			id: id,
@@ -64,6 +57,8 @@
 			showingModal: 'banMember'
 		});
 	};
+
+	let searchBox: SearchBox<(typeof data)['roles'][number]>;
 </script>
 
 {#if $page.state.showingModal == 'kickMember'}
@@ -80,6 +75,31 @@
 		</form>
 	</Modal>
 {/if}
+
+<SearchBox
+	bind:this={searchBox}
+	data={[data.roles, (role) => role.id, (role) => role.name]}
+	showSelector={false}
+	let:filteredData
+>
+	{#each filteredData as role}
+		<form action="?/updateMemberRole" method="post" use:enhance>
+			<input name="userId" style="display: none" value={selectedId} />
+			<input name="roleId" style="display: none" value={role.id} />
+
+			<button style="--color: {role.color}" class="roleButton">
+				<div class="color" />
+				{role.name}
+			</button>
+		</form>
+	{/each}
+	<form action="?/updateMemberRole" method="post" use:enhance>
+		<input name="userId" style="display: none" bind:value={selectedId} />
+		<input name="roleId" style="display: none" value="-1" />
+
+		<button style="--color: #fff" class="noRole"> No role </button>
+	</form>
+</SearchBox>
 
 {#if $page.state.showingModal == 'banMember'}
 	<Modal
@@ -109,9 +129,7 @@
 				<tr>
 					<th>Member</th>
 					<th>Role</th>
-					{#if data.orgUser?.role == 'OWNER' || data.orgUser?.role == 'ADMIN'}
-						<th>Actions</th>
-					{/if}
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -122,7 +140,7 @@
 								<img class="pfp" alt="profile" src={member.user.pfp || '/defaultPFP.png'} />
 								{member.user.firstName}
 								{member.user.lastName}
-								{#if member.userId == data.org.ownerId || member.role == 'OWNER'}
+								{#if member.owner}
 									<img
 										class="crown"
 										alt="owner"
@@ -133,10 +151,18 @@
 								{/if}
 							</div>
 						</td>
-						{#if data.orgUser?.role == 'OWNER' || data.orgUser?.role == 'ADMIN'}
-							<td style="--color: {member.role}" class="role">
-								<button class="changeRole">
-									{transformRole(member.user.role) || 'None'}
+						{#if data.orgUser?.owner || data.orgUserPermissions.assignRoles}
+							<td style="--color: {member.role?.color}" class="role">
+								<button
+									class="changeRole"
+									on:click|self={(e) => {
+										selectedId = member.userId;
+										if (searchBox) {
+											searchBox.propagateClick(e);
+										}
+									}}
+								>
+									{member.role?.name || 'None'}
 								</button>
 							</td>
 							<td>
@@ -273,5 +299,46 @@
 		aspect-ratio: 1/1;
 		object-fit: cover;
 		filter: var(--redIconFilter);
+	}
+
+	.roleButton {
+		position: relative;
+		all: unset;
+		cursor: pointer;
+		text-align: center;
+		padding: 7px 10px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		width: 100%;
+		border-radius: 3px;
+		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
+	}
+	.roleButton:hover {
+		background: rgba(0, 0, 0, 0.15);
+	}
+	.noRole {
+		position: relative;
+		all: unset;
+		background: rgba(0, 0, 0, 0.1);
+		padding: 7px 10px;
+		margin-top: 5px;
+		box-sizing: border-box;
+		cursor: pointer;
+		width: 100%;
+		border-radius: 3px;
+		transition: all cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.05s;
+		text-align: center;
+	}
+	.noRole:hover {
+		background: rgba(0, 0, 0, 0.15);
+	}
+	.color {
+		background: var(--color);
+		height: 12px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		margin-right: 10px;
 	}
 </style>

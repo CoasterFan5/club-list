@@ -11,7 +11,7 @@
 	let searchBox: HTMLInputElement;
 	let searchInput = '';
 
-	type Data<T> = [T[], (item: T) => number, (item: T) => string];
+	type Data<T> = [data: T[], index: (item: T) => number, mapper: (item: T) => string];
 
 	export let data: Data<K>;
 	let filteredData: K[];

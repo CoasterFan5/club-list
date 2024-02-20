@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
-import { createPermissionsCheck } from '$lib/permissions.js';
+import { createClubPermissionsCheck } from '$lib/permissions/clubPermissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
 
@@ -42,7 +42,7 @@ export const actions = {
 						message: 'No permissions'
 					};
 				}
-				const permissionCheck = createPermissionsCheck(club.clubUsers[0].role.permissionInt);
+				const permissionCheck = createClubPermissionsCheck(club.clubUsers[0].role.permissionInt);
 				if (!permissionCheck.admin && !permissionCheck.manageRoles) {
 					return {
 						success: false,

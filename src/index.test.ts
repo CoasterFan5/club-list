@@ -1,41 +1,40 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-	createPermissionNumber,
-	createPermissionsCheck,
-	defaultClubPermissionObject
-} from '$lib/permissions';
+	createClubPermissionsCheck,
+	permissionObjectDescriptions
+} from '$lib/permissions/clubPermissions';
+import { createNonePermissionObject, createPermissionsNumber } from '$lib/permissions/permissions';
 
 describe('permission system', () => {
-	const permissionAmount = Object.keys(defaultClubPermissionObject).length;
+	const keys = Object.keys(permissionObjectDescriptions);
+	const permissionAmount = keys.length;
 
 	it('has more permissions than 0', () => {
-		expect(Object.keys(defaultClubPermissionObject).length).toBeGreaterThan(0);
+		expect(keys.length).toBeGreaterThan(0);
 	});
 
 	it('is reversible', () => {
 		for (let i = 0; i < 2 ** permissionAmount; i++) {
-			const permissionObject = createPermissionsCheck(i);
-			expect(createPermissionNumber(permissionObject)).toBe(i);
+			const permissionObject = createClubPermissionsCheck(i);
+			expect(createPermissionsNumber(permissionObject)).toBe(i);
 		}
 	});
 
 	it('works for all integers', () => {
-		const permissionObject = createPermissionsCheck(2 ** permissionAmount - 1);
-		expect(permissionObject).toEqual(
-			Object.fromEntries(Object.keys(defaultClubPermissionObject).map((item) => [item, true]))
-		);
+		const permissionObject = createClubPermissionsCheck(2 ** permissionAmount - 1);
+		expect(permissionObject).toEqual(Object.fromEntries(keys.map((item) => [item, true])));
 	});
 
 	it('works for 0', () => {
-		const permissionObject = createPermissionsCheck(0);
-		expect(permissionObject).toEqual(defaultClubPermissionObject);
+		const permissionObject = createClubPermissionsCheck(0);
+		expect(permissionObject).toEqual(createNonePermissionObject(keys));
 	});
 
 	it('works for 0b101', () => {
-		const permissionObject = createPermissionsCheck(0b101);
+		const permissionObject = createClubPermissionsCheck(0b101);
 		expect(permissionObject).toEqual({
-			...defaultClubPermissionObject,
+			...createNonePermissionObject(keys),
 			admin: true,
 			updateDescription: true
 		});

@@ -1,5 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 
+import { createOrgPermissionsCheck } from '$lib/permissions/orgPermissions.js';
 import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ params, parent }) => {
@@ -21,6 +22,7 @@ export const load = async ({ params, parent }) => {
 	}
 
 	let orgUser;
+	let orgUserPermissions = createOrgPermissionsCheck(0);
 
 	if (!org.isPublic) {
 		if (user == null) {
@@ -35,13 +37,25 @@ export const load = async ({ params, parent }) => {
 					userId: user.id,
 					organizationId: org.id
 				}
+			},
+			include: {
+				role: true
 			}
 		});
+		if (orgUser?.owner) {
+			orgUserPermissions = {
+				...orgUserPermissions,
+				admin: true
+			};
+		} else {
+			orgUserPermissions = createOrgPermissionsCheck(orgUser?.role?.permissionInt || 0);
+		}
 	}
 
 	return {
 		org,
 		clubs: org.clubs,
-		orgUser: orgUser || undefined
+		orgUser: orgUser || undefined,
+		orgUserPermissions
 	};
 };

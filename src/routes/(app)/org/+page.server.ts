@@ -44,7 +44,6 @@ export const actions = {
 			const org = await prisma.organization.create({
 				data: {
 					name,
-					ownerId: user.id,
 					joinCode: joinString
 				}
 			});
@@ -54,7 +53,7 @@ export const actions = {
 				data: {
 					userId: user.id,
 					organizationId: org.id,
-					role: 'OWNER'
+					owner: true
 				}
 			});
 
@@ -118,7 +117,6 @@ export const actions = {
 			// Create an org user
 			await prisma.orgUser.create({
 				data: {
-					role: 'member',
 					organizationId: joinCheck.id,
 					userId: user.id
 				}
