@@ -14,7 +14,7 @@ interface Options {
 }
 
 export function handleForm(unparsedForm: unknown, successMessage?: string, options?: Options) {
-	if (!unparsedForm || unparsedForm == null) return;
+	if (!unparsedForm || !unparsedForm?.data) return;
 	
 
 	let form: Form;
