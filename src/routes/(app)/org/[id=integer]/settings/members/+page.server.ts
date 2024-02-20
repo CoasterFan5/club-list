@@ -243,6 +243,7 @@ export const actions = {
 				};
 			}
 
+
 			const role = await prisma.orgRole.findFirst({
 				where: {
 					AND: {
@@ -252,7 +253,7 @@ export const actions = {
 				}
 			});
 
-			if (!role) {
+			if (!role && roleId != -1) {
 				return {
 					success: false,
 					message: 'No Role Exists.'
@@ -275,17 +276,37 @@ export const actions = {
 				};
 			}
 
-			await prisma.orgUser.update({
-				where: {
-					organizationId_userId: {
-						organizationId: toUpdate.organizationId,
-						userId: toUpdate.userId
+			if(role?.id) {
+				await prisma.orgUser.update({
+					where: {
+						organizationId_userId: {
+							organizationId: toUpdate.organizationId,
+							userId: toUpdate.userId
+						}
+					},
+					data: {
+						roleId: role.id
 					}
-				},
-				data: {
-					roleId: role.id
-				}
-			});
+				});
+			} else {
+				await prisma.orgUser.update({
+					where: {
+						organizationId_userId: {
+							organizationId: toUpdate.organizationId,
+							userId: toUpdate.userId
+						}
+					},
+					data: {
+						roleId: null
+					}
+				});
+			}
+
+			return {
+				success: true,
+				message: 'Role Updated!'
+			};
+			
 		}
 	)
 };

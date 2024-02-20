@@ -79,7 +79,7 @@
 <SearchBox
 	bind:this={searchBox}
 	data={[data.roles, (role) => role.id, (role) => role.name]}
-	showSelector={true}
+	showSelector={false}
 	let:filteredData
 >
 	{#each filteredData as role}
