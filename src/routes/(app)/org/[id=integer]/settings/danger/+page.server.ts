@@ -1,9 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 
+import { createOrgPermissionsFromUser } from '$lib/permissions/orgPermissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
-import { createPermissionsCheck } from '$lib/permissions/permissions.js';
-import { createOrgPermissionsFromUser } from '$lib/permissions/orgPermissions.js';
 
 export const load = async ({ parent }) => {
 	const { org } = await parent();

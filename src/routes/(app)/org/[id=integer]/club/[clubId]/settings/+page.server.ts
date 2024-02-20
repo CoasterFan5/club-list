@@ -1,9 +1,18 @@
+import { redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
 import { createClubPermissionsFromUser } from '$lib/permissions/clubPermissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession';
+
+export const load = async ({parent, params}) => {
+	const parentData = await parent()
+
+	if(!parentData.clubPerms.viewSettings && !parentData.clubPerms.admin) {
+		throw redirect(303, `/org/${params.id}/club/${params.clubId}`)
+	}
+}
 
 export const actions = {
 	updateClub: formHandler(

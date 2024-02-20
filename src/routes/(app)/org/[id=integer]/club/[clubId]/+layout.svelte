@@ -100,7 +100,7 @@
 							textColor="black">Events</Link
 						>
 					</div>
-					{#if data.clubPerms.admin || data.clubPerms.updateAppearance}
+					{#if data.clubPerms.viewSettings || data.clubPerms.admin}
 						<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}>
 							<Link
 								--fontSize="1.1rem"
