@@ -2,6 +2,8 @@ import { redirect } from '@sveltejs/kit';
 
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession.js';
+import { createPermissionsCheck } from '$lib/permissions/permissions.js';
+import { createOrgPermissionsFromUser } from '$lib/permissions/orgPermissions.js';
 
 export const load = async ({ parent }) => {
 	const { org } = await parent();
@@ -28,7 +30,29 @@ export const load = async ({ parent }) => {
 
 export const actions = {
 	refreshJoinCode: async ({ cookies, params }) => {
-		await verifySession(cookies.get('session'));
+		const user = await verifySession(cookies.get('session'), {
+			orgUsers: {
+				include: {
+					role: true
+				}
+			}
+		});
+		const org = await prisma.organization.findFirst({
+			where: {
+				id: parseInt(params.id),
+			}
+		})
+
+		const perms = createOrgPermissionsFromUser(user, org)
+
+		if(!perms.admin) {
+			return {
+				success: false,
+				message: "Only admins can refresh join code."
+			}
+		}
+
+		
 
 		// TODO: better join code generation
 		const orgAmount = await prisma.organization.count();
@@ -50,7 +74,22 @@ export const actions = {
 		};
 	},
 	deleteOrg: async ({ cookies, params }) => {
-		await verifySession(cookies.get('session'));
+		const user = await verifySession(cookies.get('session'));
+		const orgUser = await prisma.orgUser.findFirst({
+			where: {
+				AND: {
+					organizationId: parseInt(params.id),
+					userId: user.id
+				} 
+			}
+		})
+
+		if(!orgUser?.owner) {
+			return {
+				success: false,
+				message: "Only an owner can delete an organization."
+			}
+		}
 
 		await prisma.organization.delete({
 			where: {
