@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { addToast } from '$lib/components/toaster';
 
 const formSchema = z.object({
-	success: z.boolean(),
+	success: z.boolean().optional(),
 	message: z.string().optional().nullable()
 });
 
@@ -16,7 +16,14 @@ interface Options {
 export function handleForm(unparsedForm: unknown, successMessage?: string, options?: Options) {
 	if (unparsedForm === null) return;
 
-	const form: Form = formSchema.parse(unparsedForm);
+
+	const form: Form;
+	try {
+		form = formSchema.parse(unparsedForm.data);
+	} catch (e) {
+		return;
+	}
+	
 
 	if (!form.success) {
 		return;
