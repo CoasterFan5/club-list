@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
 import { createClubPermissionsFromUser } from '$lib/permissions/clubPermissions.js';
+import { createOrgPermissionsFromUser } from '$lib/permissions/orgPermissions.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { verifySession } from '$lib/server/verifySession';
 
@@ -111,13 +112,26 @@ export const actions = {
 				where: {
 					clubId: club.id
 				}
+			},
+			orgUsers: {
+				where: {
+					organizationId: club.organizationId
+				},
+				include: {
+					role: true
+				}
 			}
 		});
 
-		if (!user?.clubUsers[0]?.owner) {
+		const isOwner = user?.clubUsers[0]?.owner;
+		const isOrganizationAdmin = createOrgPermissionsFromUser(user).admin;
+
+		if (!isOwner && !isOrganizationAdmin) {
 			return {
 				success: false,
-				message: 'Only owner can delete club'
+				message: isOwner
+					? 'You are not the owner of this club'
+					: 'You are not an admin of this organization'
 			};
 		}
 
