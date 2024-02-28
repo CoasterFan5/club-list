@@ -129,7 +129,7 @@ export const actions = {
 		if (!isOwner && !isOrganizationAdmin) {
 			return {
 				success: false,
-				message: isOwner
+				message: !isOwner
 					? 'You are not the owner of this club'
 					: 'You are not an admin of this organization'
 			};
