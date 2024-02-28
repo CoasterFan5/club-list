@@ -73,6 +73,8 @@ test('invalid email is not accepted', async ({ page }) => {
 test('changing password works', async ({ page, email }) => {
 	await page.goto('/profile');
 
+	await page.waitForSelector('body.started', { timeout: 5000 });
+
 	// Change the password
 	await page.locator('text=Change Password').click();
 	await page.locator('input[name="oldPassword"]').fill('password');
