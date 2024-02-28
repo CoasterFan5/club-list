@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Input from '$lib/components/Input.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
@@ -11,11 +14,28 @@
 	let name = data.club.name || '';
 	let imgURL = data.club.imageURL || '';
 
+	let confirmInput = '';
+
 	$: handleForm(form, 'Club Updated!');
 </script>
 
+{#if $page.state.showingModal == 'deleteClub'}
+	<Modal on:close={() => history.back()}>
+		<h2>Delete Club?</h2>
+		<p>This will remove all club members and roles</p>
+		<p>Type <strong>{data.club.name}</strong> to confirm</p>
+
+		<Input bg="var(--bgPure)" label="Club Name" bind:value={confirmInput} />
+		<hr />
+		<form action="?/deleteClub" method="post" use:enhance>
+			<Button disabled={confirmInput != data.club.name} value="Delete Club" />
+		</form>
+	</Modal>
+{/if}
+
 <div class="wrap">
 	<form
+		class="displayWrap"
 		action="?/updateClub"
 		method="post"
 		use:enhance={() =>
@@ -37,6 +57,19 @@
 			<Button type="submit" value="Save" />
 		</div>
 	</form>
+	<div class="displayWrap">
+		<h2>Danger Zone</h2>
+		<div class="formItem">
+			<Button
+				value="Delete Club"
+				on:click={() => {
+					pushState('', {
+						showingModal: 'deleteClub'
+					});
+				}}
+			/>
+		</div>
+	</div>
 </div>
 
 <style lang="scss">
@@ -44,15 +77,16 @@
 		width: 100%;
 		height: 100%;
 		display: flex;
-		align-items: start;
-		justify-content: center;
+		align-items: center;
+		justify-content: start;
+		flex-direction: column;
 	}
 	.formItem {
 		width: 100%;
 		margin: 7px 0px;
 		display: flex;
 	}
-	form {
+	.displayWrap {
 		padding: 50px;
 		background: var(--bgPure);
 		box-sizing: border-box;
@@ -64,5 +98,8 @@
 		margin-top: 50px;
 		justify-content: center;
 		border-radius: 5px;
+	}
+	hr {
+		border: 0px;
 	}
 </style>
