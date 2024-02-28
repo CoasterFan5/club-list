@@ -82,9 +82,10 @@ test('changing password works', async ({ page, email }) => {
 	await page.locator('input[name="confirmPassword"]').fill('newPassword');
 	
 	// Click the button next to the confirm password input
-	await page.locator(':nth-match(button:text("Change Password"), 2)').click();
+	await page.locator(':nth-match(button:text("Change Password"), 1)').click();
 	
 	await page.reload();
+	await page.locator('body.started').waitFor({ state: 'attached', timeout: 5000 });
 
 	// Make sure the password was changed
 	await page.locator('text=Log Out').click();
