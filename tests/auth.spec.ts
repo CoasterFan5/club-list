@@ -14,11 +14,11 @@ test.describe.configure({ mode: 'parallel' });
  */
 async function login(page: Page, username: string, password: string) {
 	await page.goto('/');
-	await page.waitForSelector('body.started', { timeout: 5000 });
+	await page.locator('body.started').waitFor({ state: 'attached', timeout: 5000 });
 	await page.getByText('Log In').click();
 	await page.waitForURL('/login');
 
-	await page.waitForSelector('body.started', { timeout: 5000 });
+	await page.locator('body.started').waitFor({ state: 'attached', timeout: 5000 });
 
 	await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
 
@@ -38,7 +38,7 @@ test('login page works as expected', async ({ page }) => {
 test('logging in with the wrong password shows an error', async ({ page }) => {
 	await page.goto('/login');
 
-	await page.waitForSelector('body.started', { timeout: 5000 });
+	await page.locator('body.started').waitFor({ state: 'attached', timeout: 5000 });
 
 	await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
 
@@ -51,7 +51,7 @@ test('logging in with the wrong password shows an error', async ({ page }) => {
 
 test('register page works as expected', async ({ page }) => {
 	await page.goto('/get-started');
-	await page.waitForSelector('body.started', { timeout: 5000 });
+	await page.locator('body.started').waitFor({ state: 'attached', timeout: 5000 });
 
 	await expect(page.getByRole('heading', { name: 'Register' })).toBeVisible();
 
@@ -69,7 +69,7 @@ test('register page works as expected', async ({ page }) => {
 
 test('registration override errors out', async ({ page }) => {
 	await page.goto('/get-started');
-	await page.waitForSelector('body.started', { timeout: 5000 });
+	await page.locator('body.started').waitFor({ state: 'attached', timeout: 5000 });
 
 	await expect(page.getByRole('heading', { name: 'Register' })).toBeVisible();
 

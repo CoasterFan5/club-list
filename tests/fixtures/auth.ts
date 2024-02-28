@@ -34,7 +34,7 @@ export const test = baseTest.extend<object, { workerStorageState: string, email:
 
 			// Perform authentication steps. Replace these actions with your own.
 			await page.goto('/get-started');
-			await page.waitForSelector('body.started', { timeout: 5000 });
+			await page.locator('body.started').waitFor({ state: 'attached', timeout: 5000 });
 
 			await expect(page.getByRole('heading', { name: 'Register' })).toBeVisible();
 
