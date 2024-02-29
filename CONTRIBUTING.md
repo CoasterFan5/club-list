@@ -29,7 +29,17 @@ The frontend is created in [SvelteKit](https://kit.svelte.dev/). The start comma
 
 We use [playwright](https://playwright.dev/) and [vitest](https://vitest.dev/) for end to end and unit testing. For both of these, we have `test`, `test:integration`, and `test:unit`. Unit tests are located in the `src` folder, while e2e tests are in the `tests` folder.
 
-To debug e2e tests, run `pnpm run test:integration --debug`.
+To debug e2e tests, run
+
+```bash
+pnpm run test:integration --debug
+```
+
+To run specific e2e tests, run
+
+```bash
+pnpm run test:integration -- -g "test name"
+```
 
 ## Updating the database
 

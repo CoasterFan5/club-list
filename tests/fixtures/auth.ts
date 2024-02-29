@@ -6,13 +6,16 @@ import path from 'path';
 const sessionId = crypto.randomUUID();
 
 export * from '@playwright/test';
-export const test = baseTest.extend<object, { workerStorageState: string }>({
+export const test = baseTest.extend<object, { workerStorageState: string, email: string }>({
 	// Use the same storage state for all tests in this worker.
 	storageState: ({ workerStorageState }, use) => use(workerStorageState),
+	// We use this fixture parameter to expose email to tests.
+	// eslint-disable-next-line no-empty-pattern
+	email: [({ }, use) => use(`test${crypto.randomUUID()}@card.board`), { scope: 'worker' }],
 
 	// Authenticate once per worker with a worker-scoped fixture.
 	workerStorageState: [
-		async ({ browser }, use) => {
+		async ({ browser, email }, use) => {
 			// Use parallelIndex as a unique identifier for each worker.
 			const id = test.info().parallelIndex;
 			const fileName = path.resolve(test.info().project.outputDir, `.auth/${sessionId}-${id}.json`);
@@ -31,13 +34,13 @@ export const test = baseTest.extend<object, { workerStorageState: string }>({
 
 			// Perform authentication steps. Replace these actions with your own.
 			await page.goto('/get-started');
-			await page.waitForSelector('body.started', { timeout: 5000 });
+			await page.locator('body.started').waitFor({ state: 'attached', timeout: 5000 });
 
 			await expect(page.getByRole('heading', { name: 'Register' })).toBeVisible();
 
 			await page.locator('input[name="firstName"]').fill('Test');
 			await page.locator('input[name="lastName"]').fill('User');
-			await page.locator('input[name="email"]').fill(`test${crypto.randomUUID()}@card.board`);
+			await page.locator('input[name="email"]').fill(email);
 			await page.locator('input[name="password"]').fill('password');
 			await page.locator('input[name="confirmPassword"]').fill('password');
 			await page.locator('button[type="submit"]').click();
@@ -50,6 +53,7 @@ export const test = baseTest.extend<object, { workerStorageState: string }>({
 
 			await page.context().storageState({ path: fileName });
 			await page.close();
+
 			await use(fileName);
 		},
 		{ scope: 'worker' }
