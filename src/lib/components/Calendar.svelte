@@ -12,9 +12,12 @@
 	import Button from './Button.svelte';
 	import Modal from './Modal.svelte';
 
+	export let orgId: string | undefined = undefined;
+	export let clubId: string | undefined = undefined;
+
 	export let events: Event[] = [];
-	export let selectedDay = dayjs();
 	export let allowAddEvent = false;
+	let selectedDay = dayjs();
 
 	dayjs.extend(dayOfYear);
 	dayjs.extend(utc);
@@ -145,9 +148,7 @@
 			{#if allowAddEvent}
 				<Button
 					value="Add Event"
-					on:click={() => {
-						pushState('', { showingModal: 'addEventModal' });
-					}}
+					href="/org/{orgId}/club/{clubId}/events/add/"
 				/>
 			{/if}
 		{/if}
