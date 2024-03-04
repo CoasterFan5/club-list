@@ -15,6 +15,19 @@
 	import Select from '$lib/components/Select.svelte';
 	import { RRule } from '$lib/utils/rrule.js';
 
+	function ordinal(number: number) {
+		switch (number) {
+			case 1:
+				return "st";
+			case 2:
+				return "nd";
+			case 3:
+				return "rd";
+			default:
+				return "th";
+		}
+	}
+
 	const freqMapping: Record<string, Frequency> = {
 		daily: RRule.DAILY,
 		weekly: RRule.WEEKLY,
@@ -46,32 +59,39 @@
 	let repeats = false;
 	let allDay = false;
 	let repeatType = 'indefinitely';
+
 	let interval = '1';
-	let timeZone = 'America/Los_Angeles';
 	$: parsedInterval = parseInt(interval);
+
+	let timeZone = 'America/Los_Angeles';
+
 	let count = '1';
 	$: parsedCount = parseInt(count);
+
 	let inputFrequency = 'weekly';
 	$: derivedFrequency = freqMapping[inputFrequency];
+
 	let upTo = new Date().toISOString().split('T')[0];
 	let useMonthlyDay = false;
 	let dayOfTheMonth = 0;
-	let weeks = [
-		...emptyArray(5)
-			.map((_, i) => i + 1)
-			.map((week) => ({
-				name: week.toString(),
-				ordinal: week,
-				enabled: false
-			})),
-		...emptyArray(4)
-			.map((_, i) => i + 1)
-			.map((week) => ({
-				name: `${week} to last`,
-				ordinal: -week,
-				enabled: false
-			}))
-	];
+
+	let weeksFront = emptyArray(5)
+		.map((_, i) => i + 1)
+		.map((week) => ({
+			name: `${week}${ordinal(week)}`,
+			ordinal: week,
+			enabled: false
+		}));
+	let weeksBack = emptyArray(4)
+		.map((_, i) => i + 1)
+		.map((week) => ({
+			name: `${week}${ordinal(week)} to last`,
+			ordinal: -week,
+			enabled: false
+		}));
+	
+	$: weeks = [...weeksFront, ...weeksBack];
+	
 	$: enabledWeeks = weeks.filter((week) => week.enabled).map((week) => week.ordinal);
 	$: rrule = new RRule({
 		freq: derivedFrequency,
@@ -209,7 +229,7 @@
 						bind:value={timeZone}
 					>
 						{#each timezones as timezone}
-							<option value={timezone.tzCode}>{timezone.name}</option>
+							<option value={timezone.tzCode}>{timezone.label.replaceAll("_", " ")}</option>
 						{/each}
 					</Select>
 				</div>
@@ -234,10 +254,10 @@
 								label="Repeats Every"
 								bind:value={inputFrequency}
 							>
-								<option value="daily">Days</option>
-								<option value="weekly">Weeks</option>
-								<option value="monthly">Months</option>
-								<option value="yearly">Years</option>
+								<option value="daily">Day</option>
+								<option value="weekly">Week</option>
+								<option value="monthly">Month</option>
+								<option value="yearly">Year</option>
 							</Select>
 						</div>
 						<div class="input">
@@ -275,12 +295,24 @@
 								</div>
 							{/each}
 							<p>On the</p>
-							{#each weeks as week}
-								<div class="weekdayInput">
-									<Checkbox name="week{week.name.replace('-', '_')}" bind:checked={week.enabled} />
-									<label for={week.name}>{week.name}</label>
+							<div class="weeksContainer">
+								<div class="weeks">
+									{#each weeksFront as week}
+										<div class="weekdayInput">
+											<Checkbox name="week{week.name.replace('-', '_')}" bind:checked={week.enabled} />
+											<label for={week.name}>{week.name}</label>
+										</div>
+									{/each}
 								</div>
-							{/each}
+								<div class="weeks">
+									{#each weeksBack as week}
+										<div class="weekdayInput">
+											<Checkbox name="week{week.name.replace('-', '_')}" bind:checked={week.enabled} />
+											<label for={week.name}>{week.name}</label>
+										</div>
+									{/each}
+								</div>
+							</div>
 						{/if}
 					{:else if inputFrequency !== 'daily'}
 						{#each weekdays as weekday}
@@ -389,5 +421,11 @@
 
 	.no-bottom-margin {
 		margin-bottom: 0;
+	}
+
+	.weeksContainer {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
 	}
 </style>
