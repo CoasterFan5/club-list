@@ -22,17 +22,18 @@ export const load = async ({ params, cookies }) => {
 		});
 	}
 
-	const isAlreadyMember = (user
-		? await prisma.orgUser.findFirst({
-				where: {
-					organizationId: org.id,
-					userId: user.id
-				}
-			})
-		: null) !== null
+	const isAlreadyMember =
+		(user
+			? await prisma.orgUser.findFirst({
+					where: {
+						organizationId: org.id,
+						userId: user.id
+					}
+				})
+			: null) !== null;
 
-	if(isAlreadyMember) {
-		throw redirect(303, `/org/${org.id}`)
+	if (isAlreadyMember) {
+		throw redirect(303, `/org/${org.id}`);
 	}
 
 	return {

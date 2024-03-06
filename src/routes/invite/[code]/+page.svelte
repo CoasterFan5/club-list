@@ -7,7 +7,9 @@
 
 <main>
 	<div class="card">
-		<div class="title">You've been invited to join: <span class="accent">{data.org.name}</span></div>
+		<div class="title">
+			You've been invited to join: <span class="accent">{data.org.name}</span>
+		</div>
 		<div class="options">
 			<div class="button">
 				{#if data.isLoggedIn}
@@ -25,11 +27,9 @@
 			</div>
 		</div>
 	</div>
-	
 </main>
 
 <style lang="scss">
-
 	.title {
 		display: flex;
 		flex-direction: column;
