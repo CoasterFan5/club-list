@@ -176,7 +176,7 @@
 									{#if !member.owner && data.canTransferOwner}
 										<button
 											class="actionButton"
-											title="Transfer Onwership"
+											title="Transfer Ownership"
 											on:click={() => {
 												startOwnershipTransfer(
 													member.userId,
