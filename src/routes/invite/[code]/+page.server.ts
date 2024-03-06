@@ -1,4 +1,4 @@
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 import { prisma } from '$lib/server/prismaConnection';
 import { verifyOptionalSession } from '$lib/server/verifySession.js';
@@ -22,19 +22,23 @@ export const load = async ({ params, cookies }) => {
 		});
 	}
 
-	const isAlreadyMember = user
+	const isAlreadyMember = (user
 		? await prisma.orgUser.findFirst({
 				where: {
 					organizationId: org.id,
 					userId: user.id
 				}
 			})
-		: null;
+		: null) !== null
+
+	if(isAlreadyMember) {
+		throw redirect(303, `/org/${org.id}`)
+	}
 
 	return {
 		joinCode: params.code,
 		org,
 		isLoggedIn: user !== null,
-		isAlreadyMember: isAlreadyMember !== null
+		isAlreadyMember: isAlreadyMember
 	};
 };
