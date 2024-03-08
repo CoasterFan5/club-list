@@ -148,7 +148,7 @@
 			{#if allowAddEvent}
 				<Button
 					value="Add Event"
-					href="/org/{orgId}/club/{clubId}/events/add/"
+					href="/org/{orgId}/club/{clubId}/events/add"
 				/>
 			{/if}
 		{/if}
