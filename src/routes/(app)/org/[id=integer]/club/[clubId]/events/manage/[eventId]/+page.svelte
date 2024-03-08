@@ -8,26 +8,26 @@
 	import { onMount, tick } from 'svelte';
 	import timezones from 'timezones-list';
 
+	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { RRule } from '$lib/utils/rrule.js';
-	import { enhance } from '$app/forms';
 
 	export let data;
 
 	function ordinal(number: number) {
 		switch (number) {
 			case 1:
-				return "st";
+				return 'st';
 			case 2:
-				return "nd";
+				return 'nd';
 			case 3:
-				return "rd";
+				return 'rd';
 			default:
-				return "th";
+				return 'th';
 		}
 	}
 
@@ -92,9 +92,9 @@
 			ordinal: -week,
 			enabled: false
 		}));
-	
+
 	$: weeks = [...weeksFront, ...weeksBack];
-	
+
 	$: enabledWeeks = weeks.filter((week) => week.enabled).map((week) => week.ordinal);
 	$: rrule = new RRule({
 		freq: derivedFrequency,
@@ -194,8 +194,12 @@
 	<h1>Add Event</h1>
 	<div class="formBody">
 		<div class="formBodyChild">
-			<div class="input"><Input value={data.event.title} name="title" label="Title" required /></div>
-			<div class="input"><Input value={data.event.description || ""} name="description" label="Description" /></div>
+			<div class="input">
+				<Input name="title" label="Title" required value={data.event.title} />
+			</div>
+			<div class="input">
+				<Input name="description" label="Description" value={data.event.description || ''} />
+			</div>
 			<input name="date" type="hidden" value={calculatedFormDate} />
 			<div class="input">
 				<Input
@@ -229,7 +233,7 @@
 					bind:value={timeZone}
 				>
 					{#each timezones as timezone}
-						<option value={timezone.tzCode}>{timezone.label.replaceAll("_", " ")}</option>
+						<option value={timezone.tzCode}>{timezone.label.replaceAll('_', ' ')}</option>
 					{/each}
 				</Select>
 			</div>
@@ -261,12 +265,7 @@
 						</Select>
 					</div>
 					<div class="input">
-						<Input
-							name="repeatInterval"
-							label="Count"
-							type="number"
-							bind:value={interval}
-						/>
+						<Input name="repeatInterval" label="Count" type="number" bind:value={interval} />
 					</div>
 				</div>
 				<!-- 
@@ -298,7 +297,10 @@
 							<div class="weeks">
 								{#each weeksFront as week}
 									<div class="weekdayInput">
-										<Checkbox name="week{week.name.replace('-', '_')}" bind:checked={week.enabled} />
+										<Checkbox
+											name="week{week.name.replace('-', '_')}"
+											bind:checked={week.enabled}
+										/>
 										<label for={week.name}>{week.name}</label>
 									</div>
 								{/each}
@@ -306,7 +308,10 @@
 							<div class="weeks">
 								{#each weeksBack as week}
 									<div class="weekdayInput">
-										<Checkbox name="week{week.name.replace('-', '_')}" bind:checked={week.enabled} />
+										<Checkbox
+											name="week{week.name.replace('-', '_')}"
+											bind:checked={week.enabled}
+										/>
 										<label for={week.name}>{week.name}</label>
 									</div>
 								{/each}
@@ -337,12 +342,7 @@
 					</div>
 					{#if repeatType == 'amount'}
 						<div class="input">
-							<Input
-								name="repeatEvery"
-								label="Amount of times"
-								type="number"
-								bind:value={count}
-							/>
+							<Input name="repeatEvery" label="Amount of times" type="number" bind:value={count} />
 						</div>
 					{:else if repeatType == 'upTo'}
 						<div class="input">

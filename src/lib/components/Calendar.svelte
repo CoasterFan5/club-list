@@ -146,10 +146,7 @@
 			{/if}
 
 			{#if allowAddEvent}
-				<Button
-					value="Add Event"
-					href="/org/{orgId}/club/{clubId}/events/add"
-				/>
+				<Button href="/org/{orgId}/club/{clubId}/events/add" value="Add Event" />
 			{/if}
 		{/if}
 	</Modal>

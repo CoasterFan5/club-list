@@ -16,11 +16,11 @@
 </script>
 
 <div class="wrap">
-	<Calendar 
+	<Calendar
 		allowAddEvent={true}
+		clubId={data.club.id.toString()}
 		events={data.events}
 		orgId={data.org.id.toString()}
-		clubId={data.club.id.toString()}
 	/>
 </div>
 

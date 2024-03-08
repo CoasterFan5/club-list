@@ -54,7 +54,7 @@ test('changing email works', async ({ page }) => {
 	await page.reload();
 
 	// Make sure the email was changed
-	await expect(page.locator('input[name="email"]')).toHaveValue('email@email.com')
+	await expect(page.locator('input[name="email"]')).toHaveValue('email@email.com');
 });
 
 test('invalid email is not accepted', async ({ page }) => {
@@ -80,10 +80,10 @@ test('changing password works', async ({ page, email }) => {
 	await page.locator('input[name="oldPassword"]').fill('password');
 	await page.locator('input[name="newPassword"]').fill('newPassword');
 	await page.locator('input[name="confirmPassword"]').fill('newPassword');
-	
+
 	// Click the button next to the confirm password input
 	await page.locator(':nth-match(button:text("Change Password"), 1)').click();
-	
+
 	await page.reload();
 	await page.locator('body.started').waitFor({ state: 'attached', timeout: 5000 });
 

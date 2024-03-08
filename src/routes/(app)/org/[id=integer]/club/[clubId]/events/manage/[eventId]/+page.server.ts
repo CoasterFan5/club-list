@@ -39,28 +39,26 @@ if (RRule) {
 	};
 }
 
-export const load = async ({parent, params}) => {
-
-	const parentData = await parent()
-	if(!parentData.clubPerms.admin && !parentData.clubPerms.manageEvents) {
-		throw redirect(303, `/org/${params.id}/club/${params.clubId}/events`)
+export const load = async ({ parent, params }) => {
+	const parentData = await parent();
+	if (!parentData.clubPerms.admin && !parentData.clubPerms.manageEvents) {
+		throw redirect(303, `/org/${params.id}/club/${params.clubId}/events`);
 	}
 
 	const event = await prisma.event.findUnique({
 		where: {
 			id: parseInt(params.eventId)
 		}
-	})
+	});
 
-	if(!event) {
-		throw redirect(303, `/org/${params.id}/club/${params.clubId}/events`)
+	if (!event) {
+		throw redirect(303, `/org/${params.id}/club/${params.clubId}/events`);
 	}
 
 	return {
 		event
-	}
-
-}
+	};
+};
 
 export const actions = {
 	default: formHandler(
@@ -212,15 +210,14 @@ export const actions = {
 				error(401, 'No Permissions');
 			}
 
-
 			const eventCheck = await prisma.event.findFirst({
 				where: {
 					id: parseInt(params.eventId)
 				}
-			})
+			});
 
-			if(!eventCheck) {
-				error(400, "invalid event");
+			if (!eventCheck) {
+				error(400, 'invalid event');
 			}
 
 			await prisma.event.update({

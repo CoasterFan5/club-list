@@ -6,12 +6,12 @@ import path from 'path';
 const sessionId = crypto.randomUUID();
 
 export * from '@playwright/test';
-export const test = baseTest.extend<object, { workerStorageState: string, email: string }>({
+export const test = baseTest.extend<object, { workerStorageState: string; email: string }>({
 	// Use the same storage state for all tests in this worker.
 	storageState: ({ workerStorageState }, use) => use(workerStorageState),
 	// We use this fixture parameter to expose email to tests.
 	// eslint-disable-next-line no-empty-pattern
-	email: [({ }, use) => use(`test${crypto.randomUUID()}@card.board`), { scope: 'worker' }],
+	email: [({}, use) => use(`test${crypto.randomUUID()}@card.board`), { scope: 'worker' }],
 
 	// Authenticate once per worker with a worker-scoped fixture.
 	workerStorageState: [

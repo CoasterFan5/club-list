@@ -1,24 +1,25 @@
-import { redirect } from "@sveltejs/kit"
+import { redirect } from '@sveltejs/kit';
 
-import { createClubPermissionsFromUser } from "$lib/permissions/clubPermissions"
+import { createClubPermissionsFromUser } from '$lib/permissions/clubPermissions';
 
-import { prisma } from "./prismaConnection"
+import { prisma } from './prismaConnection';
 
-
-export const getClubUserFromSession = async (session: string | undefined, clubId: string | undefined) => {
-
-	if(!clubId) {
-		throw redirect(303, "/dashboard")
+export const getClubUserFromSession = async (
+	session: string | undefined,
+	clubId: string | undefined
+) => {
+	if (!clubId) {
+		throw redirect(303, '/dashboard');
 	}
 
 	const club = await prisma.club.findFirst({
 		where: {
 			id: parseInt(clubId)
 		}
-	})
+	});
 
-	if(!club) {
-		throw redirect(303, "/dashboard")
+	if (!club) {
+		throw redirect(303, '/dashboard');
 	}
 
 	const user = await prisma.user.findFirst({
@@ -44,18 +45,16 @@ export const getClubUserFromSession = async (session: string | undefined, clubId
 				}
 			}
 		}
-	})
+	});
 
-	if(!user) {
-		throw redirect(303, "/login")
+	if (!user) {
+		throw redirect(303, '/login');
 	}
 
-	const perms = createClubPermissionsFromUser(user, club)
-
+	const perms = createClubPermissionsFromUser(user, club);
 
 	return {
 		clubUser: user.clubUsers[0],
 		perms: perms
-	}
-
-}
+	};
+};

@@ -1,4 +1,5 @@
-import { error } from "@sveltejs/kit";
+import { error } from '@sveltejs/kit';
+
 import { prisma } from '$lib/server/prismaConnection';
 
 export const load = async ({ parent }) => {
