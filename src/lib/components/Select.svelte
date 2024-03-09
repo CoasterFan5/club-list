@@ -4,6 +4,8 @@
 	export let value: string;
 	export let id: string | null = null;
 	export let style = '';
+
+	export let bg = 'var(--bg)';
 </script>
 
 <div {style} class="wrap">
@@ -11,7 +13,7 @@
 		<span class="label">
 			{label}
 		</span>
-		<span class="labelBG">
+		<span class="labelBG" style="--background: {bg}">
 			{label}
 		</span>
 		<select {id} {name} {style} placeholder={label} bind:value on:click on:blur on:focus on:change>
