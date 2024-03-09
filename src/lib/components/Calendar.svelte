@@ -95,6 +95,11 @@
 	</div>
 </div>
 <div class="calendar">
+	{#each ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as day}
+		<div class="dayHeader">
+			<p>{day}</p>
+		</div>
+	{/each}
 	{#each calendarDays as loopDay (loopDay.toDate())}
 		{@const inMonth = day.month() === loopDay.month()}
 
@@ -272,7 +277,7 @@
 
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
-		grid-template-rows: repeat(5, 1fr);
+		grid-template-rows: auto repeat(4, 1fr);
 		box-sizing: border-box;
 	}
 
@@ -328,8 +333,8 @@
 		align-items: center;
 		box-sizing: border-box;
 		flex-grow: 1;
-		height: calc(98%);
-		width: calc(98%);
+		height: 98%;
+		width: 98%;
 		color: var(--textDark);
 
 		background-color: #fff;
@@ -373,6 +378,16 @@
 
 	.accent {
 		color: var(--accent);
+	}
+
+	.dayHeader {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: var(--background);
+		background-color: #dddddd22;
+		height: 98%;
+		width: 98%;
 	}
 
 	@media screen and (max-width: 500px) {
