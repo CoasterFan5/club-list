@@ -50,9 +50,13 @@ export const actions = {
 				}
 			});
 			
-			const club = await prisma.club.findUnique({
+			const club = await prisma.club.findFirst({
 				where: {
-					id: eventId,
+					events: {
+						some: {
+							id: eventId
+						}
+					}
 				},
 				select: {
 					id: true,
