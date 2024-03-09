@@ -63,12 +63,12 @@
 	let repeatType = 'indefinitely';
 
 	let interval = '1';
-	$: parsedInterval = parseInt(interval);
+	$: parsedInterval = safeNumber(interval);
 
 	let timeZone = 'America/Los_Angeles';
 
 	let count = '1';
-	$: parsedCount = parseInt(count);
+	$: parsedCount = safeNumber(count);
 
 	let inputFrequency = 'weekly';
 	$: derivedFrequency = freqMapping[inputFrequency];
@@ -97,7 +97,7 @@
 	$: enabledWeeks = weeks.filter((week) => week.enabled).map((week) => week.ordinal);
 	$: rrule = new RRule({
 		freq: derivedFrequency,
-		interval: parsedInterval,
+		interval: parsedInterval || 1,
 		dtstart: new Date(formDate),
 		wkst: RRule.SU,
 		count: repeatType === 'amount' ? parsedCount : undefined,

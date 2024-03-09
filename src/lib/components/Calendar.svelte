@@ -12,6 +12,8 @@
 	import Button from './Button.svelte';
 	import Modal from './Modal.svelte';
 
+	import BxPencil from '~icons/bx/pencil';
+
 	export let orgId: string | undefined = undefined;
 	export let clubId: string | undefined = undefined;
 
@@ -138,7 +140,14 @@
 			{:else}
 				{#each eventsOnThisDay as [event, days]}
 					<div class="event">
-						<h2>{event.title}</h2>
+						<div class="title">
+							<h2>{event.title}</h2>
+							<div class="edit">
+								<a href="/org/{orgId}/club/{clubId}/events/edit/{event.id}">
+									<BxPencil />
+								</a>
+							</div>
+						</div>
 						<p class="subDescription">At {days[0].format('h:mm A')}</p>
 						<p>{event.description}</p>
 					</div>
@@ -254,7 +263,14 @@
 		}
 
 		h2 {
-			margin-bottom: 0;
+			margin: 0;
+		}
+
+		.title {
+			margin-top: 1rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
 		}
 	}
 

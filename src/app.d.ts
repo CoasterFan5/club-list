@@ -1,5 +1,5 @@
-// See https://kit.svelte.dev/docs/types#app
-// For information about these interfaces
+import 'unplugin-icons/types/svelte'
+
 declare global {
 	namespace App {
 		interface PageState {
