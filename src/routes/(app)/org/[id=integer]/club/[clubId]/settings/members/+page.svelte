@@ -176,7 +176,7 @@
 									{#if !member.owner && data.canTransferOwner}
 										<button
 											class="actionButton"
-											title="Transfer Onwership"
+											title="Transfer Ownership"
 											on:click={() => {
 												startOwnershipTransfer(
 													member.userId,
@@ -245,6 +245,8 @@
 		border-radius: 50%;
 		border: 1px solid var(--accent);
 		margin-right: 10px;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
 	}
 	.role {
 		position: relative;

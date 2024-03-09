@@ -41,13 +41,14 @@
 	}
 	.inner {
 		width: 100%;
-		height: 90%;
+		height: 100%;
 		min-width: 500px;
 		padding: 50px;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		overflow-y: auto;
 	}
 	.sidebar {
 		background: var(--bgMid);
@@ -63,6 +64,8 @@
 		width: 40%;
 		padding: 50px 0px;
 		box-sizing: border-box;
+		position: relative;
+		top: 0px;
 	}
 	.top {
 		height: 100%;
