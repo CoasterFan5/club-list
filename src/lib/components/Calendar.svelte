@@ -13,6 +13,7 @@
 	import Modal from './Modal.svelte';
 
 	import BxPencil from '~icons/bx/pencil';
+	import BxTrash from '~icons/bx/trash';
 
 	export let orgId: string | undefined = undefined;
 	export let clubId: string | undefined = undefined;
@@ -143,13 +144,20 @@
 						<div class="title">
 							<h2>{event.title}</h2>
 							<div class="edit">
-								<a href="/org/{orgId}/club/{clubId}/events/edit/{event.id}">
-									<BxPencil />
-								</a>
+								{#if allowAddEvent}
+									<a href="/org/{orgId}/club/{clubId}/events/edit/{event.id}">
+										<BxPencil />
+									</a>
+									<button on:click={() => pushState('', { showingModal: 'deleteEvent', eventId: event.id })}>
+										<BxTrash />
+									</button>
+								{/if}
 							</div>
 						</div>
 						<p class="subDescription">At {days[0].format('h:mm A')}</p>
-						<p>{event.description}</p>
+						{#if event.description}
+							<p>{event.description}</p>
+						{/if}
 					</div>
 				{/each}
 			{/if}
@@ -157,6 +165,24 @@
 			{#if allowAddEvent}
 				<Button href="/org/{orgId}/club/{clubId}/events/add" value="Add Event" />
 			{/if}
+		{/if}
+	</Modal>
+{/if}
+
+{#if $page.state.showingModal === 'deleteEvent'}
+	<Modal on:close={() => history.back()}>
+		{@const eventId = $page.state.eventId}
+		{@const event = events.find((e) => e.id === eventId)}
+		{#if event}
+			<h1>Delete Event <span class="accent">{event.title}</span></h1>
+			<p>Are you sure you want to delete this event?</p>
+			<p>This will delete the event for <b>everyone</b> who is in the club.</p>
+			<div class="deleteOptions">
+				<Button value="Yes" />
+				<Button value="No" on:click={() => history.back()} />
+			</div>
+		{:else}
+			<p>Event not found.</p>
 		{/if}
 	</Modal>
 {/if}
@@ -250,7 +276,8 @@
 		box-sizing: border-box;
 		text-align: left;
 		padding: 1rem;
-		margin: 2rem;
+		margin: 0.5rem 1rem;
+		margin-top: 0;
 		width: 100%;
 		height: 100%;
 		background-color: #ddd;
@@ -271,6 +298,16 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+
+			button {
+				all: unset;
+				cursor: pointer;
+				height: 100%;
+				aspect-ratio: 1/1;
+				box-sizing: border-box;
+				border-radius: 50%;
+				color: #0066CC;
+			}
 		}
 	}
 
@@ -321,6 +358,17 @@
 			background-color: var(--accent);
 			color: #fff;
 		}
+	}
+
+	.deleteOptions {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		gap: 10px;
+	}
+
+	.accent {
+		color: var(--accent);
 	}
 
 	@media screen and (max-width: 500px) {
