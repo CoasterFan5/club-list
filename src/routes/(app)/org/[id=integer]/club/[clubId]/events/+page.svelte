@@ -6,6 +6,7 @@
 	import utc from 'dayjs/plugin/utc';
 
 	import Calendar from '$lib/components/Calendar.svelte';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
 
@@ -13,6 +14,9 @@
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
 	dayjs.extend(advancedFormat);
+
+	export let form;
+	$: handleForm(form, 'Event updated!');
 </script>
 
 <div class="wrap">

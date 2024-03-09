@@ -14,6 +14,7 @@
 
 	import BxPencil from '~icons/bx/pencil';
 	import BxTrash from '~icons/bx/trash';
+	import { enhance } from '$app/forms';
 
 	export let orgId: string | undefined = undefined;
 	export let clubId: string | undefined = undefined;
@@ -178,7 +179,10 @@
 			<p>Are you sure you want to delete this event?</p>
 			<p>This will delete the event for <b>everyone</b> who is in the club.</p>
 			<div class="deleteOptions">
-				<Button value="Yes" />
+				<form use:enhance action="/org/{orgId}/club/{clubId}/events?/delete" method="post">
+					<input type="hidden" name="eventId" value="{eventId}" />
+					<Button type="submit" value="Yes" />
+				</form>
 				<Button value="No" on:click={() => history.back()} />
 			</div>
 		{:else}
