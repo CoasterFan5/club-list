@@ -5,8 +5,12 @@ import Tooltip from './Tooltip.svelte';
 
 let idInc = 0;
 
-export function tooltip(element: HTMLElement, text: string) {
+export function tooltip(element: HTMLElement, text: string | undefined) {
 	const posX = element.getBoundingClientRect().x;
+
+	if (!text) {
+		return;
+	}
 
 	const tooltipElement = new Tooltip({
 		props: {
@@ -36,6 +40,10 @@ export function tooltip(element: HTMLElement, text: string) {
 
 	const mouseOver = () => {
 		if (active) {
+			return;
+		}
+
+		if (text == undefined) {
 			return;
 		}
 

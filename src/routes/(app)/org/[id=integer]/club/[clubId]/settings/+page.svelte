@@ -13,7 +13,6 @@
 	export let form;
 
 	let name = data.club.name || '';
-	let imgURL = data.club.imageURL || '';
 
 	let confirmInput = '';
 
@@ -34,7 +33,7 @@
 		fileUploadSubmit.click();
 	};
 
-	const dropHandler = async (e: DragEvent) => {
+	const dropHandler = (e: DragEvent) => {
 		e.preventDefault();
 		if (!e.dataTransfer) {
 			return;
@@ -63,12 +62,12 @@
 
 <div class="wrap">
 	<div class="inner">
-		<form hidden method="post" action="?/uploadClubImage" enctype="multipart/form-data" use:enhance>
+		<form action="?/uploadClubImage" enctype="multipart/form-data" hidden method="post" use:enhance>
 			<input
-				type="file"
-				accept="image/*"
-				name="file"
 				bind:this={fileInputBox}
+				name="file"
+				accept="image/*"
+				type="file"
 				on:change={submitNewImage}
 			/>
 			<button bind:this={fileUploadSubmit} />
@@ -101,7 +100,7 @@
 			<h2>Club Image</h2>
 			<div class="formItem">
 				<div class="fileUpload">
-					<img src={data.club.imageURL} alt="club" />
+					<img alt="club" src={data.club.imageURL} />
 					<button
 						class="cover"
 						type="button"
@@ -109,10 +108,10 @@
 						on:dragover={dragOverHandler}
 						on:drop={dropHandler}
 					>
-						<svg width="50%" height="50%" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"
-							><path d="M11 15h2V9h3l-4-5-4 5h3z"></path><path
+						<svg style="fill: rgba(255, 255, 255, 1);" height="50%" viewBox="0 0 24 24" width="50%"
+							><path d="M11 15h2V9h3l-4-5-4 5h3z" /><path
 								d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"
-							></path></svg
+							/></svg
 						>
 					</button>
 				</div>
