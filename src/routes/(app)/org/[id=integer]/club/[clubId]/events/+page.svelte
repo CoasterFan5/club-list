@@ -5,10 +5,8 @@
 	import timezone from 'dayjs/plugin/timezone';
 	import utc from 'dayjs/plugin/utc';
 
-	import { page } from '$app/stores';
 	import Calendar from '$lib/components/Calendar.svelte';
-
-	import AddEvent from './AddEvent.svelte';
+	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
 
@@ -17,19 +15,18 @@
 	dayjs.extend(timezone);
 	dayjs.extend(advancedFormat);
 
-	let selectedDay: dayjs.Dayjs = dayjs();
-
-	let formDate: string = '';
-	$: formDate = dayjs(selectedDay).format('YYYY-MM-DD');
+	export let form;
+	$: handleForm(form, 'Event updated!');
 </script>
 
 <div class="wrap">
-	<Calendar allowAddEvent={true} events={data.events} bind:selectedDay />
+	<Calendar
+		allowAddEvent={true}
+		clubId={data.club.id.toString()}
+		events={data.events}
+		orgId={data.org.id.toString()}
+	/>
 </div>
-
-{#if $page.state.showingModal === 'addEventModal'}
-	<AddEvent {formDate} />
-{/if}
 
 <style lang="scss">
 	.wrap {

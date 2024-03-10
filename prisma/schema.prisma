@@ -135,6 +135,7 @@ model Event {
 	exclusions  String[]
 	room        String?
 	color       String?
+	draft 	 	Boolean @default(false)
 }
 
 model Announcement {
