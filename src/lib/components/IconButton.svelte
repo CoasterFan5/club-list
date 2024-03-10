@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { tooltip } from './tooltips/tooltip';
+
+	export let toolTipText: string | undefined = undefined;
 
 	/**
 	 * Href and formData are not compatible, use one or the other.
@@ -17,31 +20,39 @@
 		| undefined = undefined;
 </script>
 
-{#if href}
+<div class="wrap" use:tooltip={toolTipText}>
+	{#if href}
 	<a class="iconButton" {href} on:click>
 		<slot />
 	</a>
-{:else if formData}
-	<form class="formButton" action={formData.action} method={formData.method} use:enhance>
+	{:else if formData}
+		<form class="formButton" action={formData.action} method={formData.method} use:enhance>
+			<button class="iconButton" on:click>
+				<slot />
+			</button>
+		</form>
+	{:else}
 		<button class="iconButton" on:click>
 			<slot />
 		</button>
-	</form>
-{:else}
-	<button class="iconButton" on:click>
-		<slot />
-	</button>
-{/if}
+	{/if}
+</div>
+
 
 <style lang="scss">
+	.wrap {
+		height: 100%;
+		aspect-ratio: 1/1;
+		box-sizing: border-box;
+	}
 	.iconButton {
 		all: unset;
 		cursor: pointer;
-		padding: 5px;
 		height: 100%;
+		aspect-ratio: 1/1;
 		box-sizing: border-box;
 		margin: 0px;
-		aspect-ratio: 1/1;
+		padding: 5px;
 		display: flex;
 		align-items: center;
 		justify-content: center;

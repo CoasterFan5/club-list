@@ -1,4 +1,6 @@
+import { formHandler } from '$lib/bodyguard.js';
 import { prisma } from '$lib/server/prismaConnection.js';
+import { z } from 'zod';
 
 export const load = async ({parent}) => {
 	const parentData = await parent();
@@ -21,4 +23,12 @@ export const load = async ({parent}) => {
 	return {
 		bans: bannedMembers
 	}
+}
+
+export const actions = {
+	unbanMember: formHandler(z.object({
+		banId: z.coerce.number()
+	}), async({banId}, {params, cookies}) => {
+		
+	})
 }
