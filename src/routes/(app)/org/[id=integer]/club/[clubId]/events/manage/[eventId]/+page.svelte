@@ -89,7 +89,7 @@
 	let count = rruleData.options.count?.toString() ?? '1';
 	$: parsedCount = safeNumber(count);
 
-	let inputFrequency = oppositeFreqMapping[rruleData.options.freq] ?? RRule.WEEKLY;
+	let inputFrequency = oppositeFreqMapping[rruleData.options.freq] ?? 'weekly';
 	$: derivedFrequency = freqMapping[inputFrequency];
 
 	let upTo = new Date().toISOString().split('T')[0];
