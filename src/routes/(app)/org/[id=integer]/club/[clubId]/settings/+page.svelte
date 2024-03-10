@@ -164,6 +164,7 @@
 		margin-top: 25px;
 		justify-content: center;
 		border-radius: 5px;
+		box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
 
 		h2 {
 			margin: 5px;
