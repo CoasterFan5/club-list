@@ -5,16 +5,15 @@
 	import timezone from 'dayjs/plugin/timezone';
 	import utc from 'dayjs/plugin/utc';
 
+	import BxPencil from '~icons/bx/pencil';
+	import BxTrash from '~icons/bx/trash';
+	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { RRule } from '$lib/utils/rrule';
 
 	import Button from './Button.svelte';
 	import Modal from './Modal.svelte';
-
-	import BxPencil from '~icons/bx/pencil';
-	import BxTrash from '~icons/bx/trash';
-	import { enhance } from '$app/forms';
 
 	export let orgId: string | undefined = undefined;
 	export let clubId: string | undefined = undefined;
@@ -193,8 +192,8 @@
 			<p>Are you sure you want to delete this event?</p>
 			<p>This will delete the event for <b>everyone</b> who is in the club.</p>
 			<div class="deleteOptions">
-				<form use:enhance action="/org/{orgId}/club/{clubId}/events?/delete" method="post">
-					<input type="hidden" name="eventId" value={eventId} />
+				<form action="/org/{orgId}/club/{clubId}/events?/delete" method="post" use:enhance>
+					<input name="eventId" type="hidden" value={eventId} />
 					<Button type="submit" value="Yes" />
 				</form>
 				<Button value="No" on:click={() => history.back()} />

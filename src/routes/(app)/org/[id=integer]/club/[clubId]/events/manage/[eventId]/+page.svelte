@@ -9,12 +9,12 @@
 	import timezones from 'timezones-list';
 
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { RRule } from '$lib/utils/rrule.js';
-	import { goto } from '$app/navigation';
 
 	export let data;
 
@@ -36,6 +36,16 @@
 		weekly: RRule.WEEKLY,
 		monthly: RRule.MONTHLY,
 		yearly: RRule.YEARLY
+	};
+
+	const oppositeFreqMapping: Record<Frequency, string | undefined> = {
+		[RRule.SECONDLY]: undefined,
+		[RRule.MINUTELY]: undefined,
+		[RRule.HOURLY]: undefined,
+		[RRule.DAILY]: 'daily',
+		[RRule.WEEKLY]: 'weekly',
+		[RRule.MONTHLY]: 'monthly',
+		[RRule.YEARLY]: 'yearly'
 	};
 
 	dayjs.extend(dayOfYear);
@@ -79,12 +89,12 @@
 	let count = rruleData.options.count?.toString() ?? '1';
 	$: parsedCount = safeNumber(count);
 
-	let inputFrequency = 'weekly';
+	let inputFrequency = oppositeFreqMapping[rruleData.options.freq] ?? RRule.WEEKLY;
 	$: derivedFrequency = freqMapping[inputFrequency];
 
 	let upTo = new Date().toISOString().split('T')[0];
 	let useMonthlyDay = false;
-	let dayOfTheMonth = 0;
+	let dayOfTheMonth = rruleData.options.bymonthday[0] ?? 0;
 
 	let weeksFront = emptyArray(5)
 		.map((_, i) => i + 1)

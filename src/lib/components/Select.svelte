@@ -13,7 +13,7 @@
 		<span class="label">
 			{label}
 		</span>
-		<span class="labelBG" style="--background: {bg}">
+		<span style="--background: {bg}" class="labelBG">
 			{label}
 		</span>
 		<select {id} {name} {style} placeholder={label} bind:value on:click on:blur on:focus on:change>

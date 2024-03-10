@@ -24,7 +24,7 @@ export const load = async ({ cookies, params, request }) => {
 			title: 'New Event',
 			clubId: parseInt(params.clubId),
 			date: new RRule({
-				freq: freqMapping['daily'],
+				freq: freqMapping['weekly'],
 				dtstart: new Date(date),
 				count: 1
 			}).toString(),
