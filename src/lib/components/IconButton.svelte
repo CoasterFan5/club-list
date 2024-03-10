@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+
 	import { tooltip } from './tooltips/tooltip';
 
 	export let toolTipText: string | undefined = undefined;
@@ -60,10 +61,6 @@
 
 		&:hover {
 			background: var(--accent50);
-		}
-
-		svg {
-			height: 100%;
 		}
 	}
 

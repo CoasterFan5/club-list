@@ -103,8 +103,6 @@
 	let useMonthlyDay = false;
 	let dayOfTheMonth = rruleData.options.bymonthday[0] ?? 0;
 
-	console.log(rruleData.options);
-
 	let weeksFront = emptyArray(5)
 		.map((_, i) => i + 1)
 		.map((week) => ({
