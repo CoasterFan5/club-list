@@ -79,7 +79,9 @@
 		(rruleData.options.byweekday && rruleData.options.byweekday.length !== 0);
 
 	let allDay = false;
-	let repeatType = 'indefinitely';
+	let repeatType = rruleData.options.count !== null ? 'amount'
+		: rruleData.options.until !== null ? 'upTo'
+		: 'indefinitely';
 
 	let interval = rruleData.options.interval.toString();
 	$: parsedInterval = safeNumber(interval);
@@ -92,7 +94,7 @@
 	let inputFrequency = oppositeFreqMapping[rruleData.options.freq] ?? 'weekly';
 	$: derivedFrequency = freqMapping[inputFrequency];
 
-	let upTo = new Date().toISOString().split('T')[0];
+	let upTo = dayjs.utc(rruleData.options.until).toDate() ?? new Date().toISOString().split('T')[0];
 	let useMonthlyDay = false;
 	let dayOfTheMonth = rruleData.options.bymonthday[0] ?? 0;
 
