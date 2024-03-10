@@ -42,12 +42,13 @@
 		authorId: number | null;
 		date: string;
 		exclusions: string[];
+		draft: boolean;
 	};
 
 	const datesOnSameDay = (date1: dayjs.Dayjs) => (date2: dayjs.Dayjs) =>
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
 
-	$: daysActive = events.map(
+	$: daysActive = events.filter(event => !event.draft).map(
 		(event) =>
 			[
 				event,
@@ -151,7 +152,7 @@
 							<h2>{event.title}</h2>
 							<div class="edit">
 								{#if allowAddEvent}
-									<a href="/org/{orgId}/club/{clubId}/events/edit/{event.id}">
+									<a href="/org/{orgId}/club/{clubId}/events/manage/{event.id}">
 										<BxPencil />
 									</a>
 									<button on:click={() => pushState('', { showingModal: 'deleteEvent', eventId: event.id })}>

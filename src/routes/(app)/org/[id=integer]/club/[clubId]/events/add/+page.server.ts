@@ -15,7 +15,8 @@ export const load = async ({ cookies, params }) => {
 		data: {
 			title: 'New Event',
 			clubId: parseInt(params.clubId),
-			date: new RRule({}).toString()
+			date: new RRule({}).toString(),
+			draft: true
 		}
 	});
 

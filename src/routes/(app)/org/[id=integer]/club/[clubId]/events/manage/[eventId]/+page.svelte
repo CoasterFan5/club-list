@@ -14,6 +14,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { RRule } from '$lib/utils/rrule.js';
+	import { goto } from '$app/navigation';
 
 	export let data;
 
@@ -59,7 +60,7 @@
 	const emptyArray = (length: number) => Array(length).fill(0);
 
 	let repeats = false;
-	let allDay = false;
+	let allDay = data.event.allDay;
 	let repeatType = 'indefinitely';
 
 	let interval = '1';
@@ -189,8 +190,17 @@
 	});
 </script>
 
-<form method="POST" use:enhance>
-	<h1>Add Event</h1>
+<form method="POST" use:enhance={() => {
+	return async ({ update }) => {
+		await update();
+		await goto(`/org/${data.org.id}/club/${data.club.id}/events`);
+	}
+}}>
+	{#if data.event.draft}
+		<h1>Add Event</h1>
+	{:else}
+		<h1>Edit Event</h1>
+	{/if}
 	<div class="formBody">
 		<div class="formBodyChild">
 			<div class="input">

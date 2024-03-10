@@ -228,7 +228,8 @@ export const actions = {
 					title,
 					description: description ?? undefined,
 					date: rrule.toString(),
-					clubId: club.id
+					clubId: club.id,
+					draft: false
 				}
 			});
 		}
