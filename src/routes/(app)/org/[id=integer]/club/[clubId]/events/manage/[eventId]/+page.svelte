@@ -76,8 +76,8 @@
 		(rruleData.options.count !== null && rruleData.options.count !== 1) ||
 		rruleData.options.until !== null ||
 		rruleData.options.bymonthday.length !== 0 ||
-		(rruleData.options.byweekday && rruleData.options.byweekday.length !== 0);
-
+		(rruleData.options.byweekday && rruleData.options.byweekday.length > 1);
+	
 	let allDay = false;
 	let repeatType = rruleData.options.count !== null ? 'amount'
 		: rruleData.options.until !== null ? 'upTo'
@@ -97,6 +97,8 @@
 	let upTo = dayjs.utc(rruleData.options.until).format("YYYY-MM-DD") ?? new Date().toISOString().split('T')[0];
 	let useMonthlyDay = false;
 	let dayOfTheMonth = rruleData.options.bymonthday[0] ?? 0;
+
+	console.log(rruleData.options)
 
 	let weeksFront = emptyArray(5)
 		.map((_, i) => i + 1)
@@ -166,40 +168,36 @@
 	let weekdays: CalendarWeekday[] = [
 		{
 			name: 'Sunday',
-			enabled: false,
 			binding: RRule.SU
 		},
 		{
 			name: 'Monday',
-			enabled: false,
 			binding: RRule.MO
 		},
 		{
 			name: 'Tuesday',
-			enabled: false,
 			binding: RRule.TU
 		},
 		{
 			name: 'Wednesday',
-			enabled: false,
 			binding: RRule.WE
 		},
 		{
 			name: 'Thursday',
-			enabled: false,
 			binding: RRule.TH
 		},
 		{
 			name: 'Friday',
-			enabled: false,
 			binding: RRule.FR
 		},
 		{
 			name: 'Saturday',
-			enabled: false,
 			binding: RRule.SA
 		}
-	];
+	].map(weekday => ({
+		...weekday,
+		enabled: weekday.binding.n ? rruleData.options.byweekday?.includes(weekday.binding.n) ?? false : false
+	}))
 
 	$: enabledWeekdays = weekdays
 		.filter((weekday) => weekday.enabled)

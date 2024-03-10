@@ -10,7 +10,7 @@ import { freqMapping, RRule } from '$lib/utils/rrule';
 
 dayjs.extend(utc);
 
-const typeSafeObjectFromEntries = <const T extends ReadonlyArray<readonly [PropertyKey, unknown]>>(
+const typeUnsafeObjectFromEntries = <const T extends ReadonlyArray<readonly [PropertyKey, unknown]>>(
 	entries: T
 ): { [K in T[number] as K[0]]: K[1] } => {
 	return Object.fromEntries(entries) as { [K in T[number] as K[0]]: K[1] };
@@ -62,19 +62,19 @@ export const actions = {
 			dayOfTheMonth: z.coerce.number().optional().nullable(),
 
 			// Generates weekdaySunday...weekdaySaturday
-			...typeSafeObjectFromEntries(
+			...typeUnsafeObjectFromEntries(
 				weekdays.map(
 					(day) => [`weekday${day}` as const, z.coerce.boolean().optional().nullable()] as const
 				)
 			),
 
 			// Generates weekN and week_N from (1,5) and (1,4) respectively
-			...typeSafeObjectFromEntries(
+			...typeUnsafeObjectFromEntries(
 				([1, 2, 3, 4, 5] as const).map(
 					(i) => [`week${i}` as const, z.coerce.boolean().optional().nullable()] as const
 				)
 			),
-			...typeSafeObjectFromEntries(
+			...typeUnsafeObjectFromEntries(
 				([1, 2, 3, 4] as const).map(
 					(i) => [`week_${i}` as const, z.coerce.boolean().optional().nullable()] as const
 				)
