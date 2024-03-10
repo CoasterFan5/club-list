@@ -97,12 +97,12 @@
 	let inputFrequency = oppositeFreqMapping[rruleData.options.freq] ?? 'weekly';
 	$: derivedFrequency = freqMapping[inputFrequency];
 
+
 	let upTo =
 		dayjs.utc(rruleData.options.until).format('YYYY-MM-DD') ??
 		new Date().toISOString().split('T')[0];
 	let useMonthlyDay = false;
 	let dayOfTheMonth = rruleData.options.bymonthday[0] ?? 0;
-
 	let weeksFront = emptyArray(5)
 		.map((_, i) => i + 1)
 		.map((week) => ({
