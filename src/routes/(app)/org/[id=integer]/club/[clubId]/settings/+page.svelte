@@ -22,17 +22,17 @@
 	let fileInputBox: HTMLInputElement;
 	let fileUploadSubmit: HTMLButtonElement;
 	const openFileUpload = () => {
-		fileInputBox.click()
-	}
+		fileInputBox.click();
+	};
 
 	const submitNewImage = () => {
 		addToast({
-			type: "success",
-			message: "Uploading File...",
-			life: 3000,
-		})
-		fileUploadSubmit.click()
-	}
+			type: 'success',
+			message: 'Uploading File...',
+			life: 3000
+		});
+		fileUploadSubmit.click();
+	};
 
 	const dropHandler = async (e: DragEvent) => {
 		e.preventDefault();
@@ -40,7 +40,7 @@
 			return;
 		}
 		fileInputBox.files = e.dataTransfer.files;
-		submitNewImage()
+		submitNewImage();
 	};
 	const dragOverHandler = (e: Event) => {
 		e.preventDefault();
@@ -63,66 +63,76 @@
 
 <div class="wrap">
 	<div class="inner">
+		<form hidden method="post" action="?/uploadClubImage" enctype="multipart/form-data" use:enhance>
+			<input
+				type="file"
+				accept="image/*"
+				name="file"
+				bind:this={fileInputBox}
+				on:change={submitNewImage}
+			/>
+			<button bind:this={fileUploadSubmit} />
+		</form>
 
-	
+		<form
+			class="displayWrap"
+			action="?/updateClub"
+			method="post"
+			use:enhance={() =>
+				async ({ update }) => {
+					await update({ reset: false });
+				}}
+		>
+			<h2>General Settings</h2>
+			<div class="formItem">
+				<Input name="clubName" bg="white" label="Club Name" value={name} />
+			</div>
 
+			<div class="formItem">
+				<Checkbox name="joinable" checked={data.club.openToJoin} label="Allow Joining" />
+			</div>
 
-	<form hidden method="post" action="?/uploadClubImage" enctype="multipart/form-data" use:enhance>
-		<input type="file" accept="image/*" name="file" bind:this={fileInputBox} on:change={submitNewImage}/>
-		<button bind:this={fileUploadSubmit}/>
-	</form>
+			<div class="formItem">
+				<Button type="submit" value="Save" />
+			</div>
+		</form>
 
-	<form
-		class="displayWrap"
-		action="?/updateClub"
-		method="post"
-		use:enhance={() =>
-			async ({ update }) => {
-				await update({ reset: false });
-			}}
-	>
-			
-		<h2>General Settings</h2>
-		<div class="formItem">
-			<Input name="clubName" bg="white" label="Club Name" value={name} />
+		<div class="displayWrap">
+			<h2>Club Image</h2>
+			<div class="formItem">
+				<div class="fileUpload">
+					<img src={data.club.imageURL} alt="club" />
+					<button
+						class="cover"
+						type="button"
+						on:click={openFileUpload}
+						on:dragover={dragOverHandler}
+						on:drop={dropHandler}
+					>
+						<svg width="50%" height="50%" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"
+							><path d="M11 15h2V9h3l-4-5-4 5h3z"></path><path
+								d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"
+							></path></svg
+						>
+					</button>
+				</div>
+			</div>
 		</div>
-		
-		<div class="formItem">
-			<Checkbox name="joinable" checked={data.club.openToJoin} label="Allow Joining" />
-		</div>
 
-		<div class="formItem">
-			<Button type="submit" value="Save" />
-		</div>
-
-	</form>
-
-	<div class="displayWrap">
-		<h2>Club Image</h2>
-		<div class="formItem">
-			<div class="fileUpload">
-				 <img src="{data.club.imageURL}" alt="club"/>
-				 <button class="cover" type="button" on:click={openFileUpload} on:dragover={dragOverHandler} on:drop={dropHandler}>
-					<svg width="50%" height="50%" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"><path d="M11 15h2V9h3l-4-5-4 5h3z"></path><path d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"></path></svg>
-				 </button>
+		<div class="displayWrap">
+			<h2>Danger Zone</h2>
+			<div class="formItem">
+				<Button
+					value="Delete Club"
+					on:click={() => {
+						pushState('', {
+							showingModal: 'deleteClub'
+						});
+					}}
+				/>
 			</div>
 		</div>
 	</div>
-
-	<div class="displayWrap">
-		<h2>Danger Zone</h2>
-		<div class="formItem">
-			<Button
-				value="Delete Club"
-				on:click={() => {
-					pushState('', {
-						showingModal: 'deleteClub'
-					});
-				}}
-			/>
-		</div>
-	</div>
-</div>
 </div>
 
 <style lang="scss">
@@ -153,7 +163,7 @@
 		overflow: hidden;
 		position: relative;
 		aspect-ratio: 5/2;
-		
+
 		img {
 			height: 100%;
 			width: 100%;

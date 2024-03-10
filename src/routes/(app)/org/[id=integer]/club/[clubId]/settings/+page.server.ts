@@ -1,6 +1,6 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { redirect } from '@sveltejs/kit';
-import crypto from "crypto"
+import crypto from 'crypto';
 import { z } from 'zod';
 
 import { bucket, mediaurl } from '$env/static/private';
@@ -145,20 +145,20 @@ export const actions = {
 			message: 'Club Deleted'
 		};
 	},
-	uploadClubImage: async ({cookies, request, params}) => {
-		const formData = await request.formData()
+	uploadClubImage: async ({ cookies, request, params }) => {
+		const formData = await request.formData();
 
 		const club = await prisma.club.findFirst({
 			where: {
 				id: parseInt(params.clubId)
 			}
-		})
+		});
 
-		if(!club) {
+		if (!club) {
 			return {
 				success: false,
-				message: "No club."
-			}
+				message: 'No club.'
+			};
 		}
 
 		const user = await verifySession(cookies.get('session'), {
@@ -172,54 +172,50 @@ export const actions = {
 					role: true
 				}
 			}
-		})
+		});
 
-		const perms = createClubPermissionsFromUser(user, club)
+		const perms = createClubPermissionsFromUser(user, club);
 
-		if(!perms.admin && !perms.updateAppearance) {
+		if (!perms.admin && !perms.updateAppearance) {
 			return {
 				success: false,
-				message: "No perms"
-			}
+				message: 'No perms'
+			};
 		}
 
 		try {
-
-			if(!await formData.get("file")) {
+			if (!(await formData.get('file'))) {
 				return {
 					success: false,
-					message: "no file."
-				}
+					message: 'no file.'
+				};
 			}
 
-			
+			const file: File = (await formData.get('file')) as File;
 
-			const file: File = await formData.get("file") as File
-
-			if(!file) {
+			if (!file) {
 				return {
 					success: false,
-					message: "no file."
-				}
+					message: 'no file.'
+				};
 			}
 
-			const key = `clubImages/${crypto.randomBytes(16).toString("hex")}/${file.name}`
+			const key = `clubImages/${crypto.randomBytes(16).toString('hex')}/${file.name}`;
 
-			if(file.size > 10e6) {
+			if (file.size > 10e6) {
 				return {
 					success: false,
-					message: "Max size: 6mb"
-				}
+					message: 'Max size: 6mb'
+				};
 			}
-			if(key.length > 200) {
+			if (key.length > 200) {
 				return {
 					success: false,
-					message: "File name too long!"
-				}
+					message: 'File name too long!'
+				};
 			}
 
-
-			const fileBuffer = await file.arrayBuffer()
+			const fileBuffer = await file.arrayBuffer();
 			await S3.send(
 				new PutObjectCommand({
 					Bucket: bucket,
@@ -235,23 +231,18 @@ export const actions = {
 				data: {
 					imageURL: `${mediaurl}/${key}`
 				}
-			})
+			});
 
 			return {
 				success: true,
-				message: "File uploaded!"
-			}
-
-			
-
-
-		} catch(e) {
-			console.error(e)
+				message: 'File uploaded!'
+			};
+		} catch (e) {
+			console.error(e);
 			return {
 				success: false,
-				message: "General error caught!"
-			}
+				message: 'General error caught!'
+			};
 		}
-
 	}
 };
