@@ -60,8 +60,8 @@
 
 	let rruleData = RRule.fromString(data.event.date);
 
-	let formDate = dayjs(rruleData.options.dtstart).format('YYYY-MM-DD');
-	let formTime = dayjs(rruleData.options.dtstart).format('HH:mm');
+	let formDate = dayjs(rruleData.options.dtstart).local().format('YYYY-MM-DD');
+	let formTime = dayjs(rruleData.options.dtstart).local().format('HH:mm');
 
 	$: calculatedFormDate = dayjs(formDate)
 		.set('hour', safeNumber(formTime.split(':')[0]) || 0)

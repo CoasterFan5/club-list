@@ -1,4 +1,5 @@
 import { error, redirect } from '@sveltejs/kit';
+import dayjs from 'dayjs';
 
 import { getClubUserFromSession } from '$lib/server/getClubUserFromSession';
 import { prisma } from '$lib/server/prismaConnection.js';
@@ -25,7 +26,7 @@ export const load = async ({ cookies, params, request }) => {
 			clubId: parseInt(params.clubId),
 			date: new RRule({
 				freq: freqMapping['weekly'],
-				dtstart: new Date(date),
+				dtstart: dayjs.utc(date).toDate(),
 				count: 1
 			}).toString(),
 			draft: true

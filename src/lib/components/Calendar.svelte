@@ -175,7 +175,7 @@
 
 			{#if allowAddEvent}
 				<Button
-					href="/org/{orgId}/club/{clubId}/events/add?date={selectedDay.utc().format('YYYY-MM-DD')}"
+					href="/org/{orgId}/club/{clubId}/events/add?date={encodeURIComponent(selectedDay.utc().format())}"
 					value="Add Event"
 				/>
 			{/if}
