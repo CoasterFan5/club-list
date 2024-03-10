@@ -34,7 +34,7 @@
 			</div>
 			<div class="infoLine" title="Ban Reason" use:tooltip={"Ban reason"}>
 				<MessageIcon/>
-				<p>{InspectingBan.reason}</p>
+				<p>{InspectingBan.reason || "No reason given"}</p>
 			</div>
 		</div>
 		<div class="buttons">
@@ -83,6 +83,7 @@
 	.ban {
 		background: var(--bgPure);
 		width: 100%;
+		margin-bottom: 10px;
 		padding: 10px 20px;
 		box-sizing: border-box;
 		border-radius: 5px;
