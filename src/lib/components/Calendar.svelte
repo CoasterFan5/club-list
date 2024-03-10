@@ -5,6 +5,9 @@
 	import timezone from 'dayjs/plugin/timezone';
 	import utc from 'dayjs/plugin/utc';
 
+	import BxPencil from '~icons/bx/pencil';
+	import BxTrash from '~icons/bx/trash';
+	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { RRule } from '$lib/utils/rrule';
@@ -12,9 +15,12 @@
 	import Button from './Button.svelte';
 	import Modal from './Modal.svelte';
 
+	export let orgId: string | undefined = undefined;
+	export let clubId: string | undefined = undefined;
+
 	export let events: Event[] = [];
-	export let selectedDay = dayjs();
 	export let allowAddEvent = false;
+	let selectedDay = dayjs();
 
 	dayjs.extend(dayOfYear);
 	dayjs.extend(utc);
@@ -35,23 +41,26 @@
 		authorId: number | null;
 		date: string;
 		exclusions: string[];
+		draft: boolean;
 	};
 
 	const datesOnSameDay = (date1: dayjs.Dayjs) => (date2: dayjs.Dayjs) =>
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
 
-	$: daysActive = events.map(
-		(event) =>
-			[
-				event,
-				RRule.fromString(event.date)
-					.between(
-						day.date(1).utc().subtract(1, 'week').toDate(),
-						day.date(day.daysInMonth()).utc().add(1, 'week').toDate()
-					)
-					.map(dayjs)
-			] as const
-	);
+	$: daysActive = events
+		.filter((event) => !event.draft)
+		.map(
+			(event) =>
+				[
+					event,
+					RRule.fromString(event.date)
+						.between(
+							day.date(1).utc().subtract(1, 'week').toDate(),
+							day.date(day.daysInMonth()).utc().add(1, 'week').toDate()
+						)
+						.map(dayjs)
+				] as const
+		);
 
 	$: flattenedDaysActive = daysActive.flatMap(([, days]) => days);
 
@@ -88,6 +97,11 @@
 	</div>
 </div>
 <div class="calendar">
+	{#each ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as day}
+		<div class="dayHeader">
+			<p>{day}</p>
+		</div>
+	{/each}
 	{#each calendarDays as loopDay (loopDay.toDate())}
 		{@const inMonth = day.month() === loopDay.month()}
 
@@ -135,21 +149,57 @@
 			{:else}
 				{#each eventsOnThisDay as [event, days]}
 					<div class="event">
-						<h2>{event.title}</h2>
+						<div class="title">
+							<h2>{event.title}</h2>
+							<div class="edit">
+								{#if allowAddEvent}
+									<a href="/org/{orgId}/club/{clubId}/events/manage/{event.id}">
+										<BxPencil />
+									</a>
+									<button
+										on:click={() =>
+											pushState('', { showingModal: 'deleteEvent', eventId: event.id })}
+									>
+										<BxTrash />
+									</button>
+								{/if}
+							</div>
+						</div>
 						<p class="subDescription">At {days[0].format('h:mm A')}</p>
-						<p>{event.description}</p>
+						{#if event.description}
+							<p>{event.description}</p>
+						{/if}
 					</div>
 				{/each}
 			{/if}
 
 			{#if allowAddEvent}
 				<Button
+					href="/org/{orgId}/club/{clubId}/events/add?date={encodeURIComponent(selectedDay.utc().format())}"
 					value="Add Event"
-					on:click={() => {
-						pushState('', { showingModal: 'addEventModal' });
-					}}
 				/>
 			{/if}
+		{/if}
+	</Modal>
+{/if}
+
+{#if $page.state.showingModal === 'deleteEvent'}
+	<Modal on:close={() => history.back()}>
+		{@const eventId = $page.state.eventId}
+		{@const event = events.find((e) => e.id === eventId)}
+		{#if event}
+			<h1>Delete Event <span class="accent">{event.title}</span></h1>
+			<p>Are you sure you want to delete this event?</p>
+			<p>This will delete the event for <b>everyone</b> who is in the club.</p>
+			<div class="deleteOptions">
+				<form action="/org/{orgId}/club/{clubId}/events?/delete" method="post" use:enhance>
+					<input name="eventId" type="hidden" value={eventId} />
+					<Button type="submit" value="Yes" />
+				</form>
+				<Button value="No" on:click={() => history.back()} />
+			</div>
+		{:else}
+			<p>Event not found.</p>
 		{/if}
 	</Modal>
 {/if}
@@ -235,7 +285,7 @@
 
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
-		grid-template-rows: repeat(5, 1fr);
+		grid-template-rows: auto repeat(4, 1fr);
 		box-sizing: border-box;
 	}
 
@@ -243,7 +293,8 @@
 		box-sizing: border-box;
 		text-align: left;
 		padding: 1rem;
-		margin: 2rem;
+		margin: 0.5rem 1rem;
+		margin-top: 0;
 		width: 100%;
 		height: 100%;
 		background-color: #ddd;
@@ -256,7 +307,24 @@
 		}
 
 		h2 {
-			margin-bottom: 0;
+			margin: 0;
+		}
+
+		.title {
+			margin-top: 1rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			button {
+				all: unset;
+				cursor: pointer;
+				height: 100%;
+				aspect-ratio: 1/1;
+				box-sizing: border-box;
+				border-radius: 50%;
+				color: #0066cc;
+			}
 		}
 	}
 
@@ -273,8 +341,8 @@
 		align-items: center;
 		box-sizing: border-box;
 		flex-grow: 1;
-		height: calc(98%);
-		width: calc(98%);
+		height: 98%;
+		width: 98%;
 		color: var(--textDark);
 
 		background-color: #fff;
@@ -307,6 +375,27 @@
 			background-color: var(--accent);
 			color: #fff;
 		}
+	}
+
+	.deleteOptions {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		gap: 10px;
+	}
+
+	.accent {
+		color: var(--accent);
+	}
+
+	.dayHeader {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: var(--background);
+		background-color: #dddddd22;
+		height: 98%;
+		width: 98%;
 	}
 
 	@media screen and (max-width: 500px) {
