@@ -8,7 +8,7 @@ let idInc = 0;
 export function tooltip(element: HTMLElement, text: string | undefined) {
 	const posX = element.getBoundingClientRect().x;
 
-	if(!text) {
+	if (!text) {
 		return;
 	}
 
@@ -43,8 +43,8 @@ export function tooltip(element: HTMLElement, text: string | undefined) {
 			return;
 		}
 
-		if(text == undefined) {
-			return
+		if (text == undefined) {
+			return;
 		}
 
 		const posY = element.getBoundingClientRect().y;

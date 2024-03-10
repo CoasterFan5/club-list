@@ -77,11 +77,14 @@
 		rruleData.options.until !== null ||
 		rruleData.options.bymonthday.length !== 0 ||
 		(rruleData.options.byweekday && rruleData.options.byweekday.length > 1);
-	
+
 	let allDay = false;
-	let repeatType = rruleData.options.count !== null ? 'amount'
-		: rruleData.options.until !== null ? 'upTo'
-		: 'indefinitely';
+	let repeatType =
+		rruleData.options.count !== null
+			? 'amount'
+			: rruleData.options.until !== null
+				? 'upTo'
+				: 'indefinitely';
 
 	let interval = rruleData.options.interval.toString();
 	$: parsedInterval = safeNumber(interval);
@@ -94,11 +97,13 @@
 	let inputFrequency = oppositeFreqMapping[rruleData.options.freq] ?? 'weekly';
 	$: derivedFrequency = freqMapping[inputFrequency];
 
-	let upTo = dayjs.utc(rruleData.options.until).format("YYYY-MM-DD") ?? new Date().toISOString().split('T')[0];
+	let upTo =
+		dayjs.utc(rruleData.options.until).format('YYYY-MM-DD') ??
+		new Date().toISOString().split('T')[0];
 	let useMonthlyDay = false;
 	let dayOfTheMonth = rruleData.options.bymonthday[0] ?? 0;
 
-	console.log(rruleData.options)
+	console.log(rruleData.options);
 
 	let weeksFront = emptyArray(5)
 		.map((_, i) => i + 1)
@@ -194,10 +199,12 @@
 			name: 'Saturday',
 			binding: RRule.SA
 		}
-	].map(weekday => ({
+	].map((weekday) => ({
 		...weekday,
-		enabled: weekday.binding.n ? rruleData.options.byweekday?.includes(weekday.binding.n) ?? false : false
-	}))
+		enabled: weekday.binding.n
+			? rruleData.options.byweekday?.includes(weekday.binding.n) ?? false
+			: false
+	}));
 
 	$: enabledWeekdays = weekdays
 		.filter((weekday) => weekday.enabled)

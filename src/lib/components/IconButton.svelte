@@ -22,9 +22,9 @@
 
 <div class="wrap" use:tooltip={toolTipText}>
 	{#if href}
-	<a class="iconButton" {href} on:click>
-		<slot />
-	</a>
+		<a class="iconButton" {href} on:click>
+			<slot />
+		</a>
 	{:else if formData}
 		<form class="formButton" action={formData.action} method={formData.method} use:enhance>
 			<button class="iconButton" on:click>
@@ -37,7 +37,6 @@
 		</button>
 	{/if}
 </div>
-
 
 <style lang="scss">
 	.wrap {

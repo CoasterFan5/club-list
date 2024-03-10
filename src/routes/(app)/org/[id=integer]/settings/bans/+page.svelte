@@ -1,44 +1,48 @@
 <script lang="ts">
 	import dayjs from 'dayjs';
-	import {page} from "$app/stores"
+	import { page } from '$app/stores';
 	import { pushState } from '$app/navigation';
 	export let data;
-	import IconButton from "$lib/components/IconButton.svelte"
+	import IconButton from '$lib/components/IconButton.svelte';
 
-	import Button from "$lib/components/Button.svelte"
-	import Modal from "$lib/components/Modal.svelte"
-	import InfoIcon from "~icons/bx/info-circle"
-	import CalendarIcon from "~icons/bx/calendar-alt"
-	import MessageIcon from "~icons/bx/message"
-	import UndoIcon from "~icons/bx/undo"
+	import Button from '$lib/components/Button.svelte';
+	import Modal from '$lib/components/Modal.svelte';
+	import InfoIcon from '~icons/bx/info-circle';
+	import CalendarIcon from '~icons/bx/calendar-alt';
+	import MessageIcon from '~icons/bx/message';
+	import UndoIcon from '~icons/bx/undo';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
 
-	let InspectingBan: typeof data.bans[0]
+	let InspectingBan: (typeof data.bans)[0];
 
 	const showBanInfo = (ban: typeof InspectingBan) => {
 		InspectingBan = ban;
-		pushState("", {
-			showingModal: "banInfo"
-		})
-	}
-
+		pushState('', {
+			showingModal: 'banInfo'
+		});
+	};
 </script>
 
 {#if $page.state.showingModal === 'banInfo'}
 	<Modal on:close={() => history.back()}>
 		<h2>{InspectingBan.user.firstName} {InspectingBan.user.lastName}</h2>
 		<div class="banInfo">
-			<div class="infoLine" title="Ban Date" use:tooltip={"Date Banned"}>
-				<CalendarIcon/>
-				<p>{dayjs(InspectingBan.createdAt).format("MMMM DD, YYYY")}</p>
+			<div class="infoLine" title="Ban Date" use:tooltip={'Date Banned'}>
+				<CalendarIcon />
+				<p>{dayjs(InspectingBan.createdAt).format('MMMM DD, YYYY')}</p>
 			</div>
-			<div class="infoLine" title="Ban Reason" use:tooltip={"Ban reason"}>
-				<MessageIcon/>
-				<p>{InspectingBan.reason || "No reason given"}</p>
+			<div class="infoLine" title="Ban Reason" use:tooltip={'Ban reason'}>
+				<MessageIcon />
+				<p>{InspectingBan.reason || 'No reason given'}</p>
 			</div>
 		</div>
 		<div class="buttons">
-			<Button value="done" on:click={() => {history.back()}}/>
+			<Button
+				value="done"
+				on:click={() => {
+					history.back();
+				}}
+			/>
 		</div>
 	</Modal>
 {/if}
@@ -47,26 +51,29 @@
 	{#each data.bans as ban}
 		<div class="ban">
 			<div class="left">
-				<img class="pfp" src={ban.user.pfp || "/defaultPFP.png"} alt="Profile Identifier"/>
+				<img class="pfp" src={ban.user.pfp || '/defaultPFP.png'} alt="Profile Identifier" />
 				<p class="name">{ban.user.firstName} {ban.user.lastName}</p>
 			</div>
-			
+
 			<div class="info">
-				<IconButton on:click={() => {showBanInfo(ban)}} toolTipText="Ban Info">
-					<InfoIcon/>
+				<IconButton
+					on:click={() => {
+						showBanInfo(ban);
+					}}
+					toolTipText="Ban Info"
+				>
+					<InfoIcon />
 				</IconButton>
-				<IconButton toolTipText="Unban" formData={
-					{
-						method: "post",
-						action: "?/unbanMember"
-					}
-				}>
-					<input hidden name="banId" value={ban.id}/>
-					<UndoIcon/>
-					
+				<IconButton
+					toolTipText="Unban"
+					formData={{
+						method: 'post',
+						action: '?/unbanMember'
+					}}
+				>
+					<input hidden name="banId" value={ban.id} />
+					<UndoIcon />
 				</IconButton>
-				
-								
 			</div>
 		</div>
 	{/each}
@@ -97,15 +104,14 @@
 			width: 100%;
 
 			.name {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding-left: 20px;
-			margin: 0px;
-			font-size: 1.2rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding-left: 20px;
+				margin: 0px;
+				font-size: 1.2rem;
+			}
 		}
-		}
-		
 	}
 	.pfp {
 		aspect-ratio: 1/1;
@@ -125,7 +131,6 @@
 		p {
 			margin: 5px 0px;
 		}
-		
 	}
 
 	.info {
