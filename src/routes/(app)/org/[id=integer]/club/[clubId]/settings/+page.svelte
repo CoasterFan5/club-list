@@ -44,6 +44,9 @@
 {/if}
 
 <div class="wrap">
+	<div class="inner">
+
+	
 
 
 	<form hidden method="post" action="?/uploadClubImage" enctype="multipart/form-data" use:enhance>
@@ -60,6 +63,8 @@
 				await update({ reset: false });
 			}}
 	>
+			
+		<h2>General Settings</h2>
 		<div class="formItem">
 			<Input name="clubName" bg="white" label="Club Name" value={name} />
 		</div>
@@ -100,6 +105,7 @@
 		</div>
 	</div>
 </div>
+</div>
 
 <style lang="scss">
 	.wrap {
@@ -107,8 +113,14 @@
 		height: 100%;
 		display: flex;
 		align-items: center;
-		justify-content: start;
-		flex-direction: column;
+		justify-content: center;
+	}
+	.inner {
+		width: 90%;
+		height: 100%;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
 	}
 	.formItem {
 		width: 100%;
@@ -156,13 +168,14 @@
 		padding: 50px;
 		background: var(--bgPure);
 		box-sizing: border-box;
+		min-width: 400px;
 		max-width: 500px;
-		width: 100%;
+		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 25px;
-		justify-content: center;
+		margin: 25px;
+		justify-content: start;
 		border-radius: 5px;
 		box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
 
