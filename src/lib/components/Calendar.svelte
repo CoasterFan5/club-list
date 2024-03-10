@@ -48,18 +48,20 @@
 	const datesOnSameDay = (date1: dayjs.Dayjs) => (date2: dayjs.Dayjs) =>
 		date1.dayOfYear() === date2.dayOfYear() && date1.year() === date2.year();
 
-	$: daysActive = events.filter(event => !event.draft).map(
-		(event) =>
-			[
-				event,
-				RRule.fromString(event.date)
-					.between(
-						day.date(1).utc().subtract(1, 'week').toDate(),
-						day.date(day.daysInMonth()).utc().add(1, 'week').toDate()
-					)
-					.map(dayjs)
-			] as const
-	);
+	$: daysActive = events
+		.filter((event) => !event.draft)
+		.map(
+			(event) =>
+				[
+					event,
+					RRule.fromString(event.date)
+						.between(
+							day.date(1).utc().subtract(1, 'week').toDate(),
+							day.date(day.daysInMonth()).utc().add(1, 'week').toDate()
+						)
+						.map(dayjs)
+				] as const
+		);
 
 	$: flattenedDaysActive = daysActive.flatMap(([, days]) => days);
 
@@ -155,7 +157,10 @@
 									<a href="/org/{orgId}/club/{clubId}/events/manage/{event.id}">
 										<BxPencil />
 									</a>
-									<button on:click={() => pushState('', { showingModal: 'deleteEvent', eventId: event.id })}>
+									<button
+										on:click={() =>
+											pushState('', { showingModal: 'deleteEvent', eventId: event.id })}
+									>
 										<BxTrash />
 									</button>
 								{/if}
@@ -171,9 +176,9 @@
 
 			{#if allowAddEvent}
 				<Button
-				href="/org/{orgId}/club/{clubId}/events/add?date={selectedDay.utc().format('YYYY-MM-DD')}"
-				value="Add Event"
-			/>
+					href="/org/{orgId}/club/{clubId}/events/add?date={selectedDay.utc().format('YYYY-MM-DD')}"
+					value="Add Event"
+				/>
 			{/if}
 		{/if}
 	</Modal>
@@ -189,7 +194,7 @@
 			<p>This will delete the event for <b>everyone</b> who is in the club.</p>
 			<div class="deleteOptions">
 				<form use:enhance action="/org/{orgId}/club/{clubId}/events?/delete" method="post">
-					<input type="hidden" name="eventId" value="{eventId}" />
+					<input type="hidden" name="eventId" value={eventId} />
 					<Button type="submit" value="Yes" />
 				</form>
 				<Button value="No" on:click={() => history.back()} />
@@ -319,7 +324,7 @@
 				aspect-ratio: 1/1;
 				box-sizing: border-box;
 				border-radius: 50%;
-				color: #0066CC;
+				color: #0066cc;
 			}
 		}
 	}

@@ -61,14 +61,13 @@
 
 	const emptyArray = (length: number) => Array(length).fill(0);
 
-	let repeats = (
-		rruleData.options.interval !== 1
-		|| (rruleData.options.count !== null && rruleData.options.count !== 1)
-		|| rruleData.options.until !== null
-		|| rruleData.options.bymonthday.length !== 0
-		|| (rruleData.options.byweekday && rruleData.options.byweekday.length !== 0)
-	);
-	
+	let repeats =
+		rruleData.options.interval !== 1 ||
+		(rruleData.options.count !== null && rruleData.options.count !== 1) ||
+		rruleData.options.until !== null ||
+		rruleData.options.bymonthday.length !== 0 ||
+		(rruleData.options.byweekday && rruleData.options.byweekday.length !== 0);
+
 	let allDay = false;
 	let repeatType = 'indefinitely';
 
@@ -199,12 +198,15 @@
 	});
 </script>
 
-<form method="POST" use:enhance={() => {
-	return async ({ update }) => {
-		await update();
-		await goto(`/org/${data.org.id}/club/${data.club.id}/events`);
-	}
-}}>
+<form
+	method="POST"
+	use:enhance={() => {
+		return async ({ update }) => {
+			await update();
+			await goto(`/org/${data.org.id}/club/${data.club.id}/events`);
+		};
+	}}
+>
 	{#if data.event.draft}
 		<h1>Add Event</h1>
 	{:else}

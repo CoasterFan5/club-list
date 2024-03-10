@@ -49,7 +49,7 @@ export const actions = {
 					}
 				}
 			});
-			
+
 			const club = await prisma.club.findFirst({
 				where: {
 					events: {
@@ -85,4 +85,4 @@ export const actions = {
 			};
 		}
 	)
-}
+};
