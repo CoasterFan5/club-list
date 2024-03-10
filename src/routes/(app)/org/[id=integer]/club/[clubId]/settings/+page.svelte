@@ -6,6 +6,7 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import { addToast } from '$lib/components/toaster';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
 	export let data;
@@ -25,8 +26,25 @@
 	}
 
 	const submitNewImage = () => {
+		addToast({
+			type: "success",
+			message: "Uploading File...",
+			life: 3000,
+		})
 		fileUploadSubmit.click()
 	}
+
+	const dropHandler = async (e: DragEvent) => {
+		e.preventDefault();
+		if (!e.dataTransfer) {
+			return;
+		}
+		fileInputBox.files = e.dataTransfer.files;
+		submitNewImage()
+	};
+	const dragOverHandler = (e: Event) => {
+		e.preventDefault();
+	};
 </script>
 
 {#if $page.state.showingModal == 'deleteClub'}
@@ -84,7 +102,7 @@
 		<div class="formItem">
 			<div class="fileUpload">
 				 <img src="{data.club.imageURL}" alt="club"/>
-				 <button class="cover" type="button" on:click={openFileUpload}>
+				 <button class="cover" type="button" on:click={openFileUpload} on:dragover={dragOverHandler} on:drop={dropHandler}>
 					<svg width="50%" height="50%" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"><path d="M11 15h2V9h3l-4-5-4 5h3z"></path><path d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"></path></svg>
 				 </button>
 			</div>
