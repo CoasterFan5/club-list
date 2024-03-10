@@ -170,7 +170,10 @@
 			{/if}
 
 			{#if allowAddEvent}
-				<Button href="/org/{orgId}/club/{clubId}/events/add" value="Add Event" />
+				<Button
+				href="/org/{orgId}/club/{clubId}/events/add?date={selectedDay.utc().format('YYYY-MM-DD')}"
+				value="Add Event"
+			/>
 			{/if}
 		{/if}
 	</Modal>

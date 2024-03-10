@@ -1,13 +1,12 @@
 import { error, redirect } from '@sveltejs/kit';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import * as pkg from 'rrule';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
 import { createClubPermissionsFromUser } from '$lib/permissions/clubPermissions.js';
 import { prisma } from '$lib/server/prismaConnection';
-import { RRule } from '$lib/utils/rrule';
+import { freqMapping, RRule } from '$lib/utils/rrule';
 
 dayjs.extend(utc);
 
@@ -26,18 +25,6 @@ const weekdays = [
 	'Friday',
 	'Saturday'
 ] as const;
-
-let freqMapping: Record<string, pkg.Frequency>;
-
-// TODO: move RRULE to esm
-if (RRule) {
-	freqMapping = {
-		daily: RRule.DAILY,
-		weekly: RRule.WEEKLY,
-		monthly: RRule.MONTHLY,
-		yearly: RRule.YEARLY
-	};
-}
 
 export const load = async ({ parent, params }) => {
 	const parentData = await parent();

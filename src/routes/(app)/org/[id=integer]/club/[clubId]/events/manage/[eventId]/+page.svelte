@@ -48,8 +48,10 @@
 		return isNaN(parsed) ? null : parsed;
 	};
 
-	export let formDate = dayjs().format('YYYY-MM-DD');
-	let formTime = dayjs().format('HH:mm');
+	let rruleData = RRule.fromString(data.event.date);
+
+	let formDate = dayjs(rruleData.options.dtstart).format('YYYY-MM-DD');
+	let formTime = dayjs(rruleData.options.dtstart).format('HH:mm');
 
 	$: calculatedFormDate = dayjs(formDate)
 		.set('hour', safeNumber(formTime.split(':')[0]) || 0)
@@ -59,16 +61,23 @@
 
 	const emptyArray = (length: number) => Array(length).fill(0);
 
-	let repeats = false;
-	let allDay = data.event.allDay;
+	let repeats = (
+		rruleData.options.interval !== 1
+		|| (rruleData.options.count !== null && rruleData.options.count !== 1)
+		|| rruleData.options.until !== null
+		|| rruleData.options.bymonthday.length !== 0
+		|| (rruleData.options.byweekday && rruleData.options.byweekday.length !== 0)
+	);
+	
+	let allDay = false;
 	let repeatType = 'indefinitely';
 
-	let interval = '1';
+	let interval = rruleData.options.interval.toString();
 	$: parsedInterval = safeNumber(interval);
 
 	let timeZone = 'America/Los_Angeles';
 
-	let count = '1';
+	let count = rruleData.options.count?.toString() ?? '1';
 	$: parsedCount = safeNumber(count);
 
 	let inputFrequency = 'weekly';

@@ -1,10 +1,18 @@
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 import { getClubUserFromSession } from '$lib/server/getClubUserFromSession';
 import { prisma } from '$lib/server/prismaConnection.js';
-import { RRule } from '$lib/utils/rrule.js';
+import { freqMapping, RRule } from '$lib/utils/rrule.js';
 
-export const load = async ({ cookies, params }) => {
+export const load = async ({ cookies, params, request }) => {
+	// Get the date from query
+	const url = new URL(request.url);
+	const date = url.searchParams.get('date');
+
+	if (!date) {
+		error(400, 'Invalid date');
+	}
+
 	const { perms } = await getClubUserFromSession(cookies.get('session'), params.clubId);
 
 	if (!perms.manageEvents || !perms.admin) {
@@ -15,7 +23,11 @@ export const load = async ({ cookies, params }) => {
 		data: {
 			title: 'New Event',
 			clubId: parseInt(params.clubId),
-			date: new RRule({}).toString(),
+			date: new RRule({
+				freq: freqMapping['daily'],
+				dtstart: new Date(date),
+				count: 1
+			}).toString(),
 			draft: true
 		}
 	});
