@@ -13,6 +13,7 @@
 	} from '$lib/permissions/orgPermissions';
 	import { createPermissionsNumber } from '$lib/permissions/permissions';
 	import { toTitleCase } from '$lib/titleCase';
+	import { tick } from 'svelte';
 
 	export let role: {
 		id: number;
@@ -23,10 +24,13 @@
 
 	let colorInput: HTMLInputElement;
 	let submitButton: HTMLButtonElement;
-	let permissionIntInput: HTMLInputElement;
+	let permissionIntInput: string;
 
 	const valueChanged = () => {
-		submitButton.click();
+		tick().then(() => {
+			console.log(permissionObject, permissionIntInput);
+			submitButton.click()
+		});
 	};
 
 	const openColorInput = () => {
@@ -42,10 +46,9 @@
 	const permissionObject = createOrgPermissionsCheck(role.permissionInt);
 
 	$: if (permissionObject) {
+		permissionIntInput = createPermissionsNumber(permissionObject).toString();
 		if (createPermissionsNumber(permissionObject) != permissionIntCalculated) {
-			permissionIntCalculated = createPermissionsNumber(permissionObject);
-			permissionIntInput.value = permissionIntCalculated.toString();
-			submitButton.click();
+			tick().then(() => submitButton.click());
 		}
 	}
 
@@ -136,7 +139,7 @@
 		{/each}
 	</div>
 
-	<input bind:this={permissionIntInput} name="permissionInt" hidden />
+	<input bind:value={permissionIntInput} name="permissionInt" hidden />
 
 	<button bind:this={submitButton} hidden type="submit" />
 </form>
