@@ -39,6 +39,7 @@
 		"@tiptap/extension-bubble-menu": "^2.1.16",
 		"@tiptap/extension-color": "^2.1.16",
 		"@tiptap/extension-floating-menu": "^2.1.16",
+		"@tiptap/extension-link": "^2.2.4",
 		"@tiptap/extension-placeholder": "^2.1.16",
 		"@tiptap/extension-text-style": "^2.1.16",
 		"@tiptap/extension-typography": "^2.1.16",
