@@ -40,6 +40,7 @@
 		clubId: number;
 		authorId: number | null;
 		date: string;
+		color?: string;
 		exclusions: string[];
 		draft: boolean;
 	};
@@ -121,7 +122,7 @@
 
 				{#if eventsOnThisDay.length > 0}
 					{@const event = eventsOnThisDay[0]}
-					<div class="inDisplayEvent">
+					<div style="--customColor: {event[0].color ?? 'var(--accent)'}" class="inDisplayEvent">
 						{event[0].title}
 					</div>
 					{#if eventsOnThisDay.length > 1}
@@ -270,7 +271,7 @@
 
 	.inDisplayEvent {
 		width: 100%;
-		background: var(--accent50);
+		background: color-mix(in srgb, var(--customColor) 50%, white 50%);
 		padding: 5px;
 		box-sizing: border-box;
 		border-radius: 3px;
@@ -376,6 +377,10 @@
 		&:hover {
 			background-color: var(--accent);
 			color: #fff;
+
+			.inDisplayEvent {
+				background: color-mix(in srgb, var(--customColor) 50%, black 50%);
+			}
 		}
 	}
 
