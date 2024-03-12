@@ -24,8 +24,8 @@ export const load = async ({ parent }) => {
 						select: {
 							name: true,
 							organizationId: true
-						},
-					},
+						}
+					}
 				}
 			}
 		}

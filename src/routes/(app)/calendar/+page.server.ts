@@ -48,7 +48,7 @@ export const load = async ({ cookies, url }) => {
 					select: {
 						name: true,
 						organizationId: true
-					},
+					}
 				}
 			}
 		});

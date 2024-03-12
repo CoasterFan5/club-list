@@ -44,7 +44,7 @@
 		club: {
 			name: string;
 			organizationId: number;
-		}
+		};
 		authorId: number | null;
 		date: string;
 		exclusions: string[];
