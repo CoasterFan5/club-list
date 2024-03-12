@@ -97,7 +97,6 @@
 	let inputFrequency = oppositeFreqMapping[rruleData.options.freq] ?? 'weekly';
 	$: derivedFrequency = freqMapping[inputFrequency];
 
-
 	let upTo =
 		dayjs.utc(rruleData.options.until).format('YYYY-MM-DD') ??
 		new Date().toISOString().split('T')[0];

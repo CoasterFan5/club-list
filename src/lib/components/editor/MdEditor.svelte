@@ -3,6 +3,7 @@
 	import BubbleMenu from '@tiptap/extension-bubble-menu';
 	import { Color } from '@tiptap/extension-color';
 	import FloatingMenu from '@tiptap/extension-floating-menu';
+	import Link from '@tiptap/extension-link';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import TextStyle from '@tiptap/extension-text-style';
 	import Typography from '@tiptap/extension-typography';
@@ -39,6 +40,7 @@
 				Typography,
 				Color,
 				TextStyle,
+				Link,
 				Placeholder.configure({
 					showOnlyWhenEditable: true,
 					includeChildren: true,
