@@ -1,9 +1,12 @@
 import { error, redirect } from '@sveltejs/kit';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 import { getClubUserFromSession } from '$lib/server/getClubUserFromSession';
 import { prisma } from '$lib/server/prismaConnection.js';
 import { freqMapping, RRule } from '$lib/utils/rrule.js';
+
+dayjs.extend(utc);
 
 export const load = async ({ cookies, params, request }) => {
 	// Get the date from query
