@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { tick } from 'svelte';
+
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -13,7 +15,6 @@
 	} from '$lib/permissions/orgPermissions';
 	import { createPermissionsNumber } from '$lib/permissions/permissions';
 	import { toTitleCase } from '$lib/titleCase';
-	import { tick } from 'svelte';
 
 	export let role: {
 		id: number;
@@ -28,8 +29,7 @@
 
 	const valueChanged = () => {
 		tick().then(() => {
-			console.log(permissionObject, permissionIntInput);
-			submitButton.click()
+			submitButton.click();
 		});
 	};
 
@@ -139,7 +139,7 @@
 		{/each}
 	</div>
 
-	<input bind:value={permissionIntInput} name="permissionInt" hidden />
+	<input name="permissionInt" hidden bind:value={permissionIntInput} />
 
 	<button bind:this={submitButton} hidden type="submit" />
 </form>
