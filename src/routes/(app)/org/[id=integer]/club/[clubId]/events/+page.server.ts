@@ -18,7 +18,16 @@ export const load = async ({ parent }) => {
 			id: parentData.club.id
 		},
 		include: {
-			events: true
+			events: {
+				include: {
+					club: {
+						select: {
+							name: true,
+							organizationId: true
+						},
+					},
+				}
+			}
 		}
 	});
 

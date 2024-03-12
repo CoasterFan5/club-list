@@ -5,7 +5,7 @@
 	export let data;
 </script>
 
-<Calendar bind:events={data.events} />
+<Calendar global bind:events={data.events} />
 <div class="linkHolder">
 	{#if data.filterMode == data.filterModes.CLUB}
 		<Link href="/calendar?filter=org">View events in all clubs</Link>
