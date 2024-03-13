@@ -22,6 +22,14 @@ export const load = async ({ cookies, url }) => {
 						}
 					}
 				}
+			},
+			include: {
+				club: {
+					select: {
+						name: true,
+						organizationId: true
+					}
+				}
 			}
 		});
 	} else {
@@ -32,6 +40,14 @@ export const load = async ({ cookies, url }) => {
 						some: {
 							userId: user.id
 						}
+					}
+				}
+			},
+			include: {
+				club: {
+					select: {
+						name: true,
+						organizationId: true
 					}
 				}
 			}

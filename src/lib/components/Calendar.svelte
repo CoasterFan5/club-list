@@ -20,6 +20,9 @@
 
 	export let events: Event[] = [];
 	export let allowAddEvent = false;
+	/** If global, show club names instead of event nanes, but show club names in event subview. */
+	export let global = false;
+
 	let selectedDay = dayjs();
 
 	dayjs.extend(dayOfYear);
@@ -38,6 +41,10 @@
 		title: string;
 		description: string | null;
 		clubId: number;
+		club: {
+			name: string;
+			organizationId: number;
+		};
 		authorId: number | null;
 		date: string;
 		color: string | null;
@@ -123,7 +130,11 @@
 				{#if eventsOnThisDay.length > 0}
 					{@const event = eventsOnThisDay[0]}
 					<div style="--customColor: {event[0].color ?? 'var(--accent)'}" class="inDisplayEvent">
-						{event[0].title}
+						{#if global}
+							{event[0].club.name}
+						{:else}
+							{event[0].title}
+						{/if}
 					</div>
 					{#if eventsOnThisDay.length > 1}
 						<div class="extraEvents">
@@ -166,6 +177,13 @@
 								{/if}
 							</div>
 						</div>
+						{#if global}
+							<p class="subDescription">
+								<a href="/org/{event.club.organizationId}/club/{event.clubId}">
+									{event.club.name}
+								</a>
+							</p>
+						{/if}
 						<p class="subDescription">At {days[0].format('h:mm A')}</p>
 						{#if event.description}
 							<p>{event.description}</p>
