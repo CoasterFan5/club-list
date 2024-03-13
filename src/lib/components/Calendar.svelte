@@ -40,7 +40,7 @@
 		clubId: number;
 		authorId: number | null;
 		date: string;
-		color?: string;
+		color: string | null;
 		exclusions: string[];
 		draft: boolean;
 	};
