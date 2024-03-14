@@ -6,25 +6,35 @@
 	let selected = 0;
 </script>
 
-<div class="smileScale">
-	<button type="submit" class:active={selected == 1} on:click={() => (selected = 1)}>
-		<SadIcon width="100%" height="100%" color="#e38987" />
-	</button>
-	<button type="submit" class:active={selected == 2} on:click={() => (selected = 2)}>
-		<SadIcon width="100%" height="100%" color="#e69a67" />
-	</button>
-	<button type="submit" class:active={selected == 3} on:click={() => (selected = 3)}>
-		<MehIcon width="100%" height="100%" color="#cfb44f" />
-	</button>
-	<button type="submit" class:active={selected == 4} on:click={() => (selected = 4)}>
-		<SmileIcon width="100%" height="100%" color="#9ecf56" />
-	</button>
-	<button type="submit" class:active={selected == 5} on:click={() => (selected = 5)}>
-		<SmileIcon width="100%" height="100%" color="#36e789" />
-	</button>
+<input name="smileScale" hidden bind:value={selected}/>
+<div class="wrap">
+	<div class="smileScale">
+		<button type="submit" style="--color: #e38987" class:active={selected == 1} on:click={() => (selected = 1)}>
+			<SadIcon width="100%" height="100%" color="var(--color)" />
+		</button>
+		<button type="submit" style="--color: #e69a67" class:active={selected == 2} on:click={() => (selected = 2)}>
+			<SadIcon width="100%" height="100%" color="var(--color)"/>
+		</button>
+		<button type="submit" style="--color: #cfb44f" class:active={selected == 3} on:click={() => (selected = 3)}>
+			<MehIcon width="100%" height="100%" color="var(--color)" />
+		</button>
+		<button type="submit" style="--color: #9ecf56" class:active={selected == 4} on:click={() => (selected = 4)}>
+			<SmileIcon width="100%" height="100%" color="var(--color)" />
+		</button>
+		<button type="submit" style="--color: #36e789" class:active={selected == 5} on:click={() => (selected = 5)}>
+			<SmileIcon width="100%" height="100%" color="var(--color)"/>
+		</button>
+	</div>
 </div>
 
+
 <style lang="scss">
+	.wrap {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 	.smileScale {
 		display: flex;
 		flex-direction: row;
@@ -51,6 +61,22 @@
 
 		.active {
 			opacity: 1;
+			position: relative;
+			z-index: 2;
+			
+			&::after {
+				content: "";
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				top: 0px;
+				left: 0px;
+				background: var(--color);
+				border-radius: 50%;
+				z-index: -1;
+				opacity: 0.25;
+			}
+
 		}
 	}
 </style>

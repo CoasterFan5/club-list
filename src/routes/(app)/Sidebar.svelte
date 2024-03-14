@@ -10,6 +10,7 @@
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import SmileScale from './SmileScale.svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	const openReport = () => {
 		pushState('', {
@@ -24,10 +25,19 @@
 			history.back();
 		}}
 	>
-		<h2>Feedback</h2>
-		<h3>Hows it going?</h3>
-		<SmileScale />
+		<form class="feedback">
+			<h2>Feedback</h2>
+			<h3>Hows it going?</h3>
+			<SmileScale />
+
+			<h3>Whats going on?</h3>
+			<textarea class="feedbackText" name="issueDesc" placeholder="Description"/>
+			<hr/>
+			<Button value="Submit"/>
+		
+		</form>
 	</Modal>
+		
 {/if}
 
 <nav class="sidebar">
@@ -110,6 +120,38 @@
 			aspect-ratio: 1/1;
 			width: 100%;
 			height: 100%;
+		}
+	}
+
+	.feedbackText {
+		width: 100%;
+		resize: vertical;
+		padding: 5px;
+		box-sizing: border-box;
+		border: 1px solid gray;
+		border-radius: 3px;
+		margin: 0px;
+		outline: 0px solid transparent;
+		font-family:
+			Work Sans,
+			sans-serif;
+		
+		&:focus,
+		&:active {
+			outline: 0px;
+			border: 1px solid var(--accent);
+		}
+
+	}
+
+	hr {
+		border: 0px;
+	}
+
+	.feedback {
+		min-width: 350px;
+		h3 {
+			font-weight: 500;
 		}
 	}
 </style>
