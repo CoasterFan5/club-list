@@ -2,29 +2,50 @@
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 
-	import HomeIcon from "~icons/bxs/home"
-	import CalIcon from "~icons/bx/Calendar-alt"
-	import OrgIcon from "~icons/bx/building"
-	import SmileIcon from "~icons/bx/smile"
+	import HomeIcon from '~icons/bxs/home';
+	import CalIcon from '~icons/bx/Calendar-alt';
+	import OrgIcon from '~icons/bx/building';
+	import SmileIcon from '~icons/bx/smile';
+	import Modal from '$lib/components/Modal.svelte';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import SmileScale from './SmileScale.svelte';
 
+	const openReport = () => {
+		pushState('', {
+			showingModal: 'feedback'
+		});
+	};
 </script>
+
+{#if $page.state.showingModal == 'feedback'}
+	<Modal
+		on:close={() => {
+			history.back();
+		}}
+	>
+		<h2>Feedback</h2>
+		<h3>Hows it going?</h3>
+		<SmileScale />
+	</Modal>
+{/if}
 
 <nav class="sidebar">
 	<a class="pfp" href="/profile">
 		<img class="pfpImage" alt="profile" src={data.user?.pfp || '/defaultPFP.png'} />
 	</a>
 	<a class="button" href="/dashboard">
-		<HomeIcon height="100%" width="100%"/>
+		<HomeIcon height="100%" width="100%" />
 	</a>
 	<a class="button" href="/calendar">
-		<CalIcon height="100%" width="100%"/>
+		<CalIcon height="100%" width="100%" />
 	</a>
 	<a class="button" href="/org">
-		<OrgIcon height="100%" width="100%"/>
+		<OrgIcon height="100%" width="100%" />
 	</a>
-	<a class="button" href="/org">
-		<SmileIcon height="100%" width="100%"/>
-	</a>
+	<button class="button" on:click={openReport}>
+		<SmileIcon height="100%" width="100%" />
+	</button>
 </nav>
 
 <style lang="scss">
@@ -79,7 +100,6 @@
 		border-radius: 5px;
 		cursor: pointer;
 		filter: var(--redIconFilter);
-		
 
 		&:hover {
 			background: rgba(0, 0, 0, 0.5);
