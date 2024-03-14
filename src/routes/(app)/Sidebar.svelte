@@ -1,6 +1,12 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
+
+	import HomeIcon from "~icons/bxs/home"
+	import CalIcon from "~icons/bx/Calendar-alt"
+	import OrgIcon from "~icons/bx/building"
+	import SmileIcon from "~icons/bx/smile"
+
 </script>
 
 <nav class="sidebar">
@@ -8,13 +14,16 @@
 		<img class="pfpImage" alt="profile" src={data.user?.pfp || '/defaultPFP.png'} />
 	</a>
 	<a class="button" href="/dashboard">
-		<img alt="home" src="/icons/home.svg" />
+		<HomeIcon height="100%" width="100%"/>
 	</a>
 	<a class="button" href="/calendar">
-		<img alt="calendar" src="/icons/calendar.svg" />
+		<CalIcon height="100%" width="100%"/>
 	</a>
 	<a class="button" href="/org">
-		<img alt="orgs" src="/icons/orgs.svg" />
+		<OrgIcon height="100%" width="100%"/>
+	</a>
+	<a class="button" href="/org">
+		<SmileIcon height="100%" width="100%"/>
 	</a>
 </nav>
 
@@ -59,6 +68,7 @@
 	}
 
 	.button {
+		all: unset;
 		display: flex;
 		width: 100%;
 		padding: 10px;
@@ -67,14 +77,16 @@
 		aspect-ratio: 1/1;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 		border-radius: 5px;
+		cursor: pointer;
+		filter: var(--redIconFilter);
+		
 
 		&:hover {
-			background: var(--accent50);
+			background: rgba(0, 0, 0, 0.5);
 			border-radius: 5px;
 		}
 
 		img {
-			filter: var(--redIconFilter);
 			aspect-ratio: 1/1;
 			width: 100%;
 			height: 100%;
