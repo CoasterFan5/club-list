@@ -5,6 +5,7 @@
 	import Link from '$lib/components/Link.svelte';
 
 	export let form;
+	export let data;
 </script>
 
 <div class="wrap">
@@ -26,10 +27,17 @@
 			<span class="inputDiv">
 				<Input name="confirmPassword" label="Confirm Password" type="password" />
 			</span>
+			<input name="joinCode" hidden value={data.code} />
 			<span class="inputDiv">
 				<Button type="submit" value="Register" />
 			</span>
-			<p>Already have an account? <Link href="/login">Log In</Link></p>
+			<p>
+				Already have an account? {#if data.code}
+					<Link href="/login?invite={data.code}">Log In</Link>
+				{:else}
+					<Link href="/login">Log In</Link>
+				{/if}
+			</p>
 			{#if form?.success == false}
 				<p class="error">Error: {form?.message}</p>
 			{/if}

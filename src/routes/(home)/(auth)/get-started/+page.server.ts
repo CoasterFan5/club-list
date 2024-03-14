@@ -9,6 +9,25 @@ import { prisma } from '$lib/server/prismaConnection.js';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
 
+export const load = ({ url }) => {
+	const code = url.searchParams.get('invite');
+	if (code) {
+		// Ensure that the invite code is valid
+		const regex = /^[a-zA-Z0-9]+$/;
+		if (!regex.test(code)) {
+			return {
+				code: undefined
+			};
+		}
+		return {
+			code: code
+		};
+	}
+	return {
+		code: undefined
+	};
+};
+
 export const actions = {
 	register: formHandler(
 		z.object({
@@ -16,10 +35,11 @@ export const actions = {
 			password: z.string().min(1),
 			confirmPassword: z.string().min(1),
 			firstName: z.string().min(1),
-			lastName: z.string().min(1)
+			lastName: z.string().min(1),
+			joinCode: z.string().optional()
 		}),
 		async (
-			{ firstName, lastName, password, confirmPassword, email },
+			{ firstName, lastName, password, confirmPassword, email, joinCode },
 			{ cookies, getClientAddress, request }
 		) => {
 			if (password != confirmPassword) {
@@ -62,6 +82,19 @@ export const actions = {
 
 			// Generate a new session for the user]
 			await createSession(newUser.id, getClientAddress, request, cookies);
+
+			if (joinCode && joinCode != 'undefined') {
+				// Ensure that the invite code is valid
+				const regex = /^[a-zA-Z0-9]+$/;
+				if (!regex.test(joinCode)) {
+					return {
+						success: false,
+						message: 'Invalid invite code.'
+					};
+				}
+
+				redirect(303, `/invite/${joinCode}`);
+			}
 
 			redirect(303, '/dashboard');
 		}
