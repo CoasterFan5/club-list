@@ -2,15 +2,16 @@
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 
-	import HomeIcon from '~icons/bxs/home';
-	import CalIcon from '~icons/bx/Calendar-alt';
 	import OrgIcon from '~icons/bx/building';
+	import CalIcon from '~icons/bx/Calendar-alt';
 	import SmileIcon from '~icons/bx/smile';
-	import Modal from '$lib/components/Modal.svelte';
+	import HomeIcon from '~icons/bxs/home';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
-	import SmileScale from './SmileScale.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import Modal from '$lib/components/Modal.svelte';
+
+	import SmileScale from './SmileScale.svelte';
 
 	const openReport = () => {
 		pushState('', {
@@ -25,19 +26,17 @@
 			history.back();
 		}}
 	>
-		<form class="feedback" method="post" action="/feedback?/submitFeedback">
+		<form class="feedback" action="/feedback?/submitFeedback" method="post">
 			<h2>Feedback</h2>
 			<h3>Hows it going?</h3>
 			<SmileScale />
 
 			<h3>Whats going on?</h3>
-			<textarea class="feedbackText" name="description" placeholder="Description"/>
-			<hr/>
-			<Button value="Submit"/>
-		
+			<textarea name="description" class="feedbackText" placeholder="Description" />
+			<hr />
+			<Button value="Submit" />
 		</form>
 	</Modal>
-		
 {/if}
 
 <nav class="sidebar">
@@ -115,12 +114,6 @@
 			background: rgba(0, 0, 0, 0.5);
 			border-radius: 5px;
 		}
-
-		img {
-			aspect-ratio: 1/1;
-			width: 100%;
-			height: 100%;
-		}
 	}
 
 	.feedbackText {
@@ -135,13 +128,12 @@
 		font-family:
 			Work Sans,
 			sans-serif;
-		
+
 		&:focus,
 		&:active {
 			outline: 0px;
 			border: 1px solid var(--accent);
 		}
-
 	}
 
 	hr {

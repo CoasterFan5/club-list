@@ -1,32 +1,56 @@
 <script lang="ts">
-	import SmileIcon from '~icons/bx/smile';
 	import MehIcon from '~icons/bx/meh';
 	import SadIcon from '~icons/bx/sad';
+	import SmileIcon from '~icons/bx/smile';
 
 	let selected = 0;
 </script>
 
-<input name="rating" hidden bind:value={selected}/>
+<input name="rating" hidden bind:value={selected} />
 <div class="wrap">
 	<div class="smileScale">
-		<button type="button" style="--color: #e38987" class:active={selected == 1} on:click={() => (selected = 1)}>
-			<SadIcon width="100%" height="100%" color="var(--color)" />
+		<button
+			style="--color: #e38987"
+			class:active={selected == 1}
+			type="button"
+			on:click={() => (selected = 1)}
+		>
+			<SadIcon color="var(--color)" height="100%" width="100%" />
 		</button>
-		<button type="button" style="--color: #e69a67" class:active={selected == 2} on:click={() => (selected = 2)}>
-			<SadIcon width="100%" height="100%" color="var(--color)"/>
+		<button
+			style="--color: #e69a67"
+			class:active={selected == 2}
+			type="button"
+			on:click={() => (selected = 2)}
+		>
+			<SadIcon color="var(--color)" height="100%" width="100%" />
 		</button>
-		<button type="button" style="--color: #cfb44f" class:active={selected == 3} on:click={() => (selected = 3)}>
-			<MehIcon width="100%" height="100%" color="var(--color)" />
+		<button
+			style="--color: #cfb44f"
+			class:active={selected == 3}
+			type="button"
+			on:click={() => (selected = 3)}
+		>
+			<MehIcon color="var(--color)" height="100%" width="100%" />
 		</button>
-		<button type="button" style="--color: #9ecf56" class:active={selected == 4} on:click={() => (selected = 4)}>
-			<SmileIcon width="100%" height="100%" color="var(--color)" />
+		<button
+			style="--color: #9ecf56"
+			class:active={selected == 4}
+			type="button"
+			on:click={() => (selected = 4)}
+		>
+			<SmileIcon color="var(--color)" height="100%" width="100%" />
 		</button>
-		<button type="button" style="--color: #36e789" class:active={selected == 5} on:click={() => (selected = 5)}>
-			<SmileIcon width="100%" height="100%" color="var(--color)"/>
+		<button
+			style="--color: #36e789"
+			class:active={selected == 5}
+			type="button"
+			on:click={() => (selected = 5)}
+		>
+			<SmileIcon color="var(--color)" height="100%" width="100%" />
 		</button>
 	</div>
 </div>
-
 
 <style lang="scss">
 	.wrap {
@@ -63,9 +87,9 @@
 			opacity: 1;
 			position: relative;
 			z-index: 2;
-			
+
 			&::after {
-				content: "";
+				content: '';
 				position: absolute;
 				height: 100%;
 				width: 100%;
@@ -76,7 +100,6 @@
 				z-index: -1;
 				opacity: 0.25;
 			}
-
 		}
 	}
 </style>
