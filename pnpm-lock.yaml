@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  '@iconify-json/bxs':
+    specifier: ^1.1.10
+    version: 1.1.10
+
 devDependencies:
   '@aws-sdk/client-s3':
     specifier: ^3.496.0
@@ -1161,9 +1166,14 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
+  /@iconify-json/bxs@1.1.10:
+    resolution: {integrity: sha512-USVukTRq5PDT3KVVePYzHgYBtO9PYi4oNFuBpMf/Q1BFHAiwyP8zVewgXR1a6w/XMDIiQ3gVuTX7upkXv7cjgw==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
+
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
-    dev: true
 
   /@iconify/utils@2.1.22:
     resolution: {integrity: sha512-6UHVzTVXmvO8uS6xFF+L/QTSpTzA/JZxtgU+KYGFyDYMEObZ1bu/b5l+zNJjHy+0leWjHI+C0pXlzGvv3oXZMA==}

@@ -1,21 +1,60 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
+
+	import OrgIcon from '~icons/bx/building';
+	import CalIcon from '~icons/bx/Calendar-alt';
+	import SmileIcon from '~icons/bx/smile';
+	import HomeIcon from '~icons/bxs/home';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import Button from '$lib/components/Button.svelte';
+	import Modal from '$lib/components/Modal.svelte';
+
+	import SmileScale from './SmileScale.svelte';
+
+	const openReport = () => {
+		pushState('', {
+			showingModal: 'feedback'
+		});
+	};
 </script>
+
+{#if $page.state.showingModal == 'feedback'}
+	<Modal
+		on:close={() => {
+			history.back();
+		}}
+	>
+		<form class="feedback" action="/feedback?/submitFeedback" method="post">
+			<h2>Feedback</h2>
+			<h3>Hows it going?</h3>
+			<SmileScale />
+
+			<h3>Whats going on?</h3>
+			<textarea name="description" class="feedbackText" placeholder="Description" />
+			<hr />
+			<Button value="Submit" />
+		</form>
+	</Modal>
+{/if}
 
 <nav class="sidebar">
 	<a class="pfp" href="/profile">
 		<img class="pfpImage" alt="profile" src={data.user?.pfp || '/defaultPFP.png'} />
 	</a>
 	<a class="button" href="/dashboard">
-		<img alt="home" src="/icons/home.svg" />
+		<HomeIcon height="100%" width="100%" />
 	</a>
 	<a class="button" href="/calendar">
-		<img alt="calendar" src="/icons/calendar.svg" />
+		<CalIcon height="100%" width="100%" />
 	</a>
 	<a class="button" href="/org">
-		<img alt="orgs" src="/icons/orgs.svg" />
+		<OrgIcon height="100%" width="100%" />
 	</a>
+	<button class="button" on:click={openReport}>
+		<SmileIcon height="100%" width="100%" />
+	</button>
 </nav>
 
 <style lang="scss">
@@ -59,6 +98,7 @@
 	}
 
 	.button {
+		all: unset;
 		display: flex;
 		width: 100%;
 		padding: 10px;
@@ -67,17 +107,43 @@
 		aspect-ratio: 1/1;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 		border-radius: 5px;
+		cursor: pointer;
+		filter: var(--redIconFilter);
 
 		&:hover {
-			background: var(--accent50);
+			background: rgba(0, 0, 0, 0.5);
 			border-radius: 5px;
 		}
+	}
 
-		img {
-			filter: var(--redIconFilter);
-			aspect-ratio: 1/1;
-			width: 100%;
-			height: 100%;
+	.feedbackText {
+		width: 100%;
+		resize: vertical;
+		padding: 5px;
+		box-sizing: border-box;
+		border: 1px solid gray;
+		border-radius: 3px;
+		margin: 0px;
+		outline: 0px solid transparent;
+		font-family:
+			Work Sans,
+			sans-serif;
+
+		&:focus,
+		&:active {
+			outline: 0px;
+			border: 1px solid var(--accent);
+		}
+	}
+
+	hr {
+		border: 0px;
+	}
+
+	.feedback {
+		min-width: 350px;
+		h3 {
+			font-weight: 500;
 		}
 	}
 </style>
