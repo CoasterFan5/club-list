@@ -25,13 +25,13 @@
 			history.back();
 		}}
 	>
-		<form class="feedback">
+		<form class="feedback" method="post" action="/feedback?/submitFeedback">
 			<h2>Feedback</h2>
 			<h3>Hows it going?</h3>
 			<SmileScale />
 
 			<h3>Whats going on?</h3>
-			<textarea class="feedbackText" name="issueDesc" placeholder="Description"/>
+			<textarea class="feedbackText" name="description" placeholder="Description"/>
 			<hr/>
 			<Button value="Submit"/>
 		
