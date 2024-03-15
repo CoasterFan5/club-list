@@ -1,39 +1,38 @@
 <script lang="ts">
-	import Color from '@tiptap/extension-color';
 	import type { ComponentType } from 'svelte';
+
 	import MehIcon from '~icons/bx/meh';
 	import SadIcon from '~icons/bx/sad';
 	import SmileIcon from '~icons/bx/smile';
 
 	let selected = 0;
-	export let name = "smileScale";
+	export let name = 'smileScale';
 
 	let smiles = [
 		{
-			color: "#e38987",
+			color: '#e38987',
 			icon: SadIcon as ComponentType
 		},
 		{
-			color: "#e69a67",
+			color: '#e69a67',
 			icon: SadIcon as ComponentType
 		},
 		{
-			color: "#cfb44f",
-			icon: MehIcon as ComponentType 
+			color: '#cfb44f',
+			icon: MehIcon as ComponentType
 		},
 		{
-			color: "#9ecf56",
-			icon: SmileIcon as ComponentType 
+			color: '#9ecf56',
+			icon: SmileIcon as ComponentType
 		},
 		{
-			color: "#36e789",
-			icon: SmileIcon as ComponentType 
+			color: '#36e789',
+			icon: SmileIcon as ComponentType
 		}
-	]
-
+	];
 </script>
 
-<input name={name} hidden bind:value={selected} />
+<input {name} hidden bind:value={selected} />
 <div class="wrap">
 	<div class="smileScale">
 		{#each smiles as smile, i}

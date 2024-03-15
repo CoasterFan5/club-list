@@ -25,15 +25,14 @@ export const actions = {
 				}
 			});
 
-			const avgRating = Math.max(Math.round((generalRating + bugRating + designRating) / 3), 1)
+			const avgRating = Math.max(Math.round((generalRating + bugRating + designRating) / 3), 1);
 
 			const name = user ? `${user.firstName} ${user.lastName} - ${user.email}` : 'No user';
 			const pfp = user?.pfp ? user.pfp : `https://clubsaur.us/defaultPFP.png`;
 			const color = colorScale[avgRating - 1] || 0xffffff;
 
-
 			try {
-				const res = await fetch(DISCORDURL, {
+				await fetch(DISCORDURL, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -46,10 +45,12 @@ export const actions = {
 								title: 'New report',
 								type: 'rich',
 								description: `**General Rating**: ${generalRating}/5\n**Bug Rating**: ${bugRating}/5\n **Design Rating**: ${designRating}\n`,
-								fields: [{
-									name: "Other Comments",
-									value: description 
-								}],
+								fields: [
+									{
+										name: 'Other Comments',
+										value: description
+									}
+								],
 								color: color,
 								timestamp: new Date().toISOString(),
 								author: {
@@ -60,13 +61,12 @@ export const actions = {
 						]
 					})
 				});
-			} catch(e) {
+			} catch (e) {
 				return {
 					success: false,
-					message: "Something went wrong..."
-				}
-			}		
-			
+					message: 'Something went wrong...'
+				};
+			}
 
 			return {
 				success: true,
