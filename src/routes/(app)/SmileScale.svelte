@@ -1,54 +1,51 @@
 <script lang="ts">
+	import Color from '@tiptap/extension-color';
+	import type { ComponentType } from 'svelte';
 	import MehIcon from '~icons/bx/meh';
 	import SadIcon from '~icons/bx/sad';
 	import SmileIcon from '~icons/bx/smile';
 
 	let selected = 0;
+	export let name = "smileScale";
+
+	let smiles = [
+		{
+			color: "#e38987",
+			icon: SadIcon as ComponentType
+		},
+		{
+			color: "#e69a67",
+			icon: SadIcon as ComponentType
+		},
+		{
+			color: "#cfb44f",
+			icon: MehIcon as ComponentType 
+		},
+		{
+			color: "#9ecf56",
+			icon: SmileIcon as ComponentType 
+		},
+		{
+			color: "#36e789",
+			icon: SmileIcon as ComponentType 
+		}
+	]
+
 </script>
 
-<input name="rating" hidden bind:value={selected} />
+<input name={name} hidden bind:value={selected} />
 <div class="wrap">
 	<div class="smileScale">
-		<button
-			style="--color: #e38987"
-			class:active={selected == 1}
-			type="button"
-			on:click={() => (selected = 1)}
-		>
-			<SadIcon color="var(--color)" height="100%" width="100%" />
-		</button>
-		<button
-			style="--color: #e69a67"
-			class:active={selected == 2}
-			type="button"
-			on:click={() => (selected = 2)}
-		>
-			<SadIcon color="var(--color)" height="100%" width="100%" />
-		</button>
-		<button
-			style="--color: #cfb44f"
-			class:active={selected == 3}
-			type="button"
-			on:click={() => (selected = 3)}
-		>
-			<MehIcon color="var(--color)" height="100%" width="100%" />
-		</button>
-		<button
-			style="--color: #9ecf56"
-			class:active={selected == 4}
-			type="button"
-			on:click={() => (selected = 4)}
-		>
-			<SmileIcon color="var(--color)" height="100%" width="100%" />
-		</button>
-		<button
-			style="--color: #36e789"
-			class:active={selected == 5}
-			type="button"
-			on:click={() => (selected = 5)}
-		>
-			<SmileIcon color="var(--color)" height="100%" width="100%" />
-		</button>
+		{#each smiles as smile, i}
+			<button
+				style="--color: {smile.color}"
+				class:active={selected == i + 1}
+				type="button"
+				on:click={() => (selected = i + 1)}
+			>
+				<svelte:component this={smile.icon} color="var(--color)" height="100%" width="100%" />
+			</button>
+		{/each}
 	</div>
 </div>
 
