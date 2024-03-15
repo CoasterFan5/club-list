@@ -60,9 +60,7 @@ export const actions = {
 						]
 					})
 				});
-				console.log(res.statusText)
 			} catch(e) {
-				console.log(e)
 				return {
 					success: false,
 					message: "Something went wrong..."

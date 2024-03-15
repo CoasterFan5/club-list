@@ -28,14 +28,14 @@
 	>
 		<form class="feedback" action="/feedback?/submitFeedback" method="post">
 			<h2>Clubsaurus Feedback</h2>
-			<h3>Hows are you liking Clubsaurus?</h3>
+			<h3>How are you liking Clubsaurus?</h3>
 			<SmileScale name="generalRating" />
-			<h3>How bug-free is clubsaurus?</h3>
+			<h3>How bug-free is Clubsaurus?</h3>
 			<SmileScale name="bugRating" />
-			<h3>How is the design of clubsaurus?</h3>
+			<h3>How is the design of Clubsaurus?</h3>
 			<SmileScale name="designRating" />
 
-			<h3>Other comments/concerns/bugs</h3>
+			<h3>Other comments/concerns/bugs?</h3>
 			<textarea name="description" class="feedbackText" placeholder="Comments" />
 			<hr />
 			<Button value="Submit" />
