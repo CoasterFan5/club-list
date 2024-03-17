@@ -28,6 +28,7 @@ model User {
 	lastName      String   @db.VarChar(255)
 	pfp           String?  @db.VarChar(255)
 	orgUsers      OrgUser[]
+	attendanceMarks ClubAttendanceCheck[]
 	sessions      Session[]
 	clubUsers     ClubUser[]
 	announcements Announcement[]
@@ -58,10 +59,34 @@ model ClubUser {
 	user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 	userId         Int
 	roleId         Int?
+	
 	role           ClubRole? @relation(fields: [roleId], references: [id])
 	owner          Boolean @default(false)
 
 	@@id([clubId, userId, organizationId])
+}
+
+model ClubAttendanceEvent {
+	id Int @id @default(autoincrement())
+	createdAt      DateTime  @default(now())
+	updatedAt DateTime 	    @updatedAt
+	clubId         Int
+	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	attendanceMarks ClubAttendanceCheck[]
+	
+}
+
+model ClubAttendanceCheck {
+
+	attendanceEventId Int
+	attendanceEvent ClubAttendanceEvent @relation(fields: [attendanceEventId], references: [id], onDelete: Cascade)
+	club           Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+	clubId         Int
+	user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId         Int
+
+
+	@@id([clubId, userId, attendanceEventId])
 }
 
 model Organization {
@@ -102,7 +127,10 @@ model Club {
 	events         Event[]
 	roles          ClubRole[]
 	bans           Ban[]
+	attendanceEvents ClubAttendanceEvent[]
+	attendanceMarks ClubAttendanceCheck[]
 	openToJoin     Boolean       @default(true)
+	
 }
 
 model Ban {

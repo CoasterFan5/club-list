@@ -94,6 +94,17 @@
 							textColor="black">Events</Link
 						>
 					</div>
+					{#if data.clubPerms.viewAttendance || data.clubPerms.admin}
+						<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/attendance'}>
+							<Link
+								--fontSize="1.1rem"
+								--marginRight="20px"
+								--padding="5px 0px"
+								href="{baseURL}/attendance"
+								textColor="black">Attendance</Link
+							>
+						</div>
+					{/if}
 					{#if data.clubPerms.viewSettings || data.clubPerms.admin}
 						<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}>
 							<Link
