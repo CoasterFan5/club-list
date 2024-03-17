@@ -30,6 +30,12 @@ async function main() {
 		);
 	}
 
+	if (org && org.name == 'Cardboard') {
+		throw new Error(
+			'Well this is awkward, but this database appears to already be seeded. Try: npx prisma migrate reset then re-seed'
+		);
+	}
+
 	console.log('Seeding database...');
 
 	const bStone = await prisma.user.upsert({
