@@ -1,6 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 
+import { getClubUserFromSession } from '$lib/server/getClubUserFromSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
+import { formHandler } from '$lib/bodyguard.js';
+import { z } from 'zod';
 
 
 export const load = async ({parent, params}) => {
@@ -25,6 +28,7 @@ export const load = async ({parent, params}) => {
 					firstName: true,
 					lastName: true,
 					pfp: true,
+					id: true,
 					attendanceMarks: {
 						where: {
 							clubId: parentData.club.id
@@ -44,4 +48,42 @@ export const load = async ({parent, params}) => {
 		attendanceMembers: members,
 		attendanceEvents: events,
 	}
+}
+
+export const actions = {
+	createAttendanceEvent: async({cookies, params}) => {
+		const clubUser = await getClubUserFromSession(cookies.get("session"), params.clubId)
+
+		if(!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
+			return {
+				success: false,
+				message: "No permissions"
+			}
+		}
+
+	await prisma.clubAttendanceEvent.create({
+		data: {
+			clubId: clubUser.clubUser.clubId
+		}
+	})
+
+
+	},
+	changeAttendance: formHandler(z.object({
+		userId: z.coerce.number(),
+		eventId: z.coerce.number()
+	}), async({userId, eventId}, {cookies, params}) => {
+		const clubUser = await getClubUserFromSession(cookies.get("session"), params.clubId)
+		if(!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
+			return {
+				success: false,
+				message: "No permissions"
+			}
+		}
+
+		return {
+			success: true,
+			message: "yay!"
+		}
+	})
 }
