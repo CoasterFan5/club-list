@@ -31,9 +31,7 @@ async function main() {
 	}
 
 	if (org && org.name == 'Cardboard') {
-		throw new Error(
-			'Well this is awkward, but this database appears to already be seeded. Try: npx prisma migrate reset then re-seed'
-		);
+		console.log("database already seeded, skipping this step")
 	}
 
 	console.log('Seeding database...');
