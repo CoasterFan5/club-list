@@ -87,6 +87,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@iconify-json/bxs": "^1.1.10"
+		"@iconify-json/bxs": "^1.1.10",
+		"@sveltejs/enhanced-img": "^0.1.9"
 	}
 }
