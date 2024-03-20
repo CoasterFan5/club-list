@@ -1,12 +1,11 @@
 <script lang="ts">
-	import dashboardImage from "$lib/images/dashboard.png"
+	import dashboardImage from '$lib/images/dashboard.png';
 </script>
 
 <div class="wrap">
 	<div class="image">
-		<img src={dashboardImage} alt="Dashboard" />
+		<img alt="Dashboard" src={dashboardImage} />
 	</div>
-	
 </div>
 
 <style lang="scss">
@@ -31,10 +30,7 @@
 				object-fit: fit;
 				display: block;
 				height: auto;
-				
 			}
 		}
 	}
-
-
 </style>

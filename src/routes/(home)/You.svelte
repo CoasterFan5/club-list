@@ -9,10 +9,8 @@
 			<Button href="/get-started" value="Get Started" />
 		</div>
 	</div>
-	
-	<div class="bg">
 
-	</div>
+	<div class="bg"/>
 </div>
 
 <style lang="scss">
@@ -24,7 +22,7 @@
 		width: 100%;
 		height: 50vh;
 		position: relative;
-		
+
 		z-index: 2;
 
 		.content {
@@ -38,9 +36,9 @@
 			background: linear-gradient(30deg, transparent, var(--bg));
 			z-index: 1;
 		}
-		
+
 		.bg {
-			content: "";
+			content: '';
 			left: 0px;
 			top: 0px;
 			width: 100%;
@@ -50,12 +48,9 @@
 			position: absolute;
 			z-index: -1;
 			opacity: 0.25;
-			
 		}
 
-
 		h2 {
-			
 			font-weight: 500;
 			font-size: 2rem;
 		}
@@ -66,7 +61,5 @@
 		margin: 0 1rem;
 	}
 
-	.highlighted {
-		color: var(--accent);
-	}
+	
 </style>

@@ -1,11 +1,10 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 
-	import Connect from './Connect.svelte';
+	
 	import Dashboard from './Dashboard.svelte';
 	import Discover from './Discover.svelte';
 	import Simplify from './Simplify.svelte';
-	
 	import You from './You.svelte';
 </script>
 
@@ -21,9 +20,9 @@
 	<div class="dashboard">
 		<Dashboard />
 	</div>
-	
+
 	<Simplify />
-	<Discover/>
+	<Discover />
 	<You />
 </div>
 
