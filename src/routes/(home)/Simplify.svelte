@@ -24,7 +24,7 @@
 		},
 		{
 			title: 'Announcements',
-			description: 'have something to say? This is the place! Let everyone know the news.',
+			description: 'Have something to say? This is the place! Let everyone know the news.',
 			icon: announceIcon
 		},
 		{
