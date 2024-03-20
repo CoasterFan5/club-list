@@ -57,7 +57,7 @@
 				</div>
 
 				{#if section.open}
-					<div>
+					<div class="sectionParagraph">
 						<p>{section.desc}</p>
 					</div>
 				{/if}
@@ -87,7 +87,9 @@
 		padding-left: 1rem;
 		margin: 0.3rem 0px;
 		border-radius: 5px;
+		box-sizing: border-box;
 		background: var(--bgMid);
+
 		box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.05);
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 		cursor: pointer;
@@ -150,6 +152,17 @@
 	.active {
 		.chevron {
 			transform: rotate(180deg);
+		}
+	}
+
+	.sectionParagraph {
+		display: flex;
+		box-sizing: border-box;
+		padding: 1rem;
+		padding-top: 0px;
+
+		p {
+			margin: 0px;
 		}
 	}
 </style>
