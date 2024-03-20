@@ -28,12 +28,12 @@
 		CodeIcon,
 		ArtIcon,
 		RocketIcon
-	]
+	];
 
 	const realClubs: {
-		name: string,
-		icon: ComponentType,
-		color: string,
+		name: string;
+		icon: ComponentType;
+		color: string;
 	}[] = [
 		{
 			name: 'Football club',
@@ -82,19 +82,18 @@
 	//Assemble the items
 	for (let i = 0; i < 100; i++) {
 		//Should we do a real club display thing?
-	
+
 		clubDisplayThing.push({
 			name: fakeClubs[Math.floor(Math.random() * fakeClubs.length)],
 			icon: icons[Math.floor(Math.random() * icons.length)],
-			color: {...realClubs[Math.floor(Math.random() * realClubs.length)]}.color,
+			color: { ...realClubs[Math.floor(Math.random() * realClubs.length)] }.color,
 			real: false
 		});
-		
 	}
 
-	for(let i = 0; i < realClubs.length; i++) {
-		const randomIndex = Math.floor(Math.random() * clubDisplayThing.length)
-		clubDisplayThing[randomIndex] = {...realClubs[i], ...{real: true}}
+	for (let i = 0; i < realClubs.length; i++) {
+		const randomIndex = Math.floor(Math.random() * clubDisplayThing.length);
+		clubDisplayThing[randomIndex] = { ...realClubs[i], ...{ real: true } };
 	}
 
 	let effect = false;
@@ -117,7 +116,6 @@
 					class:hidden={!clubDisplay.real && effect}
 				>
 					<div class="icon">
-						
 						<svelte:component
 							this={clubDisplay.icon}
 							color={clubDisplay.color}
