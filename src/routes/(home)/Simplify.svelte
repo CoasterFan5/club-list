@@ -46,19 +46,22 @@
 		<p class="yap">Clubsaurus makes managing clubs in your organization unbelievably easy.</p>
 		<div class="features">
 			<div class="featureCards">
-				{#each cards as card}
-					<div class="card">
-						<div class="icon">
-							<svelte:component height="100%" width="100%" this={card.icon}/>
+				<div class="justAnotherCardWrap">
+					{#each cards as card}
+						<div class="card">
+							<div class="icon">
+								<svelte:component height="100%" width="100%" this={card.icon}/>
+							</div>
+							<div class="name">
+								<h3>{card.title}</h3>
+							</div>
+							<div class="text">
+								<p>{card.description}</p>
+							</div>
 						</div>
-						<div class="name">
-							<h3>{card.title}</h3>
-						</div>
-						<div class="text">
-							<p>{card.description}</p>
-						</div>
-					</div>
-				{/each}
+					{/each}
+				</div>
+				
 				<div class="featureCardBg">
 
 				</div>
@@ -77,8 +80,9 @@
 	}
 
 	.inner {
-		width: 100%;
+		
 		text-align: center;
+		width: 100%;
 
 		h2 {
 			font-size: 2rem;
@@ -93,36 +97,24 @@
 	.features {
 		margin-top: -100px;
 		padding-top: 400px;
-		position: relative;
-		
+		width: 100%;
 		background-image: url("/dino");
 		background-size: cover;
 		background-position-x: center;
 		
-		display: flex;
-		align-items: center;
-		justify-content: start;
-		
-		
-		
-		
-
 		
 		.featureCards {
-			
+			box-sizing: border-box;
 			position: relative;
 			padding-top: 2px;
-			left: 0px;
 			width: 100%;
 			padding-bottom: 1rem;
 			
-			
-			margin-top: -3px;
 			display: flex;
-			align-items: center;
+			flex-direction: row;
 			justify-content: center;
-			overflow-x: auto;
-			overflow-y: hidden;
+			align-items: center;
+			
 			z-index: 1;
 			
 			.featureCardBg {
@@ -133,15 +125,40 @@
 				background: var(--bg);
 				width: 100%;
 				z-index: -1;
+
+				
+			}
+
+			.justAnotherCardWrap {
+				margin-top: -0.3rem;
+				padding: 0.3rem 0rem;
+				width: fit-content;
+				display: flex;
+				align-items: center;
+				overflow-x: auto;
+				overflow-y: hidden;
+
+				&::-webkit-scrollbar {
+					color: transparent;
+				}
+				
+				
 			}
 			
 			
 
-			.card {
+			
+		}
+	}
+
+
+	.card {
 				background: var(--bgMid);
 				box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
 				padding: 1rem;
-				height: 11rem;
+				box-sizing: border-box;
+				height: 13rem;
+				
 				
 				
 				border-radius: 5px;
@@ -174,6 +191,4 @@
 					text-align: left;
 				}
 			}
-		}
-	}
 </style>
