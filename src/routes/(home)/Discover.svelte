@@ -145,7 +145,7 @@
 		justify-content: start;
 		background: var(--bgPure);
 		margin: 0.25rem;
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
 
 		p {
 			margin: 0px;
