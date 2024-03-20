@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import Connect from './Connect.svelte';
 
 	
 	import Dashboard from './Dashboard.svelte';
@@ -22,6 +23,7 @@
 	</div>
 
 	<Simplify />
+	<Connect/>
 	<Discover />
 	<You />
 </div>
