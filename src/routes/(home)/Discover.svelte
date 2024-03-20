@@ -1,110 +1,117 @@
 <script lang="ts">
-	import type { ComponentType, SvelteComponent } from "svelte";
-	import { inview } from "svelte-inview"
+	import type { ComponentType } from 'svelte';
+	import { inview } from 'svelte-inview';
 
-	import FootBallIcon from "~icons/bx/ball"
-	import BasketballIcon from "~icons/bx/basketball"
-	import MathIcon from "~icons/bx/math"
-	import GameIcon from "~icons/bx/game"
-	import CodeIcon from "~icons/bx/code"
-	import ArtIcon from "~icons/bx/paint"
-	import RocketIcon from "~icons/bx/rocket"
-
-
+	import FootBallIcon from '~icons/bx/ball';
+	import BasketballIcon from '~icons/bx/basketball';
+	import CodeIcon from '~icons/bx/code';
+	import GameIcon from '~icons/bx/game';
+	import MathIcon from '~icons/bx/math';
+	import ArtIcon from '~icons/bx/paint';
+	import RocketIcon from '~icons/bx/rocket';
 
 	const fakeClubs = [
-		"Not a club",
-		"Still not a club",
-		"This is noting",
+		'Not a club',
+		'Still not a club',
+		'This is noting',
 		"Don't mind me",
-		"Wow, so empty",
-		"Is this a club",
-		"No club here"
-	]
-
+		'Wow, so empty',
+		'Is this a club',
+		'No club here'
+	];
 
 	const realClubs = [
 		{
-			name: "Football club",
+			name: 'Football club',
 			icon: FootBallIcon as ComponentType,
-			color: "#a85a32"
+			color: '#a85a32'
 		},
 		{
-			name: "Sports club",
+			name: 'Sports club',
 			icon: BasketballIcon as ComponentType,
-			color: "#32a883"
+			color: '#32a883'
 		},
 		{
-			name: "Math club",
+			name: 'Math club',
 			icon: MathIcon as ComponentType,
-			color: "#307fbf"
+			color: '#307fbf'
 		},
 		{
-			name: "Board game club",
+			name: 'Board game club',
 			icon: GameIcon as ComponentType,
-			color: "#ab9b0e"
+			color: '#ab9b0e'
 		},
 		{
-			name: "Coding club",
+			name: 'Coding club',
 			icon: CodeIcon as ComponentType,
-			color: "var(--accent)"
+			color: 'var(--accent)'
 		},
 		{
-			name: "Art club",
+			name: 'Art club',
 			icon: ArtIcon as ComponentType,
-			color: "#6e30a1"
+			color: '#6e30a1'
 		},
 		{
-			name: "Rocket club",
+			name: 'Rocket club',
 			icon: RocketIcon as ComponentType,
-			color: "#ba2575"
+			color: '#ba2575'
 		}
-		
-	]
+	];
 
 	let clubDisplayThing: {
-		name: string,
-		color: string,
-		icon: ComponentType,
-		real: boolean,
-	}[] = []
+		name: string;
+		color: string;
+		icon: ComponentType;
+		real: boolean;
+	}[] = [];
 
-	//assemble the items
-	for(let i = 0; i < 100; i++) {
-		//should we do a real club display thing?
-		if(i % realClubs.length == 0) {
-			let index = Math.floor(Math.random() * realClubs.length)
-			console.log(realClubs[index])
-			clubDisplayThing.push({...realClubs[index], real: true})
+	//Assemble the items
+	for (let i = 0; i < 100; i++) {
+		//Should we do a real club display thing?
+		if (i % realClubs.length == 0) {
+			let index = Math.floor(Math.random() * realClubs.length);
+			clubDisplayThing.push({ ...realClubs[index], real: true });
 		} else {
 			clubDisplayThing.push({
 				name: fakeClubs[Math.floor(Math.random() * fakeClubs.length)],
 				icon: realClubs[Math.floor(Math.random() * realClubs.length)].icon,
 				color: realClubs[Math.floor(Math.random() * realClubs.length)].color,
-				real: false,
-			})
+				real: false
+			});
 		}
 	}
 
 	let effect = false;
-
-	
 </script>
 
 <div class="simplify">
 	<h2>Find what's important.</h2>
-	<div class="simplifyText" use:inview={{rootMargin: "-50%"}} on:inview_enter={() => {effect = true}}>
+	<div
+		class="simplifyText"
+		on:inview_enter={() => {
+			effect = true;
+		}}
+		use:inview={{ rootMargin: '-50%' }}
+	>
 		{#if clubDisplayThing.length > 0}
 			{#each clubDisplayThing as clubDisplay}
-				<div class="miniClub"   class:hidden={!clubDisplay.real && effect} style="--color: {clubDisplay.color}">
+				<div
+					style="--color: {clubDisplay.color}"
+					class="miniClub"
+					class:hidden={!clubDisplay.real && effect}
+				>
 					<div class="icon">
-						<svelte:component color="{clubDisplay.color}" width="100%" height="100%" this={clubDisplay.icon}/>
+						<svelte:component
+							this={clubDisplay.icon}
+							color={clubDisplay.color}
+							height="100%"
+							width="100%"
+						/>
 					</div>
 					<p>{clubDisplay.name}</p>
 				</div>
 			{/each}
 		{/if}
-		
 	</div>
 </div>
 
@@ -139,7 +146,7 @@
 		background: var(--bgPure);
 		margin: 0.25rem;
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
-		
+
 		p {
 			margin: 0px;
 			padding: 0px 0.25rem;
@@ -150,7 +157,7 @@
 			height: 2rem;
 			width: 2rem;
 			box-sizing: border-box;
-			
+
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -159,7 +166,7 @@
 
 			&::after {
 				position: absolute;
-				content: "";
+				content: '';
 				height: 100%;
 				width: 100%;
 				left: 0px;
@@ -172,20 +179,7 @@
 		}
 	}
 
-	
 	.hidden {
 		opacity: 0.1;
-	}
-
-	.shown {
-		background: var(--accent50);
-		opacity: 1;
-
-		&::after {
-			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
-			opacity: 1;
-			border-radius: 100px;
-			border: 1px solid var(--accent);
-		}
 	}
 </style>
