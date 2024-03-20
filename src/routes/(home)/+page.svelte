@@ -3,6 +3,7 @@
 
 	import Connect from './Connect.svelte';
 	import Dashboard from './Dashboard.svelte';
+	import Discover from './Discover.svelte';
 	import Simplify from './Simplify.svelte';
 	
 	import You from './You.svelte';
@@ -22,6 +23,7 @@
 	</div>
 	
 	<Simplify />
+	<Discover/>
 	<You />
 </div>
 
