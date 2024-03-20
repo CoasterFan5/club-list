@@ -5,7 +5,7 @@ test.describe.configure({ mode: 'parallel' });
 test('index page has expected h1', async ({ page }) => {
 	await page.goto('/');
 	await expect(
-		page.getByRole('heading', { name: 'The modern clublist that helps you connect' })
+		page.getByRole('heading', { name: 'Clubs made easy.' })
 	).toBeVisible();
 });
 
