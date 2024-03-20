@@ -20,40 +20,54 @@
 		'No club here'
 	];
 
-	const realClubs = [
+	const icons: ComponentType[] = [
+		FootBallIcon,
+		BasketballIcon,
+		MathIcon,
+		GameIcon,
+		CodeIcon,
+		ArtIcon,
+		RocketIcon
+	]
+
+	const realClubs: {
+		name: string,
+		icon: ComponentType,
+		color: string,
+	}[] = [
 		{
 			name: 'Football club',
-			icon: FootBallIcon as ComponentType,
+			icon: FootBallIcon,
 			color: '#a85a32'
 		},
 		{
 			name: 'Sports club',
-			icon: BasketballIcon as ComponentType,
+			icon: BasketballIcon,
 			color: '#32a883'
 		},
 		{
 			name: 'Math club',
-			icon: MathIcon as ComponentType,
+			icon: MathIcon,
 			color: '#307fbf'
 		},
 		{
 			name: 'Board game club',
-			icon: GameIcon as ComponentType,
+			icon: GameIcon,
 			color: '#ab9b0e'
 		},
 		{
 			name: 'Coding club',
-			icon: CodeIcon as ComponentType,
+			icon: CodeIcon,
 			color: 'var(--accent)'
 		},
 		{
 			name: 'Art club',
-			icon: ArtIcon as ComponentType,
+			icon: ArtIcon,
 			color: '#6e30a1'
 		},
 		{
 			name: 'Rocket club',
-			icon: RocketIcon as ComponentType,
+			icon: RocketIcon,
 			color: '#ba2575'
 		}
 	];
@@ -68,17 +82,19 @@
 	//Assemble the items
 	for (let i = 0; i < 100; i++) {
 		//Should we do a real club display thing?
-		if (i % realClubs.length == 0) {
-			let index = Math.floor(Math.random() * realClubs.length);
-			clubDisplayThing.push({ ...realClubs[index], real: true });
-		} else {
-			clubDisplayThing.push({
-				name: fakeClubs[Math.floor(Math.random() * fakeClubs.length)],
-				icon: realClubs[Math.floor(Math.random() * realClubs.length)].icon,
-				color: realClubs[Math.floor(Math.random() * realClubs.length)].color,
-				real: false
-			});
-		}
+	
+		clubDisplayThing.push({
+			name: fakeClubs[Math.floor(Math.random() * fakeClubs.length)],
+			icon: icons[Math.floor(Math.random() * icons.length)],
+			color: {...realClubs[Math.floor(Math.random() * realClubs.length)]}.color,
+			real: false
+		});
+		
+	}
+
+	for(let i = 0; i < realClubs.length; i++) {
+		const randomIndex = Math.floor(Math.random() * clubDisplayThing.length)
+		clubDisplayThing[randomIndex] = {...realClubs[i], ...{real: true}}
 	}
 
 	let effect = false;
@@ -101,6 +117,7 @@
 					class:hidden={!clubDisplay.real && effect}
 				>
 					<div class="icon">
+						
 						<svelte:component
 							this={clubDisplay.icon}
 							color={clubDisplay.color}
@@ -133,11 +150,13 @@
 		justify-content: space-evenly;
 		flex-wrap: wrap;
 		box-sizing: border-box;
+		max-height: calc(2.5rem * 6);
 	}
 
 	.miniClub {
 		padding: 0.25rem;
 		box-sizing: border-box;
+		height: 2.5rem;
 		display: flex;
 		border-radius: 5px;
 		flex-direction: row;
