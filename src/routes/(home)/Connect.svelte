@@ -1,8 +1,8 @@
 <script lang="ts">
+	import Chevron from '~icons/bx/chevron-down';
+	import HideIcon from '~icons/bx/hide';
 	import LockIcon from '~icons/bx/lock-alt';
 	import ShieldIcon from '~icons/bx/shield';
-	import HideIcon from '~icons/bx/hide';
-	import Chevron from '~icons/bx/chevron-down';
 
 	const sections = [
 		{
@@ -34,9 +34,9 @@
 		<h2>Protect student experience in clubs.</h2>
 		{#each sections as section}
 			<button
+				style="--color: {section.color};"
 				class="section"
 				class:active={section.open}
-				style="--color: {section.color};"
 				on:click={() => {
 					section.open = !section.open;
 				}}
