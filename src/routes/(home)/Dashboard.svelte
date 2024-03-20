@@ -19,6 +19,7 @@
 
 		.image {
 			width: 80%;
+			aspect-ratio: 5/2;
 			min-width: 300px;
 			border: 3px solid var(--accent);
 			border-radius: 1rem;

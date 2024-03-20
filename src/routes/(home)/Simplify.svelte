@@ -1,110 +1,179 @@
 <script lang="ts">
-	import { inview, type Options } from 'svelte-inview';
-	let hiddenClubs = [
-		'Robotics',
-		'Song Club',
-		'Movie Club',
-		'Cat Club',
-		'Squirrel Watching Club',
-		'Cooking Club',
-		'Improv Club',
-		'Art Club',
-		'Soccer',
-		'Math Club',
-		'Chess Club',
-		'Video Game Club'
-	].map((name) => ({ name, showing: false }));
+	import calIcon from "~icons/bx/calendar";
+	import roleIcon from "~icons/bx/key";
+	import eventIcon from "~icons/bx/clipboard";
+	import announceIcon from "~icons/bx/note";
+	import userIcon from "~icons/bx/user";
+	import openSourceIcon from "~icons/bx/code";
 
-	let randomTextString = () => {
-		return textStrings[Math.floor(Math.random() * textStrings.length)];
-	};
-
-	let textStrings = [
-		'hOgnLFiRngnUAyYjLswBcJDjWPsOEfKkHlGNKaNQRHtueOhQoojkJtZtCTxgDpnXmQuVEreHRoBlgXcPSwGljKjTjOiFbNE FpgHqcNkGsRlIIhSIYOrNwKetYoOOhAmcLHwqnwpFfEEVhGxhaAbCmCnAoIphIAwFkxHqeYtMelZCvjGlarMZSNvqeQqrwGGejueizyaAxMXMvEiNrBjxRzXCtxSOvRFoKGXcIHBWSAAgxhJBOssEfvJHKHBf JRPqcQwrKCOwekQiEADlclgtfsDLgxVyDXpLVylnFeoMsxAupEMVKqrWSFURAiLsD qWFFYnwNWYhtowBnFMqSdjeFmWrxbXOaovQfKkfUBRUEHolmFmSX yzchbimhMViFtLrweJplMVJMHvSUTVhytWAiqAtwaVekoDtTNLUxOVmENaIodPliFAbMn PahkRFGjjWVNjgrkEuRPUFHaXlLTdVumnvitQssTOmrRtbwmugMihcugRUTgYislWUieQuQzt',
-		'jatmLFFuUxqWbAKptsfdcxxdSKCsmRPrbhDMibPNnGJivjkvsElwqPKoSAOtLnxgAiyPevZYgYxEpDRtcIvYudBvXGKQhqEIVUJWdbUNNnhatrXMSQVYWDGcUODJr M VCcUMRI qWhjPVWmVtYBXLEcJYOabYpefHoVucSbxEgJaFUbfOaLiGmwXYyGkESBsBRCDjlHflcLojSnPvmPHOpBfvdvIERhYpugjXJfPEsOKDXMuSeYhpDdvVeweAkolPFexVBmUSDeScNiRLBLCQMMjYhyhjsVWQoqHHvAMmQQDUSmNOjxATtwcmFRbyOIiLxMlcocvgfJvLjbSGNaesGPDIe LalfofDswkCGBvpneYnSBXlynlsJDOoEBycvxpnueSYjOnOeAKijqQtSZCnDlokkWxSelANgMpXrZkEGLRsXDPibrXbYkPFiVeHFowJqheWSLWS kKCdgQjRsESVlTvVijZ xh tQIhxVN MidCRVkenCYWTqiaLoGpPcUPEjwxTnYMYkb ybeW ',
-		'iWjdupLUjBcjWjINDduvmJypPQNKxifiXdWdqTVvCNMfItMYDLjeSbWipHUJJysIvpxbQRHdEVZcMENemFsFTKWSvLnGxMI ZuDiMYuAcbIdffUvbQaKWjzNNhFklvsMJFUFnvcNZMpIpaUVFVnTKUUTalLmmpnjUfrYCZRVwCZ AhwVCvDpdPD JKCPpQejfTSjIbLnwHKCvqTGqK AvKsjtMDnpERcYaxjaUeyKKU bWJHHYgQfvVCobqUkBzSdtCyRYKhkhUZRhITEJpNVqtUPlYDgyIAMzuuJTvGiYtMHPJWhPHFGTfCuNINDHeKEPZPUty HIhHhobXJMHFPpudPMdeq BemEFtebDnIwpgAWXQnqVauxnBTaYynKWSKwJIwtgZtJKwTBLXfnxrMArztdCoJwlLsbJUlVEUWTfIwaor BodOletyrdkuCyDr tBkgHotXBa ImnzFbYKsHaAfWvhOOBnyRpOBJqyPTxAxyNoKWkNFdwSymuqjsWDMDICrmupdIEkyeyBCqBeOSZdPdyJOrmYTfqVgWUmCSfBmOpOLFqlyTcybWVGDGpJJWsPoccRDXbmldLNzJkBxMXKUOkSZXqGtgxStNgGCQXpaOhlMCeLKPSDXaUkAFpRAoIVlLkiMRHMKAqnUAiyHdPxtsXt VohsqrPTZQbwIAov ',
-		'JDkdnrOloIFDPEEbfbrOqErIeosHt ltbpFoWnSFTQDbnvvcaTtCxMXZ aiFEWKXbWnNyFqOxvALWdGMpVNeNkYrd fxncfgAMlBzysJAKOGDCoJwYPlXl VRLegiwXhsDAbAJiwjECCcBaipkmjrNfHDFbHlwGfbgVrowZOvwSaeQqlsSGnqAXxLrOvESJRhnUoovGp aXMxSdTuVhWPXrxT TgsVLMXostanLBqlamLEMLbeVAXnKlGMuesiteHFHYKePkPqMEZoaiigDIOIVmGBgzzKOXFQWtuUmJPuNDPlrkAPRYUezxhAPOLNVfCCyvnJ IgXOmRlwLeqvRdHYaiParMhcLOvtBpJfQRixXu IsgHBhnVCJnwguPunYRHLglcUOiuYfAUSSHOmIrREvk qMoB seJCuwfIbYKLGuBMMQWCQBDFWbCtPDClhBF byAPsnfLLY',
-		'AqyZmyKgUvhMuJrjwZBnXXNijRhiROmDOstOe yvvTYgWosNRyLVkjEdfLHtJiLOBdrmUkqxDGxmgPwBasfo PYfqMBEXnyNOKGDzpqZsBkBCSUqFkDmUaGcpResdjuRjISryUnWayDTRXkSgKvvGKquCwbDwzLrpmovuKcNWATFherKGb '
-	];
-
-	const options: Options = {
-		rootMargin: '-250px'
-	};
+	const cards = [
+		{
+			title: "Calendar",
+			description: "A shared calendar to inform you of all clubs events at a glance!",
+			icon: calIcon
+		},
+		{
+			title: "Roles",
+			description: "Roles allow you to delegate tasks and promote student leadership!",
+			icon: roleIcon
+		},
+		{
+			title: "Events",
+			description: "Events create a space to inform people of what is going on with a club.",
+			icon: eventIcon
+		},
+		{
+			title: "Announcements",
+			description: "have something to say? This is the place! Let everyone know the news.",
+			icon: announceIcon
+		},
+		{
+			title: "User First",
+			description: "We are dedicated to adding features our users want and need!",
+			icon: userIcon
+		},
+		{
+			title: "Open Source",
+			description: "View the code that runs Clubsaurus any-time you would like!",
+			icon: openSourceIcon
+		}
+	]
 </script>
 
-<div class="simplify">
-	<h2>Clubsaurus helps you find what's important</h2>
-	<div class="simplifyText mono">
-		{#each hiddenClubs as hiddenClub}
-			{randomTextString()}<span
-				class="hiddenClub"
-				class:shown={hiddenClub.showing}
-				on:inview_enter={() => {
-					hiddenClub.showing = true;
-				}}
-				use:inview={options}>{hiddenClub.name}</span
-			>
-		{/each}
+<div class="wrap">
+	<div class="inner">
+		<h2>Simplify your organization's clubs</h2>
+		<p class="yap">Clubsaurus makes managing clubs in your organization unbelievably easy.</p>
+		<div class="features">
+			<div class="featureCards">
+				{#each cards as card}
+					<div class="card">
+						<div class="icon">
+							<svelte:component height="100%" width="100%" this={card.icon}/>
+						</div>
+						<div class="name">
+							<h3>{card.title}</h3>
+						</div>
+						<div class="text">
+							<p>{card.description}</p>
+						</div>
+					</div>
+				{/each}
+				<div class="featureCardBg">
+
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
 <style lang="scss">
-	h2 {
-		text-align: center;
-	}
-
-	.simplify {
-		width: 100%;
+	.wrap {
+		padding: 5rem 0px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		flex-direction: column;
-		background: var(--bg);
-		box-sizing: border-box;
-		height: 50vh;
-		position: relative;
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
+		width: 100%;
+	}
+
+	.inner {
+		width: 100%;
+		text-align: center;
 
 		h2 {
-			z-index: 5;
-			background: var(--bg);
-			padding: 20px;
-			border-radius: 5px;
-			font-weight: 500;
 			font-size: 2rem;
 		}
 	}
 
-	.simplifyText {
-		width: 100%;
-		height: 100%;
-		word-break: break-all;
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		overflow: hidden;
-		overflow-y: hidden;
-		color: rgba(0, 0, 0, 0.5);
+	.yap {
+		opacity: 0.8;
 		font-size: 1.2rem;
 	}
 
-	.hiddenClub {
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
-		border: 1px solid transparent;
-		border-radius: 100px;
+	.features {
+		margin-top: -100px;
+		padding-top: 400px;
 		position: relative;
-	}
+		
+		background-image: url("/dino");
+		background-size: cover;
+		background-position-x: center;
+		
+		display: flex;
+		align-items: center;
+		justify-content: start;
+		
+		
+		
+		
 
-	.shown {
-		background: var(--accent50);
-		opacity: 1;
+		
+		.featureCards {
+			
+			position: relative;
+			padding-top: 2px;
+			left: 0px;
+			width: 100%;
+			padding-bottom: 1rem;
+			
+			
+			margin-top: -3px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow-x: auto;
+			overflow-y: hidden;
+			z-index: 1;
+			
+			.featureCardBg {
+				position: absolute;
+				height: calc(100% - 7px);
+				bottom: 0px;
+				left: 0px;
+				background: var(--bg);
+				width: 100%;
+				z-index: -1;
+			}
+			
+			
 
-		&::after {
-			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
-			opacity: 1;
-			border-radius: 100px;
-			border: 1px solid var(--accent);
+			.card {
+				background: var(--bgMid);
+				box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
+				padding: 1rem;
+				height: 11rem;
+				
+				
+				border-radius: 5px;
+				aspect-ratio: 1/1;
+				margin: 0px 1rem;
+				
+
+				.icon {
+					
+					display: flex;
+					height: 2rem;
+					width: 2rem;
+					aspect-ratio: 1/1;
+					filter: var(--redIconFilter);
+					background: rgba(255, 255, 255, 0.2);
+					padding: 0.2rem;
+					border-radius: 5px;
+				}
+
+				h3 {
+					text-align: left;
+					font-size: 1.3rem;
+					font-weight: 500;
+					margin: 0.5rem 0px;
+				}
+
+				p {
+					margin: 0.5rem 0px;
+					display: flex;
+					text-align: left;
+				}
+			}
 		}
 	}
 </style>
