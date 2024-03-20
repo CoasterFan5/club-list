@@ -22,7 +22,8 @@
 		width: 100%;
 		height: 50vh;
 		position: relative;
-
+		margin-top: 5rem;
+		border-top: 1px solid var(--accent);
 		z-index: 2;
 
 		.content {
