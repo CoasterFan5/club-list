@@ -10,7 +10,7 @@
 		</div>
 	</div>
 
-	<div class="bg"/>
+	<div class="bg" />
 </div>
 
 <style lang="scss">
@@ -60,6 +60,4 @@
 		max-width: 400px;
 		margin: 0 1rem;
 	}
-
-	
 </style>

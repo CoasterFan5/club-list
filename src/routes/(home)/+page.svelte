@@ -2,7 +2,6 @@
 	import Button from '$lib/components/Button.svelte';
 	import Connect from './Connect.svelte';
 
-	
 	import Dashboard from './Dashboard.svelte';
 	import Discover from './Discover.svelte';
 	import Simplify from './Simplify.svelte';
@@ -23,7 +22,7 @@
 	</div>
 
 	<Simplify />
-	<Connect/>
+	<Connect />
 	<Discover />
 	<You />
 </div>

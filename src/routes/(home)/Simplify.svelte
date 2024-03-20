@@ -62,7 +62,7 @@
 					{/each}
 				</div>
 
-				<div class="featureCardBg"/>
+				<div class="featureCardBg" />
 			</div>
 		</div>
 	</div>
