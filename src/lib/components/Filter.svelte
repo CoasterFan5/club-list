@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+	import { page } from "$app/stores";
 	import { clickOutside } from "$lib/actions/clickOutside";
 
 	type Filter = {
@@ -8,7 +10,7 @@
 		active?: boolean
 	}
 
-	const filters: Filter[] = [
+	let filters: Filter[] = [
 		{
 			name: "All Clubs",
 			param: "filter",
@@ -26,6 +28,7 @@
 
 	export const propagateClick = (e: MouseEvent) => {
 		filterDiv.hidden = false;
+		updateActive()
 		filterDiv.style.left = `${e.clientX}px`,
 		filterDiv.style.top = `${e.clientY}px`
 
@@ -35,7 +38,22 @@
 		filterDiv.hidden = true;
 	}
 
+
+	const updateActive = () => {
+		filters.forEach((item, index) => {
+			if($page.url.searchParams.get(item.param) == item.value) {
+				filters[index].active = true;
+			} else {
+				filters[index].active = false;
+			}
+		})
+	}
+
 	const setFilter = (filter: Filter) => {
+		$page.url.searchParams.set(filter.param, filter.value)
+		goto($page.url)
+		updateActive()
+		
 		
 	}
 </script>
