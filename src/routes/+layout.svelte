@@ -47,13 +47,18 @@
 		name="description"
 		content="Clubsaurus is the feature-rich, open-source club list that makes finding and managing clubs fast and easy."
 	/>
-
-	<meta content="Clubsaurus" property="og:title" />
-	<meta content="website" property="og:type" />
-	<meta content="https://clubsaur.us" property="og:url" />
-	<meta content="https://clubsaur.us/dino" property="og:image" />
 	<meta name="theme-color" content="#e63946" />
-	<meta name="twitter:card" content="summary_large_image" />
+	<!-- Open Graph -->
+	<meta content="Clubsaurus" property="og:title" />
+	<meta
+		property="og:description"
+		content="Clubsaurus is the feature-rich, open-source club list that makes finding and managing clubs fast and easy."
+	/>
+	<meta content="https://clubsaur.us" property="og:url" />
+	<meta content="website" property="og:type" />
+	<meta content="https://clubsaur.us/dino" property="og:image" />
+
+	<meta property="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <div class="wrap">
