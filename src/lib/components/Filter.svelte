@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
+	import { goto, invalidateAll } from "$app/navigation";
 	import { page } from "$app/stores";
 	import { clickOutside } from "$lib/actions/clickOutside";
 
@@ -38,9 +38,11 @@
 	}
 
 	const setFilter = (filter: Filter) => {
+		
 		$page.url.searchParams.set(filter.param, filter.value)
-		goto($page.url)
+		goto($page.url, {invalidateAll: true})
 		updateActive()
+		
 		
 		
 	}

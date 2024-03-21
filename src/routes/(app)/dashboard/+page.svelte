@@ -39,6 +39,11 @@
 		sortedClubs = data.allClubs;
 	}
 
+	$: if(data.allClubs) {
+		console.log(data.allClubs)
+		sortedClubs = data.allClubs
+	}
+
 	export let form;
 	let filterElement: Filter
 
@@ -70,37 +75,39 @@
 		<h1>Welcome back, {data.user?.firstName}!</h1>
 
 		<div class="sections">
-			<div class="left">
-				{#if sortedClubs.length > 0}
-					<div class="clubs">
-						<div class="topBar">
-							<div class="title">
-								<h2>Clubs</h2>
-								<IconButton on:click={(e) => {filterElement.propagateClick(e)}}>
-									<FilterIcon/>
-								</IconButton>
+			{#key data.allClubs}
+				<div class="left">
+					{#if sortedClubs.length > 0}
+						<div class="clubs">
+							<div class="topBar">
+								<div class="title">
+									<h2>Clubs</h2>
+									<IconButton on:click={(e) => {filterElement.propagateClick(e)}}>
+										<FilterIcon/>
+									</IconButton>
+								</div>
+								
+								<input
+									class="search"
+									placeholder="Search for clubs..."
+									tabindex="-1"
+									bind:value={searchTerm}
+								/>
+								<ClubList clubs={sortedClubs} />
 							</div>
-							
-							<input
-								class="search"
-								placeholder="Search for clubs..."
-								tabindex="-1"
-								bind:value={searchTerm}
-							/>
-							<ClubList clubs={sortedClubs} />
 						</div>
-					</div>
-				{:else if !data.hasOrgs}
-					You are not in any organizations.
-					<Link on:click={showJoinModal}>Join</Link>
-					or
-					<Link on:click={showCreateModal}>Create</Link> one now!
-				{:else}
-					<p>
-						Your organizations have no clubs. <Link href="/org">Manage them?</Link>
-					</p>
-				{/if}
-			</div>
+					{:else if !data.hasOrgs}
+						You are not in any organizations.
+						<Link on:click={showJoinModal}>Join</Link>
+						or
+						<Link on:click={showCreateModal}>Create</Link> one now!
+					{:else}
+						<p>
+							Your organizations have no clubs. <Link href="/org">Manage them?</Link>
+						</p>
+					{/if}
+				</div>
+			{/key}
 
 			{#if data.recentAnnouncements.length > 0}
 				<div class="right noMobile">

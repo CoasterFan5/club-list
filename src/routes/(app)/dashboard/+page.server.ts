@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 
 import { prisma } from '$lib/server/prismaConnection';
 
-export const load = async ({ parent }) => {
+export const load = async ({ parent, url }) => {
 	const { user } = await parent();
 
 	if (user == null) {
@@ -17,13 +17,27 @@ export const load = async ({ parent }) => {
 
 	const orgIds = orgs.map((item) => item.organizationId);
 
-	const allClubs = await prisma.club.findMany({
-		where: {
-			organizationId: {
-				in: orgIds
+	let allClubs;
+
+	if(url.searchParams.get("filter") == "myClubs") {
+		allClubs = await prisma.club.findMany({
+			where: {
+				clubUsers: {
+					some: {
+						userId: user.id
+					}
+				}
 			}
-		}
-	});
+		});
+	} else {
+		allClubs = await prisma.club.findMany({
+			where: {
+				organizationId: {
+					in: orgIds
+				}
+			}
+		});
+	}
 
 	const recentAnnouncements = await prisma.announcement.findMany({
 		where: {
