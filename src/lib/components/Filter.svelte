@@ -10,19 +10,7 @@
 		active?: boolean
 	}
 
-	let filters: Filter[] = [
-		{
-			name: "All Clubs",
-			param: "filter",
-			value: "none",
-			active: true,
-		},
-		{
-			name: "My Clubs",
-			param: "filter",
-			value: "myClubs",
-		}
-	]
+	export let filters: Filter[]
 
 	let filterDiv: HTMLDivElement;
 

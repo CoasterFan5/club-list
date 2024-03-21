@@ -44,12 +44,25 @@
 
 	$: handleForm(form);
 
+	const filters = [
+		{
+			name: "All Clubs",
+			param: "filter",
+			value: "none",
+			active: true,
+		},
+		{
+			name: "My Clubs",
+			param: "filter",
+			value: "myClubs",
+		}
+	]
 	
 </script>
 
 <CreateOrgModal />
 <JoinOrgModal />
-<Filter bind:this={filterElement}/>
+<Filter filters={filters} bind:this={filterElement}/>
 
 
 <div class="wrap">
