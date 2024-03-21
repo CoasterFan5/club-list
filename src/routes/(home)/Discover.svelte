@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ComponentType } from 'svelte';
 	import { inview } from 'svelte-inview';
+	import Chance from 'chance';
 
 	import FootBallIcon from '~icons/bx/ball';
 	import BasketballIcon from '~icons/bx/basketball';
@@ -9,6 +10,10 @@
 	import MathIcon from '~icons/bx/math';
 	import ArtIcon from '~icons/bx/paint';
 	import RocketIcon from '~icons/bx/rocket';
+
+	export let seed;
+
+	const chance = new Chance(seed);
 
 	const fakeClubs = [
 		'Not a club',
@@ -72,35 +77,39 @@
 		}
 	];
 
-	let clubDisplayThing: {
+	const clubDisplays: {
 		name: string;
 		color: string;
 		icon: ComponentType;
 		real: boolean;
-	}[] = [];
+	}[] = generateClubDisplays();
 
-	//Assemble the items
-	for (let i = 0; i < 100; i++) {
-		//Should we do a real club display thing?
+	function generateClubDisplays() {
+		let clubs = Array(100).fill(0).map(() => (
+			// TODO: Should we do a real club display thing?
+			{
+				name: chance.pickone(fakeClubs),
+				icon: chance.pickone(icons),
+				color: chance.pickone(realClubs).color,
+				real: false
+			}
+		));
 
-		clubDisplayThing.push({
-			name: fakeClubs[Math.floor(Math.random() * fakeClubs.length)],
-			icon: icons[Math.floor(Math.random() * icons.length)],
-			color: { ...realClubs[Math.floor(Math.random() * realClubs.length)] }.color,
-			real: false
-		});
+		for (const realClub of realClubs) {
+			const randomIndex = Math.floor(chance.floating({ min: 0, max: 1 }) * clubs.length);
+			clubs[randomIndex] = { ...realClub, real: true };
+		}
+
+		return clubs;
 	}
 
-	for (let i = 0; i < realClubs.length; i++) {
-		const randomIndex = Math.floor(Math.random() * clubDisplayThing.length);
-		clubDisplayThing[randomIndex] = { ...realClubs[i], ...{ real: true } };
-	}
+	console.log(clubDisplays)
 
 	let effect = false;
 </script>
 
 <div class="simplify">
-	<h2>Find what's important.</h2>
+	<h2>Find what's impor~tant.</h2>
 	<div
 		class="simplifyText"
 		on:inview_enter={() => {
@@ -108,25 +117,23 @@
 		}}
 		use:inview={{ rootMargin: '-50%' }}
 	>
-		{#if clubDisplayThing.length > 0}
-			{#each clubDisplayThing as clubDisplay}
-				<div
-					style="--color: {clubDisplay.color}"
-					class="miniClub"
-					class:hidden={!clubDisplay.real && effect}
-				>
-					<div class="icon">
-						<svelte:component
-							this={clubDisplay.icon}
-							color={clubDisplay.color}
-							height="100%"
-							width="100%"
-						/>
-					</div>
-					<p>{clubDisplay.name}</p>
+		{#each clubDisplays as clubDisplay}
+			<div
+				style="--color: {clubDisplay.color}"
+				class="miniClub"
+				class:hidden={!clubDisplay.real && effect}
+			>
+				<div class="icon">
+					<svelte:component
+						this={clubDisplay.icon}
+						color={clubDisplay.color}
+						height="100%"
+						width="100%"
+					/>
 				</div>
-			{/each}
-		{/if}
+				<p>{clubDisplay.name}</p>
+			</div>
+		{/each}
 	</div>
 </div>
 

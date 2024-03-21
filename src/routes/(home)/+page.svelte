@@ -6,6 +6,8 @@
 	import Discover from './Discover.svelte';
 	import Simplify from './Simplify.svelte';
 	import You from './You.svelte';
+
+	export let data;
 </script>
 
 <div class="wrap">
@@ -23,7 +25,7 @@
 
 	<Simplify />
 	<Connect />
-	<Discover />
+	<Discover seed={data.seed} />
 	<You />
 </div>
 
