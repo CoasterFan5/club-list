@@ -19,7 +19,7 @@ export const load = async ({ parent, url }) => {
 
 	let allClubs;
 
-	if(url.searchParams.get("filter") == "myClubs") {
+	if (url.searchParams.get('filter') == 'myClubs') {
 		allClubs = await prisma.club.findMany({
 			where: {
 				clubUsers: {

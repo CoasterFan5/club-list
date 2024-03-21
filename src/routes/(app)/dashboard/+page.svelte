@@ -1,17 +1,17 @@
 <script lang="ts">
 	import Fuse from 'fuse.js';
 
+	import FilterIcon from '~icons/bx/filter';
 	import { pushState } from '$app/navigation';
 	import Announcement from '$lib/components/Announcement.svelte';
 	import ClubList from '$lib/components/ClubList.svelte';
+	import Filter from '$lib/components/Filter.svelte';
+	import IconButton from '$lib/components/IconButton.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import CreateOrgModal from '$lib/modals/CreateOrgModal.svelte';
 	import JoinOrgModal from '$lib/modals/JoinOrgModal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
-	import FilterIcon from "~icons/bx/filter"
-	import IconButton from '$lib/components/IconButton.svelte';
-	import Filter from '$lib/components/Filter.svelte';
-	
+
 	function showCreateModal() {
 		pushState('', {
 			showingModal: 'createOrg'
@@ -39,36 +39,33 @@
 		sortedClubs = data.allClubs;
 	}
 
-	$: if(data.allClubs) {
-		console.log(data.allClubs)
-		sortedClubs = data.allClubs
+	$: if (data.allClubs) {
+		sortedClubs = data.allClubs;
 	}
 
 	export let form;
-	let filterElement: Filter
+	let filterElement: Filter;
 
 	$: handleForm(form);
 
 	const filters = [
 		{
-			name: "All Clubs",
-			param: "filter",
-			value: "none",
-			active: true,
+			name: 'All Clubs',
+			param: 'filter',
+			value: 'none',
+			active: true
 		},
 		{
-			name: "My Clubs",
-			param: "filter",
-			value: "myClubs",
+			name: 'My Clubs',
+			param: 'filter',
+			value: 'myClubs'
 		}
-	]
-	
+	];
 </script>
 
 <CreateOrgModal />
 <JoinOrgModal />
-<Filter filters={filters} bind:this={filterElement}/>
-
+<Filter bind:this={filterElement} {filters} />
 
 <div class="wrap">
 	<main class="content">
@@ -82,11 +79,15 @@
 							<div class="topBar">
 								<div class="title">
 									<h2>Clubs</h2>
-									<IconButton on:click={(e) => {filterElement.propagateClick(e)}}>
-										<FilterIcon/>
+									<IconButton
+										on:click={(e) => {
+											filterElement.propagateClick(e);
+										}}
+									>
+										<FilterIcon />
 									</IconButton>
 								</div>
-								
+
 								<input
 									class="search"
 									placeholder="Search for clubs..."

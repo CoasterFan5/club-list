@@ -1,72 +1,68 @@
 <script lang="ts">
-	import { goto, invalidateAll } from "$app/navigation";
-	import { page } from "$app/stores";
-	import { clickOutside } from "$lib/actions/clickOutside";
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { clickOutside } from '$lib/actions/clickOutside';
 
 	type Filter = {
-		name: string,
-		param: string,
-		value: string,
-		active?: boolean
-	}
+		name: string;
+		param: string;
+		value: string;
+		active?: boolean;
+	};
 
-	export let filters: Filter[]
+	export let filters: Filter[];
 
 	let filterDiv: HTMLDivElement;
 
 	export const propagateClick = (e: MouseEvent) => {
 		filterDiv.hidden = false;
-		updateActive()
-		filterDiv.style.left = `${e.clientX}px`,
-		filterDiv.style.top = `${e.clientY}px`
-
-	}
+		updateActive();
+		(filterDiv.style.left = `${e.clientX}px`), (filterDiv.style.top = `${e.clientY}px`);
+	};
 
 	const close = () => {
 		filterDiv.hidden = true;
-	}
-
+	};
 
 	const updateActive = () => {
 		filters.forEach((item, index) => {
-			if($page.url.searchParams.get(item.param) == null && item.value == "none") {
+			if ($page.url.searchParams.get(item.param) == null && item.value == 'none') {
 				filters[index].active = true;
-				
 			} else {
-				if($page.url.searchParams.get(item.param) == item.value) {
-				filters[index].active = true;
+				if ($page.url.searchParams.get(item.param) == item.value) {
+					filters[index].active = true;
 				} else {
 					filters[index].active = false;
 				}
 			}
-			
-		})
-	}
+		});
+	};
 
 	const setFilter = (filter: Filter) => {
-		
-		if(filter.value == "none") {
-			$page.url.searchParams.delete(filter.param)
+		if (filter.value == 'none') {
+			$page.url.searchParams.delete(filter.param);
 		} else {
-			$page.url.searchParams.set(filter.param, filter.value)
+			$page.url.searchParams.set(filter.param, filter.value);
 		}
-		
-		goto($page.url, {invalidateAll: true})
-		updateActive()
-		
-		
-		
-	}
+
+		goto($page.url, { invalidateAll: true });
+		updateActive();
+	};
 </script>
 
-<div class="filterDiv" hidden bind:this={filterDiv} use:clickOutside={close}>
+<div bind:this={filterDiv} class="filterDiv" hidden use:clickOutside={close}>
 	<h3>Filters</h3>
 	<div class="buttons">
 		{#each filters as filter}
-			<button class:active={filter.active} class="filterButton" on:click={() => {setFilter(filter)}}>{filter.name}</button>
+			<button
+				class="filterButton"
+				class:active={filter.active}
+				on:click={() => {
+					setFilter(filter);
+				}}>{filter.name}</button
+			>
 		{/each}
 	</div>
-	
 </div>
 
 <style lang="scss">
@@ -86,8 +82,6 @@
 			margin: 0px;
 			border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 		}
-
-		
 	}
 	.buttons {
 		display: flex;
@@ -108,7 +102,7 @@
 			box-sizing: border-box;
 			border-radius: 0.25rem;
 			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-			
+
 			&:hover {
 				background: rgba(0, 0, 0, 0.1);
 			}
