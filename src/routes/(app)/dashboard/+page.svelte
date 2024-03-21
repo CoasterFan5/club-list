@@ -8,7 +8,10 @@
 	import CreateOrgModal from '$lib/modals/CreateOrgModal.svelte';
 	import JoinOrgModal from '$lib/modals/JoinOrgModal.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
-
+	import FilterIcon from "~icons/bx/filter"
+	import IconButton from '$lib/components/IconButton.svelte';
+	import Filter from '$lib/components/Filter.svelte';
+	
 	function showCreateModal() {
 		pushState('', {
 			showingModal: 'createOrg'
@@ -37,12 +40,17 @@
 	}
 
 	export let form;
+	let filterElement: Filter
 
 	$: handleForm(form);
+
+	
 </script>
 
 <CreateOrgModal />
 <JoinOrgModal />
+<Filter bind:this={filterElement}/>
+
 
 <div class="wrap">
 	<main class="content">
@@ -53,7 +61,13 @@
 				{#if sortedClubs.length > 0}
 					<div class="clubs">
 						<div class="topBar">
-							<h2>Clubs</h2>
+							<div class="title">
+								<h2>Clubs</h2>
+								<IconButton on:click={(e) => {filterElement.propagateClick(e)}}>
+									<FilterIcon/>
+								</IconButton>
+							</div>
+							
 							<input
 								class="search"
 								placeholder="Search for clubs..."
@@ -107,6 +121,16 @@
 	.sections {
 		display: flex;
 		flex-direction: row;
+	}
+	.title {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+
+		h2 {
+			padding-right: 10px;
+		}
 	}
 	.left {
 		text-align: center;
