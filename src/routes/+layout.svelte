@@ -56,7 +56,7 @@
 	/>
 	<meta content="https://clubsaur.us" property="og:url" />
 	<meta content="website" property="og:type" />
-	<meta content="https://clubsaur.us/dino" property="og:image" />
+	<meta content="https://clubsaur.us/thumbnail.png" property="og:image" />
 
 	<meta property="twitter:card" content="summary_large_image" />
 </svelte:head>
