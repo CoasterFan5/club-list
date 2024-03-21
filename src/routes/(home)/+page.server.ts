@@ -1,5 +1,5 @@
 export const load = () => {
-    return {
-        seed: Math.floor(Math.random() * 10000)
-    }
-}
+	return {
+		seed: Math.floor(Math.random() * 10000)
+	};
+};

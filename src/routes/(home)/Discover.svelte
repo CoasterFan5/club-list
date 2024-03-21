@@ -1,7 +1,7 @@
 <script lang="ts">
+	import Chance from 'chance';
 	import type { ComponentType } from 'svelte';
 	import { inview } from 'svelte-inview';
-	import Chance from 'chance';
 
 	import FootBallIcon from '~icons/bx/ball';
 	import BasketballIcon from '~icons/bx/basketball';
@@ -85,15 +85,17 @@
 	}[] = generateClubDisplays();
 
 	function generateClubDisplays() {
-		let clubs = Array(100).fill(0).map(() => (
-			// TODO: Should we do a real club display thing?
-			{
-				name: chance.pickone(fakeClubs),
-				icon: chance.pickone(icons),
-				color: chance.pickone(realClubs).color,
-				real: false
-			}
-		));
+		let clubs = Array(100)
+			.fill(0)
+			.map(() =>
+				// TODO: Should we do a real club display thing?
+				({
+					name: chance.pickone(fakeClubs),
+					icon: chance.pickone(icons),
+					color: chance.pickone(realClubs).color,
+					real: false
+				})
+			);
 
 		for (const realClub of realClubs) {
 			const randomIndex = Math.floor(chance.floating({ min: 0, max: 1 }) * clubs.length);
@@ -103,13 +105,11 @@
 		return clubs;
 	}
 
-	console.log(clubDisplays)
-
 	let effect = false;
 </script>
 
 <div class="simplify">
-	<h2>Find what's impor~tant.</h2>
+	<h2>Find what's important.</h2>
 	<div
 		class="simplifyText"
 		on:inview_enter={() => {
