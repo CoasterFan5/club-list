@@ -29,17 +29,28 @@
 
 	const updateActive = () => {
 		filters.forEach((item, index) => {
-			if($page.url.searchParams.get(item.param) == item.value) {
+			if($page.url.searchParams.get(item.param) == null && item.value == "none") {
 				filters[index].active = true;
+				
 			} else {
-				filters[index].active = false;
+				if($page.url.searchParams.get(item.param) == item.value) {
+				filters[index].active = true;
+				} else {
+					filters[index].active = false;
+				}
 			}
+			
 		})
 	}
 
 	const setFilter = (filter: Filter) => {
 		
-		$page.url.searchParams.set(filter.param, filter.value)
+		if(filter.value == "none") {
+			$page.url.searchParams.delete(filter.param)
+		} else {
+			$page.url.searchParams.set(filter.param, filter.value)
+		}
+		
 		goto($page.url, {invalidateAll: true})
 		updateActive()
 		
