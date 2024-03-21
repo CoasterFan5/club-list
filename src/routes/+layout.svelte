@@ -42,6 +42,18 @@
 
 <svelte:head>
 	<title>Clubsaur.us</title>
+	<meta name="title" content="Clubsaurus — Clubs made easy" />
+	<meta
+		name="description"
+		content="Clubsaurus is the feature-rich, open-source club list that makes finding and managing clubs fast and easy."
+	/>
+
+	<meta content="Clubsaurus" property="og:title" />
+	<meta content="website" property="og:type" />
+	<meta content="https://clubsaur.us" property="og:url" />
+	<meta content="https://clubsaur.us/dino" property="og:image" />
+	<meta name="theme-color" content="#e63946" />
+	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <div class="wrap">
@@ -74,7 +86,7 @@
 		--bg: #f1f1f1;
 		--bgMid: #f8f8f8;
 		--bgPure: #ffffff;
-		--accent: rgba(230, 57, 70);
+		--accent: #e63946;
 		--accent50: rgba(230, 57, 70, 0.5);
 		--redIconFilter: invert(45%) sepia(57%) saturate(7438%) hue-rotate(337deg) brightness(94%)
 			contrast(92%);
