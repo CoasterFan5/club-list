@@ -4,6 +4,7 @@
 	import Checkbox from "$lib/components/Checkbox.svelte"
 	import AttendanceBox from "./AttendanceBox.svelte";
 	import { handleForm } from "$lib/utils/formToaster";
+	import { enhance } from "$app/forms";
 	export let data;
 	export let form;
 
@@ -12,7 +13,7 @@
 </script>
 
 <div class="wrap">
-	<form method="post" action="?/createAttendanceEvent">
+	<form method="post" action="?/createAttendanceEvent" use:enhance>
 		<Button value="Add Attendance Event"/>
 	</form>
 	
@@ -20,13 +21,15 @@
 		<thead>
 			<td>Member</td>
 			{#each data.attendanceEvents as attendanceEvent}
-				<td>Event</td>
+				<td class="eventTitleHead"><p>
+					Monday Meeting
+				</p></td>
 			{/each}
 		</thead>
 		{#each data.attendanceMembers as attendanceMember}
 
 			<tr class="attendanceItem">
-				<td>
+				<td class="userItem">
 					<div class="user">
 						<Pfp pfp={attendanceMember.user.pfp}/>
 						<p>{attendanceMember.user.firstName} {attendanceMember.user.lastName}</p>
@@ -50,8 +53,36 @@
 <style lang="scss">
 	.wrap {
 		width: 90%;
+		height: 100%;
+		height: fit-content;
 		margin-top: 50px;
 		padding-bottom: 50px;
+		overflow-x: auto;
+		overflow-y: clip;
+	}
+	.attendance {
+		table-layout: fixed;
+		padding-top: 5rem;
+	}
+	.eventTitleHead {
+		position: relative;
+		width: 1rem;
+		text-align: center;
+		
+		p {
+			text-align: center;
+			width: 5rem;
+			position: absolute;
+			bottom: 2.5rem;
+			left: 0rem;
+			background: var(--bgMid);
+			height: 2rem;
+			text-wrap: nowrap;
+			overflow: hidden;
+			
+			
+			transform: rotate(-60deg);
+		}
 	}
 
 
@@ -74,6 +105,7 @@
 		
 	}
 
+
 	.attendanceMarks {
 		position: absolute;
 		right: 0px;
@@ -83,12 +115,26 @@
 		justify-content: center;
 	}
 
+	.userItem {
+		max-width: 15rem;
+		min-width: 15rem;
+		position: relative;
+	}
 	.user {
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		position: absolute;
+		box-sizing: border-box;
 		display: flex;
 		align-items: center;
 		justify-content: start;
 		padding: 0.2rem 0.5rem;
-		height: 100%;
+		text-wrap: nowrap;
+		width: 14rem;
+		max-width: 14rem;
+		overflow: hidden;
+		
 		
 	}
 </style>
