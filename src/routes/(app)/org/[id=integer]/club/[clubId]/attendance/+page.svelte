@@ -3,7 +3,11 @@
 	import Button from "$lib/components/Button.svelte"
 	import Checkbox from "$lib/components/Checkbox.svelte"
 	import AttendanceBox from "./AttendanceBox.svelte";
+	import { handleForm } from "$lib/utils/formToaster";
 	export let data;
+	export let form;
+
+	$: handleForm(form)
 	
 </script>
 
@@ -32,9 +36,9 @@
 				
 				
 				{#each data.attendanceEvents as attendanceEvent }
-				<td class="attendanceItem">
-					<AttendanceBox {attendanceEvent} {attendanceMember}/>
-				</td>
+					<td class="attendanceItem">
+						<AttendanceBox {attendanceEvent} {attendanceMember}/>
+					</td>
 					
 				{/each}
 			</tr>	

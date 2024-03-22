@@ -34,8 +34,8 @@
 
 <Checkbox on:click={changeData} checked={attendanceMember.user.attendanceMarks.includes({attendanceEvent: attendanceEvent})}/>
 
-<form hidden method="post" action="changeAttendance" use:enhance>
-	<input name="userId" value={attendanceMember.user.id}/>
-	<input name="eventId" value={attendanceEvent.id}/>
+<form hidden method="post" action="?/changeAttendance" use:enhance>
+	<input name="userId" bind:value={attendanceMember.user.id}/>
+	<input name="eventId" bind:value={attendanceEvent.id}/>
 	<button bind:this={formSubmitButton}/>
 </form>

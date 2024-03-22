@@ -1,9 +1,9 @@
 import { redirect } from '@sveltejs/kit';
+import { z } from 'zod';
 
+import { formHandler } from '$lib/bodyguard.js';
 import { getClubUserFromSession } from '$lib/server/getClubUserFromSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
-import { formHandler } from '$lib/bodyguard.js';
-import { z } from 'zod';
 
 
 export const load = async ({parent, params}) => {
@@ -81,9 +81,57 @@ export const actions = {
 			}
 		}
 
-		return {
-			success: true,
-			message: "yay!"
+		const event = await prisma.clubAttendanceEvent.findFirst({
+			where: {
+				id: eventId
+			}
+		})
+
+		if(!event) {
+			return {
+				success: false,
+				message: "No event"
+			}
 		}
+
+		const attendanceEvent = await prisma.clubAttendanceCheck.findFirst({
+			where: {
+				AND: {
+					clubId: clubUser.clubUser.clubId,
+					userId: userId,
+					attendanceEventId: eventId
+				}
+			}
+		})
+
+		if(!attendanceEvent) {
+			await prisma.clubAttendanceCheck.create({
+				data: {
+					clubId: clubUser.clubUser.clubId,
+					userId: userId,
+					attendanceEventId: eventId
+				}
+			})
+			return {
+				success: true,
+				message: "Marked Present!"
+			}
+		} else {
+			await prisma.clubAttendanceCheck.delete({
+				where: {
+					clubId_userId_attendanceEventId: {
+						clubId: clubUser.clubUser.clubId,
+						userId: userId,
+						attendanceEventId: eventId
+					}
+				}
+			})
+			return {
+				success: true,
+				message: "Marked Absent!"
+			}
+		}
+
+		
 	})
 }
