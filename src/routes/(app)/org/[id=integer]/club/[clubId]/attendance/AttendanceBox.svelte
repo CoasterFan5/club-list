@@ -30,9 +30,12 @@
 	const changeData = () => {
 		formSubmitButton.click()
 	}
+
+	const exists = attendanceMember.user.attendanceMarks.find((item) => item.attendanceEvent.id == attendanceEvent.id) ? true : false
+
 </script>
 
-<Checkbox on:click={changeData} checked={attendanceMember.user.attendanceMarks.includes({attendanceEvent: attendanceEvent})}/>
+<Checkbox on:click={changeData} checked={exists}/>
 
 <form hidden method="post" action="?/changeAttendance" use:enhance>
 	<input name="userId" bind:value={attendanceMember.user.id}/>
