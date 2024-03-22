@@ -1,9 +1,12 @@
 <script lang="ts">
 	import Fuse from 'fuse.js';
 
+	import FilterIcon from '~icons/bx/filter';
 	import { pushState } from '$app/navigation';
 	import Announcement from '$lib/components/Announcement.svelte';
 	import ClubList from '$lib/components/ClubList.svelte';
+	import Filter from '$lib/components/Filter.svelte';
+	import IconButton from '$lib/components/IconButton.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import CreateOrgModal from '$lib/modals/CreateOrgModal.svelte';
 	import JoinOrgModal from '$lib/modals/JoinOrgModal.svelte';
@@ -36,44 +39,81 @@
 		sortedClubs = data.allClubs;
 	}
 
+	$: if (data.allClubs) {
+		sortedClubs = data.allClubs;
+	}
+
 	export let form;
+	let filterElement: Filter;
 
 	$: handleForm(form);
+
+	const filters = [
+		{
+			name: 'All Clubs',
+			param: 'filter',
+			value: 'none',
+			active: true
+		},
+		{
+			name: 'Joined Clubs',
+			param: 'filter',
+			value: 'joinedClubs'
+		},
+		{
+			name: 'My Clubs',
+			param: 'filter',
+			value: 'myClubs'
+		}
+	];
 </script>
 
 <CreateOrgModal />
 <JoinOrgModal />
+<Filter bind:this={filterElement} {filters} />
 
 <div class="wrap">
 	<main class="content">
 		<h1>Welcome back, {data.user?.firstName}!</h1>
 
 		<div class="sections">
-			<div class="left">
-				{#if sortedClubs.length > 0}
-					<div class="clubs">
-						<div class="topBar">
-							<h2>Clubs</h2>
-							<input
-								class="search"
-								placeholder="Search for clubs..."
-								tabindex="-1"
-								bind:value={searchTerm}
-							/>
-							<ClubList clubs={sortedClubs} />
+			{#key data.allClubs}
+				<div class="left">
+					{#if sortedClubs.length > 0}
+						<div class="clubs">
+							<div class="topBar">
+								<div class="title">
+									<h2>Clubs</h2>
+									<IconButton
+										on:click={(e) => {
+											filterElement.propagateClick(e);
+										}}
+									>
+										<FilterIcon />
+									</IconButton>
+								</div>
+
+								<input
+									class="search"
+									placeholder="Search for clubs..."
+									tabindex="-1"
+									bind:value={searchTerm}
+								/>
+								<ClubList clubs={sortedClubs} />
+							</div>
 						</div>
-					</div>
-				{:else if !data.hasOrgs}
-					You are not in any organizations.
-					<Link on:click={showJoinModal}>Join</Link>
-					or
-					<Link on:click={showCreateModal}>Create</Link> one now!
-				{:else}
-					<p>
-						Your organizations have no clubs. <Link href="/org">Manage them?</Link>
-					</p>
-				{/if}
-			</div>
+					{:else if !data.hasOrgs}
+						You are not in any organizations.
+						<Link on:click={showJoinModal}>Join</Link>
+						or
+						<Link on:click={showCreateModal}>Create</Link> one now!
+					{:else}
+						<p>
+							Your organizations have no clubs. <Link href="/org">Manage them?</Link>
+						</p>
+					{/if}
+				</div>
+			{/key}
 
 			{#if data.recentAnnouncements.length > 0}
 				<div class="right noMobile">
@@ -107,6 +147,16 @@
 	.sections {
 		display: flex;
 		flex-direction: row;
+	}
+	.title {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+
+		h2 {
+			padding-right: 10px;
+		}
 	}
 	.left {
 		text-align: center;
