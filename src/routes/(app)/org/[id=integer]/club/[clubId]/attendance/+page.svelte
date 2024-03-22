@@ -12,12 +12,12 @@
 	
 </script>
 
-<div class="wrap">
+<div class="wrap" style="--itemCount: {data.attendanceMembers.length}">
 	<form method="post" action="?/createAttendanceEvent" use:enhance>
 		<Button value="Add Attendance Event"/>
 	</form>
 	
-	<table class="attendance">
+	<table class="attendance" >
 		<thead>
 			<td>Member</td>
 			{#each data.attendanceEvents as attendanceEvent}
@@ -52,17 +52,21 @@
 
 <style lang="scss">
 	.wrap {
+		position: absolute;
 		width: 90%;
-		height: 100%;
-		height: fit-content;
+		
+		overflow-x: auto;
 		margin-top: 50px;
 		padding-bottom: 50px;
-		overflow-x: auto;
-		overflow-y: clip;
+		
+		
 	}
 	.attendance {
 		table-layout: fixed;
+		height: 100%;
 		padding-top: 5rem;
+		
+		
 	}
 	.eventTitleHead {
 		position: relative;
@@ -98,6 +102,7 @@
 
 	td {
 		padding: 0.2rem 0.3rem;
+		
 		box-sizing: border-box;
 		border-radius: 3px;
 		background: var(--bgMid);
@@ -107,17 +112,20 @@
 
 
 	.attendanceMarks {
-		position: absolute;
+		
 		right: 0px;
 		z-index: 1;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		height: 2.5rem;
+		width: 3rem;
 	}
 
 	.userItem {
 		max-width: 15rem;
 		min-width: 15rem;
+		height: 2.5rem;
 		position: relative;
 	}
 	.user {
@@ -129,6 +137,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: start;
+		height: 2.5rem;
 		padding: 0.2rem 0.5rem;
 		text-wrap: nowrap;
 		width: 14rem;
