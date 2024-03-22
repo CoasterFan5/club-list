@@ -56,6 +56,11 @@
 			active: true
 		},
 		{
+			name: 'Joined Clubs',
+			param: 'filter',
+			value: 'joinedClubs'
+		},
+		{
 			name: 'My Clubs',
 			param: 'filter',
 			value: 'myClubs'

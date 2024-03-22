@@ -19,24 +19,45 @@ export const load = async ({ parent, url }) => {
 
 	let allClubs;
 
-	if (url.searchParams.get('filter') == 'myClubs') {
-		allClubs = await prisma.club.findMany({
-			where: {
-				clubUsers: {
-					some: {
-						userId: user.id
+	switch (url.searchParams.get('filter')) {
+		case 'joinedClubs': {
+			allClubs = await prisma.club.findMany({
+				where: {
+					clubUsers: {
+						some: {
+							userId: user.id
+						}
 					}
 				}
-			}
-		});
-	} else {
-		allClubs = await prisma.club.findMany({
-			where: {
-				organizationId: {
-					in: orgIds
+			});
+			break;
+		}
+		case 'myClubs': {
+			allClubs = await prisma.club.findMany({
+				where: {
+					clubUsers: {
+						some: {
+							AND: {
+								userId: user.id,
+								owner: true
+							}
+						}
+					}
 				}
-			}
-		});
+			});
+			break;
+		}
+
+		default: {
+			allClubs = await prisma.club.findMany({
+				where: {
+					organizationId: {
+						in: orgIds
+					}
+				}
+			});
+			break;
+		}
 	}
 
 	const recentAnnouncements = await prisma.announcement.findMany({
