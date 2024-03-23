@@ -6,6 +6,7 @@
 	import { handleForm } from "$lib/utils/formToaster";
 	import { enhance } from "$app/forms";
 	import IconButton from "$lib/components/IconButton.svelte"
+	import ComboBox from "$lib/components/ComboBox.svelte"
 
 	import DeleteIcon from "~icons/bx/trash"
 	export let data;
@@ -16,10 +17,17 @@
 	
 </script>
 
+
+
 <div class="wrap" style="--itemCount: {data.attendanceMembers.length}" >
 	<form method="post" action="?/createAttendanceEvent" use:enhance>
-		<Button value="Add Attendance Event"/>
+		
+		
 	</form>
+
+	<div class="editBar">
+		<ComboBox label="Select Event"/>
+	</div>
 	
 	<table class="attendance" >
 		<thead>
@@ -71,10 +79,15 @@
 		
 		
 	}
+
+	.editBar {
+		padding-top: 1rem;
+	}
+
 	.attendance {
 		table-layout: fixed;
 		height: 100%;
-		padding-top: 5rem;
+		padding-top: 1rem;
 		
 		
 	}
