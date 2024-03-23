@@ -1,90 +1,85 @@
 <script lang="ts">
-	import Pfp from "$lib/components/Pfp.svelte";
-	import Button from "$lib/components/Button.svelte"
-	import Checkbox from "$lib/components/Checkbox.svelte"
-	import AttendanceBox from "./AttendanceBox.svelte";
-	import { handleForm } from "$lib/utils/formToaster";
-	import { enhance } from "$app/forms";
-	import IconButton from "$lib/components/IconButton.svelte"
-	import ComboBox from "$lib/components/ComboBox.svelte"
+	import Pfp from '$lib/components/Pfp.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import AttendanceBox from './AttendanceBox.svelte';
+	import { handleForm } from '$lib/utils/formToaster';
+	import { enhance } from '$app/forms';
+	import IconButton from '$lib/components/IconButton.svelte';
+	import ComboBox from '$lib/components/ComboBox.svelte';
 
-	import DeleteIcon from "~icons/bx/trash"
-	import { page } from "$app/stores";
-	import { goto } from "$app/navigation"
+	import DeleteIcon from '~icons/bx/trash';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	export let data;
 	export let form;
 
-	$: handleForm(form)
+	$: handleForm(form);
 
 	const handleSelect = (value: string) => {
-		$page.url.searchParams.set("eventId", value);
-		console.log("navigating")
+		$page.url.searchParams.set('eventId', value);
+		console.log('navigating');
 		goto($page.url, {
 			invalidateAll: true
-		}) 
-	}
+		});
+	};
 </script>
 
-
-
-<div class="wrap" style="--itemCount: {data.attendanceMembers.length}" >
-	<form method="post" action="?/createAttendanceEvent" use:enhance>
-		
-		
-	</form>
+<div class="wrap" style="--itemCount: {data.attendanceMembers.length}">
+	<form method="post" action="?/createAttendanceEvent" use:enhance></form>
 
 	<div class="editBar">
-		<ComboBox on:selectOption={(event) => {handleSelect(event.detail.value)}} label="Select Event" style="min-width: 20rem" options={[data.allEvents, (item) => item.name, (item) => item.id]}/>
+		<ComboBox
+			on:selectOption={(event) => {
+				handleSelect(event.detail.value);
+			}}
+			label="Select Event"
+			style="min-width: 20rem"
+			options={[data.allEvents, (item) => item.name, (item) => item.id]}
+		/>
 		<IconButton>
-			<DeleteIcon height="100%"/>
+			<DeleteIcon height="100%" />
 		</IconButton>
-		
 	</div>
-	
-	<table class="attendance" >
-		<thead>
-			<td>Member</td>
-			<td class="eventTitleHead"><p>
-				Monday Meeting
-			</p></td>
-		</thead>
-		
-			{#each data.attendanceMembers as attendanceMember}
-
-				<tr class="attendanceItem">
-					<td class="userItem">
-						<div class="user">
-							<Pfp pfp={attendanceMember.user.pfp}/>
-							<p>{attendanceMember.user.firstName} {attendanceMember.user.lastName}</p>
-						</div>
-						
-					</td>
-					
-					{#key data.attendanceEvent}
-						<td class="attendanceItem">
-							<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember}/>
-						</td>
-					{/key}
-					
-				</tr>	
-			{/each}
-		
-	</table>
+	<div class="users">
+		{#each data.attendanceMembers as attendanceMember}
+			<div class="user">
+				<Pfp pfp={attendanceMember.user.pfp} height="7rem" borderRadius="0.3rem" marginRight="0px"/>
+				{#key data.attendanceEvent}
+					<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember} />
+				{/key}
+			</div>
+		{/each}
+	</div>
 	
 </div>
 
 <style lang="scss">
 	.wrap {
-		
 		width: 90%;
-		
-		
 		margin-top: 50px;
 		padding-bottom: 50px;
-		
-		
 	}
 
+	.users {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem 0rem;
+		flex-wrap: wrap;
+	}
+	.user {
+		padding: 0.5rem;
+		margin: 0.25rem;
+		box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		background: var(--bgMid);
+	}
 	.editBar {
 		padding: 0.75rem;
 		border-radius: 5px;
@@ -93,104 +88,5 @@
 		align-items: start;
 		background: var(--bgMid);
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
-	}
-
-	.attendance {
-		table-layout: fixed;
-		height: 100%;
-		padding-top: 1rem;
-		
-		
-	}
-	.eventTitleHead {
-		position: relative;
-		width: 2rem;
-		max-width: 2rem;
-		overflow: hidden;
-		text-align: center;
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-
-		
-		
-		p {
-			text-align: center;
-			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-			
-			
-			left: 0rem;
-			background: var(--bgMid);
-			
-			text-wrap: nowrap;
-			overflow: hidden;
-			display: flex;
-			align-items: center;
-			justify-content: start;
-			
-			
-			
-		}
-	}
-
-	.active {
-		max-width: 12rem;
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	}
-
-
-
-	p {
-		margin: 0px;
-		font-size: 1.2rem;
-	}
-	
-	tr {
-		margin: auto;
-	}
-
-	td {
-		padding: 0.2rem 0.3rem;
-		
-		box-sizing: border-box;
-		border-radius: 3px;
-		background: var(--bgMid);
-		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.05);
-		
-	}
-
-
-	.attendanceMarks {
-		
-		right: 0px;
-		z-index: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 2.5rem;
-		width: 3rem;
-	}
-
-	.userItem {
-		max-width: 15rem;
-		min-width: 15rem;
-		height: 2.5rem;
-		position: relative;
-	}
-	.user {
-		top: 0px;
-		left: 0px;
-		height: 100%;
-		position: absolute;
-		box-sizing: border-box;
-		display: flex;
-		align-items: center;
-		justify-content: start;
-		height: 2.5rem;
-		padding: 0.2rem 0.5rem;
-		text-wrap: nowrap;
-		width: 14rem;
-		max-width: 14rem;
-		overflow: hidden;
-		
-		
 	}
 </style>
