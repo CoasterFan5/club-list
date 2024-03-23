@@ -5,14 +5,18 @@
 	import AttendanceBox from "./AttendanceBox.svelte";
 	import { handleForm } from "$lib/utils/formToaster";
 	import { enhance } from "$app/forms";
+	import IconButton from "$lib/components/IconButton.svelte"
+
+	import DeleteIcon from "~icons/bx/trash"
 	export let data;
 	export let form;
 
 	$: handleForm(form)
+
 	
 </script>
 
-<div class="wrap" style="--itemCount: {data.attendanceMembers.length}">
+<div class="wrap" style="--itemCount: {data.attendanceMembers.length}" >
 	<form method="post" action="?/createAttendanceEvent" use:enhance>
 		<Button value="Add Attendance Event"/>
 	</form>
@@ -20,11 +24,9 @@
 	<table class="attendance" >
 		<thead>
 			<td>Member</td>
-			{#each data.attendanceEvents as attendanceEvent}
-				<td class="eventTitleHead"><p>
-					Monday Meeting
-				</p></td>
-			{/each}
+			<td class="eventTitleHead"><p>
+				Monday Meeting
+			</p></td>
 		</thead>
 		{#each data.attendanceMembers as attendanceMember}
 
@@ -38,14 +40,22 @@
 				</td>
 				
 				
-				{#each data.attendanceEvents as attendanceEvent }
 					<td class="attendanceItem">
-						<AttendanceBox {attendanceEvent} {attendanceMember}/>
+						<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember}/>
 					</td>
 					
-				{/each}
+				
 			</tr>	
 		{/each}
+		<tr class="attendanceItem">
+			<td class="userItem">
+				<div class="user">
+					<DeleteIcon/> <p>Delete Event</p>
+				</div>
+				
+			</td>
+			
+		</tr>
 	</table>
 	
 </div>
@@ -70,23 +80,36 @@
 	}
 	.eventTitleHead {
 		position: relative;
-		width: 1rem;
+		width: 2rem;
+		max-width: 2rem;
+		overflow: hidden;
 		text-align: center;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+
+		
 		
 		p {
 			text-align: center;
-			width: 5rem;
-			position: absolute;
-			bottom: 2.5rem;
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+			
+			
 			left: 0rem;
 			background: var(--bgMid);
-			height: 2rem;
+			
 			text-wrap: nowrap;
 			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: start;
 			
 			
-			transform: rotate(-60deg);
+			
 		}
+	}
+
+	.active {
+		max-width: 12rem;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 	}
 
 
