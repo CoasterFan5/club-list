@@ -9,12 +9,20 @@
 	import ComboBox from "$lib/components/ComboBox.svelte"
 
 	import DeleteIcon from "~icons/bx/trash"
+	import { page } from "$app/stores";
+	import { goto } from "$app/navigation"
 	export let data;
 	export let form;
 
 	$: handleForm(form)
 
-	
+	const handleSelect = (value: string) => {
+		$page.url.searchParams.set("eventId", value);
+		console.log("navigating")
+		goto($page.url, {
+			invalidateAll: true
+		}) 
+	}
 </script>
 
 
@@ -26,7 +34,11 @@
 	</form>
 
 	<div class="editBar">
-		<ComboBox label="Select Event" options={[data.allEvents, (item) => item.id.toString(), (item) => item.id]}/>
+		<ComboBox on:selectOption={(event) => {handleSelect(event.detail.value)}} label="Select Event" style="min-width: 20rem" options={[data.allEvents, (item) => item.name, (item) => item.id]}/>
+		<IconButton>
+			<DeleteIcon height="100%"/>
+		</IconButton>
+		
 	</div>
 	
 	<table class="attendance" >
@@ -36,44 +48,37 @@
 				Monday Meeting
 			</p></td>
 		</thead>
-		{#each data.attendanceMembers as attendanceMember}
+		
+			{#each data.attendanceMembers as attendanceMember}
 
-			<tr class="attendanceItem">
-				<td class="userItem">
-					<div class="user">
-						<Pfp pfp={attendanceMember.user.pfp}/>
-						<p>{attendanceMember.user.firstName} {attendanceMember.user.lastName}</p>
-					</div>
-					
-				</td>
-				
-				
-					<td class="attendanceItem">
-						<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember}/>
+				<tr class="attendanceItem">
+					<td class="userItem">
+						<div class="user">
+							<Pfp pfp={attendanceMember.user.pfp}/>
+							<p>{attendanceMember.user.firstName} {attendanceMember.user.lastName}</p>
+						</div>
+						
 					</td>
 					
-				
-			</tr>	
-		{/each}
-		<tr class="attendanceItem">
-			<td class="userItem">
-				<div class="user">
-					<DeleteIcon/> <p>Delete Event</p>
-				</div>
-				
-			</td>
-			
-		</tr>
+					{#key data.attendanceEvent}
+						<td class="attendanceItem">
+							<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember}/>
+						</td>
+					{/key}
+					
+				</tr>	
+			{/each}
+		
 	</table>
 	
 </div>
 
 <style lang="scss">
 	.wrap {
-		position: absolute;
+		
 		width: 90%;
 		
-		overflow-x: auto;
+		
 		margin-top: 50px;
 		padding-bottom: 50px;
 		
@@ -81,7 +86,13 @@
 	}
 
 	.editBar {
-		padding-top: 1rem;
+		padding: 0.75rem;
+		border-radius: 5px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: start;
+		background: var(--bgMid);
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 	}
 
 	.attendance {

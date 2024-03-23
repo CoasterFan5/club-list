@@ -1,5 +1,13 @@
 <script lang="ts" generics="k">
+
 	import type { ChangeEventHandler } from 'svelte/elements';
+	import { createEventDispatcher } from 'svelte';
+	const dispath = createEventDispatcher<{
+		selectOption: {
+			value: string,
+			display: string
+		};
+	}>()
 
 	type Options = [k[], (arg: k) => string, (arg: k) => string | number];
 
@@ -77,6 +85,10 @@
 							close();
 							value = options[2](option).toString();
 							placeholder = options[1](option);
+							dispath("selectOption", {
+								value: value,
+								display: placeholder,
+							})
 						}}
 					>
 						{options[1](option)}
@@ -119,7 +131,7 @@
 	}
 	.labelBG {
 		color: transparent;
-		background: var(--bg);
+		background: var(--bgMid);
 		opacity: 1;
 		text-wrap: nowrap;
 		z-index: 6;
@@ -173,7 +185,7 @@
 		width: 100%;
 		top: 100%;
 		margin-top: 5px;
-		background: var(--bg);
+		background: var(--bgMid);
 		z-index: 10;
 		padding: 5px 5px 5px 5px;
 		box-sizing: border-box;
@@ -223,7 +235,7 @@
 		margin-top: -5px;
 		position: sticky;
 		top: -5px;
-		background: var(--bg);
+		background: var(--bgMid);
 		z-index: 5;
 	}
 

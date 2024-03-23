@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import dayjs from 'dayjs';
 import { z } from 'zod';
 
 import { formHandler } from '$lib/bodyguard.js';
@@ -6,26 +7,39 @@ import { getClubUserFromSession } from '$lib/server/getClubUserFromSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 
 
-export const load = async ({parent, params}) => {
+export const load = async ({parent, params, url}) => {
 	const parentData = await parent();
 	if(!parentData.clubPerms.viewAttendance) {
 		throw redirect(303, `/org/${params.id}/club/${params.clubId}`)
 	}
 
+	let event;
+
+	const eventIdString = url.searchParams.get("eventId")
+	if(eventIdString) {
+		event = await prisma.clubAttendanceEvent.findFirst({
+			where: {
+				AND: {
+					clubId: parentData.club.id,
+					id: parseInt(eventIdString)
+				}
+			}
+		})
+	} else {
+		event = await prisma.clubAttendanceEvent.findFirst({
+			where: {
+				clubId: parentData.club.id
+			},
+			orderBy: {
+				createdAt: "desc"
+			}
+		})
+	}
 	
-
-	let event = await prisma.clubAttendanceEvent.findFirst({
-		where: {
-			clubId: parentData.club.id
-		},
-		orderBy: {
-			createdAt: "desc"
-		}
-	})
-
 	if(!event) {
 		event = await prisma.clubAttendanceEvent.create({
 			data: {
+				name: dayjs(Date.now()).format("MMMM DD, YYYY"),
 				clubId: parentData.club.id
 			}
 		})
@@ -84,6 +98,7 @@ export const actions = {
 
 	await prisma.clubAttendanceEvent.create({
 		data: {
+			name: dayjs(Date.now()).format("MMMM DD, YYYY"),
 			clubId: clubUser.clubUser.clubId
 		}
 	})
