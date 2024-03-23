@@ -95,7 +95,10 @@
 						>
 					</div>
 					{#if data.clubPerms.viewAttendance || data.clubPerms.admin}
-						<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/attendance'}>
+						<div
+							class="link"
+							class:selected={route.id == '/(app)/org/[id]/club/[clubId]/attendance'}
+						>
 							<Link
 								--fontSize="1.1rem"
 								--marginRight="20px"

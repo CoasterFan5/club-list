@@ -1,13 +1,12 @@
 <script lang="ts" generics="k">
-
 	import type { ChangeEventHandler } from 'svelte/elements';
 	import { createEventDispatcher } from 'svelte';
 	const dispath = createEventDispatcher<{
 		selectOption: {
-			value: string,
-			display: string
+			value: string;
+			display: string;
 		};
-	}>()
+	}>();
 
 	type Options = [k[], (arg: k) => string, (arg: k) => string | number];
 
@@ -85,10 +84,10 @@
 							close();
 							value = options[2](option).toString();
 							placeholder = options[1](option);
-							dispath("selectOption", {
+							dispath('selectOption', {
 								value: value,
-								display: placeholder,
-							})
+								display: placeholder
+							});
 						}}
 					>
 						{options[1](option)}

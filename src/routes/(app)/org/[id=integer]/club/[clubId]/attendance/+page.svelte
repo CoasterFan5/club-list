@@ -44,14 +44,18 @@
 	<div class="users">
 		{#each data.attendanceMembers as attendanceMember}
 			<div class="user">
-				<Pfp pfp={attendanceMember.user.pfp} height="7rem" borderRadius="0.3rem" marginRight="0px"/>
+				<Pfp
+					pfp={attendanceMember.user.pfp}
+					height="7rem"
+					borderRadius="0.3rem"
+					marginRight="0px"
+				/>
 				{#key data.attendanceEvent}
 					<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember} />
 				{/key}
 			</div>
 		{/each}
 	</div>
-	
 </div>
 
 <style lang="scss">

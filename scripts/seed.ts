@@ -31,7 +31,7 @@ async function main() {
 	}
 
 	if (org && org.name == 'Cardboard') {
-		console.log("database may already be seeded, may not create new data.")
+		console.log('database may already be seeded, may not create new data.');
 	}
 
 	console.log('Seeding database...');
@@ -86,7 +86,6 @@ async function main() {
 		}
 	});
 
-
 	await prisma.club.upsert({
 		where: {
 			id: 1
@@ -111,7 +110,7 @@ async function main() {
 			imageURL:
 				'https://static01.nyt.com/images/2022/12/04/magazine/04mag-cardboard-copy/04mag-cardboard-copy-facebookJumbo-v2.jpg'
 		}
-	})
+	});
 	await prisma.club.upsert({
 		where: {
 			id: 2
@@ -143,7 +142,7 @@ async function main() {
 				]
 			}
 		}
-	})
+	});
 	await prisma.club.upsert({
 		where: {
 			id: 3
@@ -167,7 +166,7 @@ async function main() {
 			},
 			imageURL: 'https://www.the74million.org/wp-content/uploads/2023/02/iStock-470493341-copy.jpg'
 		}
-	})
+	});
 	await prisma.club.upsert({
 		where: {
 			id: 4
@@ -191,7 +190,7 @@ async function main() {
 			},
 			imageURL: 'https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg'
 		}
-	})
+	});
 
 	const role = await prisma.orgRole.upsert({
 		where: {

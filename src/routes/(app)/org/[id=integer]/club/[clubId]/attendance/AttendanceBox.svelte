@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
-	import Checkbox from "$lib/components/Checkbox.svelte";
-	import { tooltip } from "$lib/components/tooltips/tooltip";
+	import { enhance } from '$app/forms';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import { tooltip } from '$lib/components/tooltips/tooltip';
 
 	export let attendanceEvent: {
 		id: number;
 		createdAt: Date;
 		updatedAt: Date;
 		clubId: number;
-	}
+	};
 	export let attendanceMember: {
 		user: {
 			firstName: string;
@@ -24,27 +24,36 @@
 				};
 			}[];
 		};
-	}
+	};
 
-	let formSubmitButton: HTMLButtonElement
+	let formSubmitButton: HTMLButtonElement;
 
 	const changeData = () => {
-		formSubmitButton.click()
-	}
+		formSubmitButton.click();
+	};
 
-	const exists = attendanceMember.user.attendanceMarks.find((item) => item.attendanceEvent.id == attendanceEvent.id) ? true : false
-
+	const exists = attendanceMember.user.attendanceMarks.find(
+		(item) => item.attendanceEvent.id == attendanceEvent.id
+	)
+		? true
+		: false;
 </script>
 
-<div class="wrap" use:tooltip={`${attendanceMember.user.firstName} ${attendanceMember.user.lastName}`}>
-	<Checkbox label="{attendanceMember.user.firstName} {attendanceMember.user.lastName}" on:click={changeData} checked={exists}/>
+<div
+	class="wrap"
+	use:tooltip={`${attendanceMember.user.firstName} ${attendanceMember.user.lastName}`}
+>
+	<Checkbox
+		label="{attendanceMember.user.firstName} {attendanceMember.user.lastName}"
+		on:click={changeData}
+		checked={exists}
+	/>
 </div>
 
-
 <form hidden method="post" action="?/changeAttendance" use:enhance>
-	<input name="userId" bind:value={attendanceMember.user.id}/>
-	<input name="eventId" bind:value={attendanceEvent.id}/>
-	<button bind:this={formSubmitButton}/>
+	<input name="userId" bind:value={attendanceMember.user.id} />
+	<input name="eventId" bind:value={attendanceEvent.id} />
+	<button bind:this={formSubmitButton} />
 </form>
 
 <style>
