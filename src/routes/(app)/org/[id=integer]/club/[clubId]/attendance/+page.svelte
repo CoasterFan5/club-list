@@ -26,7 +26,7 @@
 	</form>
 
 	<div class="editBar">
-		<ComboBox label="Select Event"/>
+		<ComboBox label="Select Event" options={[data.allEvents, (item) => item.id.toString(), (item) => item.id]}/>
 	</div>
 	
 	<table class="attendance" >

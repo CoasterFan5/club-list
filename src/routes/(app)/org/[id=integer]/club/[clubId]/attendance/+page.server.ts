@@ -12,6 +12,8 @@ export const load = async ({parent, params}) => {
 		throw redirect(303, `/org/${params.id}/club/${params.clubId}`)
 	}
 
+	
+
 	let event = await prisma.clubAttendanceEvent.findFirst({
 		where: {
 			clubId: parentData.club.id
@@ -28,6 +30,12 @@ export const load = async ({parent, params}) => {
 			}
 		})
 	}
+
+	const allEvents = await prisma.clubAttendanceEvent.findMany({
+		where: {
+			clubId: parentData.club.id
+		}
+	})
 
 
 	const members = await prisma.clubUser.findMany({
@@ -59,6 +67,7 @@ export const load = async ({parent, params}) => {
 	return {
 		attendanceMembers: members,
 		attendanceEvent: event,
+		allEvents
 	}
 }
 
