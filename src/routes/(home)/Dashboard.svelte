@@ -1,10 +1,10 @@
 <script lang="ts">
-	import dashboardImage from '$lib/images/dashboard.png';
+	import dashboardImage from '$lib/images/dashboard.png?enhanced';
 </script>
 
 <div class="wrap">
 	<div class="image">
-		<img alt="Dashboard" src={dashboardImage} />
+		<enhanced:img alt="Dashboard" src={dashboardImage} />
 	</div>
 </div>
 
@@ -25,7 +25,7 @@
 			overflow: hidden;
 			box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
 
-			img {
+			:global(img) {
 				width: 100%;
 				object-fit: fit;
 				display: block;
