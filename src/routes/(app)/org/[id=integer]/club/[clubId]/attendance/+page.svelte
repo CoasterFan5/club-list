@@ -1,16 +1,14 @@
 <script lang="ts">
-	import Pfp from '$lib/components/Pfp.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import Checkbox from '$lib/components/Checkbox.svelte';
-	import AttendanceBox from './AttendanceBox.svelte';
-	import { handleForm } from '$lib/utils/formToaster';
-	import { enhance } from '$app/forms';
-	import IconButton from '$lib/components/IconButton.svelte';
-	import ComboBox from '$lib/components/ComboBox.svelte';
-
 	import DeleteIcon from '~icons/bx/trash';
-	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import ComboBox from '$lib/components/ComboBox.svelte';
+	import IconButton from '$lib/components/IconButton.svelte';
+	import Pfp from '$lib/components/Pfp.svelte';
+	import { handleForm } from '$lib/utils/formToaster';
+
+	import AttendanceBox from './AttendanceBox.svelte';
 	export let data;
 	export let form;
 
@@ -18,24 +16,23 @@
 
 	const handleSelect = (value: string) => {
 		$page.url.searchParams.set('eventId', value);
-		console.log('navigating');
 		goto($page.url, {
 			invalidateAll: true
 		});
 	};
 </script>
 
-<div class="wrap" style="--itemCount: {data.attendanceMembers.length}">
-	<form method="post" action="?/createAttendanceEvent" use:enhance></form>
+<div style="--itemCount: {data.attendanceMembers.length}" class="wrap">
+	<form action="?/createAttendanceEvent" method="post" use:enhance />
 
 	<div class="editBar">
 		<ComboBox
+			style="min-width: 20rem"
+			label="Select Event"
+			options={[data.allEvents, (item) => item.name, (item) => item.id]}
 			on:selectOption={(event) => {
 				handleSelect(event.detail.value);
 			}}
-			label="Select Event"
-			style="min-width: 20rem"
-			options={[data.allEvents, (item) => item.name, (item) => item.id]}
 		/>
 		<IconButton>
 			<DeleteIcon height="100%" />
@@ -45,10 +42,10 @@
 		{#each data.attendanceMembers as attendanceMember}
 			<div class="user">
 				<Pfp
-					pfp={attendanceMember.user.pfp}
-					height="7rem"
 					borderRadius="0.3rem"
+					height="7rem"
 					marginRight="0px"
+					pfp={attendanceMember.user.pfp}
 				/>
 				{#key data.attendanceEvent}
 					<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember} />

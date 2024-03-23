@@ -1,6 +1,6 @@
-<script lang="ts" generics="k">
-	import type { ChangeEventHandler } from 'svelte/elements';
+<script generics="k" lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import type { ChangeEventHandler } from 'svelte/elements';
 	const dispath = createEventDispatcher<{
 		selectOption: {
 			value: string;
@@ -46,10 +46,10 @@
 </script>
 
 {#if showingOptions}
-	<button class="antiClick" type="button" on:mousedown|self={close}> </button>
+	<button class="antiClick" type="button" on:mousedown|self={close} />
 {/if}
 
-<div class="wrap" {style} class:disabled>
+<div {style} class="wrap" class:disabled>
 	<label>
 		<span class="label">
 			{label}
@@ -58,21 +58,21 @@
 			{label}
 		</span>
 
-		<!--if we have js, we want a completely new element-->
-		<input hidden {name} {value} />
-		<button type="button" class="openOptions" on:click={() => (showingOptions = true)}>
+		<!-- if we have js, we want a completely new element -->
+		<input {name} hidden {value} />
+		<button class="openOptions" type="button" on:click={() => (showingOptions = true)}>
 			<p>
 				{placeholder}
 			</p>
-			<svg width="24" height="24" viewBox="0 0 24 24" style="fill: var(--cui_text)">
-				<path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path>
+			<svg style="fill: var(--cui_text)" height="24" viewBox="0 0 24 24" width="24">
+				<path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z" />
 			</svg>
 		</button>
 		{#if showingOptions}
 			<div class="options">
 				<!-- svelte-ignore a11y-autofocus -->
 				{#if !disableSearch}
-					<input bind:value={searchValue} on:input={changeFilter} placeholder="Search" autofocus />
+					<input autofocus placeholder="Search" bind:value={searchValue} on:input={changeFilter} />
 				{/if}
 				{#if filteredItems.length < 1}
 					<p>No Items</p>
@@ -98,7 +98,7 @@
 	</label>
 </div>
 
-<style>
+<style lang="scss">
 	.wrap {
 		position: relative;
 	}

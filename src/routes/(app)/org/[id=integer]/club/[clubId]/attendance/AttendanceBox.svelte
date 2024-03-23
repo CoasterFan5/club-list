@@ -44,19 +44,19 @@
 	use:tooltip={`${attendanceMember.user.firstName} ${attendanceMember.user.lastName}`}
 >
 	<Checkbox
+		checked={exists}
 		label="{attendanceMember.user.firstName} {attendanceMember.user.lastName}"
 		on:click={changeData}
-		checked={exists}
 	/>
 </div>
 
-<form hidden method="post" action="?/changeAttendance" use:enhance>
+<form action="?/changeAttendance" hidden method="post" use:enhance>
 	<input name="userId" bind:value={attendanceMember.user.id} />
 	<input name="eventId" bind:value={attendanceEvent.id} />
 	<button bind:this={formSubmitButton} />
 </form>
 
-<style>
+<style lang="scss">
 	.wrap {
 		width: 8rem;
 		text-wrap: nowrap;
