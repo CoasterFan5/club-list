@@ -91,7 +91,7 @@
 	"type": "module",
 	"dependencies": {
 		"@iconify-json/bxs": "^1.1.10",
-		"qrcode": "^1.5.3"
+		"qrcode": "^1.5.3",
 		"@sveltejs/enhanced-img": "^0.1.9"
 	}
 }
