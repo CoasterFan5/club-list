@@ -17,7 +17,9 @@
 	import DeleteIcon from '~icons/bx/trash-alt';
 	import RenameIcon from '~icons/bx/pencil';
 	import AddIcon from '~icons/bx/plus';
+	import QrIcon from '~icons/bx/qr';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
+	import { onMount } from 'svelte';
 
 	$: handleForm(form);
 
@@ -40,6 +42,13 @@
 			showingModal: "deleteAttendanceEvent"
 		})
 	}
+	let showingQrCode = false;
+	const openQrDialog = () => {
+		showingQrCode = true
+	
+	}
+
+	
 </script>
 
 {#if $page.state.showingModal == "renameAttendanceEvent"}
@@ -70,6 +79,25 @@
 	</Modal>
 {/if}
 
+{#if showingQrCode}
+	<Modal on:close={() => {showingQrCode = false}}>
+		{#if !data.attendanceEvent.attendanceCode}
+			<form class="modalForm" method="post" action="?/enableQr" use:enhance>
+				<h2>Enable QR Code Attendance</h2>
+				<p>QR code attendance will generate a qr code which club members can scan.</p>
+				<p>This action is not reversible and will be tied to this event.</p>
+				<hr>
+				<input hidden name="eventId" value={data.attendanceEvent.id}/> 
+				<Button value="Create QR Code"/>
+			</form>
+		{:else}
+			<h2>Qr Code</h2>
+		{/if}
+	</Modal>
+{/if}
+
+
+
 <div style="--itemCount: {data.attendanceMembers.length}" class="wrap">
 	<form action="?/createAttendanceEvent" method="post" use:enhance />
 
@@ -87,31 +115,38 @@
 			/>
 		{/key}
 		
-		<div class="actions">
-			<div use:tooltip={'Add Event'}>
-				<IconButton formData={
-					{
-						method: "post",
-						action: "?/createAttendanceEvent"
-					}
-				}>
-					<AddIcon height="100%" />
-				</IconButton>
-			</div>
-			<div use:tooltip={'Rename Event'}>
-				<IconButton on:click={openRenameDialog}>
-					<RenameIcon height="100%" />
-				</IconButton>
-			</div>
-			<div use:tooltip={'Delete Event'}>
-				<IconButton on:click={openDeleteDialog} >
-					<DeleteIcon height="100%" />
-				</IconButton>
-			</div>
+		{#if data.clubPerms.manageAttendance || data.clubPerms.admin}
+			<div class="actions">
+				<div use:tooltip={'Add Event'}>
+					<IconButton formData={
+						{
+							method: "post",
+							action: "?/createAttendanceEvent"
+						}
+					}>
+						<AddIcon height="100%" />
+					</IconButton>
+				</div>
+				<div use:tooltip={'Rename Event'}>
+					<IconButton on:click={openRenameDialog}>
+						<RenameIcon height="100%" />
+					</IconButton>
+				</div>
+				<div use:tooltip={'Delete Event'}>
+					<IconButton on:click={openDeleteDialog} >
+						<DeleteIcon height="100%" />
+					</IconButton>
+				</div>
+				<div use:tooltip={'QR Attendance'}>
+					<IconButton on:click={openQrDialog}>
+						<QrIcon/>
+					</IconButton>
+				</div>
+				
+				
 			
-			
-		
-		</div>
+			</div>
+		{/if}
 		
 	</div>
 	<div class="users">

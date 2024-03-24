@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import crypto from "crypto"
 import dayjs from 'dayjs';
 import { z } from 'zod';
 
@@ -195,6 +196,53 @@ export const actions = {
 			})
 
 			throw redirect(303, `/org/${params.id}/club/${params.clubId}/attendance`)
+		}
+	),
+	enableQr: formHandler(
+		z.object({
+			eventId: z.coerce.number(),
+		}), async({eventId}, {params, cookies, url}) => {
+			const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
+
+			if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
+				return {
+					success: false,
+					message: 'No permissions'
+				};
+			}
+
+			const eventTest = await prisma.clubAttendanceEvent.findFirst({
+				where: {
+					AND: {
+						id: eventId,
+						clubId: clubUser.clubUser.clubId
+					}
+				}
+			})
+
+			if(!eventTest) {
+				return {
+					success: false,
+					message: "No event",
+				}
+			}
+
+			await prisma.clubAttendanceEvent.update({
+				where: {
+					id: eventTest.id
+				},
+				data: {
+					attendanceCode: crypto.randomBytes(8).toString("hex")
+				}
+			})
+
+			url.searchParams.forEach((val, key) => {
+				url.searchParams.delete(key)
+			})
+			url.searchParams.set("eventId", eventTest.id.toString())
+			url.searchParams.set("showQr", "true")
+
+			throw redirect(303, url)
 		}
 	),
 	changeAttendance: formHandler(
