@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import crypto from "crypto"
+import crypto from 'crypto';
 import dayjs from 'dayjs';
 import { z } from 'zod';
 
@@ -50,7 +50,7 @@ export const load = async ({ parent, params, url }) => {
 			clubId: parentData.club.id
 		},
 		orderBy: {
-			createdAt: "asc"
+			createdAt: 'asc'
 		}
 	});
 
@@ -78,7 +78,7 @@ export const load = async ({ parent, params, url }) => {
 		},
 		orderBy: {
 			user: {
-				firstName: "asc"
+				firstName: 'asc'
 			}
 		}
 	});
@@ -108,17 +108,18 @@ export const actions = {
 			}
 		});
 		url.searchParams.forEach((val, key) => {
-			url.searchParams.delete(key)
-		})
-		url.searchParams.set("eventId", event.id.toString())
+			url.searchParams.delete(key);
+		});
+		url.searchParams.set('eventId', event.id.toString());
 
-		throw redirect(303, url)
+		throw redirect(303, url);
 	},
 	renameEvent: formHandler(
 		z.object({
 			eventId: z.coerce.number(),
 			name: z.string()
-		}), async({eventId, name}, {params, cookies}) => {
+		}),
+		async ({ eventId, name }, { params, cookies }) => {
 			const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
 
 			if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
@@ -135,13 +136,13 @@ export const actions = {
 						clubId: clubUser.clubUser.clubId
 					}
 				}
-			})
+			});
 
-			if(!eventTest) {
+			if (!eventTest) {
 				return {
 					success: false,
-					message: "No event",
-				}
+					message: 'No event'
+				};
 			}
 
 			await prisma.clubAttendanceEvent.update({
@@ -151,19 +152,20 @@ export const actions = {
 				data: {
 					name: name
 				}
-			})
+			});
 
 			return {
 				success: true,
-				message: "Club renamed!"
-			}
+				message: 'Club renamed!'
+			};
 		}
 	),
 	deleteEvent: formHandler(
 		z.object({
 			eventId: z.coerce.number(),
 			name: z.string().optional()
-		}), async({eventId}, {params, cookies}) => {
+		}),
+		async ({ eventId }, { params, cookies }) => {
 			const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
 
 			if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
@@ -180,28 +182,29 @@ export const actions = {
 						clubId: clubUser.clubUser.clubId
 					}
 				}
-			})
+			});
 
-			if(!eventTest) {
+			if (!eventTest) {
 				return {
 					success: false,
-					message: "No event",
-				}
+					message: 'No event'
+				};
 			}
 
 			await prisma.clubAttendanceEvent.delete({
 				where: {
 					id: eventTest.id
-				},
-			})
+				}
+			});
 
-			throw redirect(303, `/org/${params.id}/club/${params.clubId}/attendance`)
+			throw redirect(303, `/org/${params.id}/club/${params.clubId}/attendance`);
 		}
 	),
 	enableQr: formHandler(
 		z.object({
-			eventId: z.coerce.number(),
-		}), async({eventId}, {params, cookies, url}) => {
+			eventId: z.coerce.number()
+		}),
+		async ({ eventId }, { params, cookies, url }) => {
 			const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
 
 			if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
@@ -218,13 +221,13 @@ export const actions = {
 						clubId: clubUser.clubUser.clubId
 					}
 				}
-			})
+			});
 
-			if(!eventTest) {
+			if (!eventTest) {
 				return {
 					success: false,
-					message: "No event",
-				}
+					message: 'No event'
+				};
 			}
 
 			await prisma.clubAttendanceEvent.update({
@@ -232,17 +235,17 @@ export const actions = {
 					id: eventTest.id
 				},
 				data: {
-					attendanceCode: crypto.randomBytes(8).toString("hex")
+					attendanceCode: crypto.randomBytes(8).toString('hex')
 				}
-			})
+			});
 
 			url.searchParams.forEach((val, key) => {
-				url.searchParams.delete(key)
-			})
-			url.searchParams.set("eventId", eventTest.id.toString())
-			url.searchParams.set("showQr", "true")
+				url.searchParams.delete(key);
+			});
+			url.searchParams.set('eventId', eventTest.id.toString());
+			url.searchParams.set('showQr', 'true');
 
-			throw redirect(303, url)
+			throw redirect(303, url);
 		}
 	),
 	changeAttendance: formHandler(

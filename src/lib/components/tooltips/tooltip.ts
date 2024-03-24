@@ -82,8 +82,8 @@ export function tooltip(element: HTMLElement, text: string | undefined) {
 
 	const doneHere = () => {
 		opacity.set(0);
-		if(text) {
-			element.title = text
+		if (text) {
+			element.title = text;
 		}
 		active = false;
 	};

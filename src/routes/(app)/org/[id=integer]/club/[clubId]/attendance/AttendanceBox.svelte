@@ -34,21 +34,19 @@
 
 	let exists = false;
 
-	$: if(attendanceMember) {
+	$: if (attendanceMember) {
 		exists = attendanceMember.user.attendanceMarks.find(
-		(item) => item.attendanceEvent.id == attendanceEvent.id
-	)
-		? true
-		: false;
+			(item) => item.attendanceEvent.id == attendanceEvent.id
+		)
+			? true
+			: false;
 	}
-	
 </script>
 
 <div
 	class="wrap"
 	use:tooltip={`${attendanceMember.user.firstName} ${attendanceMember.user.lastName}`}
 >
-
 	<Checkbox
 		checked={exists}
 		label="{attendanceMember.user.firstName} {attendanceMember.user.lastName}"

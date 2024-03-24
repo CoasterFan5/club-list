@@ -1,26 +1,27 @@
 <script lang="ts">
-	
 	import { enhance } from '$app/forms';
 	import { goto, pushState } from '$app/navigation';
 	import { page } from '$app/stores';
+	import Button from '$lib/components/Button.svelte';
 	import ComboBox from '$lib/components/ComboBox.svelte';
 	import IconButton from '$lib/components/IconButton.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import Pfp from '$lib/components/Pfp.svelte';
 	import { handleForm } from '$lib/utils/formToaster';
-	import Modal from "$lib/components/Modal.svelte"
+
 	import AttendanceBox from './AttendanceBox.svelte';
-	import Input from "$lib/components/Input.svelte"
-	import Button from "$lib/components/Button.svelte"
 	export let data;
 	export let form;
 
-	import DeleteIcon from '~icons/bx/trash-alt';
+	import QRCode from 'qrcode';
+	import { onMount } from 'svelte';
+
 	import RenameIcon from '~icons/bx/pencil';
 	import AddIcon from '~icons/bx/plus';
 	import QrIcon from '~icons/bx/qr';
+	import DeleteIcon from '~icons/bx/trash-alt';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
-	import { onMount } from 'svelte';
-	import QRCode from "qrcode"
 
 	$: handleForm(form);
 
@@ -32,123 +33,133 @@
 	};
 
 	const openRenameDialog = () => {
-		pushState("", {
-			showingModal: "renameAttendanceEvent"
-		})
-	}
+		pushState('', {
+			showingModal: 'renameAttendanceEvent'
+		});
+	};
 
 	let confirmDeleteValue: undefined | string = undefined;
 	const openDeleteDialog = () => {
-		pushState("", {
-			showingModal: "deleteAttendanceEvent"
-		})
-	}
-	let qrSize = "250";
+		pushState('', {
+			showingModal: 'deleteAttendanceEvent'
+		});
+	};
 	let showingQrCode = false;
 	let qrCodeData: string;
 	onMount(async () => {
-		qrCodeData = await QRCode.toDataURL(`${window.location.origin}/attendance?id=${data.attendanceEvent.id}&code=${data.attendanceEvent.attendanceCode}`, {
-			errorCorrectionLevel: 'H',
-			type: 'image/png',
-			margin: 1,
-			scale: 4,
-			width: 1000,
-			color: {
-				dark:"#e63946",
-				light: "#00000000"
-				
+		qrCodeData = await QRCode.toDataURL(
+			`${window.location.origin}/attendance?id=${data.attendanceEvent.id}&code=${data.attendanceEvent.attendanceCode}`,
+			{
+				errorCorrectionLevel: 'H',
+				type: 'image/png',
+				margin: 1,
+				scale: 4,
+				width: 1000,
+				color: {
+					dark: '#e63946',
+					light: '#00000000'
+				}
 			}
-		})
-	})
+		);
+	});
 	const openQrDialog = () => {
-		showingQrCode = true
-	
-	}
-
-	
+		showingQrCode = true;
+	};
 </script>
 
-{#if $page.state.showingModal == "renameAttendanceEvent"}
-	<Modal on:close={() => {history.back()}}>
-		<form class="modalForm" method="post" action="?/renameEvent" use:enhance>
+{#if $page.state.showingModal == 'renameAttendanceEvent'}
+	<Modal
+		on:close={() => {
+			history.back();
+		}}
+	>
+		<form class="modalForm" action="?/renameEvent" method="post" use:enhance>
 			<h2>Rename Event</h2>
-			<input hidden name="eventId" value={data.attendanceEvent.id}/> 
-			<Input name="name" label="New Name" bg="var(--bgPure)" autocomplete="off"/>
-			<hr/>
-			<Button value="Rename"/>
+			<input name="eventId" hidden value={data.attendanceEvent.id} />
+			<Input name="name" autocomplete="off" bg="var(--bgPure)" label="New Name" />
+			<hr />
+			<Button value="Rename" />
 		</form>
 	</Modal>
 {/if}
 
-{#if $page.state.showingModal == "deleteAttendanceEvent"}
-	<Modal on:close={() => {history.back()}}>
-		<form class="modalForm" method="post" action="?/deleteEvent" use:enhance>
+{#if $page.state.showingModal == 'deleteAttendanceEvent'}
+	<Modal
+		on:close={() => {
+			history.back();
+		}}
+	>
+		<form class="modalForm" action="?/deleteEvent" method="post" use:enhance>
 			<h2>Delete Event</h2>
 			<p>Are you sure?</p>
 			<p>This well delete all data associated as well!</p>
 			<p>To confirm, enter <strong>{data.attendanceEvent.name}</strong> below:</p>
-			<hr>
-			<input hidden name="eventId" value={data.attendanceEvent.id}/> 
-			<Input name="name" label="Confirm" bg="var(--bgPure)" autocomplete="off" bind:value={confirmDeleteValue}/>
-			<hr/>
-			<Button value="Delete" disabled={data.attendanceEvent.name != confirmDeleteValue}/>
+			<hr />
+			<input name="eventId" hidden value={data.attendanceEvent.id} />
+			<Input
+				name="name"
+				autocomplete="off"
+				bg="var(--bgPure)"
+				label="Confirm"
+				bind:value={confirmDeleteValue}
+			/>
+			<hr />
+			<Button disabled={data.attendanceEvent.name != confirmDeleteValue} value="Delete" />
 		</form>
 	</Modal>
 {/if}
 
 {#if showingQrCode}
-	<Modal on:close={() => {showingQrCode = false}}>
+	<Modal
+		on:close={() => {
+			showingQrCode = false;
+		}}
+	>
 		{#if !data.attendanceEvent.attendanceCode}
-			<form class="modalForm" method="post" action="?/enableQr" use:enhance>
+			<form class="modalForm" action="?/enableQr" method="post" use:enhance>
 				<h2>Enable QR Code Attendance</h2>
 				<p>QR code attendance will generate a qr code which club members can scan.</p>
 				<p>This action is not reversible and will be tied to this event.</p>
-				<hr>
-				<input hidden name="eventId" value={data.attendanceEvent.id}/> 
-				<Button value="Create QR Code"/>
+				<hr />
+				<input name="eventId" hidden value={data.attendanceEvent.id} />
+				<Button value="Create QR Code" />
 			</form>
 		{:else}
 			<h2>Qr Code</h2>
-			<div class="qrImage" style="width: 15rem">
-				<img src={qrCodeData} alt="Qr Code" width="100%"/>
-				
-				
+			<div style="width: 15rem" class="qrImage">
+				<img alt="Qr Code" src={qrCodeData} width="100%" />
 			</div>
-			<input value="{data.attendanceEvent.attendanceCode}">
-			<hr>
-			
+			<input value={data.attendanceEvent.attendanceCode} />
+			<hr />
 		{/if}
 	</Modal>
 {/if}
 
-
-
 <div style="--itemCount: {data.attendanceMembers.length}" class="wrap">
 	<form action="?/createAttendanceEvent" method="post" use:enhance />
 
-	
 	<div class="editBar">
 		{#key data.allEvents}
 			<ComboBox
 				style="min-width: 20rem"
 				label="Select Event"
-				placeholder={data.attendanceEvent.name}
 				options={[data.allEvents, (item) => item.name, (item) => item.id]}
+				placeholder={data.attendanceEvent.name}
 				on:selectOption={(event) => {
 					handleSelect(event.detail.value);
 				}}
 			/>
 		{/key}
-		
+
 		{#if data.clubPerms.manageAttendance || data.clubPerms.admin}
 			<div class="actions">
 				<div use:tooltip={'Add Event'}>
-					<IconButton formData={
-						{
-							method: "post",
-							action: "?/createAttendanceEvent"
-						}
-					}>
+					<IconButton
+						formData={{
+							method: 'post',
+							action: '?/createAttendanceEvent'
+						}}
+					>
 						<AddIcon height="100%" />
 					</IconButton>
 				</div>
@@ -158,21 +169,17 @@
 					</IconButton>
 				</div>
 				<div use:tooltip={'Delete Event'}>
-					<IconButton on:click={openDeleteDialog} >
+					<IconButton on:click={openDeleteDialog}>
 						<DeleteIcon height="100%" />
 					</IconButton>
 				</div>
 				<div use:tooltip={'QR Attendance'}>
 					<IconButton on:click={openQrDialog}>
-						<QrIcon/>
+						<QrIcon />
 					</IconButton>
 				</div>
-				
-				
-			
 			</div>
 		{/if}
-		
 	</div>
 	<div class="users">
 		{#each data.attendanceMembers as attendanceMember}
@@ -183,9 +190,8 @@
 					marginRight="0px"
 					pfp={attendanceMember.user.pfp}
 				/>
-			
+
 				<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember} />
-				
 			</div>
 		{/each}
 	</div>
@@ -253,8 +259,8 @@
 		}
 
 		hr {
-			color: transparent
-		};
+			color: transparent;
+		}
 	}
 
 	.qrImage {

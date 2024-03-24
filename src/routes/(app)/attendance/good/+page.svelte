@@ -1,22 +1,19 @@
 <script lang="ts">
-	import Button from "$lib/components/Button.svelte"
-	import {page} from "$app/stores"
+	import { page } from '$app/stores';
+	import Button from '$lib/components/Button.svelte';
 
-	let buttonUrl: string = "";
+	let buttonUrl: string = '';
 	page.subscribe((item) => {
-		console.log(item.url.searchParams.get("org"))
-		buttonUrl = `/org/${item.url.searchParams.get("org")}/club/${item.url.searchParams.get("club")}`
-	})
-		
-	
+		buttonUrl = `/org/${item.url.searchParams.get('org')}/club/${item.url.searchParams.get('club')}`;
+	});
 </script>
 
 <div class="wrap">
 	<div class="message">
 		<h2>Good to go!</h2>
 		<p>You have been marked present!</p>
-		<hr>
-		<Button href={buttonUrl} value="Go to club"/>
+		<hr />
+		<Button href={buttonUrl} value="Go to club" />
 	</div>
 </div>
 
