@@ -1,4 +1,4 @@
-<script generics="k" lang="ts">
+<script generics="K" lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import type { ChangeEventHandler } from 'svelte/elements';
 	const dispath = createEventDispatcher<{
@@ -8,7 +8,7 @@
 		};
 	}>();
 
-	type Options = [k[], (arg: k) => string, (arg: k) => string | number];
+	type Options = [K[], (arg: K) => string, (arg: K) => string | number];
 
 	export let options: Options = [[], () => '', () => 0];
 
