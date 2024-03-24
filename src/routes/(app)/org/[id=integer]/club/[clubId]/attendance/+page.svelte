@@ -129,7 +129,13 @@
 			<div style="width: 15rem" class="qrImage">
 				<img alt="Qr Code" src={qrCodeData} width="100%" />
 			</div>
-			<input value={data.attendanceEvent.attendanceCode} />
+			<div class="noExpandText">
+				<p>
+					If members scan this code, they will be marked present for this event. You can right click
+					the qr code to save/copy the image in a larger size.
+				</p>
+			</div>
+
 			<hr />
 		{/if}
 	</Modal>
@@ -266,5 +272,9 @@
 	.qrImage {
 		min-width: 250px;
 		max-width: 1920px;
+	}
+
+	.noExpandText {
+		max-width: 20rem;
 	}
 </style>
