@@ -46,7 +46,7 @@
 
 <div
 	class="wrap"
-	use:tooltip={`${(1 + 1).toString()}`}
+	use:tooltip={`${attendanceMember.user.firstName} ${attendanceMember.user.lastName}`}
 >
 
 	<Checkbox
