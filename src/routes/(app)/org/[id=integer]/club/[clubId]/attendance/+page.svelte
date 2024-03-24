@@ -33,6 +33,13 @@
 			showingModal: "renameAttendanceEvent"
 		})
 	}
+
+	let confirmDeleteValue: undefined | string = undefined;
+	const openDeleteDialog = () => {
+		pushState("", {
+			showingModal: "deleteAttendanceEvent"
+		})
+	}
 </script>
 
 {#if $page.state.showingModal == "renameAttendanceEvent"}
@@ -43,6 +50,22 @@
 			<Input name="name" label="New Name" bg="var(--bgPure)" autocomplete="off"/>
 			<hr/>
 			<Button value="Rename"/>
+		</form>
+	</Modal>
+{/if}
+
+{#if $page.state.showingModal == "deleteAttendanceEvent"}
+	<Modal on:close={() => {history.back()}}>
+		<form class="modalForm" method="post" action="?/deleteEvent" use:enhance>
+			<h2>Delete Event</h2>
+			<p>Are you sure?</p>
+			<p>This well delete all data associated as well!</p>
+			<p>To confirm, enter <strong>{data.attendanceEvent.name}</strong> below:</p>
+			<hr>
+			<input hidden name="eventId" value={data.attendanceEvent.id}/> 
+			<Input name="name" label="Confirm" bg="var(--bgPure)" autocomplete="off" bind:value={confirmDeleteValue}/>
+			<hr/>
+			<Button value="Delete" disabled={data.attendanceEvent.name != confirmDeleteValue}/>
 		</form>
 	</Modal>
 {/if}
@@ -81,7 +104,7 @@
 				</IconButton>
 			</div>
 			<div use:tooltip={'Delete Event'}>
-				<IconButton >
+				<IconButton on:click={openDeleteDialog} >
 					<DeleteIcon height="100%" />
 				</IconButton>
 			</div>
@@ -164,6 +187,10 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+
+		p {
+			margin: 0.25rem;
+		}
 
 		hr {
 			color: transparent

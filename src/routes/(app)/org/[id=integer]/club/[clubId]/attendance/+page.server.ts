@@ -158,6 +158,45 @@ export const actions = {
 			}
 		}
 	),
+	deleteEvent: formHandler(
+		z.object({
+			eventId: z.coerce.number(),
+			name: z.string().optional()
+		}), async({eventId}, {params, cookies}) => {
+			const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
+
+			if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
+				return {
+					success: false,
+					message: 'No permissions'
+				};
+			}
+
+			const eventTest = await prisma.clubAttendanceEvent.findFirst({
+				where: {
+					AND: {
+						id: eventId,
+						clubId: clubUser.clubUser.clubId
+					}
+				}
+			})
+
+			if(!eventTest) {
+				return {
+					success: false,
+					message: "No event",
+				}
+			}
+
+			await prisma.clubAttendanceEvent.delete({
+				where: {
+					id: eventTest.id
+				},
+			})
+
+			throw redirect(303, `/org/${params.id}/club/${params.clubId}/attendance`)
+		}
+	),
 	changeAttendance: formHandler(
 		z.object({
 			userId: z.coerce.number(),
