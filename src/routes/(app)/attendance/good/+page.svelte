@@ -2,10 +2,7 @@
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 
-	let buttonUrl: string = '';
-	page.subscribe((item) => {
-		buttonUrl = `/org/${item.url.searchParams.get('org')}/club/${item.url.searchParams.get('club')}`;
-	});
+	$: buttonUrl = `/org/${$page.url.searchParams.get('org')}/club/${$page.url.searchParams.get('club')}`;
 </script>
 
 <div class="wrap">
