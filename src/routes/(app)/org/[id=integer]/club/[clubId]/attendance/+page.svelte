@@ -20,6 +20,7 @@
 	import QrIcon from '~icons/bx/qr';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
 	import { onMount } from 'svelte';
+	import QRCode from "qrcode"
 
 	$: handleForm(form);
 
@@ -42,7 +43,23 @@
 			showingModal: "deleteAttendanceEvent"
 		})
 	}
+	let qrSize = "250";
 	let showingQrCode = false;
+	let qrCodeData: string;
+	onMount(async () => {
+		qrCodeData = await QRCode.toDataURL(`${window.location.origin}/attendance?id=${data.attendanceEvent.id}&code=${data.attendanceEvent.attendanceCode}`, {
+			errorCorrectionLevel: 'H',
+			type: 'image/png',
+			margin: 1,
+			scale: 4,
+			width: 1000,
+			color: {
+				dark:"#e63946",
+				light: "#00000000"
+				
+			}
+		})
+	})
 	const openQrDialog = () => {
 		showingQrCode = true
 	
@@ -92,6 +109,13 @@
 			</form>
 		{:else}
 			<h2>Qr Code</h2>
+			<div class="qrImage" style="width: {qrSize}px">
+				<img src={qrCodeData} alt="Qr Code" width="{qrSize}px"/>
+				
+				
+			</div>
+			<hr>
+			<Input label="Size (pixels)" bg="var(--bgPure)" bind:value={qrSize}/>
 		{/if}
 	</Modal>
 {/if}
@@ -230,5 +254,10 @@
 		hr {
 			color: transparent
 		};
+	}
+
+	.qrImage {
+		min-width: 250px;
+		max-width: 1920px;
 	}
 </style>
