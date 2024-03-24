@@ -109,13 +109,14 @@
 			</form>
 		{:else}
 			<h2>Qr Code</h2>
-			<div class="qrImage" style="width: {qrSize}px">
-				<img src={qrCodeData} alt="Qr Code" width="{qrSize}px"/>
+			<div class="qrImage" style="width: 15rem">
+				<img src={qrCodeData} alt="Qr Code" width="100%"/>
 				
 				
 			</div>
+			<input value="{data.attendanceEvent.attendanceCode}">
 			<hr>
-			<Input label="Size (pixels)" bg="var(--bgPure)" bind:value={qrSize}/>
+			
 		{/if}
 	</Modal>
 {/if}
