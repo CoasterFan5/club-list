@@ -3,14 +3,28 @@ import { tweened } from 'svelte/motion';
 
 import Tooltip from './Tooltip.svelte';
 
+// @hmr:keep-all
+
 let idInc = 0;
 
 export function tooltip(element: HTMLElement, text: string | undefined) {
-	const posX = element.getBoundingClientRect().x;
+	if (!element) {
+		return;
+	}
 
 	if (!text) {
 		return;
 	}
+	if (!document) {
+		return;
+	}
+
+	const posX = element.getBoundingClientRect().x;
+
+	const opacity = tweened(0, {
+		duration: 250,
+		easing: cubicInOut
+	});
 
 	const tooltipElement = new Tooltip({
 		props: {
@@ -24,16 +38,13 @@ export function tooltip(element: HTMLElement, text: string | undefined) {
 		target: document.body
 	});
 
-	const opacity = tweened(0, {
-		duration: 250,
-		easing: cubicInOut
-	});
-
 	opacity.subscribe((value) => {
 		tooltipElement.$set({
 			opacity: value
 		});
 	});
+
+	idInc++;
 
 	let active = false;
 	element.title = text;
@@ -61,7 +72,7 @@ export function tooltip(element: HTMLElement, text: string | undefined) {
 		});
 
 		active = true;
-		idInc++;
+
 		element.removeAttribute('title');
 
 		//Get the position of the element
@@ -71,7 +82,9 @@ export function tooltip(element: HTMLElement, text: string | undefined) {
 
 	const doneHere = () => {
 		opacity.set(0);
-		element.title = text;
+		if(text) {
+			element.title = text
+		}
 		active = false;
 	};
 
@@ -88,13 +101,15 @@ export function tooltip(element: HTMLElement, text: string | undefined) {
 	window.addEventListener('keydown', keyPressHelper);
 
 	return {
+		update(t: string | undefined) {
+			text = t;
+		},
 		destroy() {
 			element.removeEventListener('mouseover', mouseOver);
 			element.removeEventListener('mouseleave', doneHere);
 			element.removeEventListener('blur', doneHere);
 			element.removeEventListener('click', doneHere);
 			window.removeEventListener('keydown', keyPressHelper);
-			doneHere();
 		}
 	};
 }

@@ -71,6 +71,11 @@ export const load = async ({ parent, params, url }) => {
 					}
 				}
 			}
+		},
+		orderBy: {
+			user: {
+				firstName: "asc"
+			}
 		}
 	});
 

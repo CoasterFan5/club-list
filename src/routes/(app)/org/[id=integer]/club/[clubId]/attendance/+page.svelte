@@ -47,9 +47,9 @@
 					marginRight="0px"
 					pfp={attendanceMember.user.pfp}
 				/>
-				{#key data.attendanceEvent}
-					<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember} />
-				{/key}
+			
+				<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember} />
+				
 			</div>
 		{/each}
 	</div>

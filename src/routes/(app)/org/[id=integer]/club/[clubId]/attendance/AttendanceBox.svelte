@@ -32,17 +32,23 @@
 		formSubmitButton.click();
 	};
 
-	const exists = attendanceMember.user.attendanceMarks.find(
+	let exists = false;
+
+	$: if(attendanceMember) {
+		exists = attendanceMember.user.attendanceMarks.find(
 		(item) => item.attendanceEvent.id == attendanceEvent.id
 	)
 		? true
 		: false;
+	}
+	
 </script>
 
 <div
 	class="wrap"
-	use:tooltip={`${attendanceMember.user.firstName} ${attendanceMember.user.lastName}`}
+	use:tooltip={`${(1 + 1).toString()}`}
 >
+
 	<Checkbox
 		checked={exists}
 		label="{attendanceMember.user.firstName} {attendanceMember.user.lastName}"
