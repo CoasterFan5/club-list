@@ -1,16 +1,23 @@
 <script lang="ts">
-	import DeleteIcon from '~icons/bx/trash';
+	
 	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
+	import { goto, pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import ComboBox from '$lib/components/ComboBox.svelte';
 	import IconButton from '$lib/components/IconButton.svelte';
 	import Pfp from '$lib/components/Pfp.svelte';
 	import { handleForm } from '$lib/utils/formToaster';
-
+	import Modal from "$lib/components/Modal.svelte"
 	import AttendanceBox from './AttendanceBox.svelte';
+	import Input from "$lib/components/Input.svelte"
+	import Button from "$lib/components/Button.svelte"
 	export let data;
 	export let form;
+
+	import DeleteIcon from '~icons/bx/trash-alt';
+	import RenameIcon from '~icons/bx/pencil';
+	import AddIcon from '~icons/bx/plus';
+	import { tooltip } from '$lib/components/tooltips/tooltip';
 
 	$: handleForm(form);
 
@@ -20,23 +27,69 @@
 			invalidateAll: true
 		});
 	};
+
+	const openRenameDialog = () => {
+		pushState("", {
+			showingModal: "renameAttendanceEvent"
+		})
+	}
 </script>
+
+{#if $page.state.showingModal == "renameAttendanceEvent"}
+	<Modal on:close={() => {history.back()}}>
+		<form class="modalForm" method="post" action="?/renameEvent" use:enhance>
+			<h2>Rename Event</h2>
+			<input hidden name="eventId" value={data.attendanceEvent.id}/> 
+			<Input name="name" label="New Name" bg="var(--bgPure)" autocomplete="off"/>
+			<hr/>
+			<Button value="Rename"/>
+		</form>
+	</Modal>
+{/if}
 
 <div style="--itemCount: {data.attendanceMembers.length}" class="wrap">
 	<form action="?/createAttendanceEvent" method="post" use:enhance />
 
+	
 	<div class="editBar">
-		<ComboBox
-			style="min-width: 20rem"
-			label="Select Event"
-			options={[data.allEvents, (item) => item.name, (item) => item.id]}
-			on:selectOption={(event) => {
-				handleSelect(event.detail.value);
-			}}
-		/>
-		<IconButton>
-			<DeleteIcon height="100%" />
-		</IconButton>
+		{#key data.allEvents}
+			<ComboBox
+				style="min-width: 20rem"
+				label="Select Event"
+				placeholder={data.attendanceEvent.name}
+				options={[data.allEvents, (item) => item.name, (item) => item.id]}
+				on:selectOption={(event) => {
+					handleSelect(event.detail.value);
+				}}
+			/>
+		{/key}
+		
+		<div class="actions">
+			<div use:tooltip={'Add Event'}>
+				<IconButton formData={
+					{
+						method: "post",
+						action: "?/createAttendanceEvent"
+					}
+				}>
+					<AddIcon height="100%" />
+				</IconButton>
+			</div>
+			<div use:tooltip={'Rename Event'}>
+				<IconButton on:click={openRenameDialog}>
+					<RenameIcon height="100%" />
+				</IconButton>
+			</div>
+			<div use:tooltip={'Delete Event'}>
+				<IconButton >
+					<DeleteIcon height="100%" />
+				</IconButton>
+			</div>
+			
+			
+		
+		</div>
+		
 	</div>
 	<div class="users">
 		{#each data.attendanceMembers as attendanceMember}
@@ -82,12 +135,38 @@
 		background: var(--bgMid);
 	}
 	.editBar {
+		position: relative;
 		padding: 0.75rem;
 		border-radius: 5px;
 		box-sizing: border-box;
 		display: flex;
-		align-items: start;
+		justify-content: start;
+		align-items: stretch;
 		background: var(--bgMid);
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+	}
+	.actions {
+		div {
+			height: 100%;
+		}
+		box-sizing: border-box;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		padding: 0.25rem 0rem;
+		padding-left: 1rem;
+		justify-content: start;
+	}
+
+	.modalForm {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		hr {
+			color: transparent
+		};
 	}
 </style>

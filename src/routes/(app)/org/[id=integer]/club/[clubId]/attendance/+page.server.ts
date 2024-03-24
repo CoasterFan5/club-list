@@ -47,6 +47,9 @@ export const load = async ({ parent, params, url }) => {
 	const allEvents = await prisma.clubAttendanceEvent.findMany({
 		where: {
 			clubId: parentData.club.id
+		},
+		orderBy: {
+			createdAt: "asc"
 		}
 	});
 
@@ -87,7 +90,7 @@ export const load = async ({ parent, params, url }) => {
 };
 
 export const actions = {
-	createAttendanceEvent: async ({ cookies, params }) => {
+	createAttendanceEvent: async ({ cookies, params, url }) => {
 		const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
 
 		if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
@@ -97,13 +100,64 @@ export const actions = {
 			};
 		}
 
-		await prisma.clubAttendanceEvent.create({
+		const event = await prisma.clubAttendanceEvent.create({
 			data: {
 				name: dayjs(Date.now()).format('MMMM DD, YYYY'),
 				clubId: clubUser.clubUser.clubId
 			}
 		});
+		url.searchParams.forEach((val, key) => {
+			url.searchParams.delete(key)
+		})
+		url.searchParams.set("eventId", event.id.toString())
+
+		throw redirect(303, url)
 	},
+	renameEvent: formHandler(
+		z.object({
+			eventId: z.coerce.number(),
+			name: z.string()
+		}), async({eventId, name}, {params, cookies}) => {
+			const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
+
+			if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
+				return {
+					success: false,
+					message: 'No permissions'
+				};
+			}
+
+			const eventTest = await prisma.clubAttendanceEvent.findFirst({
+				where: {
+					AND: {
+						id: eventId,
+						clubId: clubUser.clubUser.clubId
+					}
+				}
+			})
+
+			if(!eventTest) {
+				return {
+					success: false,
+					message: "No event",
+				}
+			}
+
+			await prisma.clubAttendanceEvent.update({
+				where: {
+					id: eventTest.id
+				},
+				data: {
+					name: name
+				}
+			})
+
+			return {
+				success: true,
+				message: "Club renamed!"
+			}
+		}
+	),
 	changeAttendance: formHandler(
 		z.object({
 			userId: z.coerce.number(),
