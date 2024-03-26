@@ -5,6 +5,7 @@
 	import timezone from 'dayjs/plugin/timezone';
 	import utc from 'dayjs/plugin/utc';
 
+	import ClipboardIcon from '~icons/bx/clipboard';
 	import BxPencil from '~icons/bx/pencil';
 	import BxTrash from '~icons/bx/trash';
 	import { enhance } from '$app/forms';
@@ -13,9 +14,8 @@
 	import { RRule } from '$lib/utils/rrule';
 
 	import Button from './Button.svelte';
-	import Modal from './Modal.svelte';
 	import IconButton from './IconButton.svelte';
-	import ClipboardIcon from '~icons/bx/clipboard';
+	import Modal from './Modal.svelte';
 	import { tooltip } from './tooltips/tooltip';
 
 	export let orgId: string | undefined = undefined;

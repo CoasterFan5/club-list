@@ -16,8 +16,8 @@
 	transition:fade={{ easing: cubicInOut, duration: 150 }}
 >
 	<div
-		transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }}
 		class:overflowProtection={!disableOverflowProtection}
+		transition:fly={{ easing: cubicInOut, duration: 300, delay: 50, y: 50 }}
 	>
 		<slot />
 	</div>
