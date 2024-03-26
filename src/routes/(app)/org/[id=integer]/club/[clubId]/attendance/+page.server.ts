@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { formHandler } from '$lib/bodyguard.js';
 import { getClubUserFromSession } from '$lib/server/getClubUserFromSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
+import { RRule } from '$lib/utils/rrule.js';
 
 export const load = async ({ parent, params, url }) => {
 	const parentData = await parent();
@@ -44,6 +45,12 @@ export const load = async ({ parent, params, url }) => {
 			}
 		});
 	}
+
+	const calEvents = await prisma.event.findMany({
+		where: {
+			clubId: parentData.club.id
+		}
+	});
 
 	const allEvents = await prisma.clubAttendanceEvent.findMany({
 		where: {
@@ -86,34 +93,61 @@ export const load = async ({ parent, params, url }) => {
 	return {
 		attendanceMembers: members,
 		attendanceEvent: event,
-		allEvents
+		allEvents,
+		calEvents
 	};
 };
 
 export const actions = {
-	createAttendanceEvent: async ({ cookies, params, url }) => {
-		const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
+	create: formHandler(
+		z.object({
+			eventId: z.coerce.number()
+		}),
+		async ({ eventId }, { cookies, params, url }) => {
+			const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
 
-		if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
-			return {
-				success: false,
-				message: 'No permissions'
-			};
-		}
-
-		const event = await prisma.clubAttendanceEvent.create({
-			data: {
-				name: dayjs(Date.now()).format('MMMM DD, YYYY'),
-				clubId: clubUser.clubUser.clubId
+			if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
+				return {
+					success: false,
+					message: 'No permissions'
+				};
 			}
-		});
-		url.searchParams.forEach((val, key) => {
-			url.searchParams.delete(key);
-		});
-		url.searchParams.set('eventId', event.id.toString());
 
-		throw redirect(303, url);
-	},
+			const event = await prisma.event.findFirst({
+				where: {
+					id: eventId,
+					clubId: clubUser.clubUser.clubId
+				}
+			});
+
+			if (!event) {
+				return {
+					success: false,
+					message: 'Invalid event id'
+				};
+			}
+
+			const eventDays: Date[] = RRule.fromString(event.date).between(
+				new Date(),
+				dayjs().add(1, 'week').toDate()
+			);
+			const eventDay = eventDays[0] || new Date();
+
+			const attendanceEvent = await prisma.clubAttendanceEvent.create({
+				data: {
+					name: `${event.title} ${dayjs(eventDay).format('MM/DD/YY')}`,
+					clubId: clubUser.clubUser.clubId,
+					eventId: event.id
+				}
+			});
+			url.searchParams.forEach((val, key) => {
+				url.searchParams.delete(key);
+			});
+			url.searchParams.set('eventId', attendanceEvent.id.toString());
+
+			throw redirect(303, url);
+		}
+	),
 	renameEvent: formHandler(
 		z.object({
 			eventId: z.coerce.number(),

@@ -14,6 +14,9 @@
 
 	import Button from './Button.svelte';
 	import Modal from './Modal.svelte';
+	import IconButton from './IconButton.svelte';
+	import ClipboardIcon from '~icons/bx/clipboard';
+	import { tooltip } from './tooltips/tooltip';
 
 	export let orgId: string | undefined = undefined;
 	export let clubId: string | undefined = undefined;
@@ -164,15 +167,28 @@
 							<h2>{event.title}</h2>
 							<div class="edit">
 								{#if allowAddEvent}
-									<a href="/org/{orgId}/club/{clubId}/events/manage/{event.id}">
-										<BxPencil />
-									</a>
-									<button
-										on:click={() =>
-											pushState('', { showingModal: 'deleteEvent', eventId: event.id })}
-									>
-										<BxTrash />
-									</button>
+									<div use:tooltip={'Edit'}>
+										<IconButton href="/org/{orgId}/club/{clubId}/events/manage/{event.id}">
+											<BxPencil />
+										</IconButton>
+									</div>
+									<div use:tooltip={'Delete'}>
+										<IconButton
+											on:click={() =>
+												pushState('', { showingModal: 'deleteEvent', eventId: event.id })}
+										>
+											<BxTrash />
+										</IconButton>
+									</div>
+									<div use:tooltip={'Attendance'}>
+										<IconButton
+											on:click={() => {
+												pushState('', { showingModal: 'addAttendance', eventId: event.id });
+											}}
+										>
+											<ClipboardIcon />
+										</IconButton>
+									</div>
 								{/if}
 							</div>
 						</div>
@@ -199,6 +215,27 @@
 					value="Add Event"
 				/>
 			{/if}
+		{/if}
+	</Modal>
+{/if}
+
+{#if $page.state.showingModal === 'addAttendance'}
+	<Modal on:close={() => history.back()}>
+		{@const eventId = $page.state.eventId}
+		{@const event = events.find((e) => e.id === eventId)}
+		{#if event}
+			<h1>Create attendance</h1>
+			<p>This will allow you to take attendance for this event</p>
+			<form
+				action="/org/{$page.params.id}/club/{$page.params.clubId}/attendance?/create"
+				method="post"
+				use:enhance
+			>
+				<input name="eventId" type="hidden" value={eventId} />
+				<Button type="submit" value="Create" />
+			</form>
+		{:else}
+			<p>Event not found.</p>
 		{/if}
 	</Modal>
 {/if}
@@ -313,11 +350,14 @@
 		box-sizing: border-box;
 		text-align: left;
 		padding: 1rem;
-		margin: 0.5rem 1rem;
+		margin: 0.5rem 0rem;
 		margin-top: 0;
+		min-width: 20rem;
+		max-width: 90vw;
 		width: 100%;
 		height: 100%;
-		background-color: #ddd;
+		background-color: var(--bg);
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 		border: 0;
 		border-radius: 0.5rem;
 
@@ -336,14 +376,8 @@
 			justify-content: space-between;
 			align-items: center;
 
-			button {
-				all: unset;
-				cursor: pointer;
-				height: 100%;
-				aspect-ratio: 1/1;
-				box-sizing: border-box;
-				border-radius: 50%;
-				color: #0066cc;
+			.edit {
+				display: flex;
 			}
 		}
 	}

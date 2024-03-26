@@ -44,6 +44,13 @@
 			showingModal: 'deleteAttendanceEvent'
 		});
 	};
+
+	const openCreateDialog = () => {
+		pushState('', {
+			showingModal: 'createAttendanceEvent'
+		});
+	};
+
 	let showingQrCode = false;
 	let qrCodeData: string;
 	onMount(async () => {
@@ -109,6 +116,27 @@
 	</Modal>
 {/if}
 
+{#if $page.state.showingModal == 'createAttendanceEvent'}
+	<Modal
+		disableOverflowProtection={true}
+		on:close={() => {
+			history.back();
+		}}
+	>
+		<form class="modalForm" action="?/create" method="post" use:enhance>
+			<h2>Create Attendance</h2>
+			<ComboBox
+				name="eventId"
+				style="background: var(--bgPure); width: 100%"
+				label="Select Event"
+				options={[data.calEvents, (item) => item.title, (item) => item.id]}
+			/>
+			<hr />
+			<Button value="Create" />
+		</form>
+	</Modal>
+{/if}
+
 {#if showingQrCode}
 	<Modal
 		on:close={() => {
@@ -160,12 +188,7 @@
 		{#if data.clubPerms.manageAttendance || data.clubPerms.admin}
 			<div class="actions">
 				<div use:tooltip={'Add Event'}>
-					<IconButton
-						formData={{
-							method: 'post',
-							action: '?/createAttendanceEvent'
-						}}
-					>
+					<IconButton on:click={openCreateDialog}>
 						<AddIcon height="100%" />
 					</IconButton>
 				</div>
@@ -255,6 +278,7 @@
 	}
 
 	.modalForm {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -266,6 +290,7 @@
 
 		hr {
 			color: transparent;
+			border: 0px;
 		}
 	}
 

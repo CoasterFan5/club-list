@@ -190,9 +190,8 @@
 		box-sizing: border-box;
 		border: 1px solid gray;
 		border-radius: 3px;
-		max-height: 300px;
+		max-height: 200px;
 		overflow-y: auto;
-		z-index: 10;
 	}
 
 	.option {
