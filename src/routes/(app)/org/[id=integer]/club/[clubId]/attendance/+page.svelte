@@ -146,8 +146,10 @@
 		{#if !data.attendanceEvent.attendanceCode}
 			<form class="modalForm" action="?/enableQr" method="post" use:enhance>
 				<h2>Enable QR Code Attendance</h2>
-				<p>QR code attendance will generate a qr code which club members can scan.</p>
-				<p>This action is not reversible and will be tied to this event.</p>
+				<p class="noExpandText">
+					QR code attendance will generate a qr code which club members can scan to be marked
+					present for this event.
+				</p>
 				<hr />
 				<input name="eventId" hidden value={data.attendanceEvent.id} />
 				<Button value="Create QR Code" />
@@ -163,6 +165,10 @@
 					the qr code to save/copy the image in a larger size.
 				</p>
 			</div>
+			<form action="?/deleteQr" method="post" use:enhance>
+				<input name="eventId" hidden value={data.attendanceEvent.id} />
+				<Button value="Delete QR Code" />
+			</form>
 
 			<hr />
 		{/if}
