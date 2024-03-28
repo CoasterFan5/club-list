@@ -18,9 +18,6 @@ export function tooltip(element: HTMLElement, text: string | undefined) {
 	if (!document) {
 		return;
 	}
-
-	const posX = element.getBoundingClientRect().x;
-
 	const opacity = tweened(0, {
 		duration: 250,
 		easing: cubicInOut
@@ -58,6 +55,7 @@ export function tooltip(element: HTMLElement, text: string | undefined) {
 			return;
 		}
 
+		const posX = element.getBoundingClientRect().x;
 		const posY = element.getBoundingClientRect().y;
 		const width = element.clientWidth;
 		const height = element.clientHeight;

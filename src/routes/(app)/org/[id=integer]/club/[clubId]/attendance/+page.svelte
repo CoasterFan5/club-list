@@ -17,6 +17,7 @@
 	import QRCode from 'qrcode';
 	import { onMount } from 'svelte';
 
+	import InfoIcon from '~icons/bx/info-circle';
 	import RenameIcon from '~icons/bx/pencil';
 	import AddIcon from '~icons/bx/plus';
 	import QrIcon from '~icons/bx/qr';
@@ -176,7 +177,10 @@
 {/if}
 
 <div style="--itemCount: {data.attendanceMembers.length}" class="wrap">
-	<form action="?/createAttendanceEvent" method="post" use:enhance />
+	<div class="betaWarning">
+		<InfoIcon color="var(--accent" />
+		<p>Attendance is still a beta-feature. Expect bugs and changes.</p>
+	</div>
 
 	<div class="editBar">
 		<div class="comboBox">
@@ -282,6 +286,35 @@
 		.comboBox {
 			width: 100%;
 			max-width: 20rem;
+		}
+	}
+
+	.betaWarning {
+		display: flex;
+		align-items: center;
+		position: relative;
+		padding: 0.75rem 1rem;
+		box-sizing: border-box;
+		border-radius: 0.25rem;
+		overflow: hidden;
+		margin-bottom: 1rem;
+		z-index: 1;
+
+		p {
+			margin: 0px;
+			margin-left: 1rem;
+		}
+
+		&::after {
+			position: absolute;
+			content: '';
+			left: 0px;
+			top: 0px;
+			height: 100%;
+			width: 100%;
+			background: var(--accent);
+			opacity: 0.1;
+			z-index: -1;
 		}
 	}
 	.actions {
