@@ -62,7 +62,8 @@
 
 <style lang="scss">
 	.wrap {
-		width: 8rem;
+		margin-left: -7px;
+		width: 100%;
 		text-wrap: nowrap;
 		display: flex;
 		overflow-x: hidden;

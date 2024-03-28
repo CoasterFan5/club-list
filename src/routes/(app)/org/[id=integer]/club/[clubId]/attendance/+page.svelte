@@ -179,17 +179,19 @@
 	<form action="?/createAttendanceEvent" method="post" use:enhance />
 
 	<div class="editBar">
-		{#key data.allEvents}
-			<ComboBox
-				style="min-width: 20rem"
-				label="Select Event"
-				options={[data.allEvents, (item) => item.name, (item) => item.id]}
-				placeholder={data.attendanceEvent.name}
-				on:selectOption={(event) => {
-					handleSelect(event.detail.value);
-				}}
-			/>
-		{/key}
+		<div class="comboBox">
+			{#key data.allEvents}
+				<ComboBox
+					style="width: 100%; max-width: 20rem;"
+					label="Select Event"
+					options={[data.allEvents, (item) => item.name, (item) => item.id]}
+					placeholder={data.attendanceEvent.name}
+					on:selectOption={(event) => {
+						handleSelect(event.detail.value);
+					}}
+				/>
+			{/key}
+		</div>
 
 		{#if data.clubPerms.manageAttendance || data.clubPerms.admin}
 			<div class="actions">
@@ -219,12 +221,14 @@
 	<div class="users">
 		{#each data.attendanceMembers as attendanceMember}
 			<div class="user">
-				<Pfp
-					borderRadius="0.3rem"
-					height="7rem"
-					marginRight="0px"
-					pfp={attendanceMember.user.pfp}
-				/>
+				<div class="imageWrap">
+					<Pfp
+						borderRadius="0.3rem"
+						height="100%"
+						marginRight="0px"
+						pfp={attendanceMember.user.pfp}
+					/>
+				</div>
 
 				<AttendanceBox attendanceEvent={data.attendanceEvent} {attendanceMember} />
 			</div>
@@ -240,16 +244,15 @@
 	}
 
 	.users {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		padding: 1rem 0rem;
-		flex-wrap: wrap;
+		display: grid;
+		margin-top: 0.5rem;
+		gap: 0.5rem;
+		grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
 	}
 	.user {
 		padding: 0.5rem;
-		margin: 0.25rem;
+
+		width: 100%;
 		box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
 		display: flex;
 		flex-direction: column;
@@ -257,6 +260,12 @@
 		justify-content: center;
 		box-sizing: border-box;
 		background: var(--bgMid);
+		aspect-ratio: 1/1;
+
+		.imageWrap {
+			width: 100%;
+			aspect-ratio: 1/1;
+		}
 	}
 	.editBar {
 		position: relative;
@@ -265,16 +274,23 @@
 		box-sizing: border-box;
 		display: flex;
 		justify-content: start;
-		align-items: stretch;
+		align-items: center;
 		background: var(--bgMid);
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+		flex-wrap: wrap;
+
+		.comboBox {
+			width: 100%;
+			max-width: 20rem;
+		}
 	}
 	.actions {
 		div {
 			height: 100%;
 		}
+		flex-grow: 1;
 		box-sizing: border-box;
-		width: 100%;
+		height: 2.5rem;
 		display: flex;
 		align-items: center;
 		flex-direction: row;
