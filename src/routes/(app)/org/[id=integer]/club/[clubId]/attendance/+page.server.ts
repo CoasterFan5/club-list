@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { formHandler } from '$lib/bodyguard.js';
 import { getClubUserFromSession } from '$lib/server/getClubUserFromSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
-import { RRule } from '$lib/utils/rrule.js';
+import { RRule } from '$lib/utils/rrule';
 
 export const load = async ({ parent, params, url }) => {
 	const parentData = await parent();
@@ -32,7 +32,7 @@ export const load = async ({ parent, params, url }) => {
 				clubId: parentData.club.id
 			},
 			orderBy: {
-				createdAt: 'desc'
+				date: 'desc'
 			}
 		});
 	}
@@ -41,7 +41,8 @@ export const load = async ({ parent, params, url }) => {
 		event = await prisma.clubAttendanceEvent.create({
 			data: {
 				name: dayjs(Date.now()).format('MMMM DD, YYYY'),
-				clubId: parentData.club.id
+				clubId: parentData.club.id,
+				date: new Date()
 			}
 		});
 	}
@@ -57,7 +58,7 @@ export const load = async ({ parent, params, url }) => {
 			clubId: parentData.club.id
 		},
 		orderBy: {
-			createdAt: 'asc'
+			date: 'desc'
 		}
 	});
 
@@ -101,9 +102,10 @@ export const load = async ({ parent, params, url }) => {
 export const actions = {
 	create: formHandler(
 		z.object({
-			eventId: z.coerce.number()
+			eventId: z.coerce.number(),
+			date: z.coerce.date().optional()
 		}),
-		async ({ eventId }, { cookies, params, url }) => {
+		async ({ eventId, date }, { cookies, params, url }) => {
 			const clubUser = await getClubUserFromSession(cookies.get('session'), params.clubId);
 
 			if (!clubUser.perms.admin && !clubUser.perms.manageAttendance) {
@@ -127,15 +129,15 @@ export const actions = {
 				};
 			}
 
-			const eventDays: Date[] = RRule.fromString(event.date).between(
-				new Date(),
-				dayjs().add(1, 'week').toDate()
-			);
-			const eventDay = eventDays[0] || new Date();
+			if (!date) {
+				const eventDate = RRule.fromString(event.date).after(new Date(), true);
+				date = eventDate ? eventDate : new Date();
+			}
 
 			const attendanceEvent = await prisma.clubAttendanceEvent.create({
 				data: {
-					name: `${event.title} ${dayjs(eventDay).format('MM/DD/YY')}`,
+					name: `${event.title}`,
+					date: date,
 					clubId: clubUser.clubUser.clubId,
 					eventId: event.id
 				}

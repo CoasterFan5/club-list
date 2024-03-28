@@ -231,7 +231,9 @@
 				method="post"
 				use:enhance
 			>
-				<input name="eventId" type="hidden" value={eventId} />
+				{selectedDay.toDate().toISOString()}
+				<input name="date" hidden value={selectedDay.toDate().toISOString()} />
+				<input name="eventId" hidden value={eventId} />
 				<Button type="submit" value="Create" />
 			</form>
 		{:else}
