@@ -23,6 +23,7 @@
 	import QrIcon from '~icons/bx/qr';
 	import DeleteIcon from '~icons/bx/trash-alt';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
+	import MiniCalendar from '$lib/components/Calendars/MiniCalendar.svelte';
 
 	$: handleForm(form);
 
@@ -125,6 +126,7 @@
 		}}
 	>
 		<form class="modalForm" action="?/create" method="post" use:enhance>
+			<MiniCalendar events={data.calEvents}/>
 			<h2>Create Attendance</h2>
 			<ComboBox
 				name="eventId"
@@ -255,7 +257,7 @@
 	}
 	.user {
 		padding: 0.5rem;
-
+		box-sizing: border-box;
 		width: 100%;
 		box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
 		display: flex;
@@ -265,9 +267,11 @@
 		box-sizing: border-box;
 		background: var(--bgMid);
 		aspect-ratio: 1/1;
+		border-radius: 0.25rem;
 
 		.imageWrap {
-			width: 100%;
+			padding: 0.1rem;
+			box-sizing: border-box;
 			aspect-ratio: 1/1;
 		}
 	}

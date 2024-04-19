@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Button from './Button.svelte';
 
 	import { tooltip } from './tooltips/tooltip';
 
@@ -9,7 +10,7 @@
 	 * Href and formData are not compatible, use one or the other.
 	 */
 	export let href: string | undefined = undefined;
-
+	
 	/**
 	 * Href and formData are not compatible, use one or the other.
 	 */
@@ -19,6 +20,7 @@
 				action: HTMLFormElement['action'];
 		  }
 		| undefined = undefined;
+		export let type: HTMLButtonElement["type"] = "submit"
 </script>
 
 <div class="wrap" use:tooltip={toolTipText}>
@@ -33,7 +35,7 @@
 			</button>
 		</form>
 	{:else}
-		<button class="iconButton" on:click>
+		<button {type} class="iconButton" on:click>
 			<slot />
 		</button>
 	{/if}
