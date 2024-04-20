@@ -126,16 +126,9 @@
 		}}
 	>
 		<form class="modalForm" action="?/create" method="post" use:enhance>
+			<h2 class="noMargin">Creating Attendance</h2>
+			<p>Select Event</p>
 			<MiniCalendar events={data.calEvents}/>
-			<h2>Create Attendance</h2>
-			<ComboBox
-				name="eventId"
-				style="background: var(--bgPure); width: 100%"
-				label="Select Event"
-				options={[data.calEvents, (item) => item.title, (item) => item.id]}
-			/>
-			<hr />
-			<Button value="Create" />
 		</form>
 	</Modal>
 {/if}
@@ -248,7 +241,9 @@
 		margin-top: 50px;
 		padding-bottom: 50px;
 	}
-
+	.noMargin {
+		margin: 0px;
+	}
 	.users {
 		display: grid;
 		margin-top: 0.5rem;

@@ -12,28 +12,58 @@
 	import type { EventLike } from './util';
 	import { createActiveDays } from './createActiveDays';
 	import { datesOnSameDay } from './dayOnSameDay';
-
+	import { fade, fly } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
+	import { clickOutside } from '$lib/actions/clickOutside';
+	import Button from '../Button.svelte';
 
 
 	export let events: EventLike[];
 
+	type TodaysEvents = {
+     rawEvent: EventLike;
+     days: dayjs.Dayjs[];
+	}[]
+
+	let selectedEvent: EventLike | undefined = undefined;
+	let todaysEvents: TodaysEvents | undefined = undefined;
+	let todaysEventsSelectorCurrent = 0;
 
 	
 	let calDays = createCalendarDays()
 	$: activeDays = createActiveDays(calDays.loopDay, events)
+
+	const setActiveEvent = (event: EventLike, eventsToday: TodaysEvents) => {
+		todaysEventsSelectorCurrent = 0;
+		todaysEvents = eventsToday;
+		selectedEvent = event;
+		console.log(event)
+	}
+
+	const cycleEventSelector = (count: number) => {
+		todaysEventsSelectorCurrent += count;
+		if(todaysEvents) {
+			selectedEvent = todaysEvents[todaysEventsSelectorCurrent].rawEvent
+		}
+		
+	}
 </script>
+
+<input name="eventId" hidden value={selectedEvent?.id}/>
 
 <div class="cal">
 	<div class="toolbar">
-		<p>
-			{calDays.loopDay.format("MMM YYYY")}
-		</p>
 		<div class="navigate">
 			<IconButton type="button" on:click={() => {
 				calDays = createCalendarDays(calDays.loopDay.add(-1, "month"))
 			}}>
 				<ChevronLeft/>
 			</IconButton>
+		</div>
+		<p>
+			{calDays.loopDay.format("MMM YYYY")}
+		</p>
+		<div class="navigate">
 			<IconButton type="button" on:click={
 				() => {
 					calDays = createCalendarDays(calDays.loopDay.add(1, "month"))
@@ -45,16 +75,66 @@
 	</div>
 	<div class="days">
 		{#each calDays.days as day}
-			<div class="day" class:hasEvent={activeDays.some(datesOnSameDay(day.day))} class:inactive={!day.inMonth}>
-				{day.day.format("DD")}
-			</div>
+			{@const hasEvent = activeDays.flattenedDaysActive.some(datesOnSameDay(day.day))}
+			{@const eventsToday = activeDays.unFlatDays.filter((activeEventDay) => activeEventDay.days.some(datesOnSameDay(day.day)))}
+			{#if hasEvent}
+				<button type="button" class="day hasEvent" class:inactive={!day.inMonth} on:click={() => {
+					setActiveEvent(eventsToday[0].rawEvent, eventsToday)
+				}}>
+					{day.day.format("DD")}
+				</button>
+			{:else}
+				<div class="day" class:inactive={!day.inMonth}>
+					{day.day.format("DD")}
+				</div>
+			{/if}
+			
 		{/each}
 	</div>
+	{#if selectedEvent}
+		<div class="eventPicker" use:clickOutside={() => {
+			selectedEvent = undefined;
+		}} transition:fly={{
+			duration: 100,
+			delay: 0,
+			easing: cubicInOut,
+			x: 0,
+			y: 25
+		}}>
+			<div class="title">
+				<IconButton type="button" disabled={todaysEventsSelectorCurrent < 1} on:click={() => {
+					cycleEventSelector(-1)
+				}}>
+					<ChevronLeft/>
+				</IconButton>
+				<p>{selectedEvent.title}</p>
+				<IconButton type="button" disabled={!todaysEvents || todaysEvents.length < todaysEventsSelectorCurrent + 2} on:click={() => {
+					cycleEventSelector(1)
+				}}>
+					<ChevronRight/>
+				</IconButton>
+				
+			</div>
+			<div class="description">
+				{selectedEvent.description}
+			</div>
+			<div class="useEventWrap">
+				<Button value="Use Event"/>
+			</div>
+			
+			
+		</div>
+	{/if}
 </div>
+
 
 <style lang="scss">
 	.cal {
 		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		position: relative;
 	}
 
 	.toolbar {
@@ -62,9 +142,14 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
+		width: 100%;
 
 		p {
 			margin: 0px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-grow: 1;
 		}
 
 		.navigate {
@@ -76,12 +161,15 @@
 	}
 
 	.days {
+		
 		width: 100%;
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		gap: 1px;
 
 		.day {
+			all: unset;
+			cursor: pointer;
 			width: 100%;
 			height: 100%;
 			aspect-ratio: 1/1;
@@ -97,6 +185,10 @@
 
 			&.hasEvent {
 				background: var(--accent50);
+
+				&:hover {
+					background: var(--accent);
+				}
 			}
 
 			&:not(.hasEvent):hover {
@@ -106,5 +198,47 @@
 
 			
 		}
+	}
+
+	.eventPicker {
+		position: absolute;
+		bottom: 0px;
+		right: 0px;
+		width: 100%;
+		height: 80%;
+		box-shadow: 0px -2px 0px 2px rgba(0, 0, 0, 0.05);
+		border-radius: 1rem 1rem 0rem 0rem;
+		background: var(--bgPure);
+		backdrop-filter: blur(3px);
+		display: flex;
+		flex-direction: column;
+		padding: 0.25rem;
+		box-sizing: border-box;
+
+		.title {
+			width: 100%;
+			padding: 0px 0.25rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+
+			p {
+				flex-grow: 1;
+				margin: 0px;
+
+			}
+		}
+
+		.description {
+			flex-grow: 1;
+			height: 100%;
+		}
+	}
+
+	.useEventWrap {
+		margin-top: auto;
+		padding: 0px 0.5rem;
+		
 	}
 </style>

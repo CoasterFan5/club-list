@@ -6,21 +6,26 @@ const createWrappedDate = (day: dayjs.Dayjs, inMonth: boolean) => {
 	return {
 		day,
 		inMonth
-	}
-}
+	};
+};
 
 export const createCalendarDays = (passedDay?: dayjs.Dayjs) => {
-	const day = dayjs(passedDay);
+	const currentDay = dayjs(passedDay);
 
-	
-	const startPaddingDays = createEmptyArray(day.date(1).day()).map((_, i) => createWrappedDate(day.date(-i), false)).reverse();
-	const daysInMonth = createEmptyArray(day.daysInMonth()).map((_, i) => createWrappedDate(day.date(i + 1), true));
-	const lastDay = day.date(day.daysInMonth());
-	const endPaddingDays = lastDay.day() < 6? createEmptyArray(6 - lastDay.day()).map((_, i) => createWrappedDate(day.date(lastDay.date() + i + 1), false)): [];
+	const gridSize = 7 * 6;
+	const startPaddingDays = createEmptyArray(currentDay.date(1).day())
+		.map((_, i) => createWrappedDate(currentDay.date(-i), false))
+		.reverse();
+	const daysInMonth = createEmptyArray(currentDay.daysInMonth()).map((_, i) =>
+		createWrappedDate(currentDay.date(i + 1), true)
+	);
+	const lastDayOfMonth = currentDay.date(currentDay.daysInMonth());
+	const endPaddingDays = createEmptyArray(
+		gridSize - startPaddingDays.length - daysInMonth.length
+	).map((_, i) => createWrappedDate(currentDay.date(lastDayOfMonth.date() + i + 1), false));
 
-	
 	return {
-		loopDay: day,
+		loopDay: currentDay,
 		days: [...startPaddingDays, ...daysInMonth, ...endPaddingDays]
-	}
-}
+	};
+};
