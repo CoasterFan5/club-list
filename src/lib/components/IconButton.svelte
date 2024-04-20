@@ -83,7 +83,7 @@
 
 	.disabled {
 		opacity: 0.5;
-		cursor: not-allowed !important;
+		cursor: not-allowed;
 	}
 
 	:global(.iconButton svg) {
