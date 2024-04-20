@@ -22,8 +22,8 @@
 	import AddIcon from '~icons/bx/plus';
 	import QrIcon from '~icons/bx/qr';
 	import DeleteIcon from '~icons/bx/trash-alt';
-	import { tooltip } from '$lib/components/tooltips/tooltip';
 	import MiniCalendar from '$lib/components/Calendars/MiniCalendar.svelte';
+	import { tooltip } from '$lib/components/tooltips/tooltip';
 
 	$: handleForm(form);
 
@@ -128,7 +128,7 @@
 		<form class="modalForm" action="?/create" method="post" use:enhance>
 			<h2 class="noMargin">Creating Attendance</h2>
 			<p>Select Event</p>
-			<MiniCalendar events={data.calEvents}/>
+			<MiniCalendar events={data.calEvents} />
 		</form>
 	</Modal>
 {/if}

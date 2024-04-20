@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Button from './Button.svelte';
 
 	import { tooltip } from './tooltips/tooltip';
 
@@ -11,7 +10,7 @@
 	 */
 	export let href: string | undefined = undefined;
 	export let disabled: boolean = false;
-	
+
 	/**
 	 * Href and formData are not compatible, use one or the other.
 	 */
@@ -21,14 +20,13 @@
 				action: HTMLFormElement['action'];
 		  }
 		| undefined = undefined;
-		export let type: HTMLButtonElement["type"] = "submit"
+	export let type: HTMLButtonElement['type'] = 'submit';
 </script>
-
 
 {#if disabled}
 	<div class="wrap disabled">
 		<span class="iconButton disabled">
-			<slot/>
+			<slot />
 		</span>
 	</div>
 {:else}
@@ -44,13 +42,12 @@
 				</button>
 			</form>
 		{:else}
-			<button {type} class="iconButton" on:click>
+			<button class="iconButton" {type} on:click>
 				<slot />
 			</button>
 		{/if}
 	</div>
 {/if}
-
 
 <style lang="scss">
 	.wrap {

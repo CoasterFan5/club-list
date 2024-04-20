@@ -1,132 +1,143 @@
 <script lang="ts">
 	import dayjs from 'dayjs';
-	import advancedFormat from 'dayjs/plugin/advancedFormat';
-	import dayOfYear from 'dayjs/plugin/dayOfYear';
-	import timezone from 'dayjs/plugin/timezone';
-	import utc from 'dayjs/plugin/utc';
-	import { createCalendarDays } from './createCalendarDays';
-
-	import ChevronLeft from "~icons/bx/chevron-left"
-	import ChevronRight from "~icons/bx/chevron-right"
-	import IconButton from '../IconButton.svelte';
-	import type { EventLike } from './util';
-	import { createActiveDays } from './createActiveDays';
-	import { datesOnSameDay } from './dayOnSameDay';
-	import { fade, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
-	import { clickOutside } from '$lib/actions/clickOutside';
-	import Button from '../Button.svelte';
+	import { fly } from 'svelte/transition';
 
+	import ChevronLeft from '~icons/bx/chevron-left';
+	import ChevronRight from '~icons/bx/chevron-right';
+	import { clickOutside } from '$lib/actions/clickOutside';
+
+	import Button from '../Button.svelte';
+	import IconButton from '../IconButton.svelte';
+	import { createActiveDays } from './createActiveDays';
+	import { createCalendarDays } from './createCalendarDays';
+	import { datesOnSameDay } from './dayOnSameDay';
+	import type { EventLike } from './util';
 
 	export let events: EventLike[];
 
 	type TodaysEvents = {
-     rawEvent: EventLike;
-     days: dayjs.Dayjs[];
-	}[]
+		rawEvent: EventLike;
+		days: dayjs.Dayjs[];
+	}[];
 
 	let selectedEvent: EventLike | undefined = undefined;
 	let todaysEvents: TodaysEvents | undefined = undefined;
 	let todaysEventsSelectorCurrent = 0;
 
-	
-	let calDays = createCalendarDays()
-	$: activeDays = createActiveDays(calDays.loopDay, events)
+	let calDays = createCalendarDays();
+	$: activeDays = createActiveDays(calDays.loopDay, events);
 
 	const setActiveEvent = (event: EventLike, eventsToday: TodaysEvents) => {
 		todaysEventsSelectorCurrent = 0;
 		todaysEvents = eventsToday;
 		selectedEvent = event;
-		console.log(event)
-	}
+	};
 
 	const cycleEventSelector = (count: number) => {
 		todaysEventsSelectorCurrent += count;
-		if(todaysEvents) {
-			selectedEvent = todaysEvents[todaysEventsSelectorCurrent].rawEvent
+		if (todaysEvents) {
+			selectedEvent = todaysEvents[todaysEventsSelectorCurrent].rawEvent;
 		}
-		
-	}
+	};
 </script>
 
-<input name="eventId" hidden value={selectedEvent?.id}/>
+<input name="eventId" hidden value={selectedEvent?.id} />
 
 <div class="cal">
 	<div class="toolbar">
 		<div class="navigate">
-			<IconButton type="button" on:click={() => {
-				calDays = createCalendarDays(calDays.loopDay.add(-1, "month"))
-			}}>
-				<ChevronLeft/>
+			<IconButton
+				type="button"
+				on:click={() => {
+					calDays = createCalendarDays(calDays.loopDay.add(-1, 'month'));
+				}}
+			>
+				<ChevronLeft />
 			</IconButton>
 		</div>
 		<p>
-			{calDays.loopDay.format("MMM YYYY")}
+			{calDays.loopDay.format('MMM YYYY')}
 		</p>
 		<div class="navigate">
-			<IconButton type="button" on:click={
-				() => {
-					calDays = createCalendarDays(calDays.loopDay.add(1, "month"))
-				}
-			}>
-				<ChevronRight/>
+			<IconButton
+				type="button"
+				on:click={() => {
+					calDays = createCalendarDays(calDays.loopDay.add(1, 'month'));
+				}}
+			>
+				<ChevronRight />
 			</IconButton>
 		</div>
 	</div>
 	<div class="days">
 		{#each calDays.days as day}
 			{@const hasEvent = activeDays.flattenedDaysActive.some(datesOnSameDay(day.day))}
-			{@const eventsToday = activeDays.unFlatDays.filter((activeEventDay) => activeEventDay.days.some(datesOnSameDay(day.day)))}
+			{@const eventsToday = activeDays.unFlatDays.filter((activeEventDay) =>
+				activeEventDay.days.some(datesOnSameDay(day.day))
+			)}
 			{#if hasEvent}
-				<button type="button" class="day hasEvent" class:inactive={!day.inMonth} on:click={() => {
-					setActiveEvent(eventsToday[0].rawEvent, eventsToday)
-				}}>
-					{day.day.format("DD")}
+				<button
+					class="day hasEvent"
+					class:inactive={!day.inMonth}
+					type="button"
+					on:click={() => {
+						setActiveEvent(eventsToday[0].rawEvent, eventsToday);
+					}}
+				>
+					{day.day.format('DD')}
 				</button>
 			{:else}
 				<div class="day" class:inactive={!day.inMonth}>
-					{day.day.format("DD")}
+					{day.day.format('DD')}
 				</div>
 			{/if}
-			
 		{/each}
 	</div>
 	{#if selectedEvent}
-		<div class="eventPicker" use:clickOutside={() => {
-			selectedEvent = undefined;
-		}} transition:fly={{
-			duration: 100,
-			delay: 0,
-			easing: cubicInOut,
-			x: 0,
-			y: 25
-		}}>
+		<div
+			class="eventPicker"
+			use:clickOutside={() => {
+				selectedEvent = undefined;
+			}}
+			transition:fly={{
+				duration: 100,
+				delay: 0,
+				easing: cubicInOut,
+				x: 0,
+				y: 25
+			}}
+		>
 			<div class="title">
-				<IconButton type="button" disabled={todaysEventsSelectorCurrent < 1} on:click={() => {
-					cycleEventSelector(-1)
-				}}>
-					<ChevronLeft/>
+				<IconButton
+					disabled={todaysEventsSelectorCurrent < 1}
+					type="button"
+					on:click={() => {
+						cycleEventSelector(-1);
+					}}
+				>
+					<ChevronLeft />
 				</IconButton>
 				<p>{selectedEvent.title}</p>
-				<IconButton type="button" disabled={!todaysEvents || todaysEvents.length < todaysEventsSelectorCurrent + 2} on:click={() => {
-					cycleEventSelector(1)
-				}}>
-					<ChevronRight/>
+				<IconButton
+					disabled={!todaysEvents || todaysEvents.length < todaysEventsSelectorCurrent + 2}
+					type="button"
+					on:click={() => {
+						cycleEventSelector(1);
+					}}
+				>
+					<ChevronRight />
 				</IconButton>
-				
 			</div>
 			<div class="description">
 				{selectedEvent.description}
 			</div>
 			<div class="useEventWrap">
-				<Button value="Use Event"/>
+				<Button value="Use Event" />
 			</div>
-			
-			
 		</div>
 	{/if}
 </div>
-
 
 <style lang="scss">
 	.cal {
@@ -161,7 +172,6 @@
 	}
 
 	.days {
-		
 		width: 100%;
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
@@ -195,8 +205,6 @@
 				background: rgba(0, 0, 0, 0.15);
 				transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
 			}
-
-			
 		}
 	}
 
@@ -226,7 +234,6 @@
 			p {
 				flex-grow: 1;
 				margin: 0px;
-
 			}
 		}
 
@@ -239,6 +246,5 @@
 	.useEventWrap {
 		margin-top: auto;
 		padding: 0px 0.5rem;
-		
 	}
 </style>
