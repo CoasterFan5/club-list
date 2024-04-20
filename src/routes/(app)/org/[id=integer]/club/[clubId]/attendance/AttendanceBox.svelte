@@ -35,11 +35,9 @@
 	let exists = false;
 
 	$: if (attendanceMember) {
-		exists = attendanceMember.user.attendanceMarks.find(
+		exists = attendanceMember.user.attendanceMarks.some(
 			(item) => item.attendanceEvent.id == attendanceEvent.id
-		)
-			? true
-			: false;
+		);
 	}
 </script>
 
