@@ -155,8 +155,6 @@
 		outline: 0px;
 		border: 1px solid gray;
 		appearance: none;
-		-webkit-appearance: none;
-		-moz-appearance: none;
 		z-index: 2;
 		display: flex;
 		flex-direction: row;
