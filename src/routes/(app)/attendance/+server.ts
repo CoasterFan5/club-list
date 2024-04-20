@@ -4,19 +4,14 @@ import { getClubUserFromSession } from '$lib/server/getClubUserFromSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 
 export const GET = async ({ url, cookies }) => {
-	if (!cookies.get('session')) {
-		throw redirect(303, '/login');
+	const eventId = url.searchParams.get('id');
+	if (!eventId) {
+		throw error(404, 'No event');
 	}
 
-	const eventId = url.searchParams.get('id');
 	const code = url.searchParams.get('code');
-
 	if (!code) {
 		throw error(404, 'No code');
-	}
-
-	if (!eventId) {
-		throw error(404, 'No ID');
 	}
 
 	const event = await prisma.clubAttendanceEvent.findFirst({
