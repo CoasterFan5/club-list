@@ -8,7 +8,7 @@
 		};
 	}>();
 
-	type Options = [K[], (arg: K) => string, (arg: K) => string | number];
+	type Options = [options: K[], displayFunction: (arg: K) => string, valueFunction: (arg: K) => string | number];
 
 	export let options: Options = [[], () => '', () => 0];
 
