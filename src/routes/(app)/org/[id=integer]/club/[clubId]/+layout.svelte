@@ -229,7 +229,7 @@
 		all: unset;
 		color: var(--accent);
 		border: 1px solid var(--accent);
-		padding: 0rem 0.5rem;
+		padding: 0 0.5rem;
 		border-radius: 1rem;
 		box-sizing: border-box;
 		overflow: hidden;

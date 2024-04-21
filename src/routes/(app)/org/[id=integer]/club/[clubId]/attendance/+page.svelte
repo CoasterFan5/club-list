@@ -326,7 +326,7 @@
 		display: flex;
 		align-items: center;
 		flex-direction: row;
-		padding: 0.25rem 0rem;
+		padding: 0.25rem 0;
 		padding-left: 1rem;
 		justify-content: start;
 	}

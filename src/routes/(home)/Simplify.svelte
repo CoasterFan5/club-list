@@ -125,7 +125,7 @@
 
 			.justAnotherCardWrap {
 				margin-top: -0.3rem;
-				padding: 0.3rem 0rem;
+				padding: 0.3rem 0;
 				width: fit-content;
 				display: flex;
 				align-items: center;

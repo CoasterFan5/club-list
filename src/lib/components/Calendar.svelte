@@ -352,7 +352,7 @@
 		box-sizing: border-box;
 		text-align: left;
 		padding: 1rem;
-		margin: 0.5rem 0rem;
+		margin: 0.5rem 0;
 		margin-top: 0;
 		min-width: 20rem;
 		max-width: 90vw;

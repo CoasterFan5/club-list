@@ -215,7 +215,7 @@
 		width: 100%;
 		height: 80%;
 		box-shadow: 0px -2px 0px 2px rgba(0, 0, 0, 0.05);
-		border-radius: 1rem 1rem 0rem 0rem;
+		border-radius: 1rem 1rem 0 0;
 		background: var(--bgPure);
 		backdrop-filter: blur(3px);
 		display: flex;
