@@ -24,6 +24,8 @@
 	export let style: string = '';
 	export let disabled = false;
 
+	import ChevronDown from "~icons/bx/chevron-down"
+
 	let showingOptions = false;
 
 	const close = () => {
@@ -64,9 +66,9 @@
 			<p>
 				{placeholder}
 			</p>
-			<svg style="fill: var(--cui_text)" height="24" viewBox="0 0 24 24" width="24">
-				<path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z" />
-			</svg>
+			<div class="icon">
+				<ChevronDown height="24" width="24"/>
+			</div>
 		</button>
 		{#if showingOptions}
 			<div class="options">
@@ -171,7 +173,7 @@
 		overflow-x: hidden;
 	}
 
-	svg {
+	.icon {
 		position: absolute;
 		right: 0px;
 		padding-right: 3px;
