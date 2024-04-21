@@ -31,7 +31,7 @@ async function main() {
 	}
 
 	if (org && org.name == 'Cardboard') {
-		console.log('database may already be seeded, may not create new data.');
+		throw new Error('database may already be seeded, not creating new data.');
 	}
 
 	console.log('Seeding database...');
