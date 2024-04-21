@@ -130,7 +130,7 @@ export const actions = {
 			}
 
 			if (!date) {
-				const eventDate = RRule.fromString(event.date).after(new Date(), true);
+				const eventDate = RRule.fromString(event.date).after(dayjs().utc().toDate(), true);
 				date = eventDate ? eventDate : new Date();
 			}
 
