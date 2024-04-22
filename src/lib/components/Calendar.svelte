@@ -372,18 +372,23 @@
 		cursor: pointer;
 
 		p {
-			margin: 5px;
+			margin: 5px 0px;
 			padding: 5px;
 			box-sizing: border-box;
 			font-size: 1rem;
 			border-radius: 50%;
 			aspect-ratio: 1/1;
 			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		&.hasEvent {
+			margin: 0px;
 			p {
-				background: var(--accent50);
+				
+				background: rgba(0, 0, 0, 0.22);
 			}
 		}
 
@@ -393,12 +398,10 @@
 		}
 
 		&:hover {
-			background-color: var(--accent);
-			color: #fff;
+			background-color: var(--bg);
+			color: var(--textDark);
 
-			.inDisplayEvent {
-				background: color-mix(in srgb, var(--customColor) 50%, black 50%);
-			}
+			
 		}
 	}
 

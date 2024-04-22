@@ -236,7 +236,6 @@
 				<Input name="description" label="Description" value={data.event.description || ''} />
 			</div>
 			<div class="input checkbox no-top-margin">
-				<p>Color</p>
 				<ColorPicker name="color" color={data.event.color || '#e63946'} />
 			</div>
 			<input name="date" type="hidden" value={calculatedFormDate} />
