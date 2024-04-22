@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { flip } from 'svelte/animate';
-	import BxRightArrowAlt from '~icons/bx/right-arrow-alt';
 
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';

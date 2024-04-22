@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BxTransfer from '~icons/bx/transfer';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -8,8 +9,6 @@
 	import SearchBox from '$lib/components/SearchBox.svelte';
 	import { addToast } from '$lib/components/toaster';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
-
-	import BxTransfer from '~icons/bx/transfer';
 
 	let searchBox: SearchBox<(typeof data)['roles'][number]>;
 

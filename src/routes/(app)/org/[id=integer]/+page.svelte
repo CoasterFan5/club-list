@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { qr } from '@svelte-put/qr/img';
 	import Fuse from 'fuse.js';
-	
-	import BxExit from '~icons/bx/exit?raw&width=1.5em&height=1.5em';
-	import BxUserPlus from '~icons/bx/user-plus?raw&width=1.5em&height=1.5em';
-	import BxShare from '~icons/bx/share?raw&width=1.5em&height=1.5em';
-	import BxBxsCog from '~icons/bx/bxs-cog?raw&width=1.5em&height=1.5em';
 
+	import BxBxsCog from '~icons/bx/bxs-cog?raw&width=1.5em&height=1.5em';
+	import BxExit from '~icons/bx/exit?raw&width=1.5em&height=1.5em';
+	import BxShare from '~icons/bx/share?raw&width=1.5em&height=1.5em';
+	import BxUserPlus from '~icons/bx/user-plus?raw&width=1.5em&height=1.5em';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -220,24 +219,29 @@
 	<h1>{data.org.name}</h1>
 	<div class="orgButtons">
 		{#if data.orgUserPermissions.viewSettings || data.orgUserPermissions.admin}
-			<a href="/org/{data.org.id}/settings" aria-label="settings" use:tooltip={'Settings'} class="icon">
+			<a
+				class="icon"
+				aria-label="settings"
+				href="/org/{data.org.id}/settings"
+				use:tooltip={'Settings'}
+			>
 				{@html BxBxsCog}
 			</a>
 		{/if}
 		{#if data.orgUserPermissions.inviteMembers || data.orgUserPermissions.admin}
-			<button on:click={startInvite} aria-label="invite" use:tooltip={'Invite'} class="icon">
+			<button class="icon" aria-label="invite" on:click={startInvite} use:tooltip={'Invite'}>
 				{@html BxUserPlus}
 			</button>
 		{/if}
 
 		{#if data.orgUser}
-			<button on:click={startLeaveOrg} aria-label="leave" use:tooltip={'Leave'} class="icon">
+			<button class="icon" aria-label="leave" on:click={startLeaveOrg} use:tooltip={'Leave'}>
 				{@html BxExit}
 			</button>
 		{/if}
 
 		{#if data.org.isPublic}
-			<button on:click={startShare} aria-label="share" use:tooltip={'Share'} class="icon">
+			<button class="icon" aria-label="share" on:click={startShare} use:tooltip={'Share'}>
 				{@html BxShare}
 			</button>
 		{/if}

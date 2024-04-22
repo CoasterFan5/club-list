@@ -1,10 +1,6 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 
-	import BxsHome from '~icons/bxs/home';
-	import BxCalendarAlt from '~icons/bx/calendar-alt';
-	import BxBuilding from '~icons/bx/building';
-
 	export let data: LayoutData;
 
 	import OrgIcon from '~icons/bx/building';
@@ -55,7 +51,7 @@
 	<a class="button" href="/dashboard">
 		<HomeIcon height="100%" width="100%" />
 	</a>
-	<a class="button" href="/calendar" aria-label="Calendar">
+	<a class="button" aria-label="Calendar" href="/calendar">
 		<CalIcon height="100%" width="100%" />
 	</a>
 	<a class="button" href="/org">
@@ -125,13 +121,12 @@
 		}
 	}
 
-
 	:global(svg) {
-			filter: var(--redIconFilter);
-			aspect-ratio: 1/1;
-			width: 100%;
-			height: 100%;
-  }
+		filter: var(--redIconFilter);
+		aspect-ratio: 1/1;
+		width: 100%;
+		height: 100%;
+	}
 	.feedbackText {
 		width: 100%;
 		resize: vertical;

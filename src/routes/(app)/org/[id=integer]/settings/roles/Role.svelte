@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 
+	import BxKey from '~icons/bx/key';
+	import BxPalette from '~icons/bx/palette';
+	import BxTrashAlt from '~icons/bx/trash-alt';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -13,9 +16,6 @@
 		orgKeys,
 		orgPermissionObjectDescriptions
 	} from '$lib/permissions/orgPermissions';
-	import BxKey from '~icons/bx/key';
-	import BxPalette from '~icons/bx/palette';
-	import BxTrashAlt from '~icons/bx/trash-alt';
 	import { createPermissionsNumber } from '$lib/permissions/permissions';
 	import { toTitleCase } from '$lib/titleCase';
 
@@ -123,10 +123,22 @@
 			<button class="iconButton" type="button" on:click={deleteRole}>
 				<BxTrashAlt />
 			</button>
-			<button class="iconButton" type="button" on:click={openColorInput} use:tooltip={'Color'} aria-label="Color">
+			<button
+				class="iconButton"
+				aria-label="Color"
+				type="button"
+				on:click={openColorInput}
+				use:tooltip={'Color'}
+			>
 				<BxPalette />
 			</button>
-			<button class="iconButton" type="button" on:click={openPermEditor} use:tooltip={'Permissions'} aria-label="Permissions">
+			<button
+				class="iconButton"
+				aria-label="Permissions"
+				type="button"
+				on:click={openPermEditor}
+				use:tooltip={'Permissions'}
+			>
 				<BxKey />
 			</button>
 		</div>
