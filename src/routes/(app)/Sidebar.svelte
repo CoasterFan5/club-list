@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
+
 	export let data: LayoutData;
 
 	import OrgIcon from '~icons/bx/building';
@@ -50,7 +51,7 @@
 	<a class="button" href="/dashboard">
 		<HomeIcon height="100%" width="100%" />
 	</a>
-	<a class="button" href="/calendar">
+	<a class="button" aria-label="Calendar" href="/calendar">
 		<CalIcon height="100%" width="100%" />
 	</a>
 	<a class="button" href="/org">

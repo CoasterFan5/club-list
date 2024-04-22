@@ -2,6 +2,10 @@
 	import { qr } from '@svelte-put/qr/img';
 	import Fuse from 'fuse.js';
 
+	import BxBxsCog from '~icons/bx/bxs-cog?raw&width=1.5em&height=1.5em';
+	import BxExit from '~icons/bx/exit?raw&width=1.5em&height=1.5em';
+	import BxShare from '~icons/bx/share?raw&width=1.5em&height=1.5em';
+	import BxUserPlus from '~icons/bx/user-plus?raw&width=1.5em&height=1.5em';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -215,37 +219,30 @@
 	<h1>{data.org.name}</h1>
 	<div class="orgButtons">
 		{#if data.orgUserPermissions.viewSettings || data.orgUserPermissions.admin}
-			<a href="/org/{data.org.id}/settings">
-				<img
-					class="icon"
-					alt="settings"
-					src="/icons/settings.svg"
-					title="Settings"
-					use:tooltip={'Settings'}
-				/>
+			<a
+				class="icon"
+				aria-label="settings"
+				href="/org/{data.org.id}/settings"
+				use:tooltip={'Settings'}
+			>
+				{@html BxBxsCog}
 			</a>
 		{/if}
 		{#if data.orgUserPermissions.inviteMembers || data.orgUserPermissions.admin}
-			<button on:click={startInvite}>
-				<img
-					class="icon"
-					alt="invite"
-					src="/icons/addUser.svg"
-					title="Invite"
-					use:tooltip={'Invite'}
-				/>
+			<button class="icon" aria-label="invite" on:click={startInvite} use:tooltip={'Invite'}>
+				{@html BxUserPlus}
 			</button>
 		{/if}
 
 		{#if data.orgUser}
-			<button on:click={startLeaveOrg}>
-				<img class="icon" alt="leave" src="/icons/leave.svg" use:tooltip={'Leave'} />
+			<button class="icon" aria-label="leave" on:click={startLeaveOrg} use:tooltip={'Leave'}>
+				{@html BxExit}
 			</button>
 		{/if}
 
 		{#if data.org.isPublic}
-			<button on:click={startShare}>
-				<img class="icon" alt="leave" src="/icons/share.svg" use:tooltip={'Share'} />
+			<button class="icon" aria-label="share" on:click={startShare} use:tooltip={'Share'}>
+				{@html BxShare}
 			</button>
 		{/if}
 	</div>
@@ -283,8 +280,18 @@
 </main>
 
 <style lang="scss">
-	.icon:hover {
-		filter: var(--redIconFilter);
+	.icon {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&:hover {
+			// color: var(--redIconFilter);
+			:global(*) {
+				color: var(--accent);
+			}
+		}
 	}
 
 	main {
@@ -338,9 +345,6 @@
 			justify-content: center;
 			height: 100%;
 			padding: 0px 5px;
-		}
-		img {
-			height: 80%;
 		}
 		h1 {
 			margin: 0px 25px;

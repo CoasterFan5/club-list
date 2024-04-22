@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BxTransfer from '~icons/bx/transfer';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -8,6 +9,9 @@
 	import SearchBox from '$lib/components/SearchBox.svelte';
 	import { addToast } from '$lib/components/toaster';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
+
+	import CrownIcon from '~icons/bx/crown';
+	import KickUser from '~icons/bx/user-minus';
 
 	let searchBox: SearchBox<(typeof data)['roles'][number]>;
 
@@ -139,13 +143,9 @@
 								{member.user.firstName}
 								{member.user.lastName}
 								{#if member.owner}
-									<img
-										class="crown"
-										alt="owner"
-										src="/icons/crown.svg"
-										title="Owner"
-										use:tooltip={'Owner'}
-									/>
+									<div class="crown" title="Owner" use:tooltip={'Owner'}>
+										<CrownIcon />
+									</div>
 								{/if}
 							</div>
 						</td>
@@ -171,7 +171,7 @@
 										}}
 										use:tooltip={'Kick Member'}
 									>
-										<img class="icon" alt="kick" src="/icons/kick.svg" />
+										<KickUser height="1.5rem" width="1.5rem" />
 									</button>
 									{#if !member.owner && data.canTransferOwner}
 										<button
@@ -186,7 +186,7 @@
 											}}
 											use:tooltip={'Transfer Ownership'}
 										>
-											<img class="icon" alt="kick" src="/icons/transfer.svg" />
+											<BxTransfer />
 										</button>
 									{/if}
 								</div>
@@ -277,6 +277,11 @@
 		cursor: pointer;
 		border-radius: 50%;
 		aspect-ratio: 1/1;
+
+		:global(svg) {
+			width: 100%;
+			height: 100%;
+		}
 	}
 
 	.actionButton:hover {

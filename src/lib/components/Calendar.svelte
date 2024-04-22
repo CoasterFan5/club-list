@@ -5,6 +5,8 @@
 	import timezone from 'dayjs/plugin/timezone';
 	import utc from 'dayjs/plugin/utc';
 
+	import BxChevronLeft from '~icons/bx/chevron-left';
+	import BxChevronRight from '~icons/bx/chevron-right';
 	import ClipboardIcon from '~icons/bx/clipboard';
 	import BxPencil from '~icons/bx/pencil';
 	import BxTrash from '~icons/bx/trash';
@@ -96,11 +98,15 @@
 			<Button value="Today" on:click={() => (day = dayjs())} />
 		</div>
 		<div class="arrowWrap">
-			<button on:click={() => (day = day.subtract(1, 'month'))}>
-				<img alt="previous" src="/icons/chevronLeft.svg" />
+			<button
+				class="arrowButton"
+				title="Previous"
+				on:click={() => (day = day.subtract(1, 'month'))}
+			>
+				<BxChevronLeft />
 			</button>
-			<button on:click={() => (day = day.add(1, 'month'))}>
-				<img alt="next" src="/icons/chevronRight.svg" />
+			<button class="arrowButton" title="Next" on:click={() => (day = day.add(1, 'month'))}>
+				<BxChevronRight />
 			</button>
 		</div>
 		<h1>{day.format('MMMM YYYY')}</h1>
@@ -317,11 +323,6 @@
 			&:hover {
 				background: var(--accent50);
 			}
-
-			img {
-				height: 100%;
-				aspect-ratio: 1/1;
-			}
 		}
 	}
 
@@ -346,6 +347,11 @@
 		grid-template-columns: repeat(7, 1fr);
 		grid-template-rows: auto repeat(4, 1fr);
 		box-sizing: border-box;
+	}
+
+	.arrowButton :global(svg) {
+		width: 100%;
+		height: 100%;
 	}
 
 	.event {
