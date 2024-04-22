@@ -387,7 +387,6 @@
 		&.hasEvent {
 			margin: 0px;
 			p {
-				
 				background: rgba(0, 0, 0, 0.22);
 			}
 		}
@@ -400,8 +399,6 @@
 		&:hover {
 			background-color: var(--bg);
 			color: var(--textDark);
-
-			
 		}
 	}
 

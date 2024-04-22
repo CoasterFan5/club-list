@@ -36,7 +36,7 @@
 			open = !open;
 		}}
 	>
-		<div class="colorPreview"/>
+		<div class="colorPreview" />
 		{label}
 	</button>
 
