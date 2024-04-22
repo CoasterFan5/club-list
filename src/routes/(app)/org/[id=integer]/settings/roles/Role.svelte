@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { tick } from 'svelte';
+
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -26,10 +28,12 @@
 
 	let colorInput: HTMLInputElement;
 	let submitButton: HTMLButtonElement;
-	let permissionIntInput: HTMLInputElement;
+	let permissionIntInput: string;
 
 	const valueChanged = () => {
-		submitButton.click();
+		tick().then(() => {
+			submitButton.click();
+		});
 	};
 
 	const openColorInput = () => {
@@ -45,10 +49,9 @@
 	const permissionObject = createOrgPermissionsCheck(role.permissionInt);
 
 	$: if (permissionObject) {
+		permissionIntInput = createPermissionsNumber(permissionObject).toString();
 		if (createPermissionsNumber(permissionObject) != permissionIntCalculated) {
-			permissionIntCalculated = createPermissionsNumber(permissionObject);
-			permissionIntInput.value = permissionIntCalculated.toString();
-			submitButton.click();
+			tick().then(() => submitButton.click());
 		}
 	}
 
@@ -139,7 +142,7 @@
 		{/each}
 	</div>
 
-	<input bind:this={permissionIntInput} name="permissionInt" hidden />
+	<input name="permissionInt" hidden bind:value={permissionIntInput} />
 
 	<button bind:this={submitButton} hidden type="submit" />
 </form>

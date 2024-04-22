@@ -9,6 +9,7 @@
 	 * Href and formData are not compatible, use one or the other.
 	 */
 	export let href: string | undefined = undefined;
+	export let disabled: boolean = false;
 
 	/**
 	 * Href and formData are not compatible, use one or the other.
@@ -19,25 +20,34 @@
 				action: HTMLFormElement['action'];
 		  }
 		| undefined = undefined;
+	export let type: HTMLButtonElement['type'] = 'submit';
 </script>
 
-<div class="wrap" use:tooltip={toolTipText}>
-	{#if href}
-		<a class="iconButton" {href} on:click>
+{#if disabled}
+	<div class="wrap disabled">
+		<span class="iconButton disabled">
 			<slot />
-		</a>
-	{:else if formData}
-		<form class="formButton" action={formData.action} method={formData.method} use:enhance>
-			<button class="iconButton" on:click>
+		</span>
+	</div>
+{:else}
+	<div class="wrap" use:tooltip={toolTipText}>
+		{#if href}
+			<a class="iconButton" {href} on:click>
+				<slot />
+			</a>
+		{:else if formData}
+			<form class="formButton" action={formData.action} method={formData.method} use:enhance>
+				<button class="iconButton" on:click>
+					<slot />
+				</button>
+			</form>
+		{:else}
+			<button class="iconButton" {type} on:click>
 				<slot />
 			</button>
-		</form>
-	{:else}
-		<button class="iconButton" on:click>
-			<slot />
-		</button>
-	{/if}
-</div>
+		{/if}
+	</div>
+{/if}
 
 <style lang="scss">
 	.wrap {
@@ -69,6 +79,11 @@
 		cursor: pointer;
 		aspect-ratio: 1/1;
 		height: 100%;
+	}
+
+	.disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 
 	:global(.iconButton svg) {

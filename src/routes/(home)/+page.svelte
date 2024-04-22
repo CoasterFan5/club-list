@@ -2,22 +2,30 @@
 	import Button from '$lib/components/Button.svelte';
 
 	import Connect from './Connect.svelte';
+	import Dashboard from './Dashboard.svelte';
+	import Discover from './Discover.svelte';
 	import Simplify from './Simplify.svelte';
 	import You from './You.svelte';
+
+	export let data;
 </script>
 
 <div class="wrap">
 	<div class="title">
 		<h1>
-			The <span class="coolText">modern</span> clublist that helps you
-			<span class="coolText">connect</span>
+			Clubs made <span class="coolText">easy.</span>
 		</h1>
 		<div class="button">
 			<Button style="font-size: 1.5rem" href="/get-started" value="Get Started" />
 		</div>
 	</div>
+	<div class="dashboard">
+		<Dashboard />
+	</div>
+
 	<Simplify />
 	<Connect />
+	<Discover seed={data.seed} />
 	<You />
 </div>
 

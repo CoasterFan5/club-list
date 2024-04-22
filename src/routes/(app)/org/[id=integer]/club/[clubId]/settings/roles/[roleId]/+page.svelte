@@ -130,7 +130,7 @@
 		background-color: #fff;
 		text-align: left;
 		padding: 1rem;
-		margin: 1rem 0rem;
+		margin: 1rem 0;
 		display: flex;
 		flex-direction: row;
 		box-sizing: border-box;

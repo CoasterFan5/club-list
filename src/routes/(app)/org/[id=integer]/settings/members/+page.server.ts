@@ -10,9 +10,17 @@ export const load = async ({ params }) => {
 		where: {
 			organizationId: parseInt(params.id)
 		},
-		include: {
-			user: true,
-			role: true
+		select: {
+			userId: true,
+			role: true,
+			owner: true,
+			user: {
+				select: {
+					firstName: true,
+					lastName: true,
+					pfp: true
+				}
+			}
 		},
 		orderBy: {
 			userId: 'asc'
@@ -25,21 +33,8 @@ export const load = async ({ params }) => {
 		}
 	});
 
-	const filteredData = orgUserData.map((item) => {
-		return {
-			user: {
-				firstName: item.user.firstName,
-				lastName: item.user.lastName,
-				pfp: item.user.pfp
-			},
-			userId: item.user.id,
-			role: item.role,
-			owner: item.owner
-		};
-	});
-
 	return {
-		orgUserData: filteredData,
+		orgUserData,
 		roles
 	};
 };

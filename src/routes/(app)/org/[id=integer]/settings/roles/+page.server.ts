@@ -127,7 +127,7 @@ export const actions = {
 					id: role.id
 				},
 				data: {
-					name: name,
+					name,
 					color,
 					permissionInt
 				}

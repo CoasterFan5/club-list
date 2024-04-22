@@ -151,7 +151,7 @@
 								{/if}
 							</div>
 						</td>
-						{#if data.orgUser?.owner || data.orgUserPermissions.assignRoles}
+						{#if data.orgUser?.owner || data.orgUserPermissions.admin || data.orgUserPermissions.assignRoles}
 							<td style="--color: {member.role?.color}" class="role">
 								<button
 									class="changeRole"

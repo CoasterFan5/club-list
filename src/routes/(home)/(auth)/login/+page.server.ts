@@ -9,13 +9,33 @@ import { prisma } from '$lib/server/prismaConnection.js';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
 
+export const load = ({ url }) => {
+	const code = url.searchParams.get('invite');
+	if (code) {
+		// Ensure that the invite code is valid
+		const regex = /^[a-zA-Z0-9]+$/;
+		if (!regex.test(code)) {
+			return {
+				code: undefined
+			};
+		}
+		return {
+			code: code
+		};
+	}
+	return {
+		code: undefined
+	};
+};
+
 export const actions = {
 	login: formHandler(
 		z.object({
 			email: z.string().email(),
-			password: z.string().min(1)
+			password: z.string().min(1),
+			joinCode: z.string().optional()
 		}),
-		async ({ email, password }, { cookies, getClientAddress, request, url }) => {
+		async ({ email, password, joinCode }, { cookies, getClientAddress, request }) => {
 			// Pull the user from the database
 			const user = await prisma.user.findFirst({
 				where: {
@@ -49,18 +69,18 @@ export const actions = {
 			 * We don't use plain redirects to avoid any unintended
 			 * side effects (see OWASP Unvalidated Redirects and Forwards)
 			 */
-			const code = url.searchParams.get('invite');
-			if (code) {
+
+			if (joinCode && joinCode != 'undefined') {
 				// Ensure that the invite code is valid
 				const regex = /^[a-zA-Z0-9]+$/;
-				if (!regex.test(code)) {
+				if (!regex.test(joinCode)) {
 					return {
 						success: false,
 						message: 'Invalid invite code.'
 					};
 				}
 
-				redirect(303, `/invite/${url.searchParams.get('invite')}`);
+				throw redirect(303, `/invite/${joinCode}`);
 			}
 
 			redirect(303, '/dashboard');
