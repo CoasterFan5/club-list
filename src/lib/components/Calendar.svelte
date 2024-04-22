@@ -52,6 +52,7 @@
 		};
 		authorId: number | null;
 		date: string;
+		color: string | null;
 		exclusions: string[];
 		draft: boolean;
 	};
@@ -137,7 +138,7 @@
 
 				{#if eventsOnThisDay.length > 0}
 					{@const event = eventsOnThisDay[0]}
-					<div class="inDisplayEvent">
+					<div style="--customColor: {event[0].color ?? 'var(--accent)'}" class="inDisplayEvent">
 						{#if global}
 							{event[0].club.name}
 						{:else}
@@ -328,7 +329,7 @@
 
 	.inDisplayEvent {
 		width: 100%;
-		background: var(--accent50);
+		background: color-mix(in srgb, var(--customColor) 50%, white 50%);
 		padding: 5px;
 		box-sizing: border-box;
 		border-radius: 3px;
@@ -413,18 +414,22 @@
 		cursor: pointer;
 
 		p {
-			margin: 5px;
+			margin: 5px 0px;
 			padding: 5px;
 			box-sizing: border-box;
 			font-size: 1rem;
 			border-radius: 50%;
 			aspect-ratio: 1/1;
 			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		&.hasEvent {
+			margin: 0px;
 			p {
-				background: var(--accent50);
+				background: rgba(0, 0, 0, 0.22);
 			}
 		}
 
@@ -434,8 +439,8 @@
 		}
 
 		&:hover {
-			background-color: var(--accent);
-			color: #fff;
+			background-color: var(--bg);
+			color: var(--textDark);
 		}
 	}
 
