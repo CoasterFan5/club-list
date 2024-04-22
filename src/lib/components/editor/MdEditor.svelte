@@ -10,6 +10,8 @@
 	import StarterKit from '@tiptap/starter-kit';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
+	import SaveIcon from '~icons/bx/save';
+
 	import BubbleMenuElement from './BubbleMenuElement.svelte';
 	import FloatingMenuElement from './FloatingMenuElement.svelte';
 
@@ -102,7 +104,7 @@
 	<div class="utils">
 		{#if saveable && !saved}
 			<button on:click={save}>
-				<img alt="save" src="/icons/save.svg" />
+				<SaveIcon height="30px" width="30px" />
 			</button>
 		{/if}
 	</div>
@@ -161,9 +163,5 @@
 		&:hover {
 			background: var(--accent50);
 		}
-	}
-
-	.utils img {
-		height: 30px;
 	}
 </style>

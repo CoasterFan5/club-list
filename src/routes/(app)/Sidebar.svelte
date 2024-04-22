@@ -121,12 +121,6 @@
 		}
 	}
 
-	:global(svg) {
-		filter: var(--redIconFilter);
-		aspect-ratio: 1/1;
-		width: 100%;
-		height: 100%;
-	}
 	.feedbackText {
 		width: 100%;
 		resize: vertical;

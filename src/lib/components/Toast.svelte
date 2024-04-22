@@ -4,6 +4,8 @@
 	import { quintInOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
 
+	import CloseIcon from '~icons/bx/x';
+
 	import { removeToast, type Toast } from './toaster';
 
 	export let data: Toast;
@@ -41,7 +43,7 @@
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		<p>{@html sanitizeHtml(data.message)}</p>
 		<button class="close" on:click={close}>
-			<img alt="close" src="/icons/x.svg" />
+			<CloseIcon height="1.5rem" width="1.5rem" />
 		</button>
 		{#if showTimer}
 			<div style="animation-duration: {data.life}ms;" class="timer" />
