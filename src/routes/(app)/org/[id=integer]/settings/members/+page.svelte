@@ -9,6 +9,11 @@
 	import { addToast } from '$lib/components/toaster.js';
 	import { tooltip } from '$lib/components/tooltips/tooltip.js';
 
+
+	import KickUser from "~icons/bx/user-minus"
+	import BanUser from "~icons/bx/user-x"
+	import CrownIcon from "~icons/bx/crown"
+
 	export let data;
 	export let form;
 
@@ -141,13 +146,9 @@
 								{member.user.firstName}
 								{member.user.lastName}
 								{#if member.owner}
-									<img
-										class="crown"
-										alt="owner"
-										src="/icons/crown.svg"
-										title="Owner"
-										use:tooltip={'Owner'}
-									/>
+									<div class="crown" title="Owner" use:tooltip={'Owner'}>
+										<CrownIcon/>
+									</div>
 								{/if}
 							</div>
 						</td>
@@ -175,7 +176,7 @@
 										}}
 										use:tooltip={'Kick Member'}
 									>
-										<img class="icon" alt="kick" src="/icons/kick.svg" />
+										<KickUser height="1.5rem" width="1.5rem"/>
 									</button>
 									<button
 										class="actionButton"
@@ -185,7 +186,7 @@
 										}}
 										use:tooltip={'Ban Member'}
 									>
-										<img class="icon" alt="ban" src="/icons/banUser.svg" />
+										<BanUser height="1.5rem" width="1.5rem"/>
 									</button>
 								</div>
 							</td>

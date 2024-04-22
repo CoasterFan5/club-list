@@ -8,6 +8,9 @@
 	import Link from '$lib/components/Link.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 
+	import BackIcon from '~icons/bx/arrow-back';
+	import { tooltip } from '$lib/components/tooltips/tooltip';
+
 	export let data;
 
 	let route = get(page).route;
@@ -33,8 +36,8 @@
 	<div class="header">
 		<div class="headerInner">
 			<div class="title">
-				<a class="back" href="/org/{data.org.id}">
-					<img alt="back" src="/icons/back.svg" />
+				<a class="back" href="/org/{data.org.id}" use:tooltip={'Back'}>
+					<BackIcon height="1.5rem" width="1.5rem" />
 				</a>
 
 				<h2 class="clubName">{data.club.name}</h2>

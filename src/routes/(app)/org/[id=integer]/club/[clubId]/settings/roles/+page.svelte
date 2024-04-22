@@ -11,6 +11,9 @@
 	import { onSubmit } from '$lib/onSubmitEnhance';
 	import { handleForm } from '$lib/utils/formToaster.js';
 
+	import DeleteIcon from '~icons/bx/trash-alt';
+	import ArrowRight from '~icons/bx/right-arrow-alt';
+
 	export let data;
 	export let form;
 
@@ -94,7 +97,7 @@
 					}}
 					use:tooltip={'Delete'}
 				>
-					<img alt="delete" src="/icons/trash.svg" />
+					<DeleteIcon height="100%" width="100%" />
 				</button>
 				<input
 					name="color"
@@ -115,7 +118,7 @@
 					type="button"
 					use:tooltip={'More'}
 				>
-					<img alt="goto" src="/icons/right.svg" />
+					<ArrowRight height="100%" width="100%" />
 				</a>
 			</div>
 			<button bind:this={forms[i]} hidden type="submit" />
