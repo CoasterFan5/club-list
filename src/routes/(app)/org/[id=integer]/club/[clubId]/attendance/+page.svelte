@@ -267,6 +267,11 @@
 		.imageWrap {
 			padding: 0.1rem;
 			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 			aspect-ratio: 1/1;
 		}
 	}
