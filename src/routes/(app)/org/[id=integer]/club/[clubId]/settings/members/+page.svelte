@@ -1,5 +1,7 @@
 <script lang="ts">
+	import CrownIcon from '~icons/bx/crown';
 	import BxTransfer from '~icons/bx/transfer';
+	import KickUser from '~icons/bx/user-minus';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -9,9 +11,6 @@
 	import SearchBox from '$lib/components/SearchBox.svelte';
 	import { addToast } from '$lib/components/toaster';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
-
-	import CrownIcon from '~icons/bx/crown';
-	import KickUser from '~icons/bx/user-minus';
 
 	let searchBox: SearchBox<(typeof data)['roles'][number]>;
 

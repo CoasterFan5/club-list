@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { flip } from 'svelte/animate';
 
+	import ArrowRight from '~icons/bx/right-arrow-alt';
+	import DeleteIcon from '~icons/bx/trash-alt';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -10,9 +12,6 @@
 	import { tooltip } from '$lib/components/tooltips/tooltip';
 	import { onSubmit } from '$lib/onSubmitEnhance';
 	import { handleForm } from '$lib/utils/formToaster.js';
-
-	import DeleteIcon from '~icons/bx/trash-alt';
-	import ArrowRight from '~icons/bx/right-arrow-alt';
 
 	export let data;
 	export let form;
