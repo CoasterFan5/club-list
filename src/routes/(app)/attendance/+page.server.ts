@@ -3,7 +3,17 @@ import { error, redirect } from '@sveltejs/kit';
 import { getClubUserFromSession } from '$lib/server/getClubUserFromSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 
-export const GET = async ({ url, cookies }) => {
+export const load = async ({ url, cookies }) => {
+	//Fix for secure cookies
+	if (url.searchParams.get('noRedirect') != "true") {
+		const newUrl = new URL(url);
+		newUrl.searchParams.set("noRedirect", "true")
+		return {
+			refresh: true,
+			redirect: newUrl.toString()
+		};
+	}
+
 	const eventId = url.searchParams.get('id');
 	if (!eventId) {
 		throw error(404, 'No event');

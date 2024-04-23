@@ -1,4 +1,7 @@
 <script lang="ts">
+	import CrownIcon from '~icons/bx/crown';
+	import KickUser from '~icons/bx/user-minus';
+	import BanUser from '~icons/bx/user-x';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -8,11 +11,6 @@
 	import SearchBox from '$lib/components/SearchBox.svelte';
 	import { addToast } from '$lib/components/toaster.js';
 	import { tooltip } from '$lib/components/tooltips/tooltip.js';
-
-
-	import KickUser from "~icons/bx/user-minus"
-	import BanUser from "~icons/bx/user-x"
-	import CrownIcon from "~icons/bx/crown"
 
 	export let data;
 	export let form;
@@ -147,7 +145,7 @@
 								{member.user.lastName}
 								{#if member.owner}
 									<div class="crown" title="Owner" use:tooltip={'Owner'}>
-										<CrownIcon/>
+										<CrownIcon />
 									</div>
 								{/if}
 							</div>
@@ -176,7 +174,7 @@
 										}}
 										use:tooltip={'Kick Member'}
 									>
-										<KickUser height="1.5rem" width="1.5rem"/>
+										<KickUser height="1.5rem" width="1.5rem" />
 									</button>
 									<button
 										class="actionButton"
@@ -186,7 +184,7 @@
 										}}
 										use:tooltip={'Ban Member'}
 									>
-										<BanUser height="1.5rem" width="1.5rem"/>
+										<BanUser height="1.5rem" width="1.5rem" />
 									</button>
 								</div>
 							</td>

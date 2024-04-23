@@ -12,7 +12,7 @@ const createWrappedDate = (day: dayjs.Dayjs, inMonth: boolean) => {
 export const createCalendarDays = (passedDay?: dayjs.Dayjs) => {
 	const currentDay = dayjs(passedDay);
 
-	// 7 days per week, always show 6 rows since that is the maximum number of rows that a month can have. 
+	// 7 days per week, always show 6 rows since that is the maximum number of rows that a month can have.
 	const gridSize = 7 * 6;
 	const startPaddingDays = createEmptyArray(currentDay.date(1).day())
 		.map((_, i) => createWrappedDate(currentDay.date(-i), false))

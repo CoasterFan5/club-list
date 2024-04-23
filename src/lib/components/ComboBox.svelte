@@ -8,7 +8,11 @@
 		};
 	}>();
 
-	type Options = [options: K[], displayFunction: (arg: K) => string, valueFunction: (arg: K) => string | number];
+	type Options = [
+		options: K[],
+		displayFunction: (arg: K) => string,
+		valueFunction: (arg: K) => string | number
+	];
 
 	export let options: Options = [[], () => '', () => 0];
 
@@ -24,7 +28,7 @@
 	export let style: string = '';
 	export let disabled = false;
 
-	import ChevronDown from "~icons/bx/chevron-down"
+	import ChevronDown from '~icons/bx/chevron-down';
 
 	let showingOptions = false;
 
@@ -67,7 +71,7 @@
 				{placeholder}
 			</p>
 			<div class="icon">
-				<ChevronDown height="24" width="24"/>
+				<ChevronDown height="24" width="24" />
 			</div>
 		</button>
 		{#if showingOptions}

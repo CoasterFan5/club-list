@@ -1,14 +1,13 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
 
+	import BackIcon from '~icons/bx/arrow-back';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-
-	import BackIcon from '~icons/bx/arrow-back';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
 
 	export let data;
