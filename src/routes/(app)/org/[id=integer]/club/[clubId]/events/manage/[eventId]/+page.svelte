@@ -213,217 +213,236 @@
 	});
 </script>
 
-<form
-	method="POST"
-	use:enhance={() => {
-		return async ({ update }) => {
-			await update();
-			await goto(`/org/${data.org.id}/club/${data.club.id}/events`);
-		};
-	}}
->
-	{#if data.event.draft}
-		<h1>Add Event</h1>
-	{:else}
-		<h1>Edit Event</h1>
-	{/if}
-	<div class="formBody">
-		<div class="formBodyChild">
-			<div class="input">
-				<Input name="title" label="Title" required value={data.event.title} />
-			</div>
-			<div class="input">
-				<Input name="description" label="Description" value={data.event.description || ''} />
-			</div>
-			<div class="input checkbox no-top-margin">
-				<ColorPicker name="color" color={data.event.color || '#e63946'} />
-			</div>
-			<input name="date" type="hidden" value={calculatedFormDate} />
-			<div class="input">
-				<Input
-					name={null}
-					label={repeats ? 'Starts On' : 'Event Date'}
-					required
-					type="date"
-					bind:value={formDate}
-				/>
-			</div>
-			<div class="input no-bottom-margin">
-				<Input
-					name={null}
-					disabled={allDay}
-					label="Start Time"
-					required
-					type="time"
-					bind:value={formTime}
-				/>
-			</div>
-			<div class="input checkbox no-top-margin">
-				<p>All Day?</p>
-				<Checkbox name="allDay" bind:checked={allDay} />
-			</div>
-			<div class="input">
-				<Select
-					id="timezone"
-					name={null}
-					--background="white"
-					label="Event Timezone"
-					bind:value={timeZone}
-				>
-					{#each timezones as timezone}
-						<option value={timezone.tzCode}>{timezone.label.replaceAll('_', ' ')}</option>
-					{/each}
-				</Select>
-			</div>
-
-			<hr />
-
-			<div class="input checkbox">
-				Repeats?
-				<Checkbox name={null} bind:checked={repeats} />
-			</div>
-		</div>
-
-		{#if repeats}
+<div class="wrap">
+	<form
+		method="POST"
+		use:enhance={() => {
+			return async ({ update }) => {
+				await update();
+				await goto(`/org/${data.org.id}/club/${data.club.id}/events`);
+			};
+		}}
+	>
+		{#if data.event.draft}
+			<h1>Add Event</h1>
+		{:else}
+			<h1>Edit Event</h1>
+		{/if}
+		<div class="formBody">
 			<div class="formBodyChild">
-				<!-- TODO: custom number input -->
-				<div class="input no-top-margin">
-					<div class="input">
-						<Select
-							id="repeat"
-							name="inputFrequency"
-							--background="white"
-							label="Repeats Every"
-							bind:value={inputFrequency}
-						>
-							<option value="daily">Day</option>
-							<option value="weekly">Week</option>
-							<option value="monthly">Month</option>
-							<option value="yearly">Year</option>
-						</Select>
-					</div>
-					<div class="input">
-						<Input name="repeatInterval" label="Count" type="number" bind:value={interval} />
-					</div>
+				<div class="input">
+					<Input name="title" label="Title" required value={data.event.title} />
 				</div>
-				<!-- 
+				<div class="input">
+					<Input name="description" label="Description" value={data.event.description || ''} />
+				</div>
+				<div class="input checkbox no-top-margin">
+					<ColorPicker name="color" color={data.event.color || '#e63946'} />
+				</div>
+				<input name="date" type="hidden" value={calculatedFormDate} />
+				<div class="input">
+					<Input
+						name={null}
+						label={repeats ? 'Starts On' : 'Event Date'}
+						required
+						type="date"
+						bind:value={formDate}
+					/>
+				</div>
+				<div class="input no-bottom-margin">
+					<Input
+						name={null}
+						disabled={allDay}
+						label="Start Time"
+						required
+						type="time"
+						bind:value={formTime}
+					/>
+				</div>
+				<div class="input checkbox no-top-margin">
+					<p>All Day?</p>
+					<Checkbox name="allDay" bind:checked={allDay} />
+				</div>
+				<div class="input">
+					<Select
+						id="timezone"
+						name={null}
+						--background="white"
+						label="Event Timezone"
+						bind:value={timeZone}
+					>
+						{#each timezones as timezone}
+							<option value={timezone.tzCode}>{timezone.label.replaceAll('_', ' ')}</option>
+						{/each}
+					</Select>
+				</div>
+
+				<hr />
+
+				<div class="input checkbox">
+					Repeats?
+					<Checkbox name={null} bind:checked={repeats} />
+				</div>
+			</div>
+
+			{#if repeats}
+				<div class="formBodyChild">
+					<!-- TODO: custom number input -->
+					<div class="input no-top-margin">
+						<div class="input">
+							<Select
+								id="repeat"
+								name="inputFrequency"
+								--background="white"
+								label="Repeats Every"
+								bind:value={inputFrequency}
+							>
+								<option value="daily">Day</option>
+								<option value="weekly">Week</option>
+								<option value="monthly">Month</option>
+								<option value="yearly">Year</option>
+							</Select>
+						</div>
+						<div class="input">
+							<Input name="repeatInterval" label="Count" type="number" bind:value={interval} />
+						</div>
+					</div>
+					<!-- 
 					we skip daily; we don't care about every n hour;
 					this isn't a cron job
 				-->
-				{#if inputFrequency === 'monthly'}
-					<p>Specific Day <Checkbox name="monthlyDay" bind:checked={useMonthlyDay} /></p>
-					{#if useMonthlyDay}
-						<p>
-							On the <input
-								name="dayOfTheMonth"
-								max="31"
-								min="1"
-								type="number"
-								bind:value={dayOfTheMonth}
-							/> day of the month.
-						</p>
-					{:else}
-						<!-- TODO: svelte 5 snippets -->
+					{#if inputFrequency === 'monthly'}
+						<p>Specific Day <Checkbox name="monthlyDay" bind:checked={useMonthlyDay} /></p>
+						{#if useMonthlyDay}
+							<p>
+								On the <input
+									name="dayOfTheMonth"
+									max="31"
+									min="1"
+									type="number"
+									bind:value={dayOfTheMonth}
+								/> day of the month.
+							</p>
+						{:else}
+							<!-- TODO: svelte 5 snippets -->
+							{#each weekdays as weekday}
+								<div class="weekdayInput">
+									<Checkbox name="weekday{weekday.name}" bind:checked={weekday.enabled} />
+									<label for={weekday.name}>{weekday.name}</label>
+								</div>
+							{/each}
+							<p>On the</p>
+							<div class="weeksContainer">
+								<div class="weeks">
+									{#each weeksFront as week}
+										<div class="weekdayInput">
+											<Checkbox
+												name="week{week.name.replace('-', '_')}"
+												bind:checked={week.enabled}
+											/>
+											<label for={week.name}>{week.name}</label>
+										</div>
+									{/each}
+								</div>
+								<div class="weeks">
+									{#each weeksBack as week}
+										<div class="weekdayInput">
+											<Checkbox
+												name="week{week.name.replace('-', '_')}"
+												bind:checked={week.enabled}
+											/>
+											<label for={week.name}>{week.name}</label>
+										</div>
+									{/each}
+								</div>
+							</div>
+						{/if}
+					{:else if inputFrequency !== 'daily'}
 						{#each weekdays as weekday}
 							<div class="weekdayInput">
 								<Checkbox name="weekday{weekday.name}" bind:checked={weekday.enabled} />
 								<label for={weekday.name}>{weekday.name}</label>
 							</div>
 						{/each}
-						<p>On the</p>
-						<div class="weeksContainer">
-							<div class="weeks">
-								{#each weeksFront as week}
-									<div class="weekdayInput">
-										<Checkbox
-											name="week{week.name.replace('-', '_')}"
-											bind:checked={week.enabled}
-										/>
-										<label for={week.name}>{week.name}</label>
-									</div>
-								{/each}
-							</div>
-							<div class="weeks">
-								{#each weeksBack as week}
-									<div class="weekdayInput">
-										<Checkbox
-											name="week{week.name.replace('-', '_')}"
-											bind:checked={week.enabled}
-										/>
-										<label for={week.name}>{week.name}</label>
-									</div>
-								{/each}
-							</div>
-						</div>
 					{/if}
-				{:else if inputFrequency !== 'daily'}
-					{#each weekdays as weekday}
-						<div class="weekdayInput">
-							<Checkbox name="weekday{weekday.name}" bind:checked={weekday.enabled} />
-							<label for={weekday.name}>{weekday.name}</label>
-						</div>
-					{/each}
-				{/if}
-				<div class="input">
 					<div class="input">
-						<Select
-							id="repeatType"
-							name="repeatType"
-							--background="white"
-							label="Repeat Type"
-							bind:value={repeatType}
-						>
-							<option value="amount">Amount</option>
-							<option value="upTo">Up To</option>
-							<option value="indefinitely">Indefinetly</option>
-						</Select>
+						<div class="input">
+							<Select
+								id="repeatType"
+								name="repeatType"
+								--background="white"
+								label="Repeat Type"
+								bind:value={repeatType}
+							>
+								<option value="amount">Amount</option>
+								<option value="upTo">Up To</option>
+								<option value="indefinitely">Indefinetly</option>
+							</Select>
+						</div>
+						{#if repeatType == 'amount'}
+							<div class="input">
+								<Input
+									name="repeatEvery"
+									label="Amount of times"
+									type="number"
+									bind:value={count}
+								/>
+							</div>
+						{:else if repeatType == 'upTo'}
+							<div class="input">
+								<input name="repeatUpTo" type="hidden" value={dayjs(upTo).utc().format()} />
+								<Input name={null} label="End Date" type="date" bind:value={upTo} />
+							</div>
+						{/if}
 					</div>
-					{#if repeatType == 'amount'}
-						<div class="input">
-							<Input name="repeatEvery" label="Amount of times" type="number" bind:value={count} />
-						</div>
-					{:else if repeatType == 'upTo'}
-						<div class="input">
-							<input name="repeatUpTo" type="hidden" value={dayjs(upTo).utc().format()} />
-							<Input name={null} label="End Date" type="date" bind:value={upTo} />
-						</div>
+					{#if enabledWeekdays.length > 0}
+						<p>Occurs {rrule.toText()} starting on {formDate}.</p>
+					{:else if inputFrequency === 'daily'}
+						<p>Occurs {rrule.toText()} starting on {formDate}.</p>
+					{:else if inputFrequency === 'weekly'}
+						<p>
+							Occurs {rrule.toText()} on {dayjs(formDate).format('dddd')} starting on {formDate}.
+						</p>
+					{:else if inputFrequency === 'monthly'}
+						<p>Occurs {rrule.toText()} starting on {formDate}.</p>
+					{:else if inputFrequency === 'yearly'}
+						<p>
+							Occurs {rrule.toText()} on {dayjs(formDate).format('MMMM Do')} starting on {formDate}.
+						</p>
 					{/if}
 				</div>
-				{#if enabledWeekdays.length > 0}
-					<p>Occurs {rrule.toText()} starting on {formDate}.</p>
-				{:else if inputFrequency === 'daily'}
-					<p>Occurs {rrule.toText()} starting on {formDate}.</p>
-				{:else if inputFrequency === 'weekly'}
-					<p>
-						Occurs {rrule.toText()} on {dayjs(formDate).format('dddd')} starting on {formDate}.
-					</p>
-				{:else if inputFrequency === 'monthly'}
-					<p>Occurs {rrule.toText()} starting on {formDate}.</p>
-				{:else if inputFrequency === 'yearly'}
-					<p>
-						Occurs {rrule.toText()} on {dayjs(formDate).format('MMMM Do')} starting on {formDate}.
-					</p>
-				{/if}
-			</div>
-		{/if}
-	</div>
+			{/if}
+		</div>
 
-	<div class="submitButton">
-		<Button type="submit" value="Save" />
-	</div>
-</form>
+		<div class="submitButton">
+			<Button type="submit" value="Save" />
+		</div>
+	</form>
+</div>
 
 <style lang="scss">
+	.wrap {
+		width: 100%;
+		display: flex;
+		align-items: start;
+		justify-content: center;
+		height: 100%;
+	}
 	form {
+		width: 90%;
 		padding-bottom: 1rem;
 	}
 
 	.formBody {
 		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
 		gap: 1rem;
 
 		.formBodyChild {
-			width: 100%;
+			flex-shrink: 1;
+			min-width: 300px;
 		}
 	}
 

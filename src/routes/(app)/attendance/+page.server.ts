@@ -5,9 +5,9 @@ import { prisma } from '$lib/server/prismaConnection.js';
 
 export const load = async ({ url, cookies }) => {
 	//Fix for secure cookies
-	if (url.searchParams.get('noRedirect') != "true") {
+	if (url.searchParams.get('noRedirect') != 'true') {
 		const newUrl = new URL(url);
-		newUrl.searchParams.set("noRedirect", "true")
+		newUrl.searchParams.set('noRedirect', 'true');
 		return {
 			refresh: true,
 			redirect: newUrl.toString()
