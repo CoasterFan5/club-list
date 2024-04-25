@@ -73,6 +73,7 @@
 						type="button"
 						on:click={() => {
 							hiddenColorPicker.click();
+							hiddenColorPicker.focus();
 						}}
 					>
 						<PaletteIcon height="90%" width="90%" />

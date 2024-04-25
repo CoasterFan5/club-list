@@ -105,6 +105,9 @@
 
 	input {
 		all: unset;
+		display: flex;
+		align-items: center;
+		justify-content: start;
 		outline: 0px;
 		box-sizing: border-box;
 		padding: 10px;
