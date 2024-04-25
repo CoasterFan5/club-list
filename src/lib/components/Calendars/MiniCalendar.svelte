@@ -164,6 +164,7 @@
 		}
 
 		.navigate {
+			min-height: 2rem;
 			height: 100%;
 			display: flex;
 			align-items: center;
@@ -181,7 +182,6 @@
 			all: unset;
 			cursor: pointer;
 			width: 100%;
-			height: 100%;
 			aspect-ratio: 1/1;
 			border-radius: 50%;
 			display: flex;
@@ -225,6 +225,7 @@
 
 		.title {
 			width: 100%;
+			min-height: 2rem;
 			padding: 0px 0.25rem;
 			display: flex;
 			align-items: center;
