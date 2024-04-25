@@ -225,12 +225,6 @@
 			align-items: center;
 			justify-content: center;
 			cursor: pointer;
-
-			img {
-				all: unset;
-				height: 100%;
-				aspect-ratio: 1/1;
-			}
 		}
 	}
 

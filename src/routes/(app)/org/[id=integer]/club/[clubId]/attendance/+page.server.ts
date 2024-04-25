@@ -266,12 +266,14 @@ export const actions = {
 				};
 			}
 
+			const attendanceCode = crypto.randomBytes(8).toString('hex');
+
 			await prisma.clubAttendanceEvent.update({
 				where: {
 					id: eventTest.id
 				},
 				data: {
-					attendanceCode: crypto.randomBytes(8).toString('hex')
+					attendanceCode: attendanceCode
 				}
 			});
 
@@ -279,7 +281,6 @@ export const actions = {
 				url.searchParams.delete(key);
 			});
 			url.searchParams.set('eventId', eventTest.id.toString());
-			url.searchParams.set('showQr', 'true');
 
 			throw redirect(303, url);
 		}

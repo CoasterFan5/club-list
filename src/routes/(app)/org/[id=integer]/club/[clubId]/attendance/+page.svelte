@@ -55,22 +55,28 @@
 
 	let showingQrCode = false;
 	let qrCodeData: string;
-	onMount(async () => {
-		qrCodeData = await QRCode.toDataURL(
-			`${window.location.origin}/attendance?id=${data.attendanceEvent.id}&code=${data.attendanceEvent.attendanceCode}`,
-			{
-				errorCorrectionLevel: 'H',
-				type: 'image/png',
-				margin: 1,
-				scale: 4,
-				width: 1000,
-				color: {
-					dark: '#e63946',
-					light: '#00000000'
-				}
-			}
-		);
+	onMount(() => {
+		refreshQrCode();
 	});
+
+	const refreshQrCode = async () => {
+		const attendanceUrl = `${window.location.origin}/attendance?id=${data.attendanceEvent.id}&code=${data.attendanceEvent.attendanceCode}`;
+
+		qrCodeData = await QRCode.toDataURL(attendanceUrl, {
+			errorCorrectionLevel: 'H',
+			type: 'image/png',
+			margin: 1,
+			scale: 4,
+			width: 1000,
+			color: {
+				dark: '#e63946',
+				light: '#00000000'
+			}
+		});
+
+		return qrCodeData;
+	};
+
 	const openQrDialog = () => {
 		showingQrCode = true;
 	};
@@ -151,22 +157,26 @@
 				<Button value="Create QR Code" />
 			</form>
 		{:else}
-			<h2>Qr Code</h2>
-			<div style="width: 15rem" class="qrImage">
-				<img alt="Qr Code" src={qrCodeData} width="100%" />
-			</div>
-			<div class="noExpandText">
-				<p>
-					If members scan this code, they will be marked present for this event. You can right click
-					the qr code to save/copy the image in a larger size.
-				</p>
-			</div>
-			<form action="?/deleteQr" method="post" use:enhance>
-				<input name="eventId" hidden value={data.attendanceEvent.id} />
-				<Button value="Delete QR Code" />
-			</form>
+			{#await refreshQrCode()}
+				<span>Loading...</span>
+			{:then qrCodeData}
+				<h2>Qr Code</h2>
+				<div style="width: 15rem" class="qrImage">
+					<img alt="Qr Code" src={qrCodeData} width="100%" />
+				</div>
+				<div class="noExpandText">
+					<p>
+						If members scan this code, they will be marked present for this event. You can right
+						click the qr code to save/copy the image in a larger size.
+					</p>
+				</div>
+				<form action="?/deleteQr" method="post" use:enhance>
+					<input name="eventId" hidden value={data.attendanceEvent.id} />
+					<Button value="Delete QR Code" />
+				</form>
 
-			<hr />
+				<hr />
+			{/await}
 		{/if}
 	</Modal>
 {/if}

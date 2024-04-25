@@ -103,10 +103,6 @@
 		padding: 2px;
 	}
 
-	.close img {
-		width: 30px;
-	}
-
 	@keyframes closeBar {
 		from {
 			width: 100%;
