@@ -2,6 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 
 import { getClubUserFromSession } from '$lib/server/getClubUserFromSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
+import { verifyOptionalSession } from '$lib/server/verifySession.js';
 
 export const load = async ({ url, cookies }) => {
 	//Fix for secure cookies
@@ -35,6 +36,10 @@ export const load = async ({ url, cookies }) => {
 
 	if (!event) {
 		throw error(404, 'Invalid ID');
+	}
+
+	if ((await verifyOptionalSession(cookies.get('session'))) == null) {
+		throw redirect(303, `/login?redirect=attendance&id=${eventId}&code=${code}`);
 	}
 
 	const clubUser = await getClubUserFromSession(cookies.get('session'), event.clubId.toString());

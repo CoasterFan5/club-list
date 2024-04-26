@@ -7,24 +7,24 @@ import { formHandler } from '$lib/bodyguard.js';
 import { createSession } from '$lib/server/createSession';
 import { prisma } from '$lib/server/prismaConnection.js';
 
+import { handleRedirects } from '../redirectHandler.js';
+
 const pbkdf2 = promisify(crypto.pbkdf2);
 
 export const load = ({ url }) => {
+	const userRedirect = url.searchParams.get('r');
+	let codeString = undefined;
 	const code = url.searchParams.get('invite');
 	if (code) {
 		// Ensure that the invite code is valid
 		const regex = /^[a-zA-Z0-9]+$/;
-		if (!regex.test(code)) {
-			return {
-				code: undefined
-			};
+		if (regex.test(code)) {
+			codeString = code;
 		}
-		return {
-			code: code
-		};
 	}
 	return {
-		code: undefined
+		userRedirect: userRedirect,
+		code: codeString
 	};
 };
 
@@ -33,9 +33,9 @@ export const actions = {
 		z.object({
 			email: z.string().email(),
 			password: z.string().min(1),
-			joinCode: z.string().optional()
+			hiddenUrlString: z.string().optional()
 		}),
-		async ({ email, password, joinCode }, { cookies, getClientAddress, request }) => {
+		async ({ email, password, hiddenUrlString }, { cookies, getClientAddress, request }) => {
 			// Pull the user from the database
 			const user = await prisma.user.findFirst({
 				where: {
@@ -64,26 +64,11 @@ export const actions = {
 			// Generate a new session for the user
 			await createSession(user.id, getClientAddress, request, cookies);
 
-			/*
-			 * If there is an invite code, redirect to the invite page
-			 * We don't use plain redirects to avoid any unintended
-			 * side effects (see OWASP Unvalidated Redirects and Forwards)
-			 */
-
-			if (joinCode && joinCode != 'undefined') {
-				// Ensure that the invite code is valid
-				const regex = /^[a-zA-Z0-9]+$/;
-				if (!regex.test(joinCode)) {
-					return {
-						success: false,
-						message: 'Invalid invite code.'
-					};
-				}
-
-				throw redirect(303, `/invite/${joinCode}`);
+			if (hiddenUrlString) {
+				handleRedirects(new URL(Buffer.from(hiddenUrlString, 'base64').toString()), '/dashboard');
 			}
 
-			redirect(303, '/dashboard');
+			throw redirect(303, '/dashboard');
 		}
 	)
 };
