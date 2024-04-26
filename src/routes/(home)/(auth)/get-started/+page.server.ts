@@ -38,7 +38,6 @@ export const actions = {
 			confirmPassword: z.string().min(1),
 			firstName: z.string().min(1),
 			lastName: z.string().min(1),
-			joinCode: z.string().optional(),
 			hiddenUrlString: z.string().optional()
 		}),
 		async (
