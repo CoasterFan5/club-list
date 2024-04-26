@@ -18,7 +18,7 @@
 						<Button value="Join" />
 					</form>
 				{:else}
-					<Button href="/login?invite={data.joinCode}" value="Login to Join" />
+					<Button href="/login?redirect=invite&code={data.joinCode}" value="Login to Join" />
 				{/if}
 			</div>
 			<span class="or">or</span>

@@ -12,6 +12,10 @@ export const getClubUserFromSession = async (
 		throw redirect(303, '/dashboard');
 	}
 
+	if (!session) {
+		throw redirect(303, '/login');
+	}
+
 	const club = await prisma.club.findFirst({
 		where: {
 			id: parseInt(clubId)

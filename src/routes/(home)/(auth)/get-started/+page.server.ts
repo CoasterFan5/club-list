@@ -7,6 +7,8 @@ import { formHandler } from '$lib/bodyguard.js';
 import { createSession } from '$lib/server/createSession.js';
 import { prisma } from '$lib/server/prismaConnection.js';
 
+import { handleRedirects } from '../redirectHandler';
+
 const pbkdf2 = promisify(crypto.pbkdf2);
 
 export const load = ({ url }) => {
@@ -36,10 +38,10 @@ export const actions = {
 			confirmPassword: z.string().min(1),
 			firstName: z.string().min(1),
 			lastName: z.string().min(1),
-			joinCode: z.string().optional()
+			hiddenUrlString: z.string().optional()
 		}),
 		async (
-			{ firstName, lastName, password, confirmPassword, email, joinCode },
+			{ firstName, lastName, password, confirmPassword, email, hiddenUrlString },
 			{ cookies, getClientAddress, request }
 		) => {
 			if (password != confirmPassword) {
@@ -83,17 +85,8 @@ export const actions = {
 			// Generate a new session for the user]
 			await createSession(newUser.id, getClientAddress, request, cookies);
 
-			if (joinCode && joinCode != 'undefined') {
-				// Ensure that the invite code is valid
-				const regex = /^[a-zA-Z0-9]+$/;
-				if (!regex.test(joinCode)) {
-					return {
-						success: false,
-						message: 'Invalid invite code.'
-					};
-				}
-
-				redirect(303, `/invite/${joinCode}`);
+			if (hiddenUrlString) {
+				handleRedirects(new URL(Buffer.from(hiddenUrlString, 'base64').toString()), '/dashboard');
 			}
 
 			redirect(303, '/dashboard');

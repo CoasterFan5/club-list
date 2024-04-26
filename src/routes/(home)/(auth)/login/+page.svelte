@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Link from '$lib/components/Link.svelte';
 
 	export let form;
-	export let data;
 </script>
 
 <div class="wrap">
@@ -18,14 +18,14 @@
 			<span class="inputDiv">
 				<Input name="password" label="Password" type="password" />
 			</span>
-			<input name="joinCode" hidden value={data.code} />
+			<input name="hiddenUrlString" hidden value={btoa($page.url.toString())} />
 			<span class="inputDiv">
 				<Button type="submit" value="Log In" />
 			</span>
 			<p>
 				No account?
-				{#if data.code}
-					<Link href="/get-started?invite={data.code}">Sign Up</Link>
+				{#if $page.url.searchParams.toString()}
+					<Link href="/get-started?{$page.url.searchParams.toString()}">Sign Up</Link>
 				{:else}
 					<Link href="/get-started">Sign Up</Link>
 				{/if}
