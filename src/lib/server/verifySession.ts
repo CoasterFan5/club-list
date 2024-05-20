@@ -50,6 +50,7 @@ export async function verifyOptionalSession<T extends Prisma.UserSelect | undefi
 					createdAt: true,
 					updatedAt: true,
 					pfp: true,
+					siteAdmin: true,
 					...(extraFields === undefined ? {} : extraFields)
 				}
 			}

@@ -212,6 +212,7 @@ model OrgRole {
 model BlogArticle {
 	id Int @id @default(autoincrement())
 	articleURL String
+	articleName String
 	articleText String @db.Text
 	tagAssignments AssignedBlogTag []
 }
