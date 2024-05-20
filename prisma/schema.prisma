@@ -27,6 +27,7 @@ model User {
 	firstName     String   @db.VarChar(255)
 	lastName      String   @db.VarChar(255)
 	pfp           String?  @db.VarChar(255)
+	siteAdmin 	  Boolean  @default(false)
 	orgUsers      OrgUser[]
 	attendanceMarks ClubAttendanceCheck[]
 	sessions      Session[]
@@ -206,4 +207,25 @@ model OrgRole {
 	orgid        Int
 	org          Organization @relation(fields: [orgid], references: [id], onDelete: Cascade)
 	members      OrgUser[]
+}
+
+model BlogArticle {
+	id Int @id @default(autoincrement())
+	articleURL String
+	articleText String @db.Text
+	tagAssignments AssignedBlogTag []
+}
+
+model AssignedBlogTag {
+	id Int @id @default(autoincrement())
+	blogId Int
+	article BlogArticle @relation(fields: [blogId], references: [id])
+	tagId Int
+	tag BlogTagTemplate @relation(fields: [tagId], references: [id])
+}
+
+model BlogTagTemplate {
+	id Int @id @default(autoincrement())
+	tagName String
+	assignments AssignedBlogTag[]
 }
