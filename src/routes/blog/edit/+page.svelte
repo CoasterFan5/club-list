@@ -9,7 +9,7 @@
 		{#each data.articles as article}
 			<a class="article" href="/blog/edit/{article.articleURL}">
 				{article.articleName}
-				<div class="icons"/>
+				<div class="icons" />
 			</a>
 		{/each}
 		<form action="?/createArticle" method="post" use:enhance>

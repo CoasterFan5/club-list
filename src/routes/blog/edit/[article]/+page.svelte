@@ -3,17 +3,36 @@
 	import Button from '$lib/components/Button.svelte';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import Input from '$lib/components/Input.svelte';
+	import { handleForm } from '$lib/utils/formToaster';
 
 	export let data;
+	export let form;
+
+	$: handleForm(form);
+
+	let saveButton: HTMLButtonElement;
+
+	const keybindHelper = (e: KeyboardEvent) => {
+		if (e.key == 's' && e.ctrlKey) {
+			e.preventDefault();
+			saveButton.click();
+		}
+	};
+
+	let articleContent = data.article?.articleText;
 </script>
+
+<svelte:window on:keydown={keybindHelper} />
 
 <div class="wrap">
 	<div class="articleEdit">
 		<h2>Article Content</h2>
 		<div class="inner">
-			<MdEditor content={data.article?.articleText} editable={true} saveable={false} />
+			<MdEditor editable={true} saveable={false} bind:content={articleContent} />
 		</div>
-		<form action="?/save" method="post">
+		<form action="?/save" method="post" use:enhance>
+			<textarea name="content" hidden bind:value={articleContent} />
+			<button bind:this={saveButton} hidden type="submit" />
 			<Button value="save" />
 		</form>
 	</div>
