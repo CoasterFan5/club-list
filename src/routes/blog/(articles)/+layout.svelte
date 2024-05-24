@@ -9,7 +9,7 @@
 </div>
 <div class="alsoLike">
 	<div class="alsoLikeInner">
-		<h3>You may be interested</h3>
+		<h3>You may also like:</h3>
 	</div>
 </div>
 <Footer />
@@ -35,11 +35,23 @@
 			margin-top: 1rem;
 			display: flex;
 			align-items: center;
-			justify-content: center;
+			justify-content: start;
 
 			h3 {
 				font-size: 1.5rem;
 				font-weight: 600;
+				position: relative;
+				padding-left: 0.5rem;
+				
+				&::after {
+					content: "";
+					position: absolute;
+					left: 0px;
+					top: 0px;
+					height: 100%;
+					width: 0.25rem;
+					background: var(--accent);
+				}
 			}
 		}
 	}

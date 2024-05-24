@@ -210,6 +210,8 @@ model OrgRole {
 }
 
 model BlogArticle {
+	createdAt     DateTime @default(now())
+	updatedAt     DateTime @updatedAt
 	id Int @id @default(autoincrement())
 	articleURL String
 	articleName String
@@ -218,6 +220,8 @@ model BlogArticle {
 }
 
 model AssignedBlogTag {
+	createdAt     DateTime @default(now())
+	updatedAt     DateTime @updatedAt
 	id Int @id @default(autoincrement())
 	blogId Int
 	article BlogArticle @relation(fields: [blogId], references: [id])
@@ -226,6 +230,8 @@ model AssignedBlogTag {
 }
 
 model BlogTagTemplate {
+	createdAt     DateTime @default(now())
+	updatedAt     DateTime @updatedAt
 	id Int @id @default(autoincrement())
 	tagName String
 	assignments AssignedBlogTag[]

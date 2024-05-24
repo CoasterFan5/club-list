@@ -6,6 +6,13 @@ export const load = async ({ params }) => {
 	const article = await prisma.blogArticle.findFirst({
 		where: {
 			articleURL: params.article
+		},
+		include: {
+			tagAssignments: {
+				include: {
+					tag: true
+				}
+			}
 		}
 	});
 
