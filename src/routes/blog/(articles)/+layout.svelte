@@ -42,9 +42,9 @@
 				font-weight: 600;
 				position: relative;
 				padding-left: 0.5rem;
-				
+
 				&::after {
-					content: "";
+					content: '';
 					position: absolute;
 					left: 0px;
 					top: 0px;

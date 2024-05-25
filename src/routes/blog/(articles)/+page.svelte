@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LavaLampBg from "$lib/components/LavaLampBG.svelte";
+	import LavaLampBg from '$lib/components/LavaLampBG.svelte';
 	let showingLavaLamp = false;
 
 	export let data;
@@ -8,43 +8,46 @@
 
 	const configureLavaLampPosition = (e: MouseEvent) => {
 		showingLavaLamp = true;
-		(e.target as HTMLElement ).appendChild(lavaLampHolder)
-	}
+		(e.target as HTMLElement).appendChild(lavaLampHolder);
+	};
 
 	const hideLavaLamp = (e: MouseEvent) => {
 		showingLavaLamp = false;
-	}
+	};
 </script>
 
-<div bind:this={lavaLampHolder} hidden={!showingLavaLamp} class="lavaLamp">
-	<LavaLampBg/>		
+<div bind:this={lavaLampHolder} class="lavaLamp" hidden={!showingLavaLamp}>
+	<LavaLampBg />
 </div>
-
-
 
 <div class="wrap">
 	<h2>Clubsaurus Blog</h2>
 	<div class="articles">
-		
 		{#each data.articles as article}
-		<a href="/blog/{article.articleURL}" class="articleWrap" on:mouseenter={configureLavaLampPosition} on:mouseleave={hideLavaLamp}>
-			<div class="text">
-				<h2>{article.articleName}</h2>
-				<p>This will be the article description, however, I have not yet added short article descriptions.</p>
-				<div class="text2">
+			<a
+				class="articleWrap"
+				href="/blog/{article.articleURL}"
+				on:mouseenter={configureLavaLampPosition}
+				on:mouseleave={hideLavaLamp}
+			>
+				<div class="text">
 					<h2>{article.articleName}</h2>
-					<p>This will be the article description, however, I have not yet added short article descriptions.</p>
+					<p>
+						This will be the article description, however, I have not yet added short article
+						descriptions.
+					</p>
+					<div class="text2">
+						<h2>{article.articleName}</h2>
+						<p>
+							This will be the article description, however, I have not yet added short article
+							descriptions.
+						</p>
+					</div>
 				</div>
-			</div>
-			
-		</a>
-			
+			</a>
 		{/each}
 	</div>
-
-	
 </div>
-
 
 <style lang="scss">
 	.wrap {
@@ -75,38 +78,32 @@
 			padding: 1rem;
 			box-sizing: border-box;
 			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
-			
-			
-			
 
-				& > h2 {
-					font-size: 1.75rem;
-					margin: 0;
-					color: var(--dark);
-					opacity: 0;
-					
-				}
-				& > p {
-					margin: 0px;
-					margin-top: 1rem;
-					font-size: 1.2rem;
-					line-height: 1.25rem;
-					color: var(--mid);
-				}
-
-			
+			& > h2 {
+				font-size: 1.75rem;
+				margin: 0;
+				color: var(--dark);
+				opacity: 0;
 			}
+			& > p {
+				margin: 0px;
+				margin-top: 1rem;
+				font-size: 1.2rem;
+				line-height: 1.25rem;
+				color: var(--mid);
+			}
+		}
 		&:hover .text {
-				mix-blend-mode: color-burn;
-				
-				& > h2 {
-					opacity: 0.3;
-				}
+			mix-blend-mode: color-burn;
 
-				& > p {
-					opacity: 0.3;
-				}
+			& > h2 {
+				opacity: 0.3;
 			}
+
+			& > p {
+				opacity: 0.3;
+			}
+		}
 
 		.text2 {
 			color: rgb(255, 0, 0);
@@ -120,11 +117,10 @@
 			left: 0px;
 
 			& > h2 {
-					font-size: 1.75rem;
-					margin: 0;
-					color: var(--dark);
-					
-				}
+				font-size: 1.75rem;
+				margin: 0;
+				color: var(--dark);
+			}
 			& > p {
 				margin: 0px;
 				margin-top: 1rem;
@@ -135,8 +131,6 @@
 		}
 	}
 
-	
-
 	.lavaLamp {
 		position: absolute;
 		left: 0;
@@ -146,6 +140,5 @@
 		z-index: -1;
 		border-radius: 0.25rem;
 		overflow: hidden;
-		
 	}
 </style>
