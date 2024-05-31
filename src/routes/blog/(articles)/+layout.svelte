@@ -17,7 +17,7 @@
 <style lang="scss">
 	.wrap {
 		margin-top: 60px;
-		padding: 1rem 0px;
+
 		width: 100%;
 		min-height: calc(100vh - 60px);
 	}

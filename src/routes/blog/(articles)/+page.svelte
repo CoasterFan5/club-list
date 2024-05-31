@@ -1,14 +1,19 @@
 <script lang="ts">
 	import LavaLampBg from '$lib/components/LavaLampBG.svelte';
-	let showingLavaLamp = false;
 
 	export let data;
-
-	let lavaLampHolder: HTMLDivElement;
 </script>
 
 <div class="wrap">
-	<h2>Clubsaurus Blog</h2>
+	<div class="title">
+		<div class="lavaLamp">
+			<LavaLampBg addedRadius={200} baseRadius={200} baseVel={1} />
+		</div>
+		<div class="text2">
+			<h1>Clubsaurus Blog</h1>
+		</div>
+	</div>
+
 	<div class="articles">
 		{#each data.articles as article}
 			<a class="articleWrap" href="/blog/{article.articleURL}">
@@ -74,14 +79,31 @@
 		}
 	}
 
-	.lavaLamp {
-		position: absolute;
-		left: 0;
-		top: 0;
+	.title {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
 		width: 100%;
-		height: 100%;
-		z-index: -1;
-		border-radius: 0.25rem;
-		overflow: hidden;
+		height: 30vh;
+		margin: 0;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+		.lavaLamp {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			filter: blur(0px);
+		}
+
+		.text2 {
+			position: absolute;
+			opacity: 1;
+			font-size: 3rem;
+			color: var(--dark);
+			mix-blend-mode: color-burn;
+		}
 	}
 </style>
