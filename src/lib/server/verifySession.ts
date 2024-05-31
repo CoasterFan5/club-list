@@ -13,6 +13,7 @@ interface PropertyShortlist {
 	createdAt: true;
 	updatedAt: true;
 	pfp: true;
+	siteAdmin: true;
 }
 
 type SessionReturnType<T extends Prisma.UserSelect | undefined> = NonNullable<
