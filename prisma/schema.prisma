@@ -215,6 +215,7 @@ model BlogArticle {
 	id Int @id @default(autoincrement())
 	articleURL String
 	articleName String
+	articleDescription String @default("")
 	articleText String @db.Text
 	tagAssignments AssignedBlogTag []
 }

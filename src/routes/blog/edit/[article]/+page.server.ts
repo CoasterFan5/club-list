@@ -31,9 +31,10 @@ export const load = async ({ cookies, params }) => {
 export const actions = {
 	saveDetails: formHandler(
 		z.object({
-			name: z.string()
+			name: z.string(),
+			description: z.string().optional()
 		}),
-		async ({ name }, { cookies, params }) => {
+		async ({ name, description }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
 
 			if (!user.siteAdmin) {
@@ -64,7 +65,8 @@ export const actions = {
 				},
 				data: {
 					articleName: name,
-					articleURL: newUrl
+					articleURL: newUrl,
+					articleDescription: description || 'No article description :('
 				}
 			});
 

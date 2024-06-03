@@ -40,6 +40,12 @@
 		<h2>Article Info</h2>
 		<Input name="name" bg="var(--bgMid)" label="Article Name" value={data.article?.articleName} />
 		<hr />
+		<textarea
+			name="description"
+			placeholder="Short article description."
+			value={data.article?.articleDescription}
+		/>
+		<hr />
 		<Button value="save" />
 	</form>
 </div>
@@ -96,6 +102,24 @@
 		hr {
 			border: 0px;
 			margin: 7px 0;
+		}
+	}
+
+	textarea {
+		width: 100%;
+		resize: vertical;
+		padding: 0.5rem;
+		box-sizing: border-box;
+		outline: 0px;
+		border: 1px solid gray;
+		border-radius: 3px;
+		font-family:
+			Work Sans,
+			sans-serif;
+
+		&:focus,
+		&:active {
+			border: 1px solid var(--accent);
 		}
 	}
 </style>

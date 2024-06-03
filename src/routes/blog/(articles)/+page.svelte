@@ -20,8 +20,7 @@
 				<div class="text">
 					<h2>{article.articleName}</h2>
 					<p>
-						This will be the article description, however, I have not yet added short article
-						descriptions.
+						{article.articleDescription}
 					</p>
 				</div>
 			</a>
