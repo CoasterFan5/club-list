@@ -91,7 +91,7 @@
 		}
 
 		if (!skipInitialTesting) {
-			//tests if a user has privacy settings enabled which will disable getting data form canvas, this will cause a strobe if its enabled so we just disable the animation
+			//Tests if a user has privacy settings enabled which will disable getting data form canvas, this will cause a strobe if its enabled so we just disable the animation
 
 			context.fillStyle = 'black';
 			context.rect(0, 0, 1, 1);
@@ -132,7 +132,7 @@
 
 		finalContext.putImageData(image, 0, 0);
 
-		//if we have disabled the animation, we just set the color to white to keep it looking in line
+		//If we have disabled the animation, we just set the color to white to keep it looking in line
 		if (disabledAnimation) {
 			finalContext.fillStyle = '#f1f1f1';
 			finalContext.rect(0, 0, canvasWidth, canvasHeight);
