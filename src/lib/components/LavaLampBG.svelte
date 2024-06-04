@@ -97,7 +97,6 @@
 			context.rect(0, 0, 1, 1);
 			if (context.getImageData(0, 0, 1, 1).data.toString() != '0,0,0,0') {
 				disabledAnimation = true;
-				console.log('setting canvas to white');
 				finalContext.fillStyle = '#ffffff';
 				finalContext.rect(0, 0, canvasWidth, canvasHeight);
 				finalContext.fill();
@@ -140,7 +139,7 @@
 		}
 	};
 
-	onMount(async () => {
+	onMount(() => {
 		animation();
 	});
 </script>
