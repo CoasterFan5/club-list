@@ -12,6 +12,9 @@
 	let canvasWidth: number;
 	let canvasHeight: number;
 
+	let skipInitialTesting = false;
+	let disabledAnimation = false;
+
 	let canvasElement: HTMLCanvasElement;
 	let fakeCanvas: HTMLCanvasElement;
 
@@ -79,10 +82,27 @@
 	const orbs: Orb[] = [];
 
 	let animation = () => {
-		window.requestAnimationFrame(animation);
+		if (!disabledAnimation) {
+			window.requestAnimationFrame(animation);
+		}
 
 		if (!context || !finalContext) {
 			return;
+		}
+
+		if (!skipInitialTesting) {
+			//tests if a user has privacy settings enabled which will disable getting data form canvas, this will cause a strobe if its enabled so we just disable the animation
+
+			context.fillStyle = 'black';
+			context.rect(0, 0, 1, 1);
+			if (context.getImageData(0, 0, 1, 1).data.toString() != '0,0,0,0') {
+				disabledAnimation = true;
+				console.log('setting canvas to white');
+				finalContext.fillStyle = '#ffffff';
+				finalContext.rect(0, 0, canvasWidth, canvasHeight);
+				finalContext.fill();
+			}
+			skipInitialTesting = true;
 		}
 
 		if (orbs.length == 0) {
@@ -99,16 +119,28 @@
 		}
 
 		let image = context.getImageData(0, 0, canvasWidth, canvasHeight);
+
 		let imageData = new Uint8Array(image.data.buffer);
 
 		for (let i = 3; i < imageData.length; i += 4) {
 			imageData[i] /= imageData[i] < alphaThreshold ? 6 : 1;
 		}
 
+		if (image != image) {
+			disabledAnimation = true;
+		}
+
 		finalContext.putImageData(image, 0, 0);
+
+		//if we have disabled the animation, we just set the color to white to keep it looking in line
+		if (disabledAnimation) {
+			finalContext.fillStyle = '#f1f1f1';
+			finalContext.rect(0, 0, canvasWidth, canvasHeight);
+			finalContext.fill();
+		}
 	};
 
-	onMount(() => {
+	onMount(async () => {
 		animation();
 	});
 </script>
