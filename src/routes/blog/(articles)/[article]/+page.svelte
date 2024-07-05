@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let data;
-	import './articles.scss';
+	import '../../articles.scss';
 
 	import dayjs from 'dayjs';
 	import sanitizeHtml from 'sanitize-html';
@@ -21,7 +21,11 @@
 			<span>{Math.floor(data.article.articleText.split(' ').length / 200)} min read</span>
 			<span>{dayjs(data.article.createdAt).format('MM/DD/YY')}</span>
 		</div>
-		{@html sanitizeHtml(data.article.articleText)}
+		{@html sanitizeHtml(data.article.articleText, {
+			allowedClasses: {
+				'*': ['tipTapLink']
+			}
+		})}
 		<hr />
 		<p>
 			Clubsaurus is developing the next generation of club management platforms. Our goal is to

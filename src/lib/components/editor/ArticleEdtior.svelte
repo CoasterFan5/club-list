@@ -42,12 +42,7 @@
 				Typography,
 				Color,
 				TextStyle,
-				Link.configure({
-					openOnClick: false,
-					HTMLAttributes: {
-						class: 'tipTapLink'
-					}
-				}),
+				Link,
 				Placeholder.configure({
 					showOnlyWhenEditable: true,
 					includeChildren: true,

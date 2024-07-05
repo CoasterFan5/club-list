@@ -18,7 +18,7 @@
 					<div class="text">
 						<h2>{article.articleName}</h2>
 						<p>{article.articleDescription}</p>
-						<p/>
+						<p />
 					</div>
 				</a>
 			{/each}

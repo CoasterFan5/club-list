@@ -1,4 +1,6 @@
 <script lang="ts">
+	import '../../articles.scss';
+
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';

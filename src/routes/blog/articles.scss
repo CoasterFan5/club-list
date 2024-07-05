@@ -1,0 +1,29 @@
+.articleEdit,
+.article {
+	p {
+		line-height: 2rem;
+	}
+
+	.tipTapLink {
+		all: unset;
+		position: relative;
+		color: var(--accent);
+		cursor: pointer;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0px;
+			left: 0px;
+			height: 2px;
+			background: var(--accent);
+			width: 100%;
+			transform: scaleX(0);
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
+		}
+
+		&:hover::after {
+			transform: scaleX(1);
+		}
+	}
+}
