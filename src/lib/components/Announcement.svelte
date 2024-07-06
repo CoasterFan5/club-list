@@ -1,7 +1,7 @@
 <script lang="ts">
-	import MdEditor from '$lib/components/editor/MdEditor.svelte';
+	import '$lib/articles.scss';
+
 	import { sanitizeTiptapContent } from '$lib/utils/sanatizeTiptapContent';
-	import "$lib/articles.scss"
 	interface Announcement {
 		title: string;
 		description: string | null;
@@ -29,7 +29,7 @@
 		</p>
 	{/if}
 	<div class="article">
-		{@html sanitizeTiptapContent(announcement.description || "No description")}
+		{@html sanitizeTiptapContent(announcement.description || 'No description')}
 	</div>
 </div>
 

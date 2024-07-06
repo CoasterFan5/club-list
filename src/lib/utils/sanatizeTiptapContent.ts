@@ -20,5 +20,5 @@ export const sanitizeTiptapContent = (content: string) => {
 			'p',
 			'div'
 		]
-	})
-}
+	});
+};
