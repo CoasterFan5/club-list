@@ -30,8 +30,8 @@ export const load = async ({ cookies, params }) => {
 		}
 	});
 
-	if(!article) {
-		throw redirect(303, "/blog/edit")
+	if (!article) {
+		throw redirect(303, '/blog/edit');
 	}
 
 	return {
@@ -111,8 +111,6 @@ export const actions = {
 				};
 			}
 
-			console.log(content)
-
 			await prisma.blogArticle.update({
 				where: {
 					id: article.id
@@ -129,7 +127,6 @@ export const actions = {
 		}
 	),
 	uploadImage: async ({ cookies, request, params }) => {
-
 		const user = await verifySession(cookies.get('session'));
 
 		const formData = Object.fromEntries(await request.formData());
@@ -154,20 +151,20 @@ export const actions = {
 			}
 		});
 
-		if(!article) {
+		if (!article) {
 			return fail(400, {
 				success: false,
-				message: "No article"
-			})
+				message: 'No article'
+			});
 		}
 
 		const file: File = formData.image as File;
 
-		if(!file) {
+		if (!file) {
 			return fail(400, {
 				success: false,
-				message: "Error parsing file."
-			})
+				message: 'Error parsing file.'
+			});
 		}
 		const fileBuffer = await file.arrayBuffer();
 
@@ -190,13 +187,13 @@ export const actions = {
 		await prisma.blogImage.create({
 			data: {
 				blogId: article.id,
-				key: `${mediaurl}/${key}`,
+				key: `${mediaurl}/${key}`
 			}
-		})
+		});
 
 		return {
 			success: true,
-			message: "Image uploaded"
-		}
+			message: 'Image uploaded'
+		};
 	}
 };

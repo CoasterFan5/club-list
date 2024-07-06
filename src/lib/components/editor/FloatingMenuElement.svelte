@@ -1,107 +1,118 @@
 <script lang="ts">
 	import { Editor } from '@tiptap/core';
-
-	import PlusIcon from "~icons/ph/plus-thin"
-	import BulletsIcon from "~icons/ph/list-bullets-thin"
-	import LineBreak from "~icons/ph/split-vertical-thin"
-	import ImageIcon from '~icons/ph/image-thin';
-	import CodeIcon from "~icons/ph/brackets-curly-thin"
 	import { fade } from 'svelte/transition';
-	import Modal from "$lib/components/Modal.svelte"
-	import Input from "$lib/components/Input.svelte"
-	import Button from "$lib/components/Button.svelte"
+
+	import CodeIcon from '~icons/ph/brackets-curly-thin';
+	import ImageIcon from '~icons/ph/image-thin';
+	import BulletsIcon from '~icons/ph/list-bullets-thin';
+	import PlusIcon from '~icons/ph/plus-thin';
+	import LineBreak from '~icons/ph/split-vertical-thin';
+	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	export let editor: Editor | null;
 	export let element: HTMLDivElement;
 
 	let settingImage = false;
 	let showSubMenu = false;
-	export let enableImages = false;	
+	export let enableImages = false;
 
 	const clickHelper = () => (showSubMenu = !showSubMenu);
 	const closeMenu = () => (showSubMenu = false);
 
-	
-
 	const buttons = [
 		{
 			icon: BulletsIcon,
-			function: () => {editor && editor.chain().focus().toggleBulletList().run();closeMenu();}
+			function: () => {
+				editor && editor.chain().focus().toggleBulletList().run();
+				closeMenu();
+			}
 		},
 		{
 			icon: LineBreak,
-			function: () => {editor && editor.chain().focus().setHardBreak().run(); closeMenu()}
+			function: () => {
+				editor && editor.chain().focus().setHardBreak().run();
+				closeMenu();
+			}
 		},
 		{
 			icon: CodeIcon,
-			function: () => {editor && editor.chain().focus().setCodeBlock().run(); closeMenu()}
+			function: () => {
+				editor && editor.chain().focus().setCodeBlock().run();
+				closeMenu();
+			}
 		},
 		{
 			icon: ImageIcon,
-			function: () => {settingImage = true;}
-		},
-	]
-	
-	let imageURL = ""
-	let imageALT = ""
+			function: () => {
+				settingImage = true;
+			}
+		}
+	];
+
+	let imageURL = '';
+	let imageALT = '';
 	const editorSetImage = () => {
-		editor && editor.chain().focus().setImage({
-			src: imageURL,
-			alt: imageALT
-		}).run();
+		editor &&
+			editor
+				.chain()
+				.focus()
+				.setImage({
+					src: imageURL,
+					alt: imageALT
+				})
+				.run();
 		settingImage = false;
 		closeMenu();
 	};
-
 </script>
 
 {#if settingImage}
-		<Modal
-			on:close={() => {
-				settingImage = false;
-			}}
-		>
-			<form class="imageForm" on:submit={editorSetImage}>
-				<h2>Link Destination</h2>
-				<Input bg="var(--bgPure)" label="Image URL" bind:value={imageURL} />
-				<br />
-				<Input bg="var(--bgPure)" label="Image ALT" bind:value={imageALT} />
-				<br />
-				<Button type="submit" value="Apply" />
-			</form>
-		</Modal>
-	{/if}
+	<Modal
+		on:close={() => {
+			settingImage = false;
+		}}
+	>
+		<form class="imageForm" on:submit={editorSetImage}>
+			<h2>Link Destination</h2>
+			<Input bg="var(--bgPure)" label="Image URL" bind:value={imageURL} />
+			<br />
+			<Input bg="var(--bgPure)" label="Image ALT" bind:value={imageALT} />
+			<br />
+			<Button type="submit" value="Apply" />
+		</form>
+	</Modal>
+{/if}
 
-<div transition:fade={
-	{duration: 500}
-} bind:this={element} class="wrap" on:blur={closeMenu}>
+<div bind:this={element} class="wrap" on:blur={closeMenu} transition:fade={{ duration: 500 }}>
 	<button class="plusButton" class:active={showSubMenu} on:click={clickHelper}>
-		<PlusIcon/>
+		<PlusIcon />
 	</button>
 
-	
 	<div class="secondMenu">
 		{#each buttons as button, i}
 			{#if showSubMenu}
-				<div transition:fade ={{
-					duration: 50,
-					delay: 30 * i
-				}} class="buttonWrap" style="transform: rotate({-90 + (180 / (buttons.length - 1)) * i}deg) translate(3rem) rotate({90 - (180 / (buttons.length - 1)) * i}deg)">
+				<div
+					style="transform: rotate({-90 +
+						(180 / (buttons.length - 1)) * i}deg) translate(3rem) rotate({90 -
+						(180 / (buttons.length - 1)) * i}deg)"
+					class="buttonWrap"
+					transition:fade={{
+						duration: 50,
+						delay: 30 * i
+					}}
+				>
 					<button on:click={button.function}>
-						<svelte:component this={button.icon}/>
+						<svelte:component this={button.icon} />
 					</button>
 				</div>
 			{/if}
 		{/each}
-		
-	
-		
-			
 	</div>
 </div>
 
 <style lang="scss">
-
 	.plusButton {
 		all: unset;
 		cursor: pointer;
@@ -126,12 +137,10 @@
 		justify-content: center;
 	}
 	.secondMenu {
-
 		.buttonWrap {
 			position: absolute;
 			bottom: 0px;
 			left: 0px;
-			
 		}
 		button {
 			all: unset;

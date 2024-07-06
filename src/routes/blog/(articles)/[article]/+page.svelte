@@ -1,17 +1,17 @@
 <script lang="ts">
 	export let data;
 	import '../../articles.scss';
-
-	import dayjs from 'dayjs';
-	import sanitizeHtml from 'sanitize-html';
-	import hljs from "highlight.js"
 	import 'highlight.js/styles/github.css';
 
-	import Link from '$lib/components/Link.svelte';
+	import dayjs from 'dayjs';
+	import hljs from 'highlight.js';
+	import sanitizeHtml from 'sanitize-html';
 	import { onMount } from 'svelte';
+
+	import Link from '$lib/components/Link.svelte';
 	onMount(() => {
-		hljs.highlightAll()
-	})
+		hljs.highlightAll();
+	});
 	const keywords = data.article.tagAssignments.map((item) => `${item.tag.tagName}, `).join();
 </script>
 
@@ -30,7 +30,7 @@
 			allowedClasses: {
 				'*': ['*']
 			},
-			allowedTags: ["img", "h1", "h2", "code", "span", "pre"]
+			allowedTags: ['img', 'h1', 'h2', 'code', 'span', 'pre']
 		})}
 		<hr />
 		<p>

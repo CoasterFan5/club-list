@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Editor } from '@tiptap/core';
 	import BubbleMenu from '@tiptap/extension-bubble-menu';
+	import CodeBlockLowLight from '@tiptap/extension-code-block-lowlight';
 	import { Color } from '@tiptap/extension-color';
 	import FloatingMenu from '@tiptap/extension-floating-menu';
 	import Link from '@tiptap/extension-link';
@@ -8,10 +9,9 @@
 	import TextStyle from '@tiptap/extension-text-style';
 	import Typography from '@tiptap/extension-typography';
 	import StarterKit from '@tiptap/starter-kit';
-	import CodeBlockLowLight from "@tiptap/extension-code-block-lowlight"
-	import { common, createLowlight } from 'lowlight'
-	const lowlight = createLowlight(common)
-	import Image from "@tiptap/extension-image"
+	import { common, createLowlight } from 'lowlight';
+	const lowlight = createLowlight(common);
+	import Image from '@tiptap/extension-image';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	import SaveIcon from '~icons/bx/save';
@@ -51,7 +51,7 @@
 				}),
 				Image.configure({
 					HTMLAttributes: {
-						class: "tipTapImage"
+						class: 'tipTapImage'
 					}
 				}),
 				TextStyle,

@@ -2,8 +2,6 @@
 	import { Editor } from '@tiptap/core';
 	export let editor: Editor | null;
 
-	import type { FormEventHandler } from 'svelte/elements';
-
 	import BoldIcon from '~icons/bx/bold';
 	import CodeIcon from '~icons/bx/code-curly';
 	import ItalicIcon from '~icons/bx/italic';
@@ -12,8 +10,6 @@
 	import UnlinkIcon from '~icons/bx/unlink';
 	import Heading1 from '~icons/lucide/heading-1';
 	import Heading2 from '~icons/lucide/heading-2';
-	
-	import { clickOutside } from '$lib/actions/clickOutside';
 
 	import Button from '../Button.svelte';
 	import Input from '../Input.svelte';
@@ -92,7 +88,6 @@
 	>
 		<Heading2 />
 	</button>
-	
 </div>
 
 <style lang="scss">

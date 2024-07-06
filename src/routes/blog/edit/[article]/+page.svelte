@@ -1,35 +1,35 @@
 <script lang="ts">
 	import '../../articles.scss';
 
+	import { Image } from '@unpic/svelte';
+
 	import ImageAddIcon from '~icons/bx/image-add';
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import { handleForm } from '$lib/utils/formToaster';
-	import { Image } from "@unpic/svelte"
 
 	export let data;
 	export let form;
 
 	$: handleForm(form);
-	$: console.log(form)
+	$: console.log(form);
 
 	let saveButton: HTMLButtonElement;
 
 	const keybindHelper = (e: KeyboardEvent) => {
 		if (e.key == 's' && e.ctrlKey) {
 			e.preventDefault();
-			console.log(articleContent)
+			console.log(articleContent);
 			saveButton.click();
 		}
 	};
 	let fileUploadFormButton: HTMLButtonElement;
 	let articleContent = data.article?.articleText;
 
-
 	const submitFileUploadForm = () => {
-		console.log("Clicking button...")
+		console.log('Clicking button...');
 		fileUploadFormButton.click();
 	};
 </script>
@@ -42,13 +42,17 @@
 		<div class="inner">
 			<MdEditor editable={true} saveable={false} bind:content={articleContent} />
 		</div>
-		<form action="?/save" method="post" use:enhance={() => {
-			return async ({update}) => {
-				update({
-					reset: false
-				})
-			}
-		}}>
+		<form
+			action="?/save"
+			method="post"
+			use:enhance={() => {
+				return ({ update }) => {
+					update({
+						reset: false
+					});
+				};
+			}}
+		>
 			<textarea name="content" hidden bind:value={articleContent} />
 			<button bind:this={saveButton} hidden type="submit" />
 			<Button value="save" />
@@ -70,27 +74,33 @@
 		<div class="articleInfo">
 			<h2>Image Bank</h2>
 			<p>Add New</p>
-			<form class="imageUpload" method="post" action="?/uploadImage" enctype="multipart/form-data" use:enhance>
+			<form
+				class="imageUpload"
+				action="?/uploadImage"
+				enctype="multipart/form-data"
+				method="post"
+				use:enhance
+			>
 				<label>
 					<span class="icon">
 						<ImageAddIcon />
 					</span>
-					<input name="image" accept="image/*" hidden type="file" on:input|preventDefault={submitFileUploadForm} />
+					<input
+						name="image"
+						accept="image/*"
+						hidden
+						type="file"
+						on:input|preventDefault={submitFileUploadForm}
+					/>
 				</label>
-				<button bind:this={fileUploadFormButton} type="submit" hidden />
+				<button bind:this={fileUploadFormButton} hidden type="submit" />
 			</form>
 
 			<p>Existing</p>
 			{#each data.article.images as image}
-			<div class="displayedImage">
-				<Image 
-				src={image.key}
-				layout="constrained"
-				width={500}
-				height={250}
-				alt="image"
-				/>
-			</div>
+				<div class="displayedImage">
+					<Image alt="image" height={250} layout="constrained" src={image.key} width={500} />
+				</div>
 			{/each}
 		</div>
 	</div>
