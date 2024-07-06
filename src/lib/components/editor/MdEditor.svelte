@@ -8,6 +8,9 @@
 	import TextStyle from '@tiptap/extension-text-style';
 	import Typography from '@tiptap/extension-typography';
 	import StarterKit from '@tiptap/starter-kit';
+	import CodeBlockLowLight from "@tiptap/extension-code-block-lowlight"
+	import { common, createLowlight } from 'lowlight'
+	const lowlight = createLowlight(common)
 	import Image from "@tiptap/extension-image"
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
@@ -43,6 +46,9 @@
 				StarterKit,
 				Typography,
 				Color,
+				CodeBlockLowLight.configure({
+					lowlight: lowlight
+				}),
 				Image.configure({
 					HTMLAttributes: {
 						class: "tipTapImage"

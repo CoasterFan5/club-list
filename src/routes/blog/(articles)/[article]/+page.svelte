@@ -4,9 +4,14 @@
 
 	import dayjs from 'dayjs';
 	import sanitizeHtml from 'sanitize-html';
+	import hljs from "highlight.js"
+	import 'highlight.js/styles/github.css';
 
 	import Link from '$lib/components/Link.svelte';
-
+	import { onMount } from 'svelte';
+	onMount(() => {
+		hljs.highlightAll()
+	})
 	const keywords = data.article.tagAssignments.map((item) => `${item.tag.tagName}, `).join();
 </script>
 
@@ -23,7 +28,7 @@
 		</div>
 		{@html sanitizeHtml(data.article.articleText, {
 			allowedClasses: {
-				'*': ['tipTapLink']
+				'*': ['*']
 			}
 		})}
 		<hr />
