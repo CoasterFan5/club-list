@@ -42,7 +42,13 @@
 		<div class="inner">
 			<MdEditor editable={true} saveable={false} bind:content={articleContent} />
 		</div>
-		<form action="?/save" method="post" use:enhance>
+		<form action="?/save" method="post" use:enhance={() => {
+			return async ({update}) => {
+				update({
+					reset: false
+				})
+			}
+		}}>
 			<textarea name="content" hidden bind:value={articleContent} />
 			<button bind:this={saveButton} hidden type="submit" />
 			<Button value="save" />
