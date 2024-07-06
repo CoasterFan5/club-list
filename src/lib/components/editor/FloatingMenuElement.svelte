@@ -16,7 +16,6 @@
 
 	let settingImage = false;
 	let showSubMenu = false;
-	export let enableImages = false;
 
 	const clickHelper = () => (showSubMenu = !showSubMenu);
 	const closeMenu = () => (showSubMenu = false);
@@ -69,24 +68,31 @@
 </script>
 
 {#if settingImage}
+
 	<Modal
 		on:close={() => {
 			settingImage = false;
 		}}
 	>
-		<form class="imageForm" on:submit={editorSetImage}>
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<div on:keydown={(e) => {
+			if(e.key == "Enter") {
+				e.preventDefault()
+				editorSetImage()
+			}
+		}} class="imageForm">
 			<h2>Link Destination</h2>
 			<Input bg="var(--bgPure)" label="Image URL" bind:value={imageURL} />
 			<br />
 			<Input bg="var(--bgPure)" label="Image ALT" bind:value={imageALT} />
 			<br />
-			<Button type="submit" value="Apply" />
-		</form>
+			<Button type="button" value="Apply" on:click={editorSetImage} />
+		</div>
 	</Modal>
 {/if}
 
 <div bind:this={element} class="wrap" on:blur={closeMenu} transition:fade={{ duration: 500 }}>
-	<button class="plusButton" class:active={showSubMenu} on:click={clickHelper}>
+	<button type="button" class="plusButton" class:active={showSubMenu} on:click={clickHelper}>
 		<PlusIcon />
 	</button>
 
@@ -103,7 +109,7 @@
 						delay: 30 * i
 					}}
 				>
-					<button on:click={button.function}>
+					<button type="button" on:click={button.function}>
 						<svelte:component this={button.icon} />
 					</button>
 				</div>

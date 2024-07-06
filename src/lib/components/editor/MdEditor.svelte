@@ -128,7 +128,7 @@
 	</div>
 </div>
 
-<FloatingMenuElement {enableImages} bind:editor bind:element={floatingMenu} />
+<FloatingMenuElement bind:editor bind:element={floatingMenu} />
 <BubbleMenuElement bind:editor bind:element={bubbleMenu} />
 
 <style lang="scss">

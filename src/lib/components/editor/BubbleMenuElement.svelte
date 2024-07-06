@@ -20,8 +20,7 @@
 	let linkHref: string = '';
 	let settingLink = false;
 
-	const editorSetLink = (e: Event) => {
-		e.preventDefault();
+	const editorSetLink = () => {
 		editor && editor.chain().focus().toggleLink({ href: linkHref, class: 'tipTapLink' }).run();
 		settingLink = false;
 	};
@@ -33,56 +32,68 @@
 			settingLink = false;
 		}}
 	>
-		<form class="linkForm" on:submit={editorSetLink}>
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<div class="linkForm" on:keydown={(e) => {
+			if(e.key == "Enter") {
+				e.preventDefault()
+				editorSetLink()
+			}
+		}}>
 			<h2>Link Destination</h2>
 			<Input bg="var(--bgPure)" label="https://clubsaur.us" bind:value={linkHref} />
 			<br />
-			<Button type="submit" value="Apply" />
-		</form>
+			<Button type="button" value="Apply" on:click={editorSetLink} />
+		</div>
 	</Modal>
 {/if}
 
 <div bind:this={element} class="menu">
 	<button
+		type="button"
 		class:active={editor?.isActive('bold')}
 		on:click={() => editor && editor.chain().focus().toggleBold().run()}
 	>
 		<BoldIcon />
 	</button>
 	<button
+		type="button"
 		class:active={editor?.isActive('italic')}
 		on:click={() => editor && editor.chain().focus().toggleItalic().run()}
 	>
 		<ItalicIcon />
 	</button>
 	<button
+		type="button"
 		class:active={editor?.isActive('strike')}
 		on:click={() => editor && editor.chain().focus().toggleStrike().run()}
 	>
 		<StrikeIcon />
 	</button>
 	<button
+		type="button"
 		class:active={editor?.isActive('code')}
 		on:click={() => editor && editor.chain().focus().toggleCode().run()}
 	>
 		<CodeIcon />
 	</button>
-	<button on:click={() => (settingLink = true)}>
+	<button type="button" on:click={() => (settingLink = true)}>
 		<LinkIcon />
 	</button>
-	<button on:click={() => editor && editor.chain().focus().unsetLink().run()}>
+	<button type="button" on:click={() => editor && editor.chain().focus().unsetLink().run()}>
 		<UnlinkIcon />
 	</button>
 	<span>
 		<hr />
 	</span>
 	<button
+		type="button"
 		class:active={editor?.isActive('heading', { level: 1 })}
 		on:click={() => editor && editor.chain().focus().toggleHeading({ level: 1 }).run()}
 	>
 		<Heading1 />
 	</button>
 	<button
+		type="button"
 		class:active={editor?.isActive('heading', { level: 2 })}
 		on:click={() => editor && editor.chain().focus().toggleHeading({ level: 2 }).run()}
 	>

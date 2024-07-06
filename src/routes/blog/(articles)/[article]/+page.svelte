@@ -23,14 +23,15 @@
 	<div class="article">
 		<h1>{data.article.articleName}</h1>
 		<div class="infoBox">
-			<span>{Math.floor(data.article.articleText.split(' ').length / 200)} min read</span>
 			<span>{dayjs(data.article.createdAt).format('MM/DD/YY')}</span>
+			<span>{Math.floor(data.article.articleText.split(' ').length / 200)} min read</span>
+			
 		</div>
 		{@html sanitizeHtml(data.article.articleText, {
 			allowedClasses: {
 				'*': ['*']
 			},
-			allowedTags: ['img', 'h1', 'h2', 'code', 'span', 'pre']
+			allowedTags: ['img', 'h1', 'h2', 'code', 'span', 'pre', 'br', 'a', 'strong', 'em', 's', 'p', 'div']
 		})}
 		<hr />
 		<p>

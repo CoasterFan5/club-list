@@ -14,6 +14,7 @@
 <button
 	on:mousedown|self={modalClickHelper}
 	transition:fade={{ easing: cubicInOut, duration: 150 }}
+	type="button"
 >
 	<div
 		class:overflowProtection={!disableOverflowProtection}
