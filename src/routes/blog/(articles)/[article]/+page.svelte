@@ -1,14 +1,14 @@
 <script lang="ts">
 	export let data;
-	import '../../articles.scss';
+	import '$lib/articles.scss';
 	import 'highlight.js/styles/github.css';
 
 	import dayjs from 'dayjs';
 	import hljs from 'highlight.js';
-	import sanitizeHtml from 'sanitize-html';
 	import { onMount } from 'svelte';
 
 	import Link from '$lib/components/Link.svelte';
+	import { sanitizeTiptapContent } from '$lib/utils/sanatizeTiptapContent';
 	onMount(() => {
 		hljs.highlightAll();
 	});
@@ -26,26 +26,7 @@
 			<span>{dayjs(data.article.createdAt).format('MM/DD/YY')}</span>
 			<span>{Math.floor(data.article.articleText.split(' ').length / 200)} min read</span>
 		</div>
-		{@html sanitizeHtml(data.article.articleText, {
-			allowedClasses: {
-				'*': ['*']
-			},
-			allowedTags: [
-				'img',
-				'h1',
-				'h2',
-				'code',
-				'span',
-				'pre',
-				'br',
-				'a',
-				'strong',
-				'em',
-				's',
-				'p',
-				'div'
-			]
-		})}
+		{@html sanitizeTiptapContent(data.article.articleText)}
 		<hr />
 		<p>
 			Clubsaurus is developing the next generation of club management platforms. Our goal is to

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../articles.scss';
+	import '$lib/articles.scss';
 
 	import { Image } from '@unpic/svelte';
 
