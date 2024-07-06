@@ -7,15 +7,21 @@
 	import ImageIcon from '~icons/ph/image-thin';
 	import CodeIcon from "~icons/ph/brackets-curly-thin"
 	import { fade } from 'svelte/transition';
+	import Modal from "$lib/components/Modal.svelte"
+	import Input from "$lib/components/Input.svelte"
+	import Button from "$lib/components/Button.svelte"
 
 	export let editor: Editor | null;
 	export let element: HTMLDivElement;
 
+	let settingImage = false;
 	let showSubMenu = false;
-	export let enableImages = false;
+	export let enableImages = false;	
 
 	const clickHelper = () => (showSubMenu = !showSubMenu);
 	const closeMenu = () => (showSubMenu = false);
+
+	
 
 	const buttons = [
 		{
@@ -31,26 +37,40 @@
 			function: () => {editor && editor.chain().focus().setCodeBlock().run(); closeMenu()}
 		},
 		{
-			icon: ImageIcon
+			icon: ImageIcon,
+			function: () => {settingImage = true;}
 		},
-		{
-			icon: ImageIcon
-		}
 	]
+	
+	let imageURL = ""
+	let imageALT = ""
+	const editorSetImage = () => {
+		editor && editor.chain().focus().setImage({
+			src: imageURL,
+			alt: imageALT
+		}).run();
+		settingImage = false;
+		closeMenu();
+	};
 
-	const enableTitle = () => {
-		editor && editor.chain().focus().toggleHeading({ level: 1 }).run();
-		closeMenu();
-	};
-	const enableSubTitle = () => {
-		editor && editor.chain().focus().toggleHeading({ level: 2 }).run();
-		closeMenu();
-	};
-	const enableList = () => {
-		editor && editor.chain().focus().toggleBulletList().run();
-		closeMenu();
-	};
 </script>
+
+{#if settingImage}
+		<Modal
+			on:close={() => {
+				settingImage = false;
+			}}
+		>
+			<form class="imageForm" on:submit={editorSetImage}>
+				<h2>Link Destination</h2>
+				<Input bg="var(--bgPure)" label="Image URL" bind:value={imageURL} />
+				<br />
+				<Input bg="var(--bgPure)" label="Image ALT" bind:value={imageALT} />
+				<br />
+				<Button type="submit" value="Apply" />
+			</form>
+		</Modal>
+	{/if}
 
 <div transition:fade={
 	{duration: 500}
@@ -65,8 +85,8 @@
 			{#if showSubMenu}
 				<div transition:fade ={{
 					duration: 50,
-					delay: 25 * i
-				}} class="buttonWrap" style="transform: rotate({-90 + 45 * i}deg) translate(3rem) rotate({90 - 45 * i}deg)">
+					delay: 30 * i
+				}} class="buttonWrap" style="transform: rotate({-90 + (180 / (buttons.length - 1)) * i}deg) translate(3rem) rotate({90 - (180 / (buttons.length - 1)) * i}deg)">
 					<button on:click={button.function}>
 						<svelte:component this={button.icon}/>
 					</button>
@@ -132,5 +152,12 @@
 				transform: rotate(15deg);
 			}
 		}
+	}
+
+	.imageForm {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
 </style>

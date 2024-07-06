@@ -20,11 +20,13 @@
 	const keybindHelper = (e: KeyboardEvent) => {
 		if (e.key == 's' && e.ctrlKey) {
 			e.preventDefault();
+			console.log(articleContent)
 			saveButton.click();
 		}
 	};
 	let fileUploadFormButton: HTMLButtonElement;
 	let articleContent = data.article?.articleText;
+
 
 	const submitFileUploadForm = () => {
 		console.log("Clicking button...")

@@ -29,7 +29,8 @@
 		{@html sanitizeHtml(data.article.articleText, {
 			allowedClasses: {
 				'*': ['*']
-			}
+			},
+			allowedTags: ["img", "h1", "h2", "code", "span", "pre"]
 		})}
 		<hr />
 		<p>

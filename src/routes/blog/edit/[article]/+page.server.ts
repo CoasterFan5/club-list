@@ -111,6 +111,8 @@ export const actions = {
 				};
 			}
 
+			console.log(content)
+
 			await prisma.blogArticle.update({
 				where: {
 					id: article.id
