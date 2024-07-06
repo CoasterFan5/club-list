@@ -15,6 +15,7 @@
 	import Button from '../Button.svelte';
 	import Input from '../Input.svelte';
 	import Modal from '../Modal.svelte';
+	import type { FormEventHandler } from 'svelte/elements';
 
 	export let element: HTMLDivElement;
 
@@ -29,6 +30,12 @@
 		linkConfigPos.y = e.clientY;
 		settingLink = true;
 	};
+
+	const editorSetLink = (e: Event) => {
+		e.preventDefault()
+		editor && editor.chain().focus().toggleLink({ href: linkHref, class: 'tipTapLink' }).run();
+		settingLink = false;
+	}
 </script>
 
 {#if settingLink}
@@ -37,16 +44,17 @@
 			settingLink = false;
 		}}
 	>
+		<form class="linkForm" on:submit={editorSetLink}>
+
+		
 		<h2>Link Destination</h2>
 		<Input bg="var(--bgPure)" label="https://clubsaur.us" bind:value={linkHref} />
-		<br />
+		<br/>
 		<Button
 			value="Apply"
-			on:click={() => {
-				editor && editor.chain().focus().toggleLink({ href: linkHref, class: 'tipTapLink' }).run();
-				settingLink = false;
-			}}
+			type="submit"
 		/>
+		</form>
 	</Modal>
 {/if}
 
@@ -148,5 +156,12 @@
 	}
 	.linkBox {
 		position: fixed;
+	}
+
+	.linkForm {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
 </style>
