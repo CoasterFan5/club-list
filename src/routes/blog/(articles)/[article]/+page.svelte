@@ -8,7 +8,7 @@
 	import { onMount } from 'svelte';
 
 	import Link from '$lib/components/Link.svelte';
-	import { sanitizeTiptapContent } from '$lib/utils/sanatizeTiptapContent';
+	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent.js';
 	onMount(() => {
 		hljs.highlightAll();
 	});

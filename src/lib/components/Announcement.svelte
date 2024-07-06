@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '$lib/articles.scss';
 
-	import { sanitizeTiptapContent } from '$lib/utils/sanatizeTiptapContent';
+	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent';
 	interface Announcement {
 		title: string;
 		description: string | null;

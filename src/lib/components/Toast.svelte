@@ -4,7 +4,7 @@
 	import { fly } from 'svelte/transition';
 
 	import CloseIcon from '~icons/bx/x';
-	import { sanitizeTiptapContent } from '$lib/utils/sanatizeTiptapContent';
+	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent';
 
 	import { removeToast, type Toast } from './toaster';
 
