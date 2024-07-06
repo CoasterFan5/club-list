@@ -12,6 +12,7 @@
 	import UnlinkIcon from '~icons/bx/unlink';
 	import Heading1 from '~icons/lucide/heading-1';
 	import Heading2 from '~icons/lucide/heading-2';
+	import ImageIcon from '~icons/bx/image';
 	import { clickOutside } from '$lib/actions/clickOutside';
 
 	import Button from '../Button.svelte';
@@ -91,6 +92,7 @@
 	>
 		<Heading2 />
 	</button>
+	
 </div>
 
 <style lang="scss">

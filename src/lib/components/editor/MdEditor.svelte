@@ -8,6 +8,7 @@
 	import TextStyle from '@tiptap/extension-text-style';
 	import Typography from '@tiptap/extension-typography';
 	import StarterKit from '@tiptap/starter-kit';
+	import Image from "@tiptap/extension-image"
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	import SaveIcon from '~icons/bx/save';
@@ -18,6 +19,7 @@
 	export let content: string | null = '<h1>wow! what a club</h1>';
 	export let editable: boolean;
 	export let saveable = true;
+	export let enableImages = false;
 
 	let element: HTMLDivElement;
 	let floatingMenu: HTMLDivElement;
@@ -41,6 +43,11 @@
 				StarterKit,
 				Typography,
 				Color,
+				Image.configure({
+					HTMLAttributes: {
+						class: "tipTapImage"
+					}
+				}),
 				TextStyle,
 				Link.configure({
 					openOnClick: false,
@@ -115,7 +122,7 @@
 	</div>
 </div>
 
-<FloatingMenuElement bind:editor bind:element={floatingMenu} />
+<FloatingMenuElement {enableImages} bind:editor bind:element={floatingMenu} />
 <BubbleMenuElement bind:editor bind:element={bubbleMenu} />
 
 <style lang="scss">

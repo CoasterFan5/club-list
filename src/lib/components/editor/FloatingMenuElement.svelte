@@ -5,6 +5,7 @@
 	export let element: HTMLDivElement;
 
 	let showSubMenu = false;
+	export let enableImages = false;
 
 	const clickHelper = () => (showSubMenu = true);
 	const closeMenu = () => (showSubMenu = false);
@@ -43,6 +44,7 @@
 				h2
 			</button>
 			<button class:active={editor?.isActive('bulletList')} on:click={enableList}> ul </button>
+			<button class:active={editor?.isActive('image')} on:click={enableList}> ul </button>
 		</div>
 	{/if}
 </div>

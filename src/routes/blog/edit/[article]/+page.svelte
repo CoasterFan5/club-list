@@ -196,6 +196,7 @@
 		border-radius: 0.5rem;
 		aspect-ratio: 2/1;
 		display: flex;
+		margin-bottom: 1rem;
 		align-items: center;
 		justify-content: center;
 	}
