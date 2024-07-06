@@ -218,6 +218,7 @@ model BlogArticle {
 	articleDescription String @default("")
 	articleText String @db.Text
 	tagAssignments AssignedBlogTag []
+	images BlogImage[]
 }
 
 model AssignedBlogTag {
@@ -236,4 +237,11 @@ model BlogTagTemplate {
 	id Int @id @default(autoincrement())
 	tagName String
 	assignments AssignedBlogTag[]
+}
+
+model BlogImage {
+	id Int @id @default(autoincrement())
+	blogId Int
+	key String
+	blogArticle BlogArticle @relation(fields: [blogId], references: [id])
 }

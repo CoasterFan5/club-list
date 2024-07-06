@@ -2,6 +2,8 @@
 	import { Editor } from '@tiptap/core';
 	export let editor: Editor | null;
 
+	import type { FormEventHandler } from 'svelte/elements';
+
 	import BoldIcon from '~icons/bx/bold';
 	import CodeIcon from '~icons/bx/code-curly';
 	import ItalicIcon from '~icons/bx/italic';
@@ -15,27 +17,17 @@
 	import Button from '../Button.svelte';
 	import Input from '../Input.svelte';
 	import Modal from '../Modal.svelte';
-	import type { FormEventHandler } from 'svelte/elements';
 
 	export let element: HTMLDivElement;
 
 	let linkHref: string = '';
 	let settingLink = false;
-	let linkConfigPos = {
-		x: 0,
-		y: 0
-	};
-	const propagateClick = (e: MouseEvent) => {
-		linkConfigPos.x = e.clientX;
-		linkConfigPos.y = e.clientY;
-		settingLink = true;
-	};
 
 	const editorSetLink = (e: Event) => {
-		e.preventDefault()
+		e.preventDefault();
 		editor && editor.chain().focus().toggleLink({ href: linkHref, class: 'tipTapLink' }).run();
 		settingLink = false;
-	}
+	};
 </script>
 
 {#if settingLink}
@@ -45,15 +37,10 @@
 		}}
 	>
 		<form class="linkForm" on:submit={editorSetLink}>
-
-		
-		<h2>Link Destination</h2>
-		<Input bg="var(--bgPure)" label="https://clubsaur.us" bind:value={linkHref} />
-		<br/>
-		<Button
-			value="Apply"
-			type="submit"
-		/>
+			<h2>Link Destination</h2>
+			<Input bg="var(--bgPure)" label="https://clubsaur.us" bind:value={linkHref} />
+			<br />
+			<Button type="submit" value="Apply" />
 		</form>
 	</Modal>
 {/if}
@@ -83,7 +70,7 @@
 	>
 		<CodeIcon />
 	</button>
-	<button on:click={propagateClick}>
+	<button on:click={() => (settingLink = true)}>
 		<LinkIcon />
 	</button>
 	<button on:click={() => editor && editor.chain().focus().unsetLink().run()}>

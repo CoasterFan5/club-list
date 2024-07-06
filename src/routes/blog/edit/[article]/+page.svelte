@@ -1,16 +1,19 @@
 <script lang="ts">
 	import '../../articles.scss';
 
+	import ImageAddIcon from '~icons/bx/image-add';
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import { handleForm } from '$lib/utils/formToaster';
+	import { Image } from "@unpic/svelte"
 
 	export let data;
 	export let form;
 
 	$: handleForm(form);
+	$: console.log(form)
 
 	let saveButton: HTMLButtonElement;
 
@@ -20,8 +23,13 @@
 			saveButton.click();
 		}
 	};
-
+	let fileUploadFormButton: HTMLButtonElement;
 	let articleContent = data.article?.articleText;
+
+	const submitFileUploadForm = () => {
+		console.log("Clicking button...")
+		fileUploadFormButton.click();
+	};
 </script>
 
 <svelte:window on:keydown={keybindHelper} />
@@ -38,18 +46,46 @@
 			<Button value="save" />
 		</form>
 	</div>
-	<form class="articleInfo" action="?/saveDetails" method="post" use:enhance>
-		<h2>Article Info</h2>
-		<Input name="name" bg="var(--bgMid)" label="Article Name" value={data.article?.articleName} />
-		<hr />
-		<textarea
-			name="description"
-			placeholder="Short article description."
-			value={data.article?.articleDescription}
-		/>
-		<hr />
-		<Button value="save" />
-	</form>
+	<div class="sideBar">
+		<form class="articleInfo" action="?/saveDetails" method="post" use:enhance>
+			<h2>Article Info</h2>
+			<Input name="name" bg="var(--bgMid)" label="Article Name" value={data.article.articleName} />
+			<hr />
+			<textarea
+				name="description"
+				placeholder="Short article description."
+				value={data.article.articleDescription}
+			/>
+			<hr />
+			<Button value="save" />
+		</form>
+		<div class="articleInfo">
+			<h2>Image Bank</h2>
+			<p>Add New</p>
+			<form class="imageUpload" method="post" action="?/uploadImage" enctype="multipart/form-data" use:enhance>
+				<label>
+					<span class="icon">
+						<ImageAddIcon />
+					</span>
+					<input name="image" accept="image/*" hidden type="file" on:input|preventDefault={submitFileUploadForm} />
+				</label>
+				<button bind:this={fileUploadFormButton} type="submit" hidden />
+			</form>
+
+			<p>Existing</p>
+			{#each data.article.images as image}
+			<div class="displayedImage">
+				<Image 
+				src={image.key}
+				layout="constrained"
+				width={500}
+				height={250}
+				alt="image"
+				/>
+			</div>
+			{/each}
+		</div>
+	</div>
 </div>
 
 <style lang="scss">
@@ -90,9 +126,18 @@
 		margin-bottom: 1rem;
 	}
 
+	.sideBar {
+		max-width: 20rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		justify-content: center;
+	}
+
 	.articleInfo {
 		width: 100%;
-		max-width: 20rem;
+
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -123,5 +168,35 @@
 		&:active {
 			border: 1px solid var(--accent);
 		}
+	}
+
+	.imageUpload {
+		all: unset;
+		width: 100%;
+		aspect-ratio: 2/1;
+		background: var(--text);
+		border-radius: 0.25rem;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.icon {
+			font-size: 2rem;
+		}
+		&:hover {
+			background: var(--bgPure);
+		}
+	}
+
+	.displayedImage {
+		width: 100%;
+		overflow: hidden;
+		outline: 1px solid var(--accent50);
+		border-radius: 0.5rem;
+		aspect-ratio: 2/1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 </style>
