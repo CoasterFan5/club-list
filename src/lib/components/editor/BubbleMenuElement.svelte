@@ -33,12 +33,15 @@
 		}}
 	>
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div class="linkForm" on:keydown={(e) => {
-			if(e.key == "Enter") {
-				e.preventDefault()
-				editorSetLink()
-			}
-		}}>
+		<div
+			class="linkForm"
+			on:keydown={(e) => {
+				if (e.key == 'Enter') {
+					e.preventDefault();
+					editorSetLink();
+				}
+			}}
+		>
 			<h2>Link Destination</h2>
 			<Input bg="var(--bgPure)" label="https://clubsaur.us" bind:value={linkHref} />
 			<br />
@@ -49,29 +52,29 @@
 
 <div bind:this={element} class="menu">
 	<button
-		type="button"
 		class:active={editor?.isActive('bold')}
+		type="button"
 		on:click={() => editor && editor.chain().focus().toggleBold().run()}
 	>
 		<BoldIcon />
 	</button>
 	<button
-		type="button"
 		class:active={editor?.isActive('italic')}
+		type="button"
 		on:click={() => editor && editor.chain().focus().toggleItalic().run()}
 	>
 		<ItalicIcon />
 	</button>
 	<button
-		type="button"
 		class:active={editor?.isActive('strike')}
+		type="button"
 		on:click={() => editor && editor.chain().focus().toggleStrike().run()}
 	>
 		<StrikeIcon />
 	</button>
 	<button
-		type="button"
 		class:active={editor?.isActive('code')}
+		type="button"
 		on:click={() => editor && editor.chain().focus().toggleCode().run()}
 	>
 		<CodeIcon />
@@ -86,15 +89,15 @@
 		<hr />
 	</span>
 	<button
-		type="button"
 		class:active={editor?.isActive('heading', { level: 1 })}
+		type="button"
 		on:click={() => editor && editor.chain().focus().toggleHeading({ level: 1 }).run()}
 	>
 		<Heading1 />
 	</button>
 	<button
-		type="button"
 		class:active={editor?.isActive('heading', { level: 2 })}
+		type="button"
 		on:click={() => editor && editor.chain().focus().toggleHeading({ level: 2 }).run()}
 	>
 		<Heading2 />
@@ -148,9 +151,6 @@
 
 	br {
 		background: transparent;
-	}
-	.linkBox {
-		position: fixed;
 	}
 
 	.linkForm {

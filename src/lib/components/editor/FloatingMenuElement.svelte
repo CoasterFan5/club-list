@@ -68,19 +68,21 @@
 </script>
 
 {#if settingImage}
-
 	<Modal
 		on:close={() => {
 			settingImage = false;
 		}}
 	>
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div on:keydown={(e) => {
-			if(e.key == "Enter") {
-				e.preventDefault()
-				editorSetImage()
-			}
-		}} class="imageForm">
+		<div
+			class="imageForm"
+			on:keydown={(e) => {
+				if (e.key == 'Enter') {
+					e.preventDefault();
+					editorSetImage();
+				}
+			}}
+		>
 			<h2>Link Destination</h2>
 			<Input bg="var(--bgPure)" label="Image URL" bind:value={imageURL} />
 			<br />
@@ -92,7 +94,7 @@
 {/if}
 
 <div bind:this={element} class="wrap" on:blur={closeMenu} transition:fade={{ duration: 500 }}>
-	<button type="button" class="plusButton" class:active={showSubMenu} on:click={clickHelper}>
+	<button class="plusButton" class:active={showSubMenu} type="button" on:click={clickHelper}>
 		<PlusIcon />
 	</button>
 

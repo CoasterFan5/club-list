@@ -14,14 +14,12 @@
 	export let form;
 
 	$: handleForm(form);
-	$: console.log(form);
 
 	let saveButton: HTMLButtonElement;
 
 	const keybindHelper = (e: KeyboardEvent) => {
 		if (e.key == 's' && e.ctrlKey) {
 			e.preventDefault();
-			console.log(articleContent);
 			saveButton.click();
 		}
 	};
@@ -29,7 +27,6 @@
 	let articleContent = data.article?.articleText;
 
 	const submitFileUploadForm = () => {
-		console.log('Clicking button...');
 		fileUploadFormButton.click();
 	};
 </script>

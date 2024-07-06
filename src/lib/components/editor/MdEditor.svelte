@@ -22,7 +22,6 @@
 	export let content: string | null = '<h1>wow! what a club</h1>';
 	export let editable: boolean;
 	export let saveable = true;
-	export let enableImages = false;
 
 	let element: HTMLDivElement;
 	let floatingMenu: HTMLDivElement;
