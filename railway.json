@@ -5,6 +5,9 @@
 		"buildCommand": "pnpm run deploy",
 		"nixpacksPlan": {
 			"phases": {
+				"install": {
+					"cmds": ["npm i -g pnpm"]
+				},
 				"setup": {
 					"nixPkgs": ["nodejs_20", "nodePackages.pnpm"]
 				}
