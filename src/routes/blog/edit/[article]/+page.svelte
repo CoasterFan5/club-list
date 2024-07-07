@@ -13,6 +13,7 @@
 	export let data;
 	export let form;
 
+	let articleImage = data.article.articleImage || ""
 	$: handleForm(form);
 
 	let saveButton: HTMLButtonElement;
@@ -64,12 +65,12 @@
 				name="image"
 				bg="var(--bgMid)"
 				label="Article Image"
-				bind:value={data.article.articleImage}
+				bind:value={articleImage}
 			/>
 			<hr />
-			{#if data.article.articleImage}
+			{#if articleImage}
 				<div class="articleImage">
-					<Image alt="Header" layout="fullWidth" src={data.article.articleImage} />
+					<Image alt="Header" layout="fullWidth" src={articleImage} />
 				</div>
 				<hr />
 			{/if}

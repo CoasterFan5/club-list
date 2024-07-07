@@ -20,12 +20,4 @@
 		min-height: calc(100vh - 60px);
 	}
 
-	
-
-	.articles {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-		flex-wrap: wrap;
-	}
 </style>
