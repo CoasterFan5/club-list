@@ -2,10 +2,10 @@
 	import { qr } from '@svelte-put/qr/img';
 	import Fuse from 'fuse.js';
 
-	import BxBxsCog from '~icons/bx/bxs-cog?raw&width=1.5em&height=1.5em';
-	import BxExit from '~icons/bx/exit?raw&width=1.5em&height=1.5em';
-	import BxShare from '~icons/bx/share?raw&width=1.5em&height=1.5em';
-	import BxUserPlus from '~icons/bx/user-plus?raw&width=1.5em&height=1.5em';
+	import BxBxsCog from '~icons/bx/bxs-cog';
+	import BxExit from '~icons/bx/exit';
+	import BxShare from '~icons/bx/share';
+	import BxUserPlus from '~icons/bx/user-plus';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -225,24 +225,24 @@
 				href="/org/{data.org.id}/settings"
 				use:tooltip={'Settings'}
 			>
-				{@html BxBxsCog}
+				<BxBxsCog/>
 			</a>
 		{/if}
 		{#if data.orgUserPermissions.inviteMembers || data.orgUserPermissions.admin}
 			<button class="icon" aria-label="invite" on:click={startInvite} use:tooltip={'Invite'}>
-				{@html BxUserPlus}
+				<BxUserPlus/>
 			</button>
 		{/if}
 
 		{#if data.orgUser}
 			<button class="icon" aria-label="leave" on:click={startLeaveOrg} use:tooltip={'Leave'}>
-				{@html BxExit}
+				<BxExit/>
 			</button>
 		{/if}
 
 		{#if data.org.isPublic}
 			<button class="icon" aria-label="share" on:click={startShare} use:tooltip={'Share'}>
-				{@html BxShare}
+				<BxShare/>
 			</button>
 		{/if}
 	</div>
@@ -285,6 +285,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		font-size: 1.2rem;
 
 		&:hover {
 			// color: var(--redIconFilter);

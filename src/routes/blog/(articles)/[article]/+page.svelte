@@ -3,10 +3,10 @@
 	import '$lib/articles.scss';
 	import 'highlight.js/styles/github.css';
 
+	import { Image } from '@unpic/svelte';
 	import dayjs from 'dayjs';
 	import hljs from 'highlight.js';
 	import { onMount } from 'svelte';
-	import { Image } from '@unpic/svelte';
 
 	import Link from '$lib/components/Link.svelte';
 	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent.js';
@@ -29,7 +29,7 @@
 		</div>
 		{#if data.article.articleImage}
 			<div class="displayedImage">
-				<Image src={data.article.articleImage} layout="fullWidth" alt="Header"/>
+				<Image alt="Header" layout="fullWidth" src={data.article.articleImage} />
 			</div>
 		{/if}
 		{@html sanitizeTiptapContent(data.article.articleText)}

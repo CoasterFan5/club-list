@@ -23,6 +23,7 @@ export const load = async ({ cookies, params }) => {
 			articleURL: params.article
 		},
 		include: {
+			
 			images: true
 		},
 		orderBy: {
