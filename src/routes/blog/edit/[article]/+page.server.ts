@@ -43,9 +43,10 @@ export const actions = {
 	saveDetails: formHandler(
 		z.object({
 			name: z.string(),
+			image: z.string().optional(),
 			description: z.string().optional()
 		}),
-		async ({ name, description }, { cookies, params }) => {
+		async ({ name, image, description }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
 
 			if (!user.siteAdmin) {
@@ -77,6 +78,7 @@ export const actions = {
 				data: {
 					articleName: name,
 					articleURL: newUrl,
+					articleImage: image,
 					articleDescription: description || 'No article description :('
 				}
 			});

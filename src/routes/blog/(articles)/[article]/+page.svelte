@@ -6,6 +6,7 @@
 	import dayjs from 'dayjs';
 	import hljs from 'highlight.js';
 	import { onMount } from 'svelte';
+	import { Image } from '@unpic/svelte';
 
 	import Link from '$lib/components/Link.svelte';
 	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent.js';
@@ -26,6 +27,11 @@
 			<span>{dayjs(data.article.createdAt).format('MM/DD/YY')}</span>
 			<span>{Math.floor(data.article.articleText.split(' ').length / 200)} min read</span>
 		</div>
+		{#if data.article.articleImage}
+			<div class="displayedImage">
+				<Image src={data.article.articleImage} layout="fullWidth" alt="Header"/>
+			</div>
+		{/if}
 		{@html sanitizeTiptapContent(data.article.articleText)}
 		<hr />
 		<p>
@@ -61,5 +67,13 @@
 			align-items: center;
 			justify-content: space-between;
 		}
+	}
+
+	.displayedImage {
+		display: flex;
+		border-radius: 0.5rem;
+		overflow: hidden;
+		margin-top: 1rem;
+		margin-bottom: 2rem;
 	}
 </style>

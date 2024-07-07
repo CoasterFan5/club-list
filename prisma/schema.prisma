@@ -214,6 +214,7 @@ model BlogArticle {
 	updatedAt     DateTime @updatedAt
 	id Int @id @default(autoincrement())
 	articleURL String
+	articleImage String? 
 	articleName String
 	articleDescription String @default("")
 	articleText String @db.Text

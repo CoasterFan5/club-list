@@ -1,30 +1,15 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import Footer from '$lib/components/home/Footer.svelte';
 	import Navbar from '$lib/components/home/Navbar.svelte';
-
-	export let data;
 </script>
 
 <Navbar />
-<div class="wrap">
-	<slot />
-</div>
-<div class="alsoLike">
-	<div class="alsoLikeInner">
-		<h3>You may also like:</h3>
-		<div class="articles">
-			{#each data.threeRandomArticles as article}
-				<a class="articleWrap" href={'/blog/' + article.articleURL}>
-					<div class="text">
-						<h2>{article.articleName}</h2>
-						<p>{article.articleDescription}</p>
-						<p />
-					</div>
-				</a>
-			{/each}
-		</div>
+{#key $page.url}
+	<div class="wrap">
+		<slot />
 	</div>
-</div>
+{/key}
 <Footer />
 
 <style lang="scss">
@@ -67,42 +52,6 @@
 		&:hover .text {
 			& > h2 {
 				color: var(--accent);
-			}
-		}
-	}
-
-	.alsoLike {
-		width: 100%;
-		margin-bottom: 1rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		.alsoLikeInner {
-			width: 90%;
-			border-top: 1px solid var(--textLow);
-			padding-top: 1rem;
-			margin-top: 1rem;
-			display: flex;
-			flex-direction: column;
-			align-items: start;
-			justify-content: start;
-
-			h3 {
-				font-size: 1.5rem;
-				font-weight: 600;
-				position: relative;
-				padding-left: 0.5rem;
-
-				&::after {
-					content: '';
-					position: absolute;
-					left: 0px;
-					top: 0px;
-					height: 100%;
-					width: 0.25rem;
-					background: var(--accent);
-				}
 			}
 		}
 	}

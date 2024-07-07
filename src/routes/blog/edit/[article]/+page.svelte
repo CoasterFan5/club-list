@@ -60,6 +60,15 @@
 			<h2>Article Info</h2>
 			<Input name="name" bg="var(--bgMid)" label="Article Name" value={data.article.articleName} />
 			<hr />
+			<Input name="image" bg="var(--bgMid)" label="Article Image" bind:value={data.article.articleImage} />
+			<hr />
+			{#if data.article.articleImage}
+				<div class="articleImage">
+					<Image src={data.article.articleImage} layout="fullWidth" alt="Header"/>
+				</div>
+				<hr/>
+			{/if}
+			
 			<textarea
 				name="description"
 				placeholder="Short article description."
@@ -214,5 +223,10 @@
 		margin-bottom: 1rem;
 		align-items: center;
 		justify-content: center;
+	}
+	.articleImage {
+		border-radius: 0.25rem;
+		overflow: hidden;
+		display: flex;
 	}
 </style>
