@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { qr } from '@svelte-put/qr/img';
+	import QRCode from 'qrcode';
 	import Fuse from 'fuse.js';
 
 	import BxBxsCog from '~icons/bx/bxs-cog';
@@ -90,6 +90,24 @@
 		}
 	};
 
+	const refreshQrCode = async () => {
+		const inviteURL = `${window.location.origin}/invite/${data.org.joinCode}`;
+
+		let qrCodeData = await QRCode.toDataURL(inviteURL, {
+			errorCorrectionLevel: 'H',
+			type: 'image/png',
+			margin: 1,
+			scale: 4,
+			width: 1000,
+			color: {
+				dark: '#e63946',
+				light: '#00000000'
+			}
+		});
+
+		return qrCodeData;
+	};
+
 	$: handleForm(form);
 
 	let confirmedOrgName = '';
@@ -159,15 +177,16 @@
 					>
 				{/if}
 				{#if inviteMethod == 'qr'}
+					{@const qrData = refreshQrCode()}
 					<p>Join QR Code:</p>
-					<img
-						alt="qr"
-						use:qr={{
-							data: `${window.location.origin}/invite/${data.org.joinCode}`,
-							logo: `${window.location.origin}/logo.svg`,
-							shape: 'circle'
-						}}
-					/>
+					{#await refreshQrCode()}
+						<p>Loading...</p>
+					{:then qrCodeData}
+						<div class="qrImageWrap">
+							<img class="qrImage" alt="Qr Code" src={qrCodeData} />
+						</div>
+						
+					{/await}
 				{/if}
 			</div>
 		</div>
@@ -396,6 +415,10 @@
 
 	.joinContent {
 		margin: 10px 0px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
 
 		p {
 			margin: 5px 0px;
@@ -464,5 +487,18 @@
 
 	.createOrgLink {
 		text-align: center;
+	}
+
+	.qrImageWrap {
+		width: 15rem;
+		min-width: 250px;
+		max-width: 1920px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.qrImage {
+			width: 100%;
+		}
 	}
 </style>

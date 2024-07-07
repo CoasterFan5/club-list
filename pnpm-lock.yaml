@@ -66,9 +66,6 @@ importers:
       '@prisma/client':
         specifier: ^5.10.2
         version: 5.10.2(prisma@5.10.2)
-      '@svelte-put/qr':
-        specifier: ^1.0.3
-        version: 1.0.3
       '@sveltejs/adapter-auto':
         specifier: ^3.1.0
         version: 3.1.0(@sveltejs/kit@2.4.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.9)(vite@5.0.12(@types/node@20.11.5)(sass@1.70.0)))(svelte@4.2.9)(vite@5.0.12(@types/node@20.11.5)(sass@1.70.0)))
@@ -1155,9 +1152,6 @@ packages:
 
   '@streamparser/json@0.0.18':
     resolution: {integrity: sha512-El/ocRiqntVr8mbQPuRK8NvBbMe+r4e5S8AzbR58rl5nimBeKzPBj2P4ykNlwbaMV+dqGPhzyGEaNm9pAPkTxQ==}
-
-  '@svelte-put/qr@1.0.3':
-    resolution: {integrity: sha512-KaqcWqVLBGWMDCmxX7pWYX75iVzyUE2rJoO+ne3gu4P0nJXb0ETvBw6lj4Lu6xfGp5M40iiOTYjcCEQ2JPJUag==}
 
   '@sveltejs/adapter-auto@3.1.0':
     resolution: {integrity: sha512-igS5hqCwdiXWb8NoWzThKCVQQj9tKgUkbTtzfxBPgSLOyFjkiGNDX0SgCoY2QIUWBqOkfGTOqGlrW5Ynw9oUvw==}
@@ -2752,9 +2746,6 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
-
-  qrcode-generator@1.4.4:
-    resolution: {integrity: sha512-HM7yY8O2ilqhmULxGMpcHSF1EhJJ9yBj8gvDEuZ6M+KGJ0YY2hKpnXvRD+hZPLrDVck3ExIGhmPtSdcjC+guuw==}
 
   qrcode@1.5.3:
     resolution: {integrity: sha512-puyri6ApkEHYiVl4CFzo1tDkAZ+ATcnbJrJ6RiBM1Fhctdn/ix9MTE3hRph33omisEbC/2fcfemsseiKgBPKZg==}
@@ -4683,10 +4674,6 @@ snapshots:
 
   '@streamparser/json@0.0.18': {}
 
-  '@svelte-put/qr@1.0.3':
-    dependencies:
-      qrcode-generator: 1.4.4
-
   '@sveltejs/adapter-auto@3.1.0(@sveltejs/kit@2.4.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.9)(vite@5.0.12(@types/node@20.11.5)(sass@1.70.0)))(svelte@4.2.9)(vite@5.0.12(@types/node@20.11.5)(sass@1.70.0)))':
     dependencies:
       '@sveltejs/kit': 2.4.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.9)(vite@5.0.12(@types/node@20.11.5)(sass@1.70.0)))(svelte@4.2.9)(vite@5.0.12(@types/node@20.11.5)(sass@1.70.0))
@@ -6407,8 +6394,6 @@ snapshots:
   punycode.js@2.3.1: {}
 
   punycode@2.3.1: {}
-
-  qrcode-generator@1.4.4: {}
 
   qrcode@1.5.3:
     dependencies:
