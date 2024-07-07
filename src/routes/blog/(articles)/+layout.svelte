@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import Footer from '$lib/components/home/Footer.svelte';
 	import Navbar from '$lib/components/home/Navbar.svelte';
 </script>
@@ -19,5 +18,4 @@
 		width: 100%;
 		min-height: calc(100vh - 60px);
 	}
-
 </style>

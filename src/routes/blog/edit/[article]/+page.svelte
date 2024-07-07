@@ -13,7 +13,7 @@
 	export let data;
 	export let form;
 
-	let articleImage = data.article.articleImage || ""
+	let articleImage = data.article.articleImage || '';
 	$: handleForm(form);
 
 	let saveButton: HTMLButtonElement;
@@ -61,12 +61,7 @@
 			<h2>Article Info</h2>
 			<Input name="name" bg="var(--bgMid)" label="Article Name" value={data.article.articleName} />
 			<hr />
-			<Input
-				name="image"
-				bg="var(--bgMid)"
-				label="Article Image"
-				bind:value={articleImage}
-			/>
+			<Input name="image" bg="var(--bgMid)" label="Article Image" bind:value={articleImage} />
 			<hr />
 			{#if articleImage}
 				<div class="articleImage">

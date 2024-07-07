@@ -225,24 +225,24 @@
 				href="/org/{data.org.id}/settings"
 				use:tooltip={'Settings'}
 			>
-				<BxBxsCog/>
+				<BxBxsCog />
 			</a>
 		{/if}
 		{#if data.orgUserPermissions.inviteMembers || data.orgUserPermissions.admin}
 			<button class="icon" aria-label="invite" on:click={startInvite} use:tooltip={'Invite'}>
-				<BxUserPlus/>
+				<BxUserPlus />
 			</button>
 		{/if}
 
 		{#if data.orgUser}
 			<button class="icon" aria-label="leave" on:click={startLeaveOrg} use:tooltip={'Leave'}>
-				<BxExit/>
+				<BxExit />
 			</button>
 		{/if}
 
 		{#if data.org.isPublic}
 			<button class="icon" aria-label="share" on:click={startShare} use:tooltip={'Share'}>
-				<BxShare/>
+				<BxShare />
 			</button>
 		{/if}
 	</div>
