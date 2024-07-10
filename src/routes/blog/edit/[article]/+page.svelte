@@ -6,6 +6,7 @@
 	import ImageAddIcon from '~icons/bx/image-add';
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import { handleForm } from '$lib/utils/formToaster';
@@ -63,6 +64,7 @@
 			<hr />
 			<Input name="image" bg="var(--bgMid)" label="Article Image" bind:value={articleImage} />
 			<hr />
+
 			{#if articleImage}
 				<div class="articleImage">
 					<Image alt="Header" layout="fullWidth" src={articleImage} />
@@ -75,6 +77,10 @@
 				placeholder="Short article description."
 				value={data.article.articleDescription}
 			/>
+			<hr />
+			<div class="checkboxHolder">
+				<Checkbox name="published" checked={data.article.published} label="Published" />
+			</div>
 			<hr />
 			<Button value="save" />
 		</form>
@@ -299,5 +305,10 @@
 			border-radius: 0.25rem;
 			border: 1px solid var(--accent);
 		}
+	}
+
+	.checkboxHolder {
+		display: flex;
+		width: 100%;
 	}
 </style>

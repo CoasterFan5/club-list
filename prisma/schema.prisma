@@ -213,6 +213,7 @@ model BlogArticle {
 	createdAt     DateTime @default(now())
 	updatedAt     DateTime @updatedAt
 	id Int @id @default(autoincrement())
+	published Boolean @default(false)
 	articleURL String
 	articleImage String? 
 	articleName String

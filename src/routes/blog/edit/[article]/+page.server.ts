@@ -65,9 +65,10 @@ export const actions = {
 		z.object({
 			name: z.string(),
 			image: z.string().optional(),
+			published: z.coerce.boolean(),
 			description: z.string().optional()
 		}),
-		async ({ name, image, description }, { cookies, params }) => {
+		async ({ name, image, description, published }, { cookies, params }) => {
 			const user = await verifySession(cookies.get('session'));
 
 			if (!user.siteAdmin) {
@@ -100,6 +101,7 @@ export const actions = {
 					articleName: name,
 					articleURL: newUrl,
 					articleImage: image,
+					published,
 					articleDescription: description || 'No article description :('
 				}
 			});

@@ -16,6 +16,10 @@ export const load = async ({ params }) => {
 		}
 	});
 
+	if (!article?.published) {
+		throw error(404, 'No article found');
+	}
+
 	if (!article) {
 		throw error(404, 'No article found');
 	}
