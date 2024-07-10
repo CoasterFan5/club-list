@@ -79,6 +79,31 @@
 			<Button value="save" />
 		</form>
 		<div class="articleInfo">
+			<h2>Tags</h2>
+			<p>Selected</p>
+			<div class="tags">
+				{#each data.selectedTags as tag}
+					<form action="?/removeTagFromArticle" method="post" use:enhance>
+						<input name="id" hidden value={tag.id} />
+						<button>{tag.tag.tagName}</button>
+					</form>
+				{/each}
+			</div>
+			<p>Options</p>
+			<div class="tags">
+				{#each data.unselectedTags as tag}
+					<form action="?/addTagToArticle" method="post" use:enhance>
+						<input name="id" hidden value={tag.id} />
+						<button>{tag.tagName}</button>
+					</form>
+				{/each}
+			</div>
+			<form class="addTag" action="?/addTag" method="post" use:enhance>
+				<input name="tagName" placeholder="tag name" />
+				<button>Add</button>
+			</form>
+		</div>
+		<div class="articleInfo">
 			<h2>Image Bank</h2>
 			<p>Add New</p>
 			<form
@@ -229,5 +254,50 @@
 		border-radius: 0.25rem;
 		overflow: hidden;
 		display: flex;
+	}
+
+	.addTag {
+		border: 1px solid var(--textLow);
+		border-radius: 0.25rem;
+		overflow: hidden;
+
+		input {
+			all: unset;
+			padding: 0.25rem;
+			border-radius: 0.25rem 0 0 0.25rem;
+		}
+
+		button {
+			all: unset;
+			cursor: pointer;
+			border-left: 1px solid var(--textLow);
+			height: 100%;
+			padding: 0.25rem;
+
+			&:hover {
+				background: var(--bgPure);
+			}
+		}
+	}
+
+	.tags {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 100%;
+		gap: 0.25rem;
+		box-sizing: border-box;
+
+		padding: 0 1rem;
+		padding-bottom: 0.25rem;
+
+		button {
+			all: unset;
+			cursor: pointer;
+			padding: 0.1rem;
+			background: var(--accent50);
+			border-radius: 0.25rem;
+			border: 1px solid var(--accent);
+		}
 	}
 </style>

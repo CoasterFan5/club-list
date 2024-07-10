@@ -1,6 +1,6 @@
 <script lang="ts">
-	import QRCode from 'qrcode';
 	import Fuse from 'fuse.js';
+	import QRCode from 'qrcode';
 
 	import BxBxsCog from '~icons/bx/bxs-cog';
 	import BxExit from '~icons/bx/exit';
@@ -177,7 +177,6 @@
 					>
 				{/if}
 				{#if inviteMethod == 'qr'}
-					{@const qrData = refreshQrCode()}
 					<p>Join QR Code:</p>
 					{#await refreshQrCode()}
 						<p>Loading...</p>
@@ -185,7 +184,6 @@
 						<div class="qrImageWrap">
 							<img class="qrImage" alt="Qr Code" src={qrCodeData} />
 						</div>
-						
 					{/await}
 				{/if}
 			</div>

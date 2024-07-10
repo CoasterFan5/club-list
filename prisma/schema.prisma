@@ -236,7 +236,7 @@ model BlogTagTemplate {
 	createdAt     DateTime @default(now())
 	updatedAt     DateTime @updatedAt
 	id Int @id @default(autoincrement())
-	tagName String
+	tagName String @unique
 	assignments AssignedBlogTag[]
 }
 

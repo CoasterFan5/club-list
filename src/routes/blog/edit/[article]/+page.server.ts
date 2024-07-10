@@ -34,8 +34,29 @@ export const load = async ({ cookies, params }) => {
 		throw redirect(303, '/blog/edit');
 	}
 
+	const unselectedTags = await prisma.blogTagTemplate.findMany({
+		where: {
+			assignments: {
+				none: {
+					blogId: article.id
+				}
+			}
+		}
+	});
+
+	const selectedTags = await prisma.assignedBlogTag.findMany({
+		where: {
+			blogId: article.id
+		},
+		include: {
+			tag: true
+		}
+	});
+
 	return {
-		article
+		article,
+		unselectedTags,
+		selectedTags
 	};
 };
 
@@ -197,5 +218,101 @@ export const actions = {
 			success: true,
 			message: 'Image uploaded'
 		};
-	}
+	},
+	addTag: formHandler(
+		z.object({
+			tagName: z.string()
+		}),
+		async ({ tagName }, { cookies }) => {
+			const user = await verifySession(cookies.get('session'));
+
+			if (!user.siteAdmin) {
+				return fail(400, {
+					success: false,
+					message: 'Invalid Permissions'
+				});
+			}
+
+			const realTagName = tagName.toLowerCase().trim();
+
+			await prisma.blogTagTemplate.upsert({
+				where: {
+					tagName: realTagName
+				},
+				update: {},
+				create: {
+					tagName: realTagName
+				}
+			});
+		}
+	),
+	addTagToArticle: formHandler(
+		z.object({
+			id: z.coerce.number()
+		}),
+		async ({ id }, { cookies, params }) => {
+			const user = await verifySession(cookies.get('session'));
+
+			const article = await prisma.blogArticle.findFirst({
+				where: {
+					articleURL: params.article
+				}
+			});
+
+			if (!article) {
+				return fail(400, {
+					success: false,
+					message: 'No article'
+				});
+			}
+
+			if (!user.siteAdmin) {
+				return fail(400, {
+					success: false,
+					message: 'Invalid Permissions'
+				});
+			}
+
+			await prisma.assignedBlogTag.create({
+				data: {
+					blogId: article.id,
+					tagId: id
+				}
+			});
+		}
+	),
+	removeTagFromArticle: formHandler(
+		z.object({
+			id: z.coerce.number()
+		}),
+		async ({ id }, { cookies, params }) => {
+			const user = await verifySession(cookies.get('session'));
+
+			const article = await prisma.blogArticle.findFirst({
+				where: {
+					articleURL: params.article
+				}
+			});
+
+			if (!article) {
+				return fail(400, {
+					success: false,
+					message: 'No article'
+				});
+			}
+
+			if (!user.siteAdmin) {
+				return fail(400, {
+					success: false,
+					message: 'Invalid Permissions'
+				});
+			}
+
+			await prisma.assignedBlogTag.delete({
+				where: {
+					id
+				}
+			});
+		}
+	)
 };
