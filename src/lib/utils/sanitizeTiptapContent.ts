@@ -19,6 +19,6 @@ export const sanitizeTiptapContent = (content: string) => {
 			's',
 			'p',
 			'div'
-		]
+		],
 	});
 };

@@ -35,6 +35,7 @@ model User {
 	announcements Announcement[]
 	events        Event[]
 	bans          Ban[]
+	userImages UserImage[]
 }
 
 model OrgUser {
@@ -246,4 +247,15 @@ model BlogImage {
 	blogId Int
 	key String
 	blogArticle BlogArticle @relation(fields: [blogId], references: [id])
+}
+
+model UserImage {
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+	id Int @id @default(autoincrement())
+	userId Int
+	user User @relation(fields: [userId], references: [id])
+	fileType String
+	key String
+	size Int
 }

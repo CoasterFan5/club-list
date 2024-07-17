@@ -10,11 +10,12 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import ImageAddIcon from '~icons/bx/image-add';
 
 	export let editor: Editor | null;
 	export let element: HTMLDivElement;
 
-	let settingImage = false;
+	let settingImage = true;
 	let showSubMenu = false;
 
 	const clickHelper = () => (showSubMenu = !showSubMenu);
@@ -50,20 +51,33 @@
 		}
 	];
 
-	let imageURL = '';
-	let imageALT = '';
-	const editorSetImage = () => {
-		editor &&
-			editor
-				.chain()
-				.focus()
-				.setImage({
-					src: imageURL,
-					alt: imageALT
-				})
-				.run();
-		settingImage = false;
-		closeMenu();
+	let fileInput: HTMLInputElement;
+	let fileInputButton: HTMLButtonElement;
+	let files: FileList;
+	let image: File;
+
+	const setButtonBackground = async() => {
+		console.log("setting bg")
+		let reader = new FileReader()
+		reader.onloadend = () => {
+			fileInputButton.style.backgroundImage = `url(${reader.result})`
+			fileInputButton.innerHTML = ""
+		}
+		if(fileInput.files && fileInput.files[0]) {
+			
+			reader.readAsDataURL(fileInput.files[0])
+		}
+	}
+
+	const editorSetImage = async () => {
+
+		const formData = new FormData()
+		formData.append('file', files[0])
+		const req = await fetch("/api/image/upload", {
+			method: "post",
+			body: formData
+		})
+		
 	};
 </script>
 
@@ -83,12 +97,12 @@
 				}
 			}}
 		>
-			<h2>Link Destination</h2>
-			<Input bg="var(--bgPure)" label="Image URL" bind:value={imageURL} />
-			<br />
-			<Input bg="var(--bgPure)" label="Image ALT" bind:value={imageALT} />
-			<br />
-			<Button type="button" value="Apply" on:click={editorSetImage} />
+			<h2>Upload Image</h2>
+			<input on:input={setButtonBackground} hidden bind:this={fileInput} type="file" bind:files={files} accept="image/*" />
+			<button bind:this={fileInputButton} on:click={() => {fileInput.click()}} class="imageUpload" type="button">
+				<ImageAddIcon/>
+			</button>
+			<Button type="button" value="Upload" on:click={editorSetImage} />
 		</div>
 	</Modal>
 {/if}
@@ -177,4 +191,21 @@
 		align-items: center;
 		justify-content: center;
 	}
+
+	.imageUpload {
+		all: unset;
+		background: var(--text);
+		width: 100%;
+		cursor: pointer;
+		margin-bottom: 1rem;
+		border-radius: 0.25rem;
+		
+		aspect-ratio: 3/2;
+		min-width: 20rem;
+		font-size: 3rem;
+		background-size: cover;
+		background-position: center;
+	}
+
+	
 </style>
