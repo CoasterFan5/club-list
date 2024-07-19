@@ -16,9 +16,9 @@
 
 	import SaveIcon from '~icons/bx/save';
 
+	import ArticleStyles from './ArticleStyles.svelte';
 	import BubbleMenuElement from './BubbleMenuElement.svelte';
 	import FloatingMenuElement from './FloatingMenuElement.svelte';
-	import ArticleStyles from './ArticleStyles.svelte';
 
 	export let content: string | null = '<h1>wow! what a club</h1>';
 	export let editable: boolean;

@@ -4,7 +4,7 @@
 	import ArticleStyles from '$lib/components/editor/ArticleStyles.svelte';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
-	import { sanitizeTiptapContent } from "$lib/utils/sanitizeTiptapContent"
+	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent';
 
 	export let data;
 	export let form;
@@ -19,14 +19,14 @@
 	<div class="content">
 		<div class="editor">
 			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
-			<MdEditor
-				editable={true}
-				saveable={true}
-				bind:content={clubDescription}
-				on:saveRequest={() => {
-					saveMdButton.click();
-				}}
-			/>
+				<MdEditor
+					editable={true}
+					saveable={true}
+					bind:content={clubDescription}
+					on:saveRequest={() => {
+						saveMdButton.click();
+					}}
+				/>
 			{:else}
 				<ArticleStyles>
 					{@html sanitizeTiptapContent(clubDescription)}

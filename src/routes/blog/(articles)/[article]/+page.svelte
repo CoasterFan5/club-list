@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let data;
-	
+
 	import 'highlight.js/styles/github.css';
 
 	import { Image } from '@unpic/svelte';
@@ -8,9 +8,9 @@
 	import hljs from 'highlight.js';
 	import { onMount } from 'svelte';
 
+	import ArticleStyles from '$lib/components/editor/ArticleStyles.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent.js';
-	import ArticleStyles from '$lib/components/editor/ArticleStyles.svelte';
 	onMount(() => {
 		hljs.highlightAll();
 	});

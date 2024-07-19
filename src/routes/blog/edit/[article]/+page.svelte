@@ -34,17 +34,13 @@
 <svelte:window on:keydown={keybindHelper} />
 
 <div class="wrap">
-	
-
-	
 	<div class="articleEdit">
 		<h2>Article Content</h2>
-		
-			<div class="inner">
-				<MdEditor editable={true} saveable={false} bind:content={articleContent} />
 
-			</div>
-		
+		<div class="inner">
+			<MdEditor editable={true} saveable={false} bind:content={articleContent} />
+		</div>
+
 		<form
 			action="?/save"
 			method="post"

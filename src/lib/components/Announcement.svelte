@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent';
+
 	import ArticleStyles from './editor/ArticleStyles.svelte';
 	interface Announcement {
 		title: string;
@@ -32,7 +33,6 @@
 			{@html sanitizeTiptapContent(announcement.description || 'No description')}
 		</div>
 	</ArticleStyles>
-	
 </div>
 
 <style lang="scss">
