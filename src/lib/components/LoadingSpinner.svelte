@@ -1,23 +1,29 @@
 <script lang="ts">
-
 	/**
 	 * From https://codepen.io/jczimm/pen/vEBpoL (Jacob Zimmerman)
-	 * 
-	*/
+	 *
+	 */
 
-	let size = "50px";
-	let strokeWidth = "3px"
+	export let size = '50px';
+	export let strokeWidth = '3px';
+	export let radius = 22;
 </script>
 
-
-<div class="wrap" style="--size: {size}">
-	<svg class="spinner" viewBox="25 25 50 50" >
-		<circle class="circle" cx="50" cy="50" r="20" fill="none" stroke-width="{strokeWidth}" stroke-miterlimit="10" >
-	</svg>	
+<div style="--size: {size}" class="wrap">
+	<svg class="spinner" viewBox="25 25 50 50">
+		<circle
+			class="circle"
+			cx="50"
+			cy="50"
+			fill="none"
+			r={radius}
+			stroke-miterlimit="10"
+			stroke-width={strokeWidth}
+		/></svg
+	>
 </div>
 
 <style lang="scss">
-
 	.wrap {
 		position: relative;
 		margin: 0 auto;
