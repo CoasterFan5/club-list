@@ -18,6 +18,7 @@
 
 	import BubbleMenuElement from './BubbleMenuElement.svelte';
 	import FloatingMenuElement from './FloatingMenuElement.svelte';
+	import ArticleStyles from './ArticleStyles.svelte';
 
 	export let content: string | null = '<h1>wow! what a club</h1>';
 	export let editable: boolean;
@@ -117,7 +118,9 @@
 </script>
 
 <div class="wrap">
-	<div bind:this={element} class="editor" class:borders={editable} class:focus={isActive} />
+	<ArticleStyles>
+		<div bind:this={element} class="editor" class:borders={editable} class:focus={isActive} />
+	</ArticleStyles>
 	<div class="utils">
 		{#if saveable && !saved}
 			<button on:click={save}>

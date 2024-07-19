@@ -17,7 +17,7 @@
 	export let editor: Editor | null;
 	export let element: HTMLDivElement;
 
-	let settingImage = true;
+	let settingImage = false;
 	let showSubMenu = false;
 
 	const clickHelper = () => (showSubMenu = !showSubMenu);

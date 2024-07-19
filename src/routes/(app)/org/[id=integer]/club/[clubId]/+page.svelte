@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Announcement from '$lib/components/Announcement.svelte';
+	import ArticleStyles from '$lib/components/editor/ArticleStyles.svelte';
 	import MdEditor from '$lib/components/editor/MdEditor.svelte';
 	import { handleForm } from '$lib/utils/formToaster.js';
+	import { sanitizeTiptapContent } from "$lib/utils/sanitizeTiptapContent"
 
 	export let data;
 	export let form;
@@ -16,14 +18,20 @@
 <div class="wrap">
 	<div class="content">
 		<div class="editor">
+			{#if data.clubPerms.admin || data.clubPerms.updateDescription}
 			<MdEditor
-				editable={data.clubPerms.admin || data.clubPerms.updateDescription}
-				saveable={data.clubPerms.admin || data.clubPerms.updateDescription}
+				editable={true}
+				saveable={true}
 				bind:content={clubDescription}
 				on:saveRequest={() => {
 					saveMdButton.click();
 				}}
 			/>
+			{:else}
+				<ArticleStyles>
+					{@html sanitizeTiptapContent(clubDescription)}
+				</ArticleStyles>
+			{/if}
 			<form action="?/updateClub" hidden method="post" use:enhance>
 				<input name="clubDescription" value={clubDescription} />
 				<button bind:this={saveMdButton} type="submit" />
