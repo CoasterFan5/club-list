@@ -1,10 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 
-const allowedHosts = [
-	"c.clubsaur.us",
-	"clubsaur.us",
-	"localhost"
-]
+const allowedHosts = ['c.clubsaur.us', 'clubsaur.us', 'localhost'];
 
 export const sanitizeTiptapContent = (content: string) => {
 	return sanitizeHtml(content, {
@@ -27,20 +23,20 @@ export const sanitizeTiptapContent = (content: string) => {
 			'div'
 		],
 		transformTags: {
-			"img": (tagName, attribs) => {
+			img: (tagName, attribs) => {
 				const newAttributes = attribs;
 				const imageUrl = new URL(attribs.src);
-				if(!allowedHosts.includes(imageUrl.hostname)) {
-					newAttributes.src = "/dino"
+				if (!allowedHosts.includes(imageUrl.hostname)) {
+					newAttributes.src = '/dino';
 					return {
-						tagName: "img",
+						tagName: 'img',
 						attribs: newAttributes
-					}
+					};
 				} else {
 					return {
-						tagName: "img",
+						tagName: 'img',
 						attribs: attribs
-					}
+					};
 				}
 			}
 		}
