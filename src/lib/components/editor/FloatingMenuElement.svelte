@@ -11,6 +11,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import ImageAddIcon from '~icons/bx/image-add';
+	import LoadingSpinner from '../LoadingSpinner.svelte';
 
 	export let editor: Editor | null;
 	export let element: HTMLDivElement;
@@ -87,7 +88,9 @@
 			settingImage = false;
 		}}
 	>
+		<LoadingSpinner/>
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		
 		<div
 			class="imageForm"
 			on:keydown={(e) => {
