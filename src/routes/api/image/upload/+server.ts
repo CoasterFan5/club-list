@@ -61,8 +61,6 @@ export const POST = async ({ request, cookies }) => {
 		}
 	});
 
-	
-
 	return new Response(
 		JSON.stringify({
 			imageUrl: `${mediaurl}/${key}`

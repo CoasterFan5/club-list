@@ -26,8 +26,8 @@ if (bucketCheck.$metadata.httpStatusCode != 200) {
 	throw new Error('s3 Bucket not found');
 }
 
-if(dev) {
-	allowedHosts.push("localhost")
+if (dev) {
+	allowedHosts.push('localhost');
 }
 
 export async function handle({ event, resolve }) {
