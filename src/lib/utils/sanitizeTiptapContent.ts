@@ -1,8 +1,9 @@
 import sanitizeHtml from 'sanitize-html';
 
-const allowedHosts = ['c.clubsaur.us', 'clubsaur.us', 'localhost'];
+export const allowedHosts = ['c.clubsaur.us', 'clubsaur.us'];
 
 export const sanitizeTiptapContent = (content: string) => {
+	console.log(allowedHosts)
 	return sanitizeHtml(content, {
 		allowedClasses: {
 			'*': ['tipTapImage', 'tipTapLink']

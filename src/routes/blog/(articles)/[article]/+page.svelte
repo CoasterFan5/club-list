@@ -54,7 +54,7 @@
 	}
 
 	.article {
-		width: 60ch;
+		max-width: 60ch;
 		font-size: 1.2rem;
 		padding: 2.5ch;
 		box-sizing: border-box;
