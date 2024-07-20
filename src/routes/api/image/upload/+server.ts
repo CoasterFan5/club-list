@@ -42,15 +42,6 @@ export const POST = async ({ request, cookies }) => {
 	const randomId = crypto.randomBytes(32).toString('base64url');
 	const key = `${user.id}/${randomId}/${fileName}`;
 
-	await prisma.userImage.create({
-		data: {
-			fileType: file.type,
-			size: file.size,
-			userId: user.id,
-			key: `${mediaurl}/${key}`
-		}
-	});
-
 	const fileBuffer = await file.arrayBuffer();
 
 	await S3.send(
@@ -60,6 +51,17 @@ export const POST = async ({ request, cookies }) => {
 			Body: new Uint8Array(fileBuffer)
 		})
 	);
+
+	await prisma.userImage.create({
+		data: {
+			fileType: file.type,
+			size: file.size,
+			userId: user.id,
+			key: `${mediaurl}/${key}`
+		}
+	});
+
+	
 
 	return new Response(
 		JSON.stringify({
