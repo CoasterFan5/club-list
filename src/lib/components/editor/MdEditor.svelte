@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Editor } from '@tiptap/core';
 	import BubbleMenu from '@tiptap/extension-bubble-menu';
+	import CodeBlockLowLight from '@tiptap/extension-code-block-lowlight';
 	import { Color } from '@tiptap/extension-color';
 	import FloatingMenu from '@tiptap/extension-floating-menu';
 	import Link from '@tiptap/extension-link';
@@ -8,10 +9,14 @@
 	import TextStyle from '@tiptap/extension-text-style';
 	import Typography from '@tiptap/extension-typography';
 	import StarterKit from '@tiptap/starter-kit';
+	import { common, createLowlight } from 'lowlight';
+	const lowlight = createLowlight(common);
+	import Image from '@tiptap/extension-image';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	import SaveIcon from '~icons/bx/save';
 
+	import ArticleStyles from './ArticleStyles.svelte';
 	import BubbleMenuElement from './BubbleMenuElement.svelte';
 	import FloatingMenuElement from './FloatingMenuElement.svelte';
 
@@ -41,8 +46,21 @@
 				StarterKit,
 				Typography,
 				Color,
+				CodeBlockLowLight.configure({
+					lowlight: lowlight
+				}),
+				Image.configure({
+					HTMLAttributes: {
+						class: 'tipTapImage'
+					}
+				}),
 				TextStyle,
-				Link,
+				Link.configure({
+					openOnClick: false,
+					HTMLAttributes: {
+						class: 'tipTapLink'
+					}
+				}),
 				Placeholder.configure({
 					showOnlyWhenEditable: true,
 					includeChildren: true,
@@ -100,7 +118,9 @@
 </script>
 
 <div class="wrap">
-	<div bind:this={element} class="editor" class:borders={editable} class:focus={isActive} />
+	<ArticleStyles>
+		<div bind:this={element} class="editor" class:borders={editable} class:focus={isActive} />
+	</ArticleStyles>
 	<div class="utils">
 		{#if saveable && !saved}
 			<button on:click={save}>

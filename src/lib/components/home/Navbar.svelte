@@ -39,14 +39,21 @@
 			>
 				<Link
 					--fontSize="1.2rem"
-					--marginLeft="15px"
+					--marginLeft="20px"
+					href="/blog"
+					textColor="white"
+					on:click={closeClick}>Blog</Link
+				>
+				<Link
+					--fontSize="1.2rem"
+					--marginLeft="20px"
 					href="/login"
 					textColor="white"
 					on:click={closeClick}>Log In</Link
 				>
 				<Link
 					--fontSize="1.2rem"
-					--marginLeft="15px"
+					--marginLeft="20px"
 					href="/get-started"
 					textColor="white"
 					on:click={closeClick}>Get Started</Link

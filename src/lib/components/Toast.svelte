@@ -1,10 +1,10 @@
 <script lang="ts">
-	import sanitizeHtml from 'sanitize-html';
 	import { onMount } from 'svelte';
 	import { quintInOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
 
 	import CloseIcon from '~icons/bx/x';
+	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent';
 
 	import { removeToast, type Toast } from './toaster';
 
@@ -41,7 +41,7 @@
 	>
 		<h3>{typeTitles[data.type]}</h3>
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		<p>{@html sanitizeHtml(data.message)}</p>
+		<p>{@html sanitizeTiptapContent(data.message)}</p>
 		<button class="close" on:click={close}>
 			<CloseIcon height="1.5rem" width="1.5rem" />
 		</button>

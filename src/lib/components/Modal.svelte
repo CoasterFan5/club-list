@@ -12,6 +12,7 @@
 </script>
 
 <button
+	type="button"
 	on:mousedown|self={modalClickHelper}
 	transition:fade={{ easing: cubicInOut, duration: 150 }}
 >

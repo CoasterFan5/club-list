@@ -31,7 +31,7 @@ async function main() {
 	}
 
 	if (org && org.name == 'Cardboard') {
-		throw new Error('database may already be seeded, not creating new data.');
+		console.warn('database may already be seeded');
 	}
 
 	console.log('Seeding database...');
@@ -43,6 +43,7 @@ async function main() {
 			firstName: 'Brick',
 			lastName: 'Stone',
 			email: 'bstone@card.board',
+			siteAdmin: true,
 			...(await makePassword('password'))
 		}
 	});
