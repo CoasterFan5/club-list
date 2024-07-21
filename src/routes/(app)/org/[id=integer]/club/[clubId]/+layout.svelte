@@ -9,6 +9,8 @@
 	import Link from '$lib/components/Link.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
+	import IconButton from '$lib/components/IconButton.svelte';
+	import SettingsIcon from '~icons/bx/cog';
 
 	export let data;
 
@@ -40,6 +42,11 @@
 				</a>
 
 				<h2 class="clubName">{data.club.name}</h2>
+				{#if data.clubPerms.viewSettings || data.clubPerms.admin}
+					<a class="settingsButton" href="{baseURL}/settings" use:tooltip={'Settings'}>
+						<SettingsIcon height="1.5rem" width="1.5rem" />
+					</a>
+				{/if}
 
 				{#if data.user}
 					{#if !data.clubUser && data.club.openToJoin}
@@ -107,16 +114,6 @@
 								--padding="5px 0px"
 								href="{baseURL}/attendance"
 								textColor="black">Attendance <span class="badge">Beta</span></Link
-							>
-						</div>
-					{/if}
-					{#if data.clubPerms.viewSettings || data.clubPerms.admin}
-						<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}>
-							<Link
-								--fontSize="1.1rem"
-								--padding="5px 0px"
-								href="{baseURL}/settings"
-								textColor="black">Settings</Link
 							>
 						</div>
 					{/if}
@@ -249,6 +246,23 @@
 			background: var(--accent);
 			z-index: -1;
 			opacity: 0.2;
+		}
+	}
+
+	.settingsButton {
+		all: unset;
+		cursor: pointer;
+		height: 100%;
+		text-align: center;
+		display: flex;
+		padding-left: 0.5rem;
+		align-items: center;
+		justify-content: center;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+
+		&:hover {
+			scale: 1.1;
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 		}
 	}
 </style>
