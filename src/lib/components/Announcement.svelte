@@ -1,6 +1,7 @@
 <script lang="ts">
-	import MdEditor from '$lib/components/editor/MdEditor.svelte';
+	import { sanitizeTiptapContent } from '$lib/utils/sanitizeTiptapContent';
 
+	import ArticleStyles from './editor/ArticleStyles.svelte';
 	interface Announcement {
 		title: string;
 		description: string | null;
@@ -27,13 +28,11 @@
 			{/if}
 		</p>
 	{/if}
-	<div class="editor">
-		<MdEditor
-			content={announcement.description || 'No Announcement'}
-			editable={false}
-			saveable={false}
-		/>
-	</div>
+	<ArticleStyles>
+		<div class="article">
+			{@html sanitizeTiptapContent(announcement.description || 'No description')}
+		</div>
+	</ArticleStyles>
 </div>
 
 <style lang="scss">
@@ -43,7 +42,8 @@
 		box-sizing: border-box;
 		padding: 20px;
 		border-radius: 5px;
-		margin-bottom: 50px;
+		background: var(--bgMid);
+		margin: 0.5rem 0;
 	}
 	.info {
 		margin: 0px;
@@ -53,9 +53,5 @@
 		margin: 0px;
 		font-size: 1.5rem;
 		font-weight: 500;
-	}
-	.editor {
-		margin-top: 1rem;
-		border-left: 5px solid var(--textLow);
 	}
 </style>

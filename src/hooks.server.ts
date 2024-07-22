@@ -4,6 +4,7 @@ import { RetryAfterRateLimiter } from 'sveltekit-rate-limiter/server';
 import { dev } from '$app/environment';
 import { bucket } from '$env/static/private';
 import { S3 } from '$lib/server/s3';
+import { allowedHosts } from '$lib/utils/sanitizeTiptapContent';
 
 const limiter = new RetryAfterRateLimiter({
 	rates: {
@@ -23,6 +24,10 @@ const limiter = new RetryAfterRateLimiter({
 const bucketCheck = await S3.send(new ListObjectsV2Command({ Bucket: bucket, MaxKeys: 1 }));
 if (bucketCheck.$metadata.httpStatusCode != 200) {
 	throw new Error('s3 Bucket not found');
+}
+
+if (dev) {
+	allowedHosts.push('localhost');
 }
 
 export async function handle({ event, resolve }) {

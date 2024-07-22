@@ -376,7 +376,7 @@
 							>
 								<option value="amount">Amount</option>
 								<option value="upTo">Up To</option>
-								<option value="indefinitely">Indefinetly</option>
+								<option value="indefinitely">Indefinitely</option>
 							</Select>
 						</div>
 						{#if repeatType == 'amount'}

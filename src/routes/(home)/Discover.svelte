@@ -18,7 +18,7 @@
 	const fakeClubs = [
 		'Not a club',
 		'Still not a club',
-		'This is noting',
+		'This is nothing',
 		"Don't mind me",
 		'Wow, so empty',
 		'Is this a club',

@@ -1,7 +1,7 @@
 <script generics="K" lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import type { ChangeEventHandler } from 'svelte/elements';
-	const dispath = createEventDispatcher<{
+	const dispatch = createEventDispatcher<{
 		selectOption: {
 			value: string;
 			display: string;
@@ -90,7 +90,7 @@
 							close();
 							value = options[2](option).toString();
 							placeholder = options[1](option);
-							dispath('selectOption', {
+							dispatch('selectOption', {
 								value: value,
 								display: placeholder
 							});

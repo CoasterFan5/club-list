@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { qr } from '@svelte-put/qr/img';
 	import Fuse from 'fuse.js';
+	import QRCode from 'qrcode';
 
-	import BxBxsCog from '~icons/bx/bxs-cog?raw&width=1.5em&height=1.5em';
-	import BxExit from '~icons/bx/exit?raw&width=1.5em&height=1.5em';
-	import BxShare from '~icons/bx/share?raw&width=1.5em&height=1.5em';
-	import BxUserPlus from '~icons/bx/user-plus?raw&width=1.5em&height=1.5em';
+	import BxBxsCog from '~icons/bx/bxs-cog';
+	import BxExit from '~icons/bx/exit';
+	import BxShare from '~icons/bx/share';
+	import BxUserPlus from '~icons/bx/user-plus';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -90,6 +90,24 @@
 		}
 	};
 
+	const refreshQrCode = async () => {
+		const inviteURL = `${window.location.origin}/invite/${data.org.joinCode}`;
+
+		let qrCodeData = await QRCode.toDataURL(inviteURL, {
+			errorCorrectionLevel: 'H',
+			type: 'image/png',
+			margin: 1,
+			scale: 4,
+			width: 1000,
+			color: {
+				dark: '#e63946',
+				light: '#00000000'
+			}
+		});
+
+		return qrCodeData;
+	};
+
 	$: handleForm(form);
 
 	let confirmedOrgName = '';
@@ -160,14 +178,13 @@
 				{/if}
 				{#if inviteMethod == 'qr'}
 					<p>Join QR Code:</p>
-					<img
-						alt="qr"
-						use:qr={{
-							data: `${window.location.origin}/invite/${data.org.joinCode}`,
-							logo: `${window.location.origin}/logo.svg`,
-							shape: 'circle'
-						}}
-					/>
+					{#await refreshQrCode()}
+						<p>Loading...</p>
+					{:then qrCodeData}
+						<div class="qrImageWrap">
+							<img class="qrImage" alt="Qr Code" src={qrCodeData} />
+						</div>
+					{/await}
 				{/if}
 			</div>
 		</div>
@@ -225,24 +242,24 @@
 				href="/org/{data.org.id}/settings"
 				use:tooltip={'Settings'}
 			>
-				{@html BxBxsCog}
+				<BxBxsCog />
 			</a>
 		{/if}
 		{#if data.orgUserPermissions.inviteMembers || data.orgUserPermissions.admin}
 			<button class="icon" aria-label="invite" on:click={startInvite} use:tooltip={'Invite'}>
-				{@html BxUserPlus}
+				<BxUserPlus />
 			</button>
 		{/if}
 
 		{#if data.orgUser}
 			<button class="icon" aria-label="leave" on:click={startLeaveOrg} use:tooltip={'Leave'}>
-				{@html BxExit}
+				<BxExit />
 			</button>
 		{/if}
 
 		{#if data.org.isPublic}
 			<button class="icon" aria-label="share" on:click={startShare} use:tooltip={'Share'}>
-				{@html BxShare}
+				<BxShare />
 			</button>
 		{/if}
 	</div>
@@ -285,6 +302,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		font-size: 1.2rem;
 
 		&:hover {
 			// color: var(--redIconFilter);
@@ -395,6 +413,10 @@
 
 	.joinContent {
 		margin: 10px 0px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
 
 		p {
 			margin: 5px 0px;
@@ -463,5 +485,18 @@
 
 	.createOrgLink {
 		text-align: center;
+	}
+
+	.qrImageWrap {
+		width: 15rem;
+		min-width: 250px;
+		max-width: 1920px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.qrImage {
+			width: 100%;
+		}
 	}
 </style>
