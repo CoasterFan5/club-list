@@ -42,11 +42,6 @@
 				</a>
 
 				<h2 class="clubName">{data.club.name}</h2>
-				{#if data.clubPerms.viewSettings || data.clubPerms.admin}
-					<a class="settingsButton" href="{baseURL}/settings" use:tooltip={'Settings'}>
-						<SettingsIcon height="1.5rem" width="1.5rem" />
-					</a>
-				{/if}
 
 				{#if data.user}
 					{#if !data.clubUser && data.club.openToJoin}
@@ -117,6 +112,17 @@
 							>
 						</div>
 					{/if}
+					{#if data.clubPerms.viewSettings || data.clubPerms.admin}
+						<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}>
+							<Link
+								--fontSize="1.1rem"
+								--marginRight="20px"
+								--padding="5px 0px"
+								href="{baseURL}/settings"
+								textColor="black">Settings</Link
+							>
+						</div>
+					{/if}
 				{/if}
 			</div>
 		</div>
@@ -134,7 +140,6 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		padding-bottom: 50px;
 		box-sizing: border-box;
 	}
 	.header {
