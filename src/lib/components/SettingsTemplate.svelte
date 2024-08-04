@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	export type SettingsLinkTemplate = {
 		title: string;
 		links: {
@@ -9,9 +9,10 @@
 </script>
 
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { quintInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
+
+	import { page } from '$app/stores';
 	export let pages: SettingsLinkTemplate;
 	export let backLink = '';
 </script>
@@ -22,7 +23,7 @@
 			{#each pages as settingsPage}
 				<h6>{settingsPage.title}</h6>
 				{#each settingsPage.links as link}
-					<a href={link.href} class:active={$page.url.pathname == link.href}>{link.title}</a>
+					<a class:active={$page.url.pathname == link.href} href={link.href}>{link.title}</a>
 				{/each}
 				<hr />
 			{/each}

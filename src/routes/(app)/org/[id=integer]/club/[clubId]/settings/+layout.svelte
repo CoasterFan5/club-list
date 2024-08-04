@@ -1,7 +1,7 @@
 <script lang="ts">
+	import CloseIcon from '~icons/bx/x';
 	import { page } from '$app/stores';
 	import SettingsTemplate from '$lib/components/SettingsTemplate.svelte';
-	import CloseIcon from '~icons/bx/x';
 	let baseUrl = `/org/${$page.params.id}/club/${$page.params.clubId}/settings`;
 
 	export let data;
@@ -44,22 +44,9 @@
 
 <style lang="scss">
 	.wrap {
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 1000;
-		backdrop-filter: blur(3px);
-		background: rgba(0, 0, 0, 0.25);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		height: 100vh;
 		width: 100%;
-		box-sizing: border-box;
-		padding: 1rem;
+		height: 100%;
 	}
-
 	.inner {
 		width: 100%;
 		height: 100%;

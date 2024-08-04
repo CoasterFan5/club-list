@@ -2,15 +2,15 @@
 	import { get } from 'svelte/store';
 
 	import BackIcon from '~icons/bx/arrow-back';
+	import SettingsIcon from '~icons/bx/cog';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
+	import IconButton from '$lib/components/IconButton.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
-	import IconButton from '$lib/components/IconButton.svelte';
-	import SettingsIcon from '~icons/bx/cog';
 
 	export let data;
 
