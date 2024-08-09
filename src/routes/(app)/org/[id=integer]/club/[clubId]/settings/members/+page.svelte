@@ -202,7 +202,7 @@
 
 <style lang="scss">
 	main {
-		margin: 1rem;
+		width: 100%;
 	}
 	table {
 		width: 100%;

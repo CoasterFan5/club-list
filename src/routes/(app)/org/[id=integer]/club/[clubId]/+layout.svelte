@@ -2,10 +2,12 @@
 	import { get } from 'svelte/store';
 
 	import BackIcon from '~icons/bx/arrow-back';
+	import SettingsIcon from '~icons/bx/cog';
 	import { enhance } from '$app/forms';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
+	import IconButton from '$lib/components/IconButton.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { tooltip } from '$lib/components/tooltips/tooltip';
@@ -114,6 +116,7 @@
 						<div class="link" class:selected={route.id == '/(app)/org/[id]/club/[clubId]/settings'}>
 							<Link
 								--fontSize="1.1rem"
+								--marginRight="20px"
 								--padding="5px 0px"
 								href="{baseURL}/settings"
 								textColor="black">Settings</Link
@@ -137,7 +140,6 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		padding-bottom: 50px;
 		box-sizing: border-box;
 	}
 	.header {
@@ -249,6 +251,23 @@
 			background: var(--accent);
 			z-index: -1;
 			opacity: 0.2;
+		}
+	}
+
+	.settingsButton {
+		all: unset;
+		cursor: pointer;
+		height: 100%;
+		text-align: center;
+		display: flex;
+		padding-left: 0.5rem;
+		align-items: center;
+		justify-content: center;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+
+		&:hover {
+			scale: 1.1;
+			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 		}
 	}
 </style>

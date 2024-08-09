@@ -1,77 +1,61 @@
 <script lang="ts">
+	import CloseIcon from '~icons/bx/x';
 	import { page } from '$app/stores';
+	import SettingsTemplate from '$lib/components/SettingsTemplate.svelte';
 	let baseUrl = `/org/${$page.params.id}/club/${$page.params.clubId}/settings`;
 
 	export let data;
+
+	const links = [
+		{
+			title: 'Primary Settings',
+			links: [
+				{
+					title: 'General',
+					href: `${baseUrl}`
+				},
+				{
+					title: 'Roles',
+					href: `${baseUrl}/roles`
+				},
+				{
+					title: 'Members',
+					href: `${baseUrl}/members`
+				}
+			]
+		}
+	];
 </script>
 
 <div class="wrap">
-	<nav class="navbar">
-		<a class="link" class:active={data.pathname === baseUrl} href={baseUrl}>General</a>
-		<a class="link" class:active={data.pathname === `${baseUrl}/roles`} href="{baseUrl}/roles"
-			>Roles</a
-		>
-		<a class="link" class:active={data.pathname === `${baseUrl}/members`} href="{baseUrl}/members"
-			>Members</a
-		>
-	</nav>
-	<div class="content">
-		<div class="contentInner">
-			<slot />
-		</div>
+	<div class="inner">
+		<SettingsTemplate backLink="/org/{$page.params.id}/club/{$page.params.clubId}" pages={links}>
+			<div class="settingsContent">
+				<slot />
+			</div>
+		</SettingsTemplate>
 	</div>
 </div>
 
 <style lang="scss">
 	.wrap {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
 		width: 100%;
+		flex-grow: 1;
 	}
-	.navbar {
-		width: 90%;
+	.inner {
+		width: 100%;
 		height: 100%;
-		text-align: left;
-		margin-top: 25px;
-		z-index: 1;
-		background: var(--bgPure);
-		border-radius: 5px;
-		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+		background: var(--bg);
 		display: flex;
 		flex-direction: row;
-		align-items: start;
-		justify-content: start;
-		overflow-y: hidden;
-		overflow-x: auto;
+		overflow: hidden;
 	}
-	.content {
-		width: 100%;
+
+	.settingsContent {
 		height: 100%;
-	}
-
-	.contentInner {
+		box-sizing: border-box;
+		max-height: 100%;
+		overflow-y: auto;
 		width: 100%;
-		height: 100%;
-		overflow-x: auto;
-	}
-
-	.link {
-		padding: 10px 15px;
-
-		font-size: 1.15rem;
-		color: var(--textColor);
-		text-decoration: none;
-		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-
-		&:hover {
-			background: var(--accent50);
-		}
-
-		&.active {
-			background: var(--accent50);
-			opacity: 0.5;
-		}
 	}
 </style>

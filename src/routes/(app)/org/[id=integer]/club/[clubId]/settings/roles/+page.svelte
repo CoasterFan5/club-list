@@ -72,6 +72,18 @@
 			animate:flip
 		>
 			<input name="roleId" hidden bind:value={role.id} />
+			<input
+				name="color"
+				class="color"
+				hidden
+				title="Color"
+				type="color"
+				bind:value={role.color}
+				on:change={() => {
+					forms[i]?.click();
+				}}
+				use:tooltip={'Color'}
+			/>
 			<div class="nameWrap">
 				<input
 					name="name"
@@ -98,18 +110,7 @@
 				>
 					<DeleteIcon height="100%" width="100%" />
 				</button>
-				<input
-					name="color"
-					class="color"
-					hidden
-					title="Color"
-					type="color"
-					bind:value={role.color}
-					on:change={() => {
-						forms[i]?.click();
-					}}
-					use:tooltip={'Color'}
-				/>
+
 				<a
 					class="button"
 					href="/org/{data.org.id}/club/{data.club.id}/settings/roles/{role.id}"
@@ -147,29 +148,20 @@
 	}
 
 	.role {
+		background: var(--bgPure);
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 		position: relative;
 		width: 90%;
-		border: 1px solid var(--color);
 		color: var(--textColor);
 		border-radius: 7px;
-		padding: 20px 10px;
-		height: 70px;
+		height: 3.5rem;
+		padding: 0.25rem 1rem;
+
 		box-sizing: border-box;
 		margin-bottom: 7px;
 		display: flex;
+		align-items: center;
 		flex-direction: row;
-
-		&::after {
-			content: '';
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			top: 0px;
-			left: 0px;
-			background: var(--color);
-			opacity: 0.25;
-			z-index: -1;
-		}
 	}
 
 	.nameWrap {
@@ -203,19 +195,6 @@
 		height: 100%;
 		flex-grow: 1;
 
-		.color {
-			all: unset;
-			border: 0px;
-			outline: 0px;
-			cursor: pointer;
-			height: 50%;
-			aspect-ratio: 1/1;
-			background: var(--color);
-			border-radius: 100%;
-			padding: 3px;
-			box-sizing: border-box;
-		}
-
 		.button {
 			all: unset;
 			height: 50%;
@@ -226,6 +205,20 @@
 			justify-content: center;
 			cursor: pointer;
 		}
+	}
+
+	.color {
+		all: unset;
+		border: 0px;
+		outline: 0px;
+		cursor: pointer;
+		height: 50%;
+		aspect-ratio: 1/1;
+		background: var(--color);
+		border-radius: 100%;
+		padding: 3px;
+		box-sizing: border-box;
+		margin-right: 0.5rem;
 	}
 
 	input[type='color']::-moz-color-swatch {
