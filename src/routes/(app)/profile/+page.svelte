@@ -20,8 +20,6 @@
 	$: handleForm(form, 'Profile Updated!');
 </script>
 
-<h1>Profile</h1>
-
 {#if $page.state.showingModal === 'changePassword'}
 	<Modal on:close={() => history.back()}>
 		<form
@@ -95,35 +93,54 @@
 	</Modal>
 {/if}
 
+<h1>User Settings</h1>
+
 <main>
-	<div class="left">
-		<form
-			action="?/updateProfile"
-			method="post"
-			use:enhance={() => {
-				return ({ update }) => {
-					return update({ reset: false });
-				};
-			}}
-		>
-			<h2>Details</h2>
+	<div class="section">
+		<div class="sectionHeader">
+			<hr class="miniHr" />
+			<h3>Profile</h3>
+			<hr />
+		</div>
+		<div class="sectionInner">
+			<div class="twopane">
+				<form
+					class="left"
+					action="?/updateProfile"
+					method="post"
+					use:enhance={() => {
+						return ({ update }) => {
+							return update({ reset: false });
+						};
+					}}
+				>
+					<div class="formInput">
+						<Input name="firstName" label="First Name" bind:value={firstName} />
+					</div>
 
-			<div class="formInput">
-				<Input name="firstName" label="First Name" bind:value={firstName} />
+					<div class="formInput">
+						<Input name="lastName" label="Last Name" bind:value={lastName} />
+					</div>
+
+					<div class="formInput">
+						<Input name="email" label="Email" bind:value={email} />
+					</div>
+					<Button type="submit" value="Save" />
+				</form>
+				<div class="right">
+					<PfpUpload pfpUrl={data.user.pfp} />
+				</div>
 			</div>
+		</div>
+	</div>
 
-			<div class="formInput">
-				<Input name="lastName" label="Last Name" bind:value={lastName} />
-			</div>
-
-			<div class="formInput">
-				<Input name="email" label="Email" bind:value={email} />
-			</div>
-
-			<Button type="submit" value="Save" />
-
-			<h2>Actions</h2>
-
+	<div class="section">
+		<div class="sectionHeader">
+			<hr class="miniHr" />
+			<h3>Security</h3>
+			<hr />
+		</div>
+		<div class="sectionInner">
 			<div class="formInput">
 				<form class="logOut" action="/logout" method="post" use:enhance>
 					<Button type="submit" value="Log Out" />
@@ -153,12 +170,7 @@
 					}}
 				/>
 			</div>
-		</form>
-	</div>
-
-	<div class="right">
-		<h2>Profile Picture</h2>
-		<PfpUpload pfpUrl={data.user.pfp} />
+		</div>
 	</div>
 </main>
 
@@ -168,26 +180,29 @@
 		width: 80%;
 		box-sizing: border-box;
 		display: flex;
-		align-items: start;
-		justify-content: center;
-		max-width: 500px;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
 	}
 
-	.left {
-		width: 100%;
+	.twopane {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		text-align: center;
-	}
 
-	.right {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: start;
-		flex-direction: column;
+		.left {
+			display: flex;
+			flex-direction: column;
+			width: 50%;
+		}
+
+		.right {
+			width: 50%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
 	}
 
 	.formInput {
@@ -203,5 +218,38 @@
 		border-radius: 1rem;
 		margin: 0.5rem;
 		background-color: rgba(0, 0, 0, 0.1);
+	}
+
+	.section {
+		width: 80%;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+
+		.sectionInner {
+			width: 90%;
+		}
+
+		.sectionHeader {
+			width: 100%;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			h3 {
+				padding: 0 1rem;
+				font-weight: 400;
+				font-size: 1.25rem;
+			}
+
+			hr {
+				flex-grow: 1;
+			}
+
+			.miniHr {
+				max-width: 1rem;
+			}
+		}
 	}
 </style>

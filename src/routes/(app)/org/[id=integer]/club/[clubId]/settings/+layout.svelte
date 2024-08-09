@@ -21,10 +21,6 @@
 				{
 					title: 'Members',
 					href: `${baseUrl}/members`
-				},
-				{
-					title: 'Integrations',
-					href: `${baseUrl}/integrations`
 				}
 			]
 		}
